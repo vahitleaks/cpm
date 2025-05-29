@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "MusteriListesi";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+@model sistemproject.Models.FullCalendarViewModels.ServiceFormOperationsViewModel
+<style>
+    .aside-enabled.aside-fixed[data-kt-aside-minimize=on] .wrapper {
+        padding-left: 75px !important;
+    }
+    .accordion-item:last-of-type .accordion-button.collapsed {
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .accordion-button {
+        border-bottom: 2px solid var(--thBorder) !important;
+    }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #fff !important;
+            border-bottom: 1px solid var(--thBorder) !important;
+        }
+
+
+
+</style>
+<link href="~/Content/screenSettingsCustomerList.css" rel="stylesheet" />
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card mb-1" style="border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;box-shadow: 0px 0px 6px -3px #406c80!important;">
+                                    <div class="card-body" style="padding: 1rem 1.25rem;">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Firma</span>
+                                                <select class="selectpicker font13" data-live-search="true" id="COMPANYID">
+                                                    <option data-tokens="" value="">Seçiniz...</option>
+                                                    @foreach (var l in Model.CompanySelectList)
+                                                    {
+
+                                                        <option value="@l.Value">@l.Text</option>
+
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion accordion-flush" id="accordionFlushExample">
+                                    @{int SAYAC = 1;}
+                                    @{int sayi = 1;}
+                                    @{string companycontract = "";}
+                                    @{string VERGIHESAPNO = "";}
+                                    @{string TELEFON1 = "";}
+                                    @{string EMAIL1 = "";}
+                                    @{string ADRESS = "";}
+                                    @{string SEHIRAD = "";}
+                                    @{string ILCEAD = "";}
+                                    @{string YETKILIADSOYAD = "";}
+                                    @foreach (var y in Model.ListMusteri)
+                                    {
+                                        <div class="accordion-item">
+                                            <div class="accordion-header" id="flush-@SAYAC">
+                                                <div class="accordion-button collapsed" data-accordion-button="@y.HESAPKOD" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@SAYAC@SAYAC" aria-expanded="false" aria-controls="flush-@SAYAC">
+                                                    <div class="row" style="width:inherit;">
+                                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                                            <label class="Label-Title" style="font-size: 0.9rem;">@y.UNVAN</label><br />
+                                                            <label class="Label-Text2">@y.VERGIHESAPNO</label>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-6 col-sm-12">
+                                                            <label class="Label-Title" style="font-size: 0.9rem;">@y.EMAIL1</label> <br />
+                                                            <label class="Label-Text2">@y.TELEFON1</label>
+                                                        </div>
+                                                        <div class="col-lg-5 col-md-6 col-sm-12 my-auto">
+
+                                                            @if (y.ADRESS == null || y.ADRESS == "")
+                                                            {
+                                                                <label class="Label-Text2 font-weight-bold">
+                                                                    Adres bilgisi bulunamadı
+                                                                </label> <br />
+                                                            }
+                                                            else
+                                                            {
+                                                                <label class="Label-Text2 font-weight-bold">
+                                                                    @y.ADRESS
+                                                                </label> <br />
+                                                            }
+
+
+                                                            @if (y.ILCEAD == null)
+                                                            {
+                                                                <label class="Label-Text2">
+                                                                    @y.SEHIRAD
+                                                                </label>
+                                                            }
+                                                            else if (y.SEHIRAD == null)
+                                                            {
+                                                                <label class="Label-Text2">
+                                                                    @y.ILCEAD
+                                                                </label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label class="Label-Text2">
+                                                                    @y.ILCEAD / @y.SEHIRAD
+                                                                </label>
+                                                            }
+                                                        </div>
+                                                        <div class="col-1 text-right my-auto">
+                                                            <a id="showDetails"  href="/CpmServisSistemi/MyCompanyInfo?CompanyId=@y.HESAPKOD"><span style="border-radius: 4px;" class="p-1 bg-warning text-dark">Tıklayınız...</span></a>
+                                                        </div>
+                                                        @*<div class="col-lg-1 col-md-6 col-sm-12 my-auto text-center">
+                                                            <img style="" class="hideIMG" src="~/Images/iconsforservcie/ucnokta.svg" height="14" />
+                                                        </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="flush-@SAYAC@SAYAC" class="accordion-collapse collapse" aria-labelledby="flush-@SAYAC" data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body MusteriFormData" style="background-color: var(--thCardBack)!important;">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        SAYAC++;
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        // #region Müşteri Listesi Filtreleme-Firma Bazlı
+        $("body").on("change", "#COMPANYID", function () {
+            var SELECTPERSONNAME = $("#PERSONNAME");
+            var SELECTDATE = $("#DATE");
+            var SELECTSTATE = $("#STATE");
+            var COMPANYID = $("#COMPANYID option:selected").val() == "" || $("#COMPANYID option:selected").val() == "Seçiniz..." ? "" : $("#COMPANYID option:selected").val();
+            var accordionList = $("#accordionFlushExample");
+            $.blockUI({
+                message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+            });
+            $.ajax({
+                method: "POST",
+                url: "/CpmServisSistemi/MusteriListesiFiltreleFirma",
+                data: { 'COMPANYID': COMPANYID },
+                datatype: "html",
+                cache: false,
+                success: function (data) {
+                    accordionList.html("");
+                    if (data != null) {
+                        accordionList.html(data);
+                    }
+                    SELECTPERSONNAME.selectpicker('val', '');
+                    SELECTDATE.selectpicker('val', '');
+                    SELECTSTATE.selectpicker('val', '');
+                    setTimeout($.unblockUI, 250);
+                },
+                error: function (xhr) {
+                    window.hata = xhr.responseText;
+                    alert('error');
+                }
+            });
+        });
+        // #endregion
+
+
+    });
+</script>

@@ -1,0 +1,119 @@
+﻿@model sistemproject.Models.FullCalendarViewModels.ServiceFormOperationsViewModel
+
+@{int sayi = 1;}
+@{string companycontract = "";}
+@{string VERGIHESAPNO = "";}
+@{string TELEFON1 = "";}
+@{string EMAIL1 = "";}
+@{string ADRESS = "";}
+@{string SEHIRAD = "";}
+@{string ILCEAD = "";}
+@{string YETKILIADSOYAD = "";}
+@foreach (var y in Model.ListMusteri)
+{
+    <div class="accordion-item">
+        <div class="accordion-header" id="flush-@y.VERGIHESAPNO">
+            <div class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@y.VERGIHESAPNO@y.VERGIHESAPNO" aria-expanded="false" aria-controls="flush-@y.VERGIHESAPNO">
+                <div class="row" style="width:inherit;">
+                    <div class="col-1 text-center">
+                        <img src="~/Images/iconsforservcie/icons8-handshake.png" height="35" width="35" />
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <label class="Label-Title" style="font-size: 0.9rem;">@y.UNVAN</label><br />
+                        <label class="Label-Text" style="font-size: 0.7rem;">@y.VERGIHESAPNO</label>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        <label class="Label-Title" style="font-size: 0.9rem;">@y.EMAIL1</label> <br />
+                        <label class="Label-Text" style="font-size: 0.7rem;">@y.TELEFON1</label>
+                    </div>
+                    <div class="col-lg-5 col-md-6 col-sm-12 my-auto">
+                        <label class="Label-Text font-weight-bold" style="font-size: 0.8rem;">
+                            @y.ADRESS
+                        </label> <br />
+                        <label class="Label-Text" style="font-size: 0.8rem;">
+                            @y.ILCEAD / @y.SEHIRAD
+                        </label>
+                    </div>
+                    <div class="col-lg-1 col-md-6 col-sm-12 my-auto text-center">
+                        <img style="" class="" src="~/Images/iconsforservcie/ucnokta.svg" height="14" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="flush-@y.VERGIHESAPNO@y.VERGIHESAPNO" class="accordion-collapse collapse" aria-labelledby="flush-@y.VERGIHESAPNO" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body" style="background-color: var(--thCardBack)!important;">
+                @foreach (var l in Model.ListMusteri2.Take(1))
+                {
+
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-12">
+                            @if (VERGIHESAPNO != l.VERGIHESAPNO && TELEFON1 != l.TELEFON1 && EMAIL1 != l.EMAIL1)
+                            {
+
+                                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Vergi No</label>
+                                <input class="col-12 input-disabled Label-Text mb-2" disabled type="text" name="name" value="@l.VERGIHESAPNO" style="font-size: 0.7rem;" />
+                                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Telefon</label>
+                                <input class="col-12 input-disabled  mb-2 Label-Text" disabled type="text" name="name" value="@l.TELEFON1" style="font-size: 0.7rem;" />
+                                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">E-posta</label>
+                                <input class="col-12 input-disabled  Label-Text" disabled type="email" name="name" value="@l.EMAIL1" style="font-size: 0.7rem;" />
+                            }
+
+                            @if (l.SASIFRE != null && l.SASIFRE != "")
+                            {
+                                <label class="Label-Title mt-2" style="font-size: 0.8rem;margin-left: 0.4rem;">CPM SA Şifre</label>
+                                <input class="col-12 input-disabled  Label-Text" disabled type="text" name="name" value="@l.SASIFRE" style="font-size: 0.7rem;" />
+                            }
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-12">
+                            <div class="card" style="background-color: transparent;border:none!important;">
+                                <div class="card-body" style="padding: 0 0.25rem;">
+                                    @if (ADRESS != y.ADRESS && SEHIRAD != y.SEHIRAD && ILCEAD != y.ILCEAD)
+                                    {
+                                        <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Adresi</label>
+                                        <input class="col-12 input-disabled Label-Text mb-2" disabled type="text" name="name" value="@y.ADRESS" style="font-size: 0.7rem;" />
+                                        <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">İl</label>
+                                        <input class="col-12 input-disabled  mb-2 Label-Text" disabled type="text" name="name" value="@y.SEHIRAD" style="font-size: 0.7rem;" />
+                                        <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">İlçe</label>
+                                        <input class="col-12 input-disabled  Label-Text" disabled type="text" name="name" value="@y.ILCEAD" style="font-size: 0.7rem;" />
+                                    }
+                                    @if (y.COMPANYCONTRACT != null && y.COMPANYCONTRACT != "")
+                                    {
+                                        <label class="Label-Title mt-2" style="font-size: 0.8rem;margin-left: 0.4rem;">Sözleşme</label>
+                                        <input class="col-12 input-disabled  Label-Text" disabled type="text" name="name" value="@l.COMPANYCONTRACT" style="font-size: 0.7rem;" />
+                                        <label class="Label-Title mt-2" style="font-size: 0.8rem;margin-left: 0.4rem;">Kalan Adam Gün</label>
+                                        <input class="col-12 input-disabled  Label-Text" disabled type="text" name="name" value="@l.RSERVICEDAY" style="font-size: 0.7rem;" />
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-12">
+                            @foreach (var p in Model.ListMusteri2.Where(a => a.HESAPKOD == l.HESAPKOD).GroupBy(u => u.YETKILIADSOYAD, (key, items) => new
+                            { YETKILIADSOYAD = key, cout = items.Count(), EMAIL1 = items.Select(u => u.EMAIL1).FirstOrDefault() }))
+                            {
+                                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Yetkili @sayi</label>
+                                <input class="col-12 input-disabled Label-Text mb-2" disabled type="text" name="name" value="@p.YETKILIADSOYAD" style="font-size: 0.7rem;" />
+                                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Yetkili @sayi E-posta</label>
+                                <input class="col-12 input-disabled Label-Text mb-2" disabled type="text" name="name" value="@p.EMAIL1" style="font-size: 0.7rem;" />
+
+                                { sayi++; }
+                            }
+                        </div>
+                    </div>
+                    companycontract = l.COMPANYCONTRACT;
+                    VERGIHESAPNO = l.VERGIHESAPNO;
+                    TELEFON1 = l.TELEFON1;
+                    EMAIL1 = l.EMAIL1;
+                    ADRESS = y.ADRESS;
+                    SEHIRAD = y.SEHIRAD;
+                    ILCEAD = y.ILCEAD;
+                    YETKILIADSOYAD = l.YETKILIADSOYAD;
+                }
+                @{sayi = 1;}
+
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,231 @@
+﻿@model sistemproject.Models.Login
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>CPM Servis Sistemi Giriş Ekranı</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A premium admin dashboard template by Mannatthemes" name="description" />
+    <meta content="Mannatthemes" name="author" />
+
+    <!-- App favicon -->
+    <!-- App css -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Tema/assets/plugins/animate/animate.css" rel="stylesheet" />
+    <link href="~/Tema/assets/css/icons.css" rel="stylesheet" />
+    <link href="~/Tema/assets/css/metisMenu.min.css" rel="stylesheet" />
+    <link href="~/Tema/assets/scss/style.css" rel="stylesheet" />
+    <link href="~/Content/login.css" rel="stylesheet" />
+    <link href="~/Content/loginstyle.css" rel="stylesheet" />
+
+    <style>
+        @@font-face {
+            font-family: 'Roboto Regular';
+            src: url('../../fonts/Roboto Regular/Roboto Regular.woff') format('woff');
+        }
+
+        .account-body {
+            background: linear-gradient( 108deg, #d6f2ff, #27a4db,#20A1DA) !important;
+        }
+
+        .form-control {
+            border: 0 !important;
+            border-bottom: 2px solid #e8ebf3 !important;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="account-body accountbg">
+    <!-- Log In page -->
+    <div class="row vh-100 ">
+        <div class="col-12 align-self-center">
+            <div class="auth-page">
+                <div class="card auth-card shadow-lg">
+                    <div class="card-body">
+                        <div class="px-3">
+                            <div class="text-center auth-logo-text">
+                                <h3 class="mt-0 mb-3 mt-5 slideInUp" style="font-weight: bold;color:#20a1dab3;font-family: 'Ubuntu-R';" data-animation="slideInUp">CPM SERVİS SİSTEMİ</h3>
+                            </div> <!--end auth-logo-text-->
+
+                            <form id="loginForm" class="form-horizontal auth-form my-4" method="post" action="/user/SMSGirisControl">
+
+                                <div class="form-group" style="text-align:center;margin-right:auto;margin-left:auto;margin-bottom: 0px;">
+                                    <label for="username">Hoşgeldin </label>
+                                    @if (Model.fulname != null)
+                                    {
+                                        <label style="color:#d95757;" for="username"> @(Model.fulname)</label>
+                                    }
+                                    else
+                                    {
+                                        <label for="username"></label>
+                                    }
+                                </div><!--end form-group-->
+                                <div class="form-group" style="text-align:center;margin-right:auto;margin-left:auto;">
+                                    @if (Model.TFATYPE == "1")
+                                    {
+                                        <label for="username">Telefonunuza gönderdiğimiz onay kodunu giriniz.</label>
+                                    }
+                                    else if (Model.TFATYPE == "3")
+                                    {
+                                        <label for="username">Google Authenticator uygulamasında yer alan kodu giriniz.</label>
+                                    }
+                                </div><!--end form-group-->
+                                <div class="form-group smsSifre" style="text-align:center;">
+                                    <div class="input-group mb-3">
+                                        <input hidden name="USERNAME" value="@Model.user" />
+                                        <input hidden name="TFATYPE" value="@Model.TFATYPE" />
+                                        <input hidden name="FULLNAME" value="@Model.fulname" />
+                                        <input type="password" class="form-control text-center sms" id="" name="pass1" placeholder="" maxlength="1" style="padding-right: 12px;margin-right: 1rem!important;">
+                                        <input type="password" class="form-control  text-center sms" id="" name="pass2" placeholder="" maxlength="1" style="padding-right: 12px;margin-right: 1rem!important;">
+                                        <input type="password" class="form-control  text-center sms" id="" name="pass3" placeholder="" maxlength="1" style="padding-right: 12px;margin-right: 1rem!important;">
+                                        @if (Model.TFATYPE == "3")
+                                        {
+                                            <input type="password" class="form-control  text-center sms" id="" name="pass4" placeholder="" maxlength="1" style="padding-right: 12px;margin-right: 1rem!important;">
+                                            <input type="password" class="form-control  text-center sms" id="" name="pass5" placeholder="" maxlength="1" style="padding-right: 12px;margin-right: 1rem!important;">
+                                            <input type="password" class="form-control  text-center sms logOnEnter" id="" name="pass6" placeholder="" maxlength="1" style="padding-right: 12px;">
+                                        }
+                                        else if (Model.TFATYPE == "1")
+                                        {
+                                            <input type="password" class="form-control  text-center sms logOnEnter" id="" name="pass4" placeholder="" maxlength="1" style="padding-right: 12px;">
+                                        }
+                                    </div>
+                                </div><!--end form-group-->
+                                <div class="form-group mb-0 row">
+                                    <div class="col-12 mt-2 text-center">
+                                        <button class="btn btn-gradient-primary btn-round btn-block waves-effect waves-light" type="submit" id="btnSmsGiris">Doğrula <i class="fas fa-sign-in-alt ml-1"></i></button>
+                                    </div><!--end col-->
+
+                                    @if (Model.TFATYPE == "3" && false)
+                                    {
+                                        <a id="showimg" style="color:red;text-align:center;padding:5px;margin-right: auto;margin-left: auto;margin-top: 5px;" href="javascript:void(0)">QR Kodu Oluştur</a>
+                                        <div><img class="d-none" width="200" height="200" id="qrimg" /></div>
+                                    }
+
+                                    @if (ViewData["Error"] != null)
+                                    {
+                                        <p style="color:red;text-align:center;padding:5px;margin-right: auto;margin-left: auto;margin-top: 5px;">@ViewData["Error"] </p>
+                                    }
+                                    @if (ViewData["Mesaj"] != null)
+                                    {
+                                        <p style="color:red;text-align:center;padding:5px;margin-right: auto;margin-left: auto;margin-top: 5px;">@ViewData["Mesaj"] </p>
+                                    }
+                                </div> <!--end form-group-->
+                            </form><!--end form-->
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end auth-page-->
+        </div><!--end col-->
+    </div><!--end row-->
+    <!-- End Log In page -->
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+<style>
+    .account-body {
+        background: linear-gradient( 3deg, #b1bfd8,#ecfffc 70.71%);
+    }
+
+    .smsSifre input {
+        border-color: #4A94FF;
+        border-radius: 10px !important;
+        /*  box-shadow: 0px 3px 6px!important;*/
+        border: 2px solid #4A94FF80 !important;
+    }
+
+    .sms:hover {
+        border: 2px solid #4A94FF !important;
+    }
+
+    .sms:focus {
+        border: 2px solid #4A94FF !important;
+    }
+
+    /*  i.fas.fa-sign-in-alt.ml-1:hover {
+        padding-left: 10px !important;
+
+    }
+
+    i.fas.fa-sign-in-alt.ml-1 {
+        padding-left: 0px;
+    }*/
+</style>
+<script>
+    $(document).ready(function () {
+        $(".sms").keyup(function () {
+            var e = $(this).val().length;
+            if (e >= 1) {
+                $(this).next(".sms").focus();
+            }
+        });
+
+        $(".logOnEnter").keydown(function (e) {
+
+            if (event.keyCode == 13) {
+                $("#loginForm").submit();
+            }
+        })
+
+        /****/
+        $("input.form-control").keydown(function (event) {
+            if (event.shiftKey == true) {
+                event.preventDefault();
+            }
+            if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46) {
+            }
+            else {
+                event.preventDefault();
+            }
+
+
+        });
+        /*******/
+        $(".sms").keyup(function (event) {
+            const key = event.key; // const {key} = event; ES6+
+            if (key === "Backspace" || key === "Delete") {
+                {
+                    $(this).prev(".sms").focus();
+                    $(this).val("");
+                }
+            }
+        });
+        /***********/
+        $("#btnSmsGiris").mouseover(function (event) {
+            $(" i.fas.fa-sign-in-alt.ml-1").css("padding-left", "10px")
+        });
+        $("#btnSmsGiris").mouseout(function (event) {
+            $(" i.fas.fa-sign-in-alt.ml-1").css("padding-left", "0px")
+        });
+
+        @if (false)
+        {
+            <script>
+                $("#showimg").click(function() {
+                    $.ajax({
+                        url: "/user/GetQR",
+                        data:
+                            {
+                            UserName: '@User.Identity.Name'
+                        },
+                        method: 'GET',
+                        success: function(resp) {
+                                if (resp != null && resp.success)
+                                {
+                                $("#qrimg").removeClass("d-none");
+                                $("#qrimg").attr("src", "data:image/png;base64, " + resp.data)
+                                    }
+                            }
+                        })
+                    });
+</script>
+}
+    });
+</script>
+
+

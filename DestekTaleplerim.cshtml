@@ -1,0 +1,368 @@
+﻿@using sistemproject.Models.CustomerPanelViewModels
+@{
+    ViewBag.Title = "DestekTalepleri";
+    //Layout = "~/Views/Shared/NewThema/_Layout.cshtml";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+
+<link href="~/Content/CustomerPanelCss/style.css" rel="stylesheet" />
+<link href="~/Content/DateRangePicker/daterangepicker.css" rel="stylesheet" />
+
+
+
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="card mb-1" style="border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;box-shadow: 0px 0px 6px -3px #406c80!important;">
+                                    <div class="card-body" style="padding: 1rem 1.25rem;">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Firma</span>
+                                                <select class="selectpicker font13" multiple data-actions-box="true" data-live-search="true" id="companySelect">
+                                                    <option data-tokens="" value="">Seçiniz...</option>
+                                                    @foreach (var item in Model.Company)
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Tarih Aralığı</span>
+                                                <div class="input-group" style="margin-top: 0.7rem;">
+                                                    <input type="text" class="form-control" name="dates" id="dateSelect">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Öncelik</span>
+                                                <select class="selectpicker font13" data-live-search="true" id="precedenceSelect">
+                                                    <option data-tokens="" value="">Seçiniz...</option>
+                                                    @foreach (var item in Model.Precedences)
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Durum</span>
+                                                <select class="selectpicker font13" data-live-search="true" id="stateSelect">
+                                                    <option data-tokens="" value="Seçiniz...">Seçiniz...</option>
+                                                    <option data-tokens="" value="Açık">Açık</option>
+                                                    <option data-tokens="" value="Kapalı">Kapalı</option>
+                                                    <option data-tokens="" selected value="Yönlendirildi">Yönlendirildi</option>
+                                                    <option data-tokens="" value="Süreç Başlatıldı">Süreç Başlatıldı</option>
+                                                    <option data-tokens="" value="Müşteri Kontrolünde">Müşteri Kontrolünde</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Talep No</span>
+                                                <input value="" placeholder="Arama Yapınız..." type="text" class="Input-Medium mt-2" id="RequestNo"></input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @{int counter = 1;}
+                                <div class="accordion accordion-flush" id="accordionFlushExample">
+                                    @foreach (RequestsDataViewModel item in Model.requests)
+                                    {
+                                        Html.RenderPartial("~/Views/Components/RequestComponent.cshtml", (counter, item));
+                                        counter++;
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .aside-enabled.aside-fixed[data-kt-aside-minimize=on] .wrapper {
+        padding-left: 75px !important;
+    }
+
+    .accordion-item:last-of-type .accordion-button.collapsed {
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .accordion-button {
+        border-bottom: 2px solid var(--thBorder) !important;
+    }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #fff !important;
+            border-bottom: 1px solid var(--thBorder) !important;
+        }
+
+    ul {
+        list-style: none;
+    }
+
+    .badge-light-danger {
+        padding: 6px !important;
+        border-radius: 4px !important;
+        font-weight: bold;
+    }
+
+    .ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 200px; /* Genişliği belirle */
+        display: block; /* veya inline-block */
+    }
+</style>
+<script src="~/Scripts/FullCalendar/moment.min.js"></script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.min.js"></script>
+
+<script>
+
+    var pushData = {};
+    $(document).ready(function () {
+        $('#dateSelect').daterangepicker({
+            locale: {
+                format: "DD/MM/YYYY",  // Burada doğrudan istediğin formatı belirtiyoruz
+                separator: " - ",
+                applyLabel: "Uygula",
+                cancelLabel: "Vazgeç",
+                fromLabel: "Dan",
+                toLabel: "a",
+                customRangeLabel: "Seç",
+                daysOfWeek: ["Pt", "Sl", "Çr", "Pr", "Cm", "Ct", "Pz"],
+                monthNames: [
+                    "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+                    "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+                ],
+                firstDay: 1
+            }
+        });
+
+        // Mevcut tarihi al
+        var currentDate = new Date();
+
+        // Yarınki tarihi hesapla
+        var newDate = new Date();
+        newDate.setDate(newDate.getDate() + 1);
+        var endDate = moment(newDate).format('DD/MM/YYYY');
+
+        // İki ay öncesini hesapla
+        var twoMonthsAgo = new Date();
+        twoMonthsAgo.setMonth(currentDate.getMonth() - 12);
+        var startDate = moment(twoMonthsAgo).format('DD/MM/YYYY');
+
+        // Tarih aralığını input'a ayarla
+        $('#dateSelect').val(startDate + " - " + endDate);
+
+
+        $(function () {
+            date = new Date($('#dateSelect').val())
+            date.getDate(),
+                $('input[name="daterangepicker"]').daterangepicker({
+                    autoUpdateInput: false,
+                    locale: {
+                        cancelLabel: 'Clear'
+                    }
+                });
+            $('input[name="daterangepicker"]').on('apply.daterangepicker', function (ev, picker) {
+                $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+            });
+            $('input[name="daterangepicker"]').on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');
+            });
+
+
+            // Mevcut tarihi alın
+            var currentDate = new Date();
+
+            // Yarınki tarihi hesapla
+            var newDate = new Date();
+            newDate.setDate(newDate.getDate() + 1);
+            var endDate =
+                (newDate.getDate() < 10 ? '0' : '') + newDate.getDate() + '/' +
+                (newDate.getMonth() + 1 < 10 ? '0' : '') + (newDate.getMonth() + 1) + '/' +
+                newDate.getFullYear();
+
+            // İki ay öncesine gitmek yerine, yılın başına 1 Ocak'ı ayarlamayalım
+            // İki ay öncesini doğru şekilde hesaplayalım
+            var twoMonthsAgo = new Date();
+            twoMonthsAgo.setMonth(currentDate.getMonth() - 12);
+            var startDate = moment(twoMonthsAgo).format('DD/MM/YYYY');
+
+            // Tarih aralığını input'a ayarla
+            $('#dateSelect').val(startDate + " - " + endDate);
+
+            $('#dateSelect').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Uygula",
+                    "cancelLabel": "Vazgeç",
+                    "fromLabel": "Dan",
+                    "toLabel": "a",
+                    "customRangeLabel": "Seç",
+                    "daysOfWeek": [
+                        "Pt",
+                        "Sl",
+                        "Çr",
+                        "Pr",
+                        "Cm",
+                        "Ct",
+                        "Pz"
+                    ],
+                    "monthNames": [
+                        "Ocak",
+                        "Şubat",
+                        "Mart",
+                        "Nisan",
+                        "Mayıs",
+                        "Haziran",
+                        "Temmuz",
+                        "Ağustos",
+                        "Eylül",
+                        "Ekim",
+                        "Kasım",
+                        "Aralık"
+                    ],
+                    "firstDay": 1
+                }
+            })
+        });
+
+
+
+
+        function filterData2() {
+
+            function filterData() {
+                debugger;
+                var currentState = StateSelect.options[StateSelect.selectedIndex].value;
+                var currentPrecedence = PrecedenceSelect.options[PrecedenceSelect.selectedIndex].text;
+                var currentCompany = CompanySelect.options[CompanySelect.selectedIndex].text;
+                var currentRequestId = RequestId.value
+
+                debugger;
+                var dateStart = DateSelect.value.substr(0, 10);
+                var datePartsStart = dateStart.split("/");
+                var currentDateStart = new Date(+datePartsStart[2], datePartsStart[1] - 1, +datePartsStart[0]);
+
+                var dateEnd = DateSelect.value.substr(13, 23);
+                var datePartsEnd = dateEnd.split("/");
+                var currentDateEnd = new Date(+datePartsEnd[2], datePartsEnd[1] - 1, +datePartsEnd[0]);
+
+                var dataToShow = Array.from(AccordionFlush.children).filter(elm => elm.dataset.status == currentState || currentState == ""); //Durum
+                var dataToShow = dataToShow.filter(elm => elm.dataset.precedence == currentPrecedence || currentPrecedence == "Seçiniz...");//Öncelik
+                var dataToShow = dataToShow.filter(elm => elm.dataset.company == currentCompany || currentCompany == "Seçiniz...");//Firma
+                var dataToShow = dataToShow.filter(elm => (new Date(elm.dataset.date) >= currentDateStart && new Date(elm.dataset.date) <= currentDateEnd));//Tarih Aralığı
+            }
+            var selectedOptions = $('#companySelect').find('option:selected');
+            var companyList = [];
+
+            selectedOptions.each(function () {
+                var value = $(this).text();
+                if (value !== "Seçiniz...") {
+                    companyList.push(value);
+                }
+            });
+
+            var currentState = StateSelect.options[StateSelect.selectedIndex].value;
+            var currentPrecedence = PrecedenceSelect.options[PrecedenceSelect.selectedIndex].text;
+            //var currentCompany = CompanySelect.options[CompanySelect.selectedIndex].text;
+            var currentRequestId = $("#RequestNo").val().toLowerCase();
+            var dateStart = DateSelect.value.substr(0, 10);
+            var dateEnd = DateSelect.value.substr(13, 23);
+            $.blockUI({
+                message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+            });
+            $.ajax({
+                //url: "/CpmServisSistemi/RequestComponentList?company=" + currentCompany + "&startDate=" + dateStart + "&endDate=" + dateEnd + "&precedence=" + currentPrecedence + "&requestState=" + currentState + "&requestId=" + currentRequestId + "&getAll=" + false,
+                url: "/CpmServisSistemi/RequestComponentList",
+                type: 'POST',
+                data: {
+                    'company': companyList,
+                    'startDate': dateStart,
+                    'endDate': dateEnd,
+                    'precedence': currentPrecedence,
+                    'requestState': currentState,
+                    'requestId': currentRequestId,
+                    'getAll': false
+                },
+                cache: false,
+                success: function (data) {
+                    $("#accordionFlushExample").html(data);
+                    setTimeout($.unblockUI, 300);
+                },
+                error: function (data) {
+                    debugger;
+                    bootbox.alert("İşlem sırasında hata oluştu")
+                    setTimeout($.unblockUI, 240);
+                }
+            });
+
+
+        }
+
+
+        var StateSelect = document.getElementById("stateSelect");
+        var PrecedenceSelect = document.getElementById("precedenceSelect");
+        var DateSelect = document.getElementById("dateSelect");
+        var CompanySelect = document.getElementById("companySelect");
+        var RequestId = document.getElementById("RequestNo");
+        var AccordionFlush = document.getElementById("accordionFlushExample");
+
+        StateSelect.onchange = filterData2;
+        PrecedenceSelect.onchange = filterData2;
+        DateSelect.onchange = filterData2;
+        CompanySelect.onchange = filterData2;
+
+
+        $('body').on('click', '#chatRoom', function () {
+            //window.location = "/CustomerPanel/RequestChatRoom";
+            var RequestId = $(this).attr("data-id");
+            window.open("/CpmServisSistemi/RequestChatRoom?RequestId=" + RequestId, "_blank");
+        });
+        //#region Firmaya ait bilgileri getir
+        $('body').on('click', '.accordion .accordion-button', function () {
+            var RequestId = $(this).parents(".accordion-header").find(".accordion-button").attr("data-accordion-button");
+            if ($(this).hasClass("collapsed") == false) {
+                var RequestFormData = $(".RequestFormData");
+                $.blockUI({
+                    message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+                });
+                $.ajax({
+                    type: 'GET',
+                    url: "/CpmServisSistemi/GetRequestData?RequestId=" + RequestId,
+                    datatype: "html",
+                    cache: false,
+                    success: function (data) {
+                        RequestFormData.html("");
+                        RequestFormData.html(data);
+                        setTimeout($.unblockUI, 240);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                        setTimeout($.unblockUI, 240);
+                    }
+                });
+                setTimeout($.unblockUI, 240);
+            }
+        });
+        //#endregion
+        $("#RequestNo").on("keydown", function (event) {
+            if (event.keyCode === 13) {
+                RequestId = $(this).val().toLowerCase();
+                filterData2();
+            }
+        });
+
+    });
+
+
+</script>

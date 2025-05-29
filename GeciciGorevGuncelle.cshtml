@@ -1,0 +1,404 @@
+﻿@model sistemproject.Models.CustomerPanelViewModels.GeciciGorevViewModel
+@{
+    ViewBag.Title = "GeciciGorev";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+
+<style>
+    .form-label {
+        font-size: 1.1rem;
+        color: #667880;
+    }
+
+    .form-control {
+        font-size: 0.90rem;
+        color: #667880;
+        border-radius: .35rem;
+    }
+
+        .form-control:read-only {
+            background-color: white !important;
+            opacity: 1;
+        }
+
+        .form-control:disabled, .form-control[readonly] {
+            background-color: white !important;
+            opacity: 1;
+        }
+</style>
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container-fluid" class="container-fluid-xxl">
+
+
+                        <div class="row m-4 pt-4 pb-5 p-2" style="background-color:white;">
+                            <h2 class="text-left" style="font-size: 18px; color:#343440;">Geçici Görev ve Seyahat Emri Girişi</h2>
+                            <div class="row p-3 pt-4">
+                                <div class="col-md-4 mb-2">
+                                    <label for="gorevNo" class="form-label">Görev No</label>
+                                    <input type="text" class="form-control" value="@Model.Gorevkrt.GOREVNO" disabled id="uptgorevNo" placeholder="">
+                                </div>
+
+                                <div class="col-md-4 mb-2">
+                                    <label for="sicilKodu" class="form-label">Sicil Kodu</label>
+                                    <input type="text" class="form-control" id="uptsicilKodu"
+                                           value="@Model.Gorevkrt.SICILKOD" placeholder="Sicil Kodunuzu Girin">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="tcKimlikNo" class="form-label">TC Kimlik No</label>
+                                    <input type="text" class="form-control" value="@Model.Perkrt.TCKIMLIKNO" id="upttcKimlikNo" placeholder="">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="adi" class="form-label">Adı</label>
+                                    <input type="text" class="form-control" value="@Model.Perkrt.AD" id="uptadi" placeholder="">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="soyadi" class="form-label">Soyadı</label>
+                                    <input type="text" class="form-control" id="soyadi" value="@Model.Perkrt.SOYAD" placeholder="">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="emirTarihi" class="form-label">Emir Tarihi</label>
+                                    <input type="date" class="form-control" value="@Model.Gorevkrt.EVRAKTARIH.ToString("yyyy-MM-dd")" id="uptemirtarihi">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="baslangicTarihi" class="form-label">Başlangıç Tarihi</label>
+                                    <input type="date" class="form-control" value="@Model.Gorevkrt.BASTARIH.ToString("yyyy-MM-dd")" id="uptbaslangicTarihi">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="bitisTarihi" class="form-label">Bitiş Tarihi</label>
+                                    <input type="date" class="form-control" value="@Model.Gorevkrt.BITTARIH.ToString("yyyy-MM-dd")" id="uptbitisTarihi">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="gidisSaati" class="form-label">Gidiş Saati</label>
+                                    <input type="time" class="form-control" value="@Model.Gorevkrt.GIDISSAAT.ToString("HH:mm")" id="uptgidisSaati">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="gelisSaati" class="form-label">Geliş Saati</label>
+                                    <input type="time" class="form-control" value="@Model.Gorevkrt.GELISSAAT.ToString("HH:mm")" id="uptgelisSaati">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="Ulkeadi" class="form-label">Ülke Adı</label>
+                                    <select class="form-control" id="uptUlkeadi" name="uptUlkeadi">
+                                        <option value="052" selected>Türkiye</option>
+                                        @*@foreach (var ulke in Model.UlkeList)
+                {
+                    <option value="@ulke.ULKEKOD">
+                        @ulke.ULKEAD
+                    </option>
+                }*@
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 mb-2">
+                                    <label for="sehirAdi" class="form-label">Şehir Adı</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="uptsehirAdi"
+                                           value="@Model.Plans.PROVINCE"
+                                           data-id="@Model.Gorevkrt.SEHIRKOD"
+                                           placeholder="Şehir adı otomatik gelecek"
+                                           readonly>
+                                </div>
+
+                                <div class="col-md-4 mb-2">
+                                    <label for="ilceAdi" class="form-label">İlçe Adı</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="uptilceAdi"
+                                           value="@Model.Plans.DISTRICTNAME" data-id="@Model.Gorevkrt.ILCEKOD"
+                                           placeholder="İlçe adı otomatik gelecek"
+                                           readonly>
+
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="seyahatAraci" class="form-label">Seyahat Türü</label>
+                                    @if (Model.ServiceTypeNames != null && Model.Gorevkrt != null)
+                                    {
+                                        <select class="form-control" id="uptseyahatTuru" disabled>
+                                            @foreach (var serviceTypeName in Model.ServiceTypeNames)
+                                            {
+                                                if (serviceTypeName.serviceTypeId == Model.Gorevkrt?.SEYAHATTUR)
+                                                {
+                                                    <option selected value="@serviceTypeName.serviceTypeId">
+                                                        @serviceTypeName.ServiceTypeName
+                                                    </option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@serviceTypeName.serviceTypeId">
+                                                        @serviceTypeName.ServiceTypeName
+                                                    </option>
+                                                }
+                                            }
+                                        </select>
+                                    }
+
+                                </div>
+
+                                @*<div class="col-md-4 mb-2">
+            <label for="seyahatSebebi" class="form-label">Seyahat Sebebi</label>
+            <input type="text" class="form-control" id="seyahatSebebi" placeholder="">
+        </div>*@
+
+                                <div class="col-md-4 mb-2">
+                                    <label for="DovizCinsi" class="form-label">Döviz Cinsi</label>
+                                    <select class="form-control" id="uptdovizcinsi" name="dovizcinsi">
+                                        <option value="TL" selected>@Model.Gorevkrt.DOVIZCINS
+                                        <option>
+                                        <option value="USD">USD</option>
+                                        <option value="EUR">EUR</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="harcrahAvansTutari" class="form-label">Harcırah Avans Tutarı</label>
+                                    <input type="text" class="form-control" value="@Model.Gorevkrt.AVANSTUTAR" id="uptharcirahAvansTutari" placeholder="">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="isAvansTutari" class="form-label">İş Avans Tutarı</label>
+                                    <input type="text" class="form-control" value="@Model.Gorevkrt.AVANSTUTAR" id="uptisAvansTutari" placeholder="">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="seyahatTarihi" class="form-label">Seyahat Tarihi</label>
+                                    <input type="date" class="form-control" id="uptseyahatTarihi" value="@Model.Gorevkrt.SEYAHATTARIH.ToString("yyyy-MM-dd")">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="seyahatAraci" class="form-label">Seyahat Aracı</label>
+                                    <select class="form-control" id="uptseyahatAraci" name="seyahatAraci">
+                                        <option value="">Seçiniz</option>
+                                        @foreach (var arac in Model.SeyahatAracList)
+                                        {
+
+                                            if (arac.KOD == Model.Gorevkrt?.SEYAHATARAC.ToString())
+                                            {
+                                                <option selected value="@arac.KOD">
+                                                    @arac.ACIKLAMA
+                                                </option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@arac.KOD">
+                                                    @arac.ACIKLAMA
+                                                </option>
+                                            }
+
+
+
+
+                                        }
+                                    </select>
+                                </div>
+
+                                @*<div class="col-md-4 mb-2">
+            <label for="genelMudurOnayi" class="form-label">Genel Müdür Onayı</label><br />
+            <input type="checkbox" class="form-check-input" id="genelMudurOnayi" placeholder="">
+        </div>*@
+
+                                @*<div class="col-md-4 mb-2">
+            <label for="seyahatSuresi" class="form-label">Seyahat Süresi</label>
+            <input type="text" class="form-control" id="seyahatSuresi" placeholder="">
+        </div>*@
+
+                                @*<div class="col-md-4 mb-2">
+            <label for="cetvelNo" class="form-label">Cetvel No</label>
+            <input type="text" class="form-control" id="cetvelNo" placeholder="">
+        </div>*@
+
+                                @*<div class="col-md-4 mb-2">
+            <label for="unvanAdi" class="form-label">Ünvan Adı</label>
+            <input type="text" class="form-control" id="unvanAdi" placeholder="">
+        </div>*@
+
+                                <div class="col-md-4 mb-2">
+                                    <label for="isYeriAdi" class="form-label">İş Yeri Adı</label>
+                                    <input type="text" value="@ViewBag.Sirket" class="form-control" id="uptisYeriAdi" placeholder="İş Yeri Adı">
+
+                                </div>
+
+                                <div class="col-md-4 mb-2">
+                                    <label for="seyahatSuresi" class="form-label">Seyahat Süresi</label>
+                                    <input type="text" class="form-control" id="uptseyahatSuresi" placeholder="">
+                                </div>
+                                @*<div class="col-md-4 mb-2">
+            <label for="bolumAdi" class="form-label">Bölüm Adı</label>
+            <input type="text" class="form-control" id="bolumAdi" placeholder="">
+        </div>*@
+                            </div>
+                            <div class="mt-4">
+                                <button id="uptgrv" class="btn btn-primary float-right">Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#uptisAvansTutari, #uptharcirahAvansTutari').maskMoney(); 0
+
+
+        function hesaplaSeyahatSuresi() {
+            // Başlangıç ve bitiş tarihlerini al
+            let baslangicTarihi = new Date($('#uptbaslangicTarihi').val());
+            let bitisTarihi = new Date($('#uptbitisTarihi').val());
+
+            // Tarihler doluysa
+            if (!isNaN(baslangicTarihi) && !isNaN(bitisTarihi)) {
+                let gunFarki = 0;
+
+                // Tarihler arasında gezin
+                for (let tarih = new Date(baslangicTarihi); tarih <= bitisTarihi; tarih.setDate(tarih.getDate() + 1)) {
+                    let gun = tarih.getDay();
+                    // Hafta sonu değilse (Pazartesi - Cuma)
+                    if (gun !== 0 && gun !== 6) {
+                        gunFarki++;
+                    }
+                }
+
+                // Seyahat süresi alanına yaz
+                $('#uptseyahatSuresi').val(gunFarki);
+
+            } else {
+                // Tarihler eksikse boş bırak
+                $('#uptseyahatSuresi').val('');
+            }
+        }
+
+        // Sayfa yüklendiğinde çalıştır
+        hesaplaSeyahatSuresi();
+
+        // Tarih değiştiğinde çalıştır
+        $('#baslangicTarihi, #bitisTarihi').on('change', function () {
+            hesaplaSeyahatSuresi();
+        });
+
+        $("body").on("click", "#uptgrv", function () {
+            debugger;
+            var params = new URLSearchParams(window.location.search);
+            // Formdaki tüm alanların değerlerini alıyoruz
+            var GOREVNO = $('#uptgorevNo').val();
+            var SICILKOD = $('#uptsicilKodu').val();
+            var TcKimlikNo = $('#upttcKimlikNo').val();
+            var Adi = $('#uptadi').val();
+            var Soyadi = $('#uptsoyadi').val();
+            var EVRAKTARIH = $('#uptemirtarihi').val();  // DateTime formatında olmalı
+            var BASTARIH = $('#uptbaslangicTarihi').val();  // DateTime formatında olmalı
+            var BITTARIH = $('#uptbitisTarihi').val();  // DateTime formatında olmalı
+            var GIDISSAAT = $('#uptgidisSaati').val();
+            var GELISSAAT = $('#uptgelisSaati').val();
+            var ULKEKOD = $('#uptUlkeadi').val();
+            var SEHIRKOD = $('#uptsehirAdi').attr("data-id");
+            var ILCEKOD = $('#uptilceAdi').attr("data-id")
+            var SeyahatSebebi = $('#seyahatSebebi').val();  // Integer olmalı*/
+            var AVANSTUTAR = $('#uptharcirahAvansTutari').val();
+            var ISAVANSTUTAR = $('#uptisAvansTutari').val();
+            var SEYAHATTARIH = $('#uptseyahatTarihi').val();  // DateTime formatında olmalı
+            var SEYAHATARAC = $('#uptseyahatAraci').val();
+            var SEYAHATTUR = $('#uptseyahatTuru').val();
+            var GMONAY = $('#uptgenelMudurOnayi').is(':checked'); // Checkbox için kontrol
+            var GUNSAYI = $('#uptseyahatSuresi').val();
+            var SANTIYEKOD = $('#uptsantiyekodu').val();
+            var CETVELNO = $('#uptcetvelNo').val();
+            var SehirAdi = $('#uptsehirAdi').val();
+            var IlceAdi = $('#uptilceAdi').val();
+            var UNVAN = $('#uptunvanAdi').val();
+            var IsYeriAdi = params.get("CompanyName");
+            var SIRKETNO = params.get("CompanyId");
+            var BolumAdi = $('#uptbolumAdi').val();
+            var DovizCinsi = $('#uptdovizcinsi option:selected').val();
+            var PLANGROUPCODE = params.get("PLANGROUPCODE");
+            var PERSONID = params.get("PERSONID");
+
+            if (AVANSTUTAR == "") {
+                swal(
+                    'Dikkat !',
+                    'Lütfen Harcırah Tutarı Giriniz !',
+                    'warning'
+                )
+            }
+            else if (ISAVANSTUTAR == "") {
+                swal(
+                    'Dikkat !',
+                    'Lütfen İş Avans Tutarını Giriniz',
+                    'warning'
+                )
+            }
+
+            else if (SEYAHATARAC == "") {
+                swal(
+                    'Dikkat !',
+                    'Lütfen Seyahat Araç Seçiniz',
+                    'warning'
+                )
+            }
+
+            else {
+                // Ajax isteği ile sunucuya gönderiyoruz
+                $.ajax({
+                    url: '/CpmServisSistemi/GorevUpdate',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        GOREVNO: GOREVNO,
+                        SICILKOD: SICILKOD,
+                        TcKimlikNo: TcKimlikNo,
+                        Adi: Adi,
+                        Soyadi: Soyadi,
+                        EVRAKTARIH: EVRAKTARIH,  // Date formatı burada önemli
+                        BASTARIH: BASTARIH,  // Date formatı
+                        BITTARIH: BITTARIH,  // Date formatı
+                        GIDISSAAT: GIDISSAAT,
+                        GELISSAAT: GELISSAAT,
+                        ULKEKOD: ULKEKOD,
+                        SEHIRKOD: SEHIRKOD,
+                        ILCEKOD: ILCEKOD,
+                        SeyahatSebebi: SeyahatSebebi,  // Bu bir integer olmalı
+                        AVANSTUTAR: AVANSTUTAR,
+                        ISAVANSTUTAR: ISAVANSTUTAR,
+                        SEYAHATTARIH: SEYAHATTARIH,  // Date formatı
+                        SEYAHATARAC: SEYAHATARAC,
+                        SEYAHATTUR: SEYAHATTUR,
+                        GMONAY: GMONAY,
+                        GUNSAYI: GUNSAYI,
+                        SANTIYEKOD: SANTIYEKOD,
+                        CETVELNO: CETVELNO,
+                        SehirAdi: SehirAdi,
+                        IlceAdi: IlceAdi,
+                        UNVAN: UNVAN,
+                        IsYeriAdi: IsYeriAdi,
+                        SIRKETNO: SIRKETNO,
+                        BolumAdi: BolumAdi,
+                        DOVIZCINS: DovizCinsi,
+                        PLANGROUPCODE: PLANGROUPCODE
+
+                    },
+
+                    success: function (result) {
+                        if (result.Success) {
+                            toastr.success(result.Message);
+                            window.location.href = "/CpmServisSistemi/Takvim"; // İstediğiniz sayfa URL'si
+                        } else {
+                            // Sunucudan hata mesajı dönerse
+                            toastr.error("Hata:" + result.Message);
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // İstek sırasında bir hata oluştuğunda
+                        toastr.error("Sunucu hatası oluştu:" + Error.Message);
+
+                    }
+                });
+            }
+
+        });
+
+    });
+</script>
+<script src="~/Content/jquery.maskMoney.min.js"></script>
+

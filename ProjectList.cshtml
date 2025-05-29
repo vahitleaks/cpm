@@ -1,0 +1,338 @@
+﻿@using sistemproject.Models
+@model (List<ProjectManager> projectList, List<ProjectReport> serviceTimeList, List<ProjectManager> allProjectsArchive, List<ProjectReport> serviceTimeList2)
+@{
+    ViewBag.Title = "ProjectList";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+<style>
+    .form-control:disabled, .form-control:read-only {
+        background-color: #406C800D;
+    }
+
+    .table thead th {
+        border-bottom: 1px solid #406C8033 !important;
+        background-color: #406C800D;
+    }
+    .threeDot {
+        white-space: nowrap;
+        display: inline-block;
+        overflow: hidden;
+        table-layout: fixed;
+        width: 180px;
+        text-overflow: ellipsis;
+    }
+    .rounded-circle {
+        box-shadow: none !important;
+    }
+    .card {
+        box-shadow: 0px 0px 20px rgb(31 36 54 / 10%) !important;
+    }
+    .card-header {
+        border-top-right-radius: 6px !important;
+        border-top-left-radius: 6px !important;
+    }
+    .custom-select, .form-control-sm {
+        border-radius: 6px !important;
+    }
+</style>
+<link href="~/Content/DatatableCss/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DatatableCss/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DatatableCss/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/ProjectCss/style.css" rel="stylesheet" />
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="container-fluid">
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header py-3">
+                                            <h3>Tüm Projeler</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive dash-social">
+                                                <table id="datatable" class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Proje Adı</th>
+                                                            <th>Firma</th>
+                                                            <th>İlerleme Durumu</th>
+                                                            <th>Harcanan Adam Gün</th>
+                                                            <th class="text-center">Grafik</th>
+                                                            <th class="text-center">Danışman Efor Takibi</th>
+                                                            <th class="text-center">Detay Görüntüle</th>
+                                                            <th class="text-center">Arşive Ekle</th>
+                                                            <th class="text-center">Sil</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.projectList)
+                                                        {
+                                                        <tr>
+                                                            <td>@item.ProjectName</td>
+                                                            <td class="">
+                                                                <p class="d-inline-block align-middle mb-0">
+                                                                    <a href="" class="d-inline-block align-middle mb-0 product-name threeDot" title="@item.CompanyName"><font style="font-weight:bold;">@item.CompanyName</font></a>
+                                                                    <br>
+                                                                    <span class="text-muted font-13 threeDot" title=""></span>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                @if (Model.serviceTimeList.Where(x => x.Id == item.Id).FirstOrDefault().ServiceTimePercentage == 0)
+                                                                {
+                                                                    <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                                                                        <div class="progress h-6px w-100 me-2 bg-light-success">
+                                                                            <div class="progress-bar bg-success" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                        </div>
+                                                                        <span class="text-success fw-semibold">0%</span>
+                                                                    </div>
+                                                                }
+                                                                else if (Model.serviceTimeList.Where(x => x.Id == item.Id).FirstOrDefault().ServiceTimePercentage >= 100)
+                                                                {
+                                                                    decimal result = Model.serviceTimeList.Where(x => x.Id == item.Id).FirstOrDefault().ServiceTimePercentage - 100;
+
+                                                                    <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                                                                        <div class="progress h-6px w-100 me-2 bg-light-success">
+                                                                            <div class="progress-bar bg-success" role="progressbar" style="width:100%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                        </div>
+                                                                        <span class="text-success fw-semibold">100%</span>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                                                                        <div class="progress h-6px w-100 me-2 bg-light-success">
+                                                                            <div class="progress-bar bg-success" role="progressbar" style="width:@Convert.ToInt32(result)%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                        </div>
+                                                                        <span class="text-success fw-semibold">@result.ToString("0.##")%</span>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                                                                        <div class="progress h-6px w-100 me-2 bg-light-success">
+                                                                            <div class="progress-bar bg-success" role="progressbar" style="width:@Convert.ToInt32(Model.serviceTimeList.Where(x => x.Id == item.Id).FirstOrDefault().ServiceTimePercentage)%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                        </div>
+                                                                        <span class="text-success fw-semibold">@Model.serviceTimeList.Where(x => x.Id == item.Id).FirstOrDefault().ServiceTimePercentage.ToString("0.##")%</span>
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">@Model.serviceTimeList.Where(x => x.Id == item.Id).FirstOrDefault().RealizedServiceTime.ToString("0.##")</td>
+                                                            <td class="text-center">
+                                                                <a id="ganttChart" href="@Url.Action("Index", "GanttChart", new { ProjectId = item.Id })">
+                                                                    <i style="font-size: 1.4rem !important;" class="sc-chart-2 font-16 btn btn-sm btn-soft-info"></i>
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a id="followUpConsultant" href="@Url.Action("FollowUpConsultant", "Project", new { ProjectId = item.Id })"><i title="Delete" class="icon sc-eye font-16 btn btn-sm btn-soft-warning"></i></a>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a id="showDetails" href="@Url.Action("GetNodes", "Project", new { ProjectId = item.Id })"><i title="Delete" class="icon sc-eye font-16 btn btn-sm btn-soft-purple"></i></a>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i id="AddArchive" title="Arşivle" data-id="@item.Id" class="sc-folder font-16 btn btn-sm btn-soft-danger"></i>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i id="Delete" title="Delete" data-id="@item.Id" class="icon sc-trash-bin font-16 btn btn-sm btn-soft-danger"></i>
+                                                            </td>
+                                                        </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model.allProjectsArchive.Any())
+                            {
+                                <div class="row mt-5">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header py-3">
+                                                <h3>Arşivlenen Projeler</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive dash-social">
+                                                    <table id="datatable" class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Proje Adı</th>
+                                                                <th>Firma</th>
+                                                                <th>Grafik</th>
+                                                                <th>Danışman Efor Takibi</th>
+                                                                <th class="text-center">Detay Görüntüle</th>
+                                                                <th class="text-center">Arşivden Çıkar</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model.allProjectsArchive)
+                                                            {
+                                                            <tr>
+                                                                <td>@item.ProjectName</td>
+                                                                <td class="">
+                                                                    <p class="d-inline-block align-middle mb-0">
+                                                                        <a href="" class="d-inline-block align-middle mb-0 product-name threeDot" title="@item.CompanyName"><font style="font-weight:bold;">@item.CompanyName</font></a>
+                                                                        <br>
+                                                                        <span class="text-muted font-13 threeDot" title=""></span>
+                                                                    </p>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <a id="ganttChart" href="@Url.Action("Index", "GanttChart", new { ProjectId = item.Id })">
+                                                                        <i style="font-size: 1.4rem !important;" class="sc-chart-2 font-16 btn btn-sm btn-soft-info"></i>
+                                                                    </a>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <a id="followUpConsultant" href="@Url.Action("FollowUpConsultant", "Project", new { ProjectId = item.Id })"><i title="Delete" class="icon sc-eye font-16 btn btn-sm btn-soft-warning"></i></a>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <a id="showDetails" href="@Url.Action("GetNodes", "Project", new { ProjectId = item.Id})"><i title="Delete" class="icon sc-eye font-16 btn btn-sm btn-soft-purple"></i></a>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i id="Unarchive" title="Arşiveden Çıkar" data-id="@item.Id" class="sc-folder font-16 btn btn-sm btn-soft-success"></i>
+                                                                </td>
+
+                                                            
+
+
+                                                            </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/SweetAlert2/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/DatatableScripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.responsive.min.js"></script>
+
+<script>
+    $(function () {
+        var message = '@TempData["Message"]';
+        if (message != null && message != "")
+        {
+            toastr.success(message);
+        }
+    });
+</script>
+
+<script>
+    $("body").on("click", "#Unarchive", function () {
+        var Id = $(this).attr("data-id");
+        var table = $('#datatable').DataTable();
+        var removingRow = $(this).closest('tr');
+        Swal.fire({
+            title: 'Uyarı !',
+            text: "Arşivden çıkarmak istediğinize emin misiniz?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Vazgeç',
+            confirmButtonText: 'Arşivden Çıkar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "POST",
+                    url: '/Project/UnArchive',
+                    data: {
+                        Id: Id,
+                    },
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            toastr.success(result.Message);
+                            table.row(removingRow).remove().draw();
+                        }
+                        else {
+                            toastr.warning(result.Message);
+                        }
+                    },
+                    error: function () {
+                        alert('Erişim sağlanamadı.');
+                    }
+                });
+            }
+        })
+    });
+    $('body').on('click', '#AddArchive', function () {
+        var Id = $(this).attr("data-id");
+        var table = $('#datatable').DataTable();
+        var removingRow = $(this).closest('tr');
+        $.ajax({
+            url: '/Project/AddArchive',
+            type: 'POST',
+            dataType: 'json',
+            data: { Id: Id },
+            success: function (result) {
+                if (result.IsSuccess) {
+                    toastr.success(result.Message);
+                    table.row(removingRow).remove().draw();
+                }
+                else {
+                    toastr.warning(result.Message);
+                }
+            }
+        });
+    });
+
+    $('#datatable').DataTable(
+        {
+            "language": {
+                "url": "/Scripts/DatatableScripts/tr.json"
+            }
+        }
+    );
+
+    $("body").on("click", "#Delete", function () {
+        var Id = $(this).attr("data-id");
+
+        Swal.fire({
+            title: 'Uyarı !',
+            text: "Silmek istediğinize emin misiniz?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Vazgeç',
+            confirmButtonText: 'Projeyi Sil'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "POST",
+                    url: '/Project/DeleteProject',
+                    data: {
+                        Id: Id,
+                    },
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            toastr.success(result.Message);
+                            location.reload();
+                        }
+                        else {
+                            toastr.warning(result.Message);
+                        }
+                    },
+                    error: function () {
+                        alert('Erişim sağlanamadı.');
+                    }
+                });
+            }
+        })
+    });
+</script>
+
+
+
+

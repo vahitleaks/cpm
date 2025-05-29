@@ -1,0 +1,108 @@
+﻿@model (List<sistemproject.Models.Tables.ANDWCNACEMENT>, List<sistemproject.Models.Tables.ANDWCNACEMENTFILES>, List<sistemproject.Models.Tables.ANDWCNVIDEOS>)
+
+<link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+<style>
+    .ribbon-1 {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .ribbon-box {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        transition: .3s ease;
+        background-color: #fffefebf;
+    }
+
+    .ribbon-1:hover .overlay {
+        opacity: 1;
+    }
+
+    .iconnn:hover {
+        background-color: #575757ed;
+    }
+
+    .iconnn {
+        font-size: 20px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+        cursor: pointer;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 50%;
+    }
+
+    .sc-edit-pencil {
+        color: var(--thBlue);
+        top: 50%;
+        left: 30%;
+    }
+
+    .sc-trash-bin {
+        color: var(--thRed);
+        top: 50%;
+        left: 50%;
+    }
+
+    .sc-info-sign {
+        color: var(--thGreen);
+        top: 50%;
+        left: 70%;
+    }
+
+
+    /*   .fa-user:hover {
+        color: #eee;
+    }*/
+</style>
+@foreach (var x in Model.Item1)
+{
+    <div class="ribbon-1">
+        <div class="ribbon-box">
+            <div class="ribbon ribbon-mark bg-a1">@x.AnnouncementHead</div>
+            <p class="mb-0">
+                @Html.Raw(x.AnnouncementTopic)
+            </p>
+            @foreach (var y in Model.Item3.Where(elm => elm.AnnouncementId == x.AnnouncementId).ToList())
+            {
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe width="auto" height="160" class="embed-responsive-item" src="@y.VideoLink" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </div>
+            }
+
+        </div>
+        <div class="overlay">
+            <i class="sc-edit-pencil iconnn" data-id="@x.AnnouncementId" id="EditAnnouncement"></i>
+            <i class="sc-trash-bin iconnn" data-id="@x.AnnouncementId" id="DeleteAnnouncement"></i>
+            <i class="sc-info-sign iconnn" data-id="@x.AnnouncementId" id="DetailsAnnouncement"></i>
+            @*<a href="#" class="iconnn" title="User Profile">
+                    <i class="fa fa-user"></i>
+                </a>*@
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/SweetAlert2/sweetalert2.all.min.js"></script>
+@*<div class="container">
+        <img src="img_avatar.png" alt="Avatar" class="image">
+        <div class="overlay">
+            <a href="#" class="icon" title="User Profile">
+                <i class="fa fa-user"></i>
+            </a>
+        </div>
+    </div>*@

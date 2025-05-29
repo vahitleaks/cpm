@@ -1,0 +1,115 @@
+﻿
+input[type=date], input[type=datetime-local], input[type=month], input[type=time] {
+    border: none;
+}
+
+input.form-control.nakittoplamsonuc, input.form-control.kurtakiplitoplamsonuc, input.form-control.kurtakipsiztoplamsonuc, input.form-control.perakendetoplamsonuc, input.form-control.ktakipsizkısavadetoplamsonuc {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.maliyet input {
+    text-align: center;
+}
+
+
+@media screen and (max-width: 1369px) {
+    body {
+        font-family: Century;
+        font-size: 12px !important;
+    }
+
+    label {
+        font-size: 12px !important;
+    }
+
+    input {
+        font-size: 12px !important;
+    }
+
+    select {
+        font-size: 11px !important;
+    }
+
+    #UrunDetay thead th, #UrunDetay tbody td, .ithalat thead th, #IthalatListesi td, .maliyet thead th, #maliyetler td {
+        font-size: 12px !important;
+    }
+}
+
+@media screen and (min-width: 1370px) {
+    body {
+        font-family: Century;
+        font-size: 14px !important;
+    }
+
+    label {
+        font-size: 14px !important;
+    }
+
+    input {
+        font-size: 14px !important;
+    }
+
+    select {
+        font-size: 11px !important;
+    }
+
+    table thead tr th {
+        font-size: 14px !important;
+    }
+
+    #UrunDetay thead th, #UrunDetay tbody td, .ithalat thead th, #IthalatListesi td, .maliyet thead th, #maliyetler td {
+        font-size: 14px !important;
+    }
+}
+
+.tableFixHead {
+    overflow-y: auto;
+    max-height: 445px;
+    min-height: 200px;
+}
+
+    .tableFixHead thead .baslik th {
+        position: sticky;
+        top: -1px;
+    }
+
+/* Just common table stuff. */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    padding: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px grey;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    /* background: linear-gradient(14deg, #42cef1 36%, #63ddfb 100%);*/
+    background-color: #7081b969;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        /*/background: linear-gradient(14deg, #42cef1 36%, #63ddfb 100%);*/
+        background-color: #7081b969;
+        padding: 10px;
+    }
+
+select#dovizCins {
+    font-weight: bold;
+    color: #7286a2;
+}

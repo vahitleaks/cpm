@@ -1,0 +1,296 @@
+﻿<style>
+
+    .sc-download:hover {
+        cursor: pointer;
+        color: var(--thBlue) !important;
+    }
+
+    .sc-edit-pencil {
+        color: var(--thBlue);
+        Background: var(--thBorderLight);
+        border-radius: 5px;
+        font-size: 15px;
+        z-index: 300;
+        cursor: pointer;
+    }
+
+        .sc-edit-pencil:hover {
+            color: var(--thWhite);
+            Background: var(--thBlue) !important;
+        }
+
+    .sc-trash-bin {
+        color: var(--thRed);
+        Background: var(--thBorderLight);
+        border-radius: 5px;
+        font-size: 15px;
+        z-index: 300;
+        cursor: pointer;
+    }
+
+        .sc-trash-bin:hover {
+            color: var(--thWhite);
+            Background: var(--thRed);
+        }
+
+    #filesUpload {
+        background-color: #fff;
+        margin-bottom: 30px;
+        border: 30px solid rgba(0, 0, 0, 0);
+        border-radius: 3px;
+        border-image: url('../../../Images/iconsforservcie/Rectangle 6494.svg') 25 repeat;
+        font-weight: bold;
+        color: #7f858a;
+    }
+
+        #filesUpload ul.no_bullet {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+    .Scroll-Default {
+        height: 204px !important;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: #ffffff;
+    }
+</style>
+@model sistemproject.Models.FullCalendarViewModels.GetPlansViewModel
+
+@foreach (var y in Model.PlansInfo.Take(1))
+{
+    <div class="card" style="margin: 1rem !important;min-height: 64rem;">
+        <div class="card-header my-4" style="min-height: 48px !important;
+        box-shadow: none !important;
+        border-bottom: 1px solid var(--thBorderLight) !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        flex-wrap: initial !important;
+   ">
+            <img class="mr-3" src="~/Images/iconsforservcie/icons8-meeting_room.png" height="35" width="35" />
+            <span class="my-2" style="margin-right: 8rem;">@y.SERVICETYPENAME</span>
+        </div>
+        <div class="card-body" style="padding: 2.5rem !important;padding-top: 0!important;">
+            <input type="hidden" id="hdnSession" data-value="@(Request.RequestContext.HttpContext.Session["MessageForPlan"]?.ToString() ?? "")" />
+            <div class="row mb-3">
+                <div class="col-12 p-0 threeDots">
+                    <img style="height: 4vh;" src="~/Images/iconsforservcie/icons8-company.png" />
+                    <span class="Label-Blue" style="font-weight:bold;">@y.UNVAN</span>
+                </div>
+            </div>
+            <div class="row card mb-4" style="border: 1px solid var(--thBorderLight) !important;
+        border-radius: 10px; background:radial-gradient(circle, rgb(255 255 255) 0%, rgb(237 242 244) 100%);">
+                <div class="col-12 p-2">
+                    <div class="row p-3">
+                        <div class="col-12 my-auto">
+                            @{int i = 1;}
+                            @foreach (var x in Model.PlansInfo)
+                            {
+
+                                if (i < 10)
+                                {
+                                    string imagePath = Path.Combine(Server.MapPath("~/Images/ProfileImages/Advisor"), x.PERSONID + ".jpeg");
+                                    string imageFile = File.Exists(imagePath) ? x.PERSONID + ".jpeg" : "default.png";
+                                    <img height="45" width="45" src="~/Images/ProfileImages/Advisor/@imageFile" style=" margin-right: -20px;border-radius:30px; object-fit:cover;" />
+                                }
+                                else
+                                {
+                                    <i class="icon sc-plus-bg-filled Label-Green fontBold" style="color:var(--thGreenOpac60);font-size:2vh;background-color: transparent; border-radius: 50px;"></i><span class="Label-Green" style="font-size:0.5rem;">@ViewBag.Personcount</span>
+                                    break;
+                                }
+                                { i++; }
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 my-auto pl-3 cpmKatilimcilari">
+                            <span style="color: var(--thText); font-size: 0.7rem !important;" class="sidecardPersonNameDots font-weight-bold">
+                                @{int k = 0;}
+                                @foreach (var x in Model.PlansInfo)
+                                {
+                                    { k++; }
+                                    if (k < Model.PlansInfo.Count())
+                                    {
+                                        <label class="fullName">@x.FULLNAME,</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="fullName">@x.FULLNAME</label>
+                                    }
+                                }
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3" style="flex-wrap: unset;">
+                <div class="col-1">
+                    <img src="~/Images/iconsforservcie/icons8-clock.png" height="26" />
+                </div>
+                <div class="col-11 my-2 pl-4">
+                    <label class="font11" style="color: var(--thNewText);">
+                        @y.STARTDATE.ToString("dd MMMM yyyy")-@y.ENDDATE.ToString("dd MMMM yyyy") <b>*</b>
+                        @y.STARTDATE.ToString("HH:mm") - @y.ENDDATE.ToString("HH:mm")
+                    </label>
+                </div>
+            </div>
+            @if (y.SERVICETYPEID != 8 && y.SERVICETYPEID != 17)
+            {
+                <div class="row" style="flex-wrap: unset;">
+                    <div class="col-1">
+                        <img src="~/Images/iconsforservcie/icons8-map_marker.png" height="26" />
+                    </div>
+                    <div class="col-11 my-2 pl-4">
+                        <label style="color: var(--thText);" class="">@y.PROVINCENAME / @y.DISTRICTNAME</label>
+                    </div>
+                </div>
+
+            }
+
+
+
+            @if (y.COMMENT != null && y.COMMENT != "")
+            {
+                <div class="row" style="flex-wrap: unset;" id="CommentRow">
+                    <div class="col-1">
+                        <img src="~/Images/iconsforservcie/icons8-edit_property.png" height="26" />
+                    </div>
+                    <div class="col-11 my-2 pl-4">
+                        <label style="color: var(--thText);" class="">@y.COMMENT</label>
+                    </div>
+                </div>
+            }
+            @if (ViewBag.ServiceFormSayisi > 0)
+            {
+                <div class="row" style="flex-wrap: unset;">
+                    <div class="col-1">
+                        <img src="~/Images/iconsforservcie/icons8-ok.png" height="26" />
+                    </div>
+                    <div class="col-11 my-2 pl-4">
+                        <span class="my-1 Label-Green font-weight-bold">Servis Formu Oluşturuldu - @ViewBag.ServiceFormSayisi Adet</span>
+                    </div>
+                </div>
+            }
+            @*@if (y.STATESERVICEFORM == true)
+                {
+                    <div class="row" style="flex-wrap: unset;">
+                        <div class="col-1">
+                            <img src="~/Images/iconsforservcie/icons8-ok.png" height="26" />
+                        </div>
+                        <div class="col-11 my-2 pl-4">
+                            <span class="my-1 Label-Green font-weight-bold">Servis Formu Oluşturuldu - @ViewBag.ServiceFormSayisi Adet</span>
+                        </div>
+                    </div>
+                }*@
+            <div class="row mt-3 mb-4" style="border-top: 1px solid var(--thBorderLight);">
+                <div class="col-12 p-0 pt-3 pb-3">
+                    @if (y.STATESERVICEFORM == true)
+                    {
+                        <button style="width: auto!important;" class="Button-Outline-Edit mr-3" id="btnServiceFormEdit" data-id="@y.SERVICEFORMID" data-serviceformconfirm="@y.SERVICEFORMCONFIRM" data-sayfa="PLAN" data-durum="@y.PLANGROUPCODE">Servis Formu Düzenle</button>
+                        <button style="width: auto!important;" class="Button-Outline-View" id="btnServiceFormAdd2" data-durum="@y.PLANGROUPCODE">Servis Formu Oluştur</button>
+                        if (Session["fName"] != null)
+                        {
+                            <input id="LoginUserName" hidden type="text" value="@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Session["fName"]?.ToString() ?? "")" />
+                        }
+                    }
+                    else
+                    {
+                        <button style="width: auto!important;" class="Button-Outline-View" id="btnServiceFormAdd2" data-durum="@y.PLANGROUPCODE">Servis Formu Oluştur</button>
+                    }
+                </div>
+            </div>
+            @if (Model.FileList.Count != 0)
+            {
+
+                <div class="row">
+                    <div class="col-12 p-0">
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingOne">
+                                    <button class="accordion-button pb-3 pr-1 pl-1" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
+
+                                        <label class="Label-Title" style="font-weight:bold!important;">Dosya Ekleri</label>
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                    <div class="Scroll-Default" id="filesUpload">
+                                        <ul class="no_bullet">
+                                            @foreach (var b in Model.FileList)
+                                            {
+                                                <li class="star" style="padding-bottom:0.5rem;padding-top: 0.5rem;">
+                                                    <div class="row">
+                                                        <div class="col-1"> <img class="fileTypeImage" src="" style="height:1.5rem;float: left;" /></div>
+                                                        <div class="col-8">
+                                                            <label style="font-size: 1rem;" class="fileType" data-file="@b.PLANFILENAME">
+                                                                @b.PLANFILENAME
+
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <label style="">
+                                                                <a href="@Url.Action("DownloadFile", "CpmServisSistemi", new { FILEID = b.FILEID })">
+                                                                    <i class="icon sc-download p-2" style="color:var(--thBorder);font-size: 13px;" id="btnFileDownload" data-id="@b.FILEID"></i>
+                                                                </a>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+}
+<script>
+
+
+
+    function dosyaGorsel(dosyaname) {
+        var extension = dosyaname.split('.').pop().toLowerCase();
+        if (extension == 'pdf') {
+            return '/Images/filetype/pdf.svg';
+        }
+        else if (extension == 'doc' || extension == 'docx') {
+            return '/Images/filetype/word.svg';
+        }
+        else if (extension == 'xls' || extension == 'xlsx') {
+            return '/Images/filetype/icons8-microsoft_excel_2019.svg';
+        }
+        else if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'svg') {
+            return '/Images/filetype/photo.svg';
+        }
+        else if (extension == 'zip' || extension == 'rar') {
+            return '/Images/filetype/zip.svg';
+        }
+        else if (extension == 'pptx' || extension == 'ppt') {
+            return '/Images/filetype/powerpoint.svg';
+        }
+        else if (extension == 'msg' || extension == 'ppt') {
+            return '/Images/filetype/mail.svg';
+        }
+        else
+            return '/Images/filetype/otherfiles.svg';
+    }
+    $(document).ready(function () {
+        $("#filesUpload .fileType").each(function () {
+            let fileImage = dosyaGorsel($(this).attr("data-file"));
+            $(this).parents(".star").find(".fileTypeImage").attr("src", fileImage);
+        });
+    });
+</script>
+
+
+

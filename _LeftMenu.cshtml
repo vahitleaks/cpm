@@ -1,0 +1,759 @@
+﻿<style>
+    .aside .aside-logo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 65px;
+        padding: 0 0px;
+    }
+
+    .flex-column-auto {
+        background-color: var(--thCardBack) !important;
+    }
+
+    .aside .aside-light {
+        background-color: none !important;
+    }
+
+    hr {
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+        margin-left: 1rem !important;
+        margin-right: 1rem !important;
+    }
+
+    .tooltip-inner {
+        background-color: #20A1DA !important;
+        color: #fff !important;
+        padding-right: 1rem !important;
+        padding-left: 1rem !important;
+        font-size: 1.1rem !important;
+    }
+
+    .tooltip.right .tooltip-arrow {
+        border-right-color: #20A1DA !important;
+    }
+
+    .bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
+        border-right-color: #20A1DA !important;
+    }
+
+    .menu-item .menu-link .menu-icon {
+        width: 3rem;
+    }
+
+    .aside-dark .menu .menu-item.hover:not(.here) > .menu-link:not(.disabled):not(.active):not(.here), .aside-dark .menu .menu-item:not(.here) .menu-link:hover:not(.disabled):not(.active):not(.here) {
+        transition: color 0.2s ease, background-color 0.2s ease;
+        background-color: #1b1b28;
+        color: #ffffff;
+    }
+
+    .accordionMenu {
+        width: 100%;
+        max-width: 360px;
+        margin: 0 -7px 0px;
+        background: #FFF;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+
+        .accordionMenu .link .menu-title {
+            color: var(--thSubText);
+        }
+
+        .accordionMenu .link {
+            cursor: pointer;
+            display: block;
+            padding: 15px 15px 15px 0;
+            font-size: 14px;
+            position: relative;
+            -webkit-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+        }
+
+        .accordionMenu li:last-child .link {
+            border-bottom: 0;
+        }
+
+        .accordionMenu li i {
+            position: absolute;
+            top: 25px;
+            left: 12px;
+            font-size: 18px;
+            -webkit-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+        }
+
+            .accordionMenu li i.fa-chevron-down {
+                right: 12px;
+                left: auto;
+                font-size: 12px;
+                color: #406C8033;
+            }
+
+        .accordionMenu li.open .link .menu-title {
+            color: #20A1DA;
+        }
+
+        .accordionMenu li.open i {
+            color: #20A1DA;
+        }
+
+        .accordionMenu li.open {
+            background-color: transparent !important;
+            padding-right: 0 !important;
+            padding-left: 0 !important;
+        }
+
+            .accordionMenu li.open i.fa-chevron-down {
+                -webkit-transform: rotate(180deg);
+                -ms-transform: rotate(180deg);
+                -o-transform: rotate(180deg);
+                transform: rotate(180deg);
+            }
+
+    .submenu {
+        display: none;
+        font-size: 14px;
+        padding-left: 11px;
+    }
+
+        .submenu li {
+            border-bottom: 1px solid #4b4a5e;
+        }
+
+        .submenu a {
+            display: block;
+            text-decoration: none;
+            color: #d9d9d9;
+            padding: 12px;
+            padding-left: 42px;
+            -webkit-transition: all 0.25s ease;
+            -o-transition: all 0.25s ease;
+            transition: all 0.25s ease;
+        }
+
+    ul li {
+        list-style: none;
+    }
+
+    .menu-active {
+        background-color: var(--thBG);
+        border-left: var(--thBlue) 8px solid;
+        margin-right: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+</style>
+@{
+    string path = Context.Request.Path;
+    var query = Context.Request.QueryString;
+    string sessionUserId = "UserId=" + (Session["tNo"]?.ToString() ?? "");
+
+    // "Destek Taleplerim" menüsünü aktif yap
+    bool isDestekTaleplerimActive = path == "/CpmServisSistemi/DestekTaleplerim";
+
+    // "Tüm Destek Talepleri" menüsünü aktif yap
+    bool isDestekTalepleriActive = path == "/CpmServisSistemi/DestekTalepleri";
+
+}
+<div id="kt_aside" class="aside" data-kt-drawer="true" data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
+    <div class="aside-logo flex-column-auto" id="kt_aside_logo">
+        <div>
+            <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle active" data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body" data-kt-toggle-name="aside-minimize">
+                <span class="svg-icon svg-icon-1">
+                    <img src="~/Images/iconsforservcie/Group 12957.png" height="65" style="box-shadow: 0 4px 14px 0 #406c80 !important;" />
+                </span>
+            </div>
+            <a href="/CpmServisSistemi/Anasayfa">
+                <label class="h-25px logo" style="color:#406C80;font-style:italic;margin-left:1rem;font-size:1.2rem;font-weight:bold !important;"><b>Destek Paneli</b> </label>
+            </a>
+        </div>
+    </div>
+    <div class="aside-menu flex-column-fluid" style="background-color:white;">
+        <div class="hover-scroll-overlay-y my-5 my-lg-5" id="kt_aside_menu_wrapper" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer" data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="0" style="height:calc(100vh - 85px);margin-top: 1rem!important;">
+            <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true">
+                <div id="anasayfaBtn" class="menu-item ">
+                    <a class="menu-link" href="/CpmServisSistemi/Anasayfa">
+                        <span class="menu-icon" title="Anasayfa" data-toggle="tooltip" data-placement="right">
+                            <span class="svg-icon svg-icon-2">
+                                <img src="~/Images/iconsforservcie/icons8-home.png" width="34" height="34" />
+                            </span>
+                        </span>
+                        <span class="menu-title">Anasayfa</span>
+                    </a>
+                </div>
+                <div id="takvimBtn" class="menu-item">
+                
+                    <a class="menu-link" href="/CpmServisSistemi/Takvim">
+                        <span class="menu-icon" title="Takvim" data-toggle="tooltip" data-placement="right">
+                            <span class="svg-icon svg-icon-2">
+                                <img src="~/Images/sidebarimg/calendar.png" width="34" height="34" />
+                            </span>
+                        </span>
+                        <span class="menu-title">Takvim</span>
+                    </a>
+                </div>
+
+                <hr style=" width: 19rem; margin: 2rem; color: var(--thText); height: inherit;" />
+                <ul id="accordion" class="accordionMenu">
+                    <li class="">
+                        <div class="link @(Context.Request.Path == "/CpmServisSistemi/PlanlananServislerim" ? "open" : "") || @(Context.Request.Path == "/CpmServisSistemi/PlanlananTumServisler" ? "open" : "")">
+                            <span class="menu-icon" title="Planlar" data-toggle="tooltip" data-placement="right">
+                                <span class="svg-icon svg-icon-2">
+                                    <img src="~/Images/sidebarimg/plans.png" width="34" height="34" />
+                                </span>
+                            </span>
+                            <span class="menu-title">Planlar</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                        <ul class="submenu" style="@((Context.Request.Path == "/CpmServisSistemi/PlanlananServislerim" || Context.Request.Path == "/CpmServisSistemi/PlanlananTumServisler") ? "display: block;" : "")">
+                            <div id="planlananBtn" class="menu-item ">
+                                @*@(Context.Request.Path == "/CpmServisSistemi/PlanlananServislerim" ? "menu-active" : "")*@
+                                <a class="menu-link" href="/CpmServisSistemi/PlanlananServislerim">
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Planlanan Servislerim" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/planlananservislerim.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Planlanan Servislerim</span>
+                                </a>
+                            </div>
+                            <div id="planlanantumBtn" class="menu-item">
+
+                                <a class="menu-link" href="/CpmServisSistemi/PlanlananTumServisler">
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Planlanan Tüm Servisler" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/planlanantumservisler2.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Planlanan Tüm Servisler</span>
+                                </a>
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="@(Context.Request.Path == "/CpmServisSistemi/TumServislerim" ? "open" : "") || @(Context.Request.Path == "/CpmServisSistemi/TumServisler" ? "open" : "")">
+                        <div class="link">
+                            <span class="menu-icon" title="Servisler" data-toggle="tooltip" data-placement="right">
+                                <span class="svg-icon svg-icon-2">
+                                    <img src="~/Images/sidebarimg/allservices.png" width="34" height="34" />
+                                </span>
+                            </span>
+                            <span class="menu-title">Servisler</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                        <ul class="submenu" style="@((Context.Request.Path == "/CpmServisSistemi/TumServislerim" || Context.Request.Path == "/CpmServisSistemi/TumServisler") ? "display: block;" : "")">
+                            <div class="menu-item" id="servislerBtn">
+                                <a class="menu-link" href="/CpmServisSistemi/TumServislerim">
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Tüm Servislerim" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/servislerim.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Servislerim</span>
+                                </a>
+                            </div>
+                            <div class="menu-item" id="tumservislerBtn">
+                                <a class="menu-link" href="/CpmServisSistemi/TumServisler">
+
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Tüm Servisler" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/tumservisler.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Tüm Servisler</span>
+                                </a>
+                            </div>
+                            <div class="menu-item" id="ExportServicesToExcel?page=1">
+
+                                <a class="menu-link" href="/CpmServisSistemi/ExportServicesToExcel?page=1">
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Excele Aktar" data-toggle="tooltip" data-placement="right">
+                                        <img src="~/Images/filetype/icons8-microsoft_excel_2019.svg" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Excele Aktar</span>
+                                </a>
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="@(Context.Request.Path == "/CpmServisSistemi/DestekTalepleri" ? "open" : "")">
+                        <div class="link">
+                            <span class="menu-icon" title="Talepler" data-toggle="tooltip" data-placement="right">
+                                <span class="svg-icon svg-icon-2">
+                                    <img src="~/Images/sidebarimg/request.png" width="34" height="34" />
+                                </span>
+                            </span>
+                            <span class="menu-title">Talepler</span>
+
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                        <ul class="submenu" style="@((path == "/CpmServisSistemi/DestekTalepleri" || path == "/CpmServisSistemi/DestekTaleplerim") ? "display: block;" : "")">
+                            <div id="destektaleplerBtn" class="menu-item">
+                                <a class="menu-link" href="/CpmServisSistemi/DestekTaleplerim">
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Destek Taleplerim" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/icons8-hard_working.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Destek Taleplerim</span>
+                                </a>
+                            </div>
+                            <div id="tumdestektaleplerBtn" class="menu-item">
+                                <a class="menu-link" href="/CpmServisSistemi/DestekTalepleri?startDate=@(DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd"))&endDate=@(DateTime.Now.ToString("yyyy-MM-dd"))&requestState=Yönlendirildi">
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Tüm Destek Talepleri" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/icons8-home_alarm.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Tüm Destek Talepleri</span>
+                                </a>
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="@(Context.Request.Path == "/CpmServisSistemi/Bekleyeniçtalepler" ? "open" : "")">
+                        <div class="link">
+                            <span class="menu-icon" title="Talepler" data-toggle="tooltip" data-placement="right">
+                                <span class="svg-icon svg-icon-2">
+                                    <img src="~/Images/sidebarimg/request.png" width="34" height="34" />
+                                </span>
+                            </span>
+                            <span class="menu-title">İç Talepler</span>
+
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                        <ul class="submenu" style="@(Context.Request.Path == "/CpmServisSistemi/Bekleyeniçtalepler" ? "display: block;" : "")">
+                            <div id="BekleyenictaleplerBtn" class="menu-item @(Context.Request.QueryString.Count > 0 && Context.Request.QueryString[0] != "UserId=" + (Session["tNo"]?.ToString() ?? ""))">
+                                <a class="menu-link" href="/CpmServisSistemi/Bekleyeniçtalepler?UserId=@(Session["tNo"]?.ToString() ?? "")">
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Bekleyen iç Taleplerim" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/icons8-hard_working.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Bekleyen İç Taleplerim</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+
+                                <a class="menu-link" href="/CpmServisSistemi/Bekleyeniçtalepler">
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Tüm Bekeleyen İç Talepler" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/icons8-home_alarm.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Tüm Bekleyen İç Talepleri</span>
+                                </a>
+                            </div>
+
+                        </ul>
+                    </li>
+                    <li class="@(Context.Request.Path == "/CpmServisSistemi/NewSoftwareProject" ? "open" : "") || @(Context.Request.Path == "/CpmServisSistemi/AllSoftwareProjects" ? "open" : "")">
+                        <div class="link">
+                            <span class="menu-icon" title="Yazılım Projeleri" data-toggle="tooltip" data-placement="right">
+                                <span class="svg-icon svg-icon-2">
+                                    <img src="~/Images/sidebarimg/icons8-idea.png" width="34" height="34" />
+                                </span>
+                            </span>
+                            <span class="menu-title">Yazılım Projeleri</span><i class="fa fa-chevron-down "></i>
+                        </div>
+                        <ul class="submenu" style="@((Context.Request.Path == "/CpmServisSistemi/NewSoftwareProject" ||Context.Request.Path == "/CpmServisSistemi/NewSoftwareServiceForm" ||Context.Request.Path == "/CpmServisSistemi/AllSoftwareProjectForms" || Context.Request.Path == "/CpmServisSistemi/AllSoftwareProjects") ? "display: block;" : "")">
+                            <div id="NewSoftwareProject" class="menu-item">
+
+                                <a class="menu-link" href="/CpmServisSistemi/NewSoftwareProject">
+                                    <span class="svg-icon svg-icon-2 mr-2">
+                                        <img src="~/Images/sidebarimg/icons8-concept.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Yazılım Projesi Ekle</span>
+                                </a>
+                            </div>
+                            <div id="AllSoftwareProjects" class="menu-item">
+
+                                <a class="menu-link" href="/CpmServisSistemi/AllSoftwareProjects">
+                                    <span class="svg-icon svg-icon-2 mr-2">
+                                        <img src="~/Images/sidebarimg/icons8-creativity.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Tüm Yazılım Projeleri</span>
+                                </a>
+                            </div>
+                            <div id="NewSoftwareServiceForm" class="menu-item">
+
+                                <a class="menu-link" href="/CpmServisSistemi/NewSoftwareServiceForm">
+                                    <span class="svg-icon svg-icon-2 mr-2">
+                                        <img src="~/Images/sidebarimg/icons8-create_order.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Form Oluştur</span>
+                                </a>
+                            </div>
+                            <div id="AllSoftwareProjectForms" class="menu-item">
+
+                                <a class="menu-link" href="/CpmServisSistemi/AllSoftwareProjectForms">
+                                    <span class="svg-icon svg-icon-2 mr-2">
+                                        <img src="~/Images/sidebarimg/icons8-stack_of_paper.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Tüm Formlar</span>
+                                </a>
+                            </div>
+                        </ul>
+                    </li>
+                    <!--******************************************************************-->
+                    <li class="@(Context.Request.Path == "/CpmServisSistemi/ExportServicesToExcelReport" ? "open" : "") || @(Context.Request.Path == "/CpmServisSistemi/ExportServicesToExcelReport" ? "open" : "") id="servicereport">
+                        <div class="link">
+                            <span class="menu-icon" title="Raporlar" data-toggle="tooltip" data-placement="right">
+                                <span class="svg-icon svg-icon-2">
+                                    <img src="~/Images/sidebarimg/icons8-increase.png" width="34" height="34" />
+                                    @*<img src="~/Images/sidebarimg/icons8-commercial.png" width="34" height="34" />*@
+                                </span>
+                            </span>
+                            <span class="menu-title">Raporlar</span><i class="fa fa-chevron-down "></i>
+                        </div>
+                        <ul class="submenu" style="@((Context.Request.Path == "/CpmServisSistemi/ExportServicesToExcelReport" || Context.Request.Path == "/CpmServisSistemi/LeavePermission" || Context.Request.Path == "/CpmServisSistemi/PersonPlanReport" || Context.Request.Path == "/CpmServisSistemi/ReportList") ? "display: block;" : "")">
+                            <div class="menu-item" id="ReportList">
+
+                                <a class="menu-link" href="/CpmServisSistemi/ReportList">
+                                    <span class="svg-icon svg-icon-2 mr-2">
+                                        <img src="~/Images/sidebarimg/icons8-search_in_list.png" width="26" height="26" />
+
+                                    </span>
+                                    <span class="menu-title">Rapor Listesi</span>
+                                </a>
+                            </div>
+                            <div id="PersonPlanReport" class="menu-item">
+
+                                <a class="menu-link" href="/CpmServisSistemi/PersonPlanReport">
+                                    <span class="svg-icon svg-icon-2 mr-2">
+                                        <img src="~/Images/iconsforservcie/icons8-user_menu_female.png" width="26" height="26" />
+
+                                    </span>
+
+                                    <span class="menu-title">Personel Plan Raporu</span>
+                                </a>
+                            </div>
+                            <div id="LeavePermission" class="menu-item">
+
+                                <a class="menu-link" href="/CpmServisSistemi/LeavePermission">
+                                    <span class="svg-icon svg-icon-2 mr-2">
+                                        <img src="~/Images/sidebarimg/icons8-audit.png" width="26" height="26" />
+                                    </span>
+
+                                    <span class="menu-title">İzin Yönetimi</span>
+                                </a>
+                            </div>
+
+                        </ul>
+                    </li>
+                    <!--******************************************************************-->
+                    <li class="@(Context.Request.Path == "/CpmServisSistemi/AddAnnouncement" ? "open" : "") || @(Context.Request.Path == "/CpmServisSistemi/AnnouncementList" ? "open" : "")">
+                        <div class="link">
+                            <span class="menu-icon" title="Duyurular" data-toggle="tooltip" data-placement="right">
+                                <span class="svg-icon svg-icon-2">
+                                    <img src="~/Images/sidebarimg/icons8-commercial.png" width="34" height="34" />
+                                </span>
+                            </span>
+                            <span class="menu-title">Duyurular</span><i class="fa fa-chevron-down "></i>
+                        </div>
+                        <ul class="submenu" style="@((Context.Request.Path == "/CpmServisSistemi/AddAnnouncement" || Context.Request.Path == "/CpmServisSistemi/AnnouncementList") ? "display: block;" : "")">
+                            <div id="AddAnnouncement" class="menu-item">
+
+                                <a class="menu-link" href="/CpmServisSistemi/AddAnnouncement">
+                                    <span class="svg-icon svg-icon-2 mr-2">
+                                        <img src="~/Images/sidebarimg/icons8-open_in_window.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Yeni Duyuru Ekle</span>
+                                </a>
+                            </div>
+                            <div id="AnnouncementList" class="menu-item">
+
+                                <a class="menu-link" href="/CpmServisSistemi/AnnouncementList">
+                                    <span class="svg-icon svg-icon-2 mr-2">
+                                        <img src="~/Images/sidebarimg/icons8-noticeboard.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Tüm Duyurular</span>
+                                </a>
+                            </div>
+                        </ul>
+                    </li>
+                    <!--******************************************************************-->
+                    @*@if (Session["Role"].ToString() == "1")*@
+
+                    @if (Session["Role"].ToString() == "1")
+                    {
+                        <li class="@(Context.Request.Path == "/Project/NewProject" ? "open" : "")
+            || @(Context.Request.Path == "/Project/ProjectList" ? "open" : "")
+            || @(Context.Request.Path == "/Project/AdminApproval" ? "open" : "")
+            || @(Context.Request.Path == "/Project/AllForms" ? "open" : "")">
+                            <div class="link">
+                                <span class="menu-icon" title="Projeler" data-toggle="tooltip" data-placement="right">
+                                    <span class="svg-icon svg-icon-2">
+                                        <img src="~/Images/iconsforservcie/icons8-learning.png" width="34" height="34" />
+                                    </span>
+                                </span>
+                                <span class="menu-title">Proje Yönetimi-Yönetici</span><i class="fa fa-chevron-down "></i>
+                            </div>
+                            <ul class="submenu" style="@((Context.Request.Path == "/Project/NewProject" || Context.Request.Path == "/Project/AdminApproval" || Context.Request.Path == "/Project/ProjectList" || Context.Request.Path == "/Project/AllForms") ? "display: block;" : "")">
+                                <div id="AdminApproval" class="menu-item">
+                                    <a class="menu-link" href="/Project/AdminApproval">
+                                        <span class="svg-icon svg-icon-2 mr-2" title="Aşama Tamamlama Onayı" data-toggle="tooltip" data-placement="right">
+                                            <img src="~/Images/icons8-system_information.png" width="26" height="26" />
+                                        </span>
+                                        <span class="menu-title">Aşama Tamamlama Onayı</span>
+                                    </a>
+                                </div>
+                                <div id="NewProject" class="menu-item">
+
+                                    <a class="menu-link" href="/Project/NewProject">
+                                        <span class="svg-icon svg-icon-2 mr-2">
+                                            <img src="/Images/sidebarimg/project.png" width="26" height="26" />
+                                        </span>
+                                        <span class="menu-title">Yeni Proje Oluştur</span>
+                                    </a>
+                                </div>
+                                <div id="ProjectList" class="menu-item">
+                                    <a class="menu-link" href="/Project/ProjectList">
+                                        <span class="svg-icon svg-icon-2 mr-2">
+                                            <img src="/Images/sidebarimg/allprojects.png" width="26" height="26" />
+                                        </span>
+                                        <span class="menu-title">Tüm Projeler</span>
+                                    </a>
+                                </div>
+                                <div id="AllForms" class="menu-item">
+                                    @*@((Context.Request.Path == "/Project/AllForms" && Context.Request.QueryString.Count == 0) ? "menu-active" : "")*@
+                                    <a class="menu-link" href="/Project/AllForms">
+                                        <span class="svg-icon svg-icon-2 mr-2" title="Tüm Proje Formları" data-toggle="tooltip" data-placement="right">
+                                            <img src="/Images/sidebarimg/icons8-stack_of_paper.png" width="26" height="26" />
+                                        </span>
+                                        <span class="menu-title">Tüm Proje Formları</span>
+                                    </a>
+                                </div>
+
+                            </ul>
+                        </li>
+                    }
+                    <li class="@(Context.Request.Path == "/Project/NewProject" ? "open" : "") || @(Context.Request.Path == "/Project/MyProjects" ? "open" : "")|| @(Context.Request.Path == "/Project/ProjectList" ? "open" : "") || @(Context.Request.Path == "/Project/AllForms" ? "open" : "")">
+                        <div class="link">
+                            <span class="menu-icon" title="Projeler" data-toggle="tooltip" data-placement="right">
+                                <span class="svg-icon svg-icon-2">
+                                    <img src="~/Images/sidebarimg/Projects1.png" width="34" height="34" />
+                                </span>
+                            </span>
+                            <span class="menu-title">Proje Yönetimi</span><i class="fa fa-chevron-down "></i>
+                        </div>
+                        <ul class="submenu" style="@((Context.Request.Path == "/Project/MyProjects" || Context.Request.Path == "/Project/AllForms") ? "display: block;" : "")">
+
+                            <div id="MyProjects" class="menu-item">
+
+                                <a class="menu-link" href="/Project/MyProjects">
+                                    <span class="svg-icon svg-icon-2 mr-2">
+                                        <img src="/Images/sidebarimg/icons8-hard_working.png" width="26" height="26">
+                                    </span>
+                                    <span class="menu-title">Projelerim</span>
+                                </a>
+                            </div>
+                            <div id="AllForms" class="menu-item">
+                                <a class="menu-link" href="/Project/AllForms?UserId=@(Session["tNo"]?.ToString() ?? "")">
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Proje Formlarım" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/servislerim.png" width="26" height="26">
+                                    </span>
+                                    <span class="menu-title">Proje Formlarım</span>
+                                </a>
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="@(Context.Request.Path == "/CpmServisSistemi/TumServislerim" ? "open" : "") || @(Context.Request.Path == "/CpmServisSistemi/TumServisler" ? "open" : "")">
+                        <div class="link">
+                            <span class="menu-icon" title="Servisler" data-toggle="tooltip" data-placement="right">
+                                <span class="svg-icon svg-icon-2">
+                                    <img src="~/Images/sidebarimg/allservices.png" width="34" height="34" />
+                                </span>
+                            </span>
+                            <span class="menu-title">Eğitimler</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                        <ul class="submenu" style="@((Context.Request.Path == "/CpmServisSistemi/YeniEgitim" || Context.Request.Path == "/CpmServisSistemi/Egitimlerim") ? "display: block;" : "")">
+                            <div class="menu-item" id="servislerBtn">
+                                <a class="menu-link" href="/CpmServisSistemi/YeniEgitim">
+                                    <span class="svg-icon svg-icon-2 mr-2" title="YeniEgitim" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/servislerim.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Yeni Eğitim Ekle</span>
+                                </a>
+                            </div>
+                            <div class="menu-item" id="tumservislerBtn">
+                                <a class="menu-link" href="/CpmServisSistemi/Egitimlerim">
+
+                                    <span class="svg-icon svg-icon-2 mr-2" title="Egitimlerim" data-toggle="tooltip" data-placement="right">
+                                        <img src="/Images/sidebarimg/tumservisler.png" width="26" height="26" />
+                                    </span>
+                                    <span class="menu-title">Eğitimlerim</span>
+                                </a>
+                            </div>
+                        
+                        </ul>
+                    </li>
+                </ul>
+                
+                <hr style=" width: 19rem; margin: 2rem; color: var(--thText); height: inherit;" />
+                <div id="MusteriListesi" class="menu-item">
+                    @*@(Context.Request.Path == "/CpmServisSistemi/MusteriListesi" ? "menu-active" : "")*@
+                    <a class="menu-link" href="/CpmServisSistemi/MusteriListesi">
+                        <span class="menu-icon" title="Müşteri Listesi" data-toggle="tooltip" data-placement="right">
+                            <span class="svg-icon svg-icon-2">
+                                <img src="~/Images/iconsforservcie/icons8-users.png" width="34" height="34" />
+                            </span>
+                        </span>
+                        <span class="menu-title">Müşteri Listesi</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/LeftMenuScripts/leftmenu.js"></script>
+<script>
+
+    $(document).ready(function () {
+        debugger;
+        function updateActiveMenu() {
+        //$(".menu-item a").on("click", function () {
+        //    // Önce tüm menülerden menu-active sınıfını kaldır
+        //    $(".menu-item").removeClass("menu-active");
+
+        //    // Tıklanan menüye menu-active sınıfını ekle
+        //    $(this).closest(".menu-item").addClass("menu-active");
+        //});
+        var path = window.location.pathname;
+        if (path == "/CpmServisSistemi/Anasayfa") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#anasayfaBtn").addClass("menu-active");
+       
+        }
+        else if (path == "/CpmServisSistemi/Takvim") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#takvimBtn").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/Kisiler") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#takvimBtn").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/PlanlananServislerim") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#planlananBtn").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/PlanlananTumServisler") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#planlanantumBtn").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/TumServislerim") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#servislerBtn").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/TumServisler") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#tumservislerBtn").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/ExportServicesToExcel?page=1") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#ExportServicesToExcel?page=1").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/DestekTaleplerim") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#destektaleplerBtn").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/DestekTalepleri") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#tumdestektaleplerBtn").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/Bekleyeniçtalepler") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#BekleyenictaleplerBtn").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/Bekleyeniçtalepler") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#BekleyenictaleplerBtn").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/NewSoftwareProject") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#NewSoftwareProject").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/NewSoftwareProject") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#NewSoftwareProject").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/AllSoftwareProjects") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#AllSoftwareProjects").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/NewSoftwareServiceForm") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#NewSoftwareServiceForm").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/AllSoftwareProjectForms") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#AllSoftwareProjectForms").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/ReportList") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#ReportList").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/PersonPlanReport") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#PersonPlanReport").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/LeavePermission") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#LeavePermission").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/AddAnnouncement") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#AddAnnouncement").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/AnnouncementList") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#AnnouncementList").addClass("menu-active");
+        }
+        else if (path == "/Project/AdminApproval") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#AdminApproval").addClass("menu-active");
+        }
+        else if (path == "/Project/NewProject") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#NewProject").addClass("menu-active");
+        }
+        else if (path == "/Project/ProjectList") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#ProjectList").addClass("menu-active");
+        }
+        else if (path == "/Project/AllForms") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#AllForms").addClass("menu-active");
+        }
+        else if (path == "/Project/MyProjects") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#MyProjects").addClass("menu-active");
+        }
+        else if (path == "/CpmServisSistemi/MusteriListesi") {
+            $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+            $("#MusteriListesi").addClass("menu-active");
+            }
+        }
+        updateActiveMenu();
+        $(window).on("popstate", function () {
+            updateActiveMenu();
+        });
+    });
+
+
+
+    //// Menü öğelerine tıklandığında active sınıfını ekle
+    //$(".menu-item").on("click", function () {
+    //    $(".menu-item").removeClass("menu-active"); // Önce diğer aktifleri kaldır
+    //    $(this).addClass("menu-active"); // Yeni aktif olanı ekle
+    //});
+
+    $('body').on('click', '#servicereport', function (event) {
+
+        DateModal.show();
+        $('.selectpicker').selectpicker('refresh');
+    });
+
+
+    function ShowNotAllowed(e) {
+        toastr.info(e + " Sayfası henüz aktif değildir!");
+    }
+    $('.menu.menu-column').each(function () {
+        $(this).find('.menu-item').each(function () {
+            $(this).click(function () {
+                $(this).parent().find('.menu-item').removeClass('menu-active');
+                $(this).addClass('menu-active');
+            });
+        });
+    });
+</script>
+
+

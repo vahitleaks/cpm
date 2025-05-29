@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="40" viewBox="0 0 50 34">
+  <g id="Group_1097" data-name="Group 1097" transform="translate(-10.63 -28.63)">
+    <rect id="Rectangle_1767" data-name="Rectangle 1767" width="50" height="34" rx="4" transform="translate(10.63 28.63)" fill="#72aad3"/>
+    <path id="Path_1640" data-name="Path 1640" d="M34.856,63.56a1.571,1.571,0,0,0-.371-.167,4.44,4.44,0,0,1-4.911.029,3,3,0,0,1-.318.137,5.387,5.387,0,0,0-2.8,4.663v1.554a1.873,1.873,0,0,0,1.9,1.846h7.3a1.873,1.873,0,0,0,1.9-1.846V68.223A5.106,5.106,0,0,0,34.856,63.56Z" transform="translate(-9.258 -20.747)" fill="#fff"/>
+    <ellipse id="Ellipse_365" data-name="Ellipse 365" cx="4.341" cy="4.216" rx="4.341" ry="4.216" transform="translate(18.411 32.825)" fill="#fff"/>
+    <line id="Line_91" data-name="Line 91" x2="18" transform="translate(34.63 36.973)" fill="none" stroke="#ececec" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Line_92" data-name="Line 92" x2="18" transform="translate(34.63 42.458)" fill="none" stroke="#ececec" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <line id="Line_93" data-name="Line 93" x2="18" transform="translate(34.63 48.001)" fill="none" stroke="#ececec" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1"/>
+    <ellipse id="Ellipse_366" data-name="Ellipse 366" cx="2.059" cy="2" rx="2.059" ry="2" transform="translate(33.571 55.144)" fill="#ececec"/>
+    <ellipse id="Ellipse_367" data-name="Ellipse 367" cx="2.059" cy="2" rx="2.059" ry="2" transform="translate(45.453 55.144)" fill="#ececec"/>
+    <ellipse id="Ellipse_368" data-name="Ellipse 368" cx="2.059" cy="2" rx="2.059" ry="2" transform="translate(21.689 55.144)" fill="#ececec"/>
+  </g>
+</svg>

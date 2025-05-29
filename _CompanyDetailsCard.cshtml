@@ -1,0 +1,52 @@
+﻿@model  IEnumerable<sistemproject.Models.FullCalendarViewModels.ServiceFormDataViewModel>
+
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var y in Model)
+    {
+        <div class="row">
+            <div class="col-9 my-auto">
+                <span style="color:var(--thHeadText);font-size:15px!important;font-weight:bold;" class="">Firma Detay</span>
+            </div>
+            <div class="col-3 text-right">
+                <img src="~/Images/images/cpm/Briefcase.H03.2k@2x.png" height="55" />
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-1">
+                <i style="font-size:16px!important;color:var(--thHeadText);" class="icon sc-building-shop-store mr-2"></i>
+            </div>
+            <div class="col-11 my-auto">
+                <label class="" style="font-size:12px!important;color:var(--thHeadText);">@y.UNVAN</label>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-1">
+                <i style="font-size:16px!important;color:var(--thHeadText);" class="icon sc-location mr-2"></i>
+            </div>
+            <div class="col-11 my-auto">
+                <label class="" style="font-size:12px!important;color:var(--thHeadText);">@y.FATURAADRES1 / @y.FATURAADRES4</label>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="row">
+        <div class="col-9 my-auto">
+            <span style="color:var(--thHeadText);font-size:15px!important;font-weight:bold;" class="">Firma Detay</span>
+        </div>
+        <div class="col-3">
+            <img src="~/Images/images/cpm/Briefcase.H03.2k@2x.png" height="80" />
+        </div>
+    </div>
+    <div class="row pb-3">
+        <div class="col-12">
+            <label class="" style="font-size:11px!important;color:var(--thCpmOrange);">Firma Detay bilgisi bulunamadı!</label>
+        </div>
+    </div>
+
+}
+
+
+

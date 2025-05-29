@@ -1,0 +1,38 @@
+﻿@model sistemproject.Models.FullCalendarViewModels.GetPlansViewModel
+<link href="~/Content/ContextMenu/jquery.contextMenu.min.css" rel="stylesheet" />
+@if (Model.PlanList != null)
+{
+    foreach (var item in Model.PlanList)
+    {
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <i class="" id="btnPlanUpdate" data-id="@item.PLANGROUPCODE" hidden></i>
+                    <i class="" id="btnPlanDelete" data-id="@item.PLANGROUPCODE" data-stateform="@item.STATESERVICEFORM" data-serviceformonay="@item.SERVICEFORMCONFIRM" hidden></i>
+                    <div class="accordion-button collapsed" type="button" data-id="@item.PLANGROUPCODE">
+                        <div class="row" style="width:inherit;">
+                            <div class="col-1 text-center">
+                                <img src="~/Images/iconsforservcie/icons8-schedule.png" height="35" width="35" />
+                            </div>
+                            <div class="col-lg-3 col-md-12 col-sm-12">
+                                <label class="Label-Title companyNameDots" title="@item.UNVAN" style="font-size: 0.9rem;font-weight:bold!important;">@item.UNVAN</label>
+                                <label class="Label-Text" style="font-size: 0.7rem;">@item.STARTDATE &nbsp; <b>*</b> &nbsp; @item.ENDDATE</label>
+                            </div>
+                            <div class="col-lg-3 col-md-12 col-sm-12">
+                                <label class="Label-Head font-weight-bold" style="font-size: 0.9rem;font-weight:400;">@item.SERVICETYPENAME</label> <br />
+                                <label class="Label-Text" style="font-size: 0.7rem;">@item.PROVINCENAME,@item.DISTRICTNAME</label>
+                            </div>
+                            <div class="col-lg-5 col-md-12 col-sm-12">
+                                <label class="Label-Head font-weight-bold col-sm-6 col-lg-12 col-md-12  col-form-label col-form-label-sm text-left justify-content-start" title="@item.FULLNAME" style="font-size: 0.9rem;font-weight:400;">@item.FULLNAME</label>
+                                <i class="icon sc-menu-9 threeDotAlign" style="text-align: end;" id="ContextMenu"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>       
+    }
+}
+else
+{
+    <h1>Bulunamadı</h1>
+}
+

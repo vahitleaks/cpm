@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7663,
+  "files": [
+    {
+      "file_id": "2007",
+      "file_name": "Ekran görüntüsü 2025-05-09 130706.png",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2007"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "2007",
+        "file_name": "Ekran görüntüsü 2025-05-09 130706.png",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2007"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7663_Ekran görüntüsü 2025-05-09 130706.png.png",
+        "size": 386768
+      }
+    }
+  ]
+}

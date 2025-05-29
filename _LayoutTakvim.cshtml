@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="tr" style="background-color: #f2f6f7;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
+    <title>@ViewBag.Title - Cpm Destek Paneli</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link href="~/Content/NewThema/SecretoCho-Fonts-icons/styles.css" rel="stylesheet" />
+    <link href="~/Content/NewThema/sidebar/assets/css/style.bundle.css" rel="stylesheet" />
+  <link href="~/Content/NewThema/css/style.css?v=2.0" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="/Images/favicon.ico">
+    <!-- App css -->
+    @*<link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />*@
+    <link href="~/Content/User/Css/multiselect/bootstrap-select.css" rel="stylesheet" />
+    <link href="~/Tema/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Tema/assets/css/icons.css" rel="stylesheet" />
+    <link href="~/Tema/assets/fonts/SecretoCho-Fonts-icons/style.css" rel="stylesheet" />
+    <link href="~/Tema/assets/css/metisMenu.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/loaderspinner.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.min.js"></script>
+    @*<script src="~/Content/DataTables/DataTables-1.10.24/js/jquery.dataTables.min.js"></script>*@
+    <script src="~/Scripts/LoaderSpinner/jquery.blockUI.js"></script>
+    <link href="~/Content/toastrAlert/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/LottieFiles/lottie-player.js"></script>
+    <style>
+        .body .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 
+        {
+            font-family: 'Roboto Regular' !important;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed" style="--kt-toolbar-height: 45px;
+        --kt-toolbar-height-tablet-and-mobile: 55px;
+        background-color:var(--thBG)!important;" data-kt-aside-minimize="off">
+    <style>
+   /*     @@font-face {
+            font-family: 'MS Gothic';
+            src: url('../../../fonts/Gothic/MS Gothic.ttf') format('truetype');
+        }*/
+      /*  @@font-face {
+             font-family: 'Roboto Regular';
+            src: url('../../../fonts/Helvetica Light/Helvetica Light.woff') format('woff');
+        }*/
+        @@font-face {
+            font-family: 'Roboto Regular';
+            src: url('../../../fonts/Roboto Regular/Roboto Regular.woff') format('woff');
+        }
+        body {
+             font-family: 'Roboto Regular';
+            /*       font-family: "MS Gothic", Arial, sans-serif;*/
+        }
+    </style>
+    @Html.Partial("~/Views/Shared/NewThema/_TopMenu.cshtml")
+    @Html.Partial("~/Views/Shared/NewThema/_LeftMenu.cshtml")
+    @Html.Partial("~/Views/Shared/NewThema/_RightMenu.cshtml")
+    <div class="container-fluid h-100">
+        @RenderBody()
+    </div>
+    @*<script src="~/Content/DataTables/DataTables-1.10.24/js/jquery.dataTables.min.js"></script>*@
+    <script src="~/Scripts/html2pdf/html2pdf.bundle.js"></script>
+    <script src="~/Tema/assets/js/bootstrap.bundle.min.js" charset="windows-1254" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Tema/assets/js/metisMenu.min.js"></script>
+    <script src="~/Tema/assets/js/waves.min.js"></script>
+    <script src="~/Tema/assets/js/jquery.slimscroll.min.js"></script>
+    <script src="~/Tema/assets/js/app.js"></script>
+    <script src="~/Tema/assets/js/Datepicker.js"></script>
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/jquery.blockUI.js"></script>
+    <script src="~/Scripts/multiselect/bootstrap-select.js" charset="windows-1254" type="text/javascript"></script>
+    <script src="~/Tema/assets/js/input-fileadd-multiple.js"></script>
+    <script src="~/Scripts/toastrAlert/toastr.min.js"></script>
+    <script src="~/Scripts/sweetAlert/sweetalert.min.js"></script>
+    <script src="~/Scripts/Popper/popper.min.js"></script>
+    <script>
+     
+        $("body").on("click", "#kt_aside_toggle", function () {
+            $(".aside-toggle").toggleClass("active");
+            $("body").attr("data-kt-aside-minimize") == "on" ? $("body").attr("data-kt-aside-minimize", "off") : $("body").attr("data-kt-aside-minimize", "on");
+        });
+
+        $("body").on("click", "#kt_explore_toggle,#kt_explore_close", function () {
+            $(".drawer-end").toggleClass("drawer-on");
+            $("body").attr("data-kt-drawer-explore") == "on" ? $("body").attr("data-kt-drawer-explore", "off") : $("body").attr("data-kt-drawer-explore", "on");
+            $("body").attr("data-kt-drawer") == "on" ? $("body").attr("data-kt-drawer", "off") : $("body").attr("data-kt-drawer", "on");
+        });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+        $("body").on("click", "#kt_aside_mobile_toggle,#kt_aside_toggle", function () {
+            $("#kt_aside_mobile_toggle").toggleClass("active");
+            $("body").attr("data-kt-drawer-aside") == "on" ? $("body").attr("data-kt-drawer-aside", "off") : $("body").attr("data-kt-drawer-aside", "on");
+            $("body").attr("data-kt-drawer") == "on" ? $("body").attr("data-kt-drawer", "off") : $("body").attr("data-kt-drawer", "on");
+            $("#kt_aside").hasClass("drawer drawer-start drawer-on") == true ? $("#kt_aside").removeClass("drawer drawer-start drawer-on") : $("#kt_aside").addClass("drawer drawer-start drawer-on");
+        });
+    </script>
+</body>
+</html>
+

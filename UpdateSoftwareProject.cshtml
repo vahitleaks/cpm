@@ -1,0 +1,366 @@
+﻿@model  sistemproject.Models.CustomerPanelViewModels.ProjectsModel
+@{
+    ViewBag.Title = "UpdateSoftwareProject";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+
+<style>
+    .bootstrap-select {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .form-control {
+        border: 1px solid var(--thBorder) !important;
+        border-radius: 6px !important;
+    }
+</style>
+<link href="~/Content/fileUpload/css/style.css" rel="stylesheet" />
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-5">
+                            <div class="col-lg-12">
+                                <div class="card" style="border:none !important">
+                                    <div class="card-body">
+                                        <h4 class="mt-0 header-title">Proje Düzenle</h4>
+                                        <p class="text-muted mb-3">
+                                            Lütfen değiştirmek istedğiniz proje bilgilerini, aşağıda istenen şekilde giriniz !
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-lg-7">
+                                                @foreach (var item in Model.Projects)
+                                                {
+                                                    <div class="form-group row">
+                                                        <label for="example-text-input" class="col-sm-2 col-form-label text-left">Proje Adı</label>
+                                                        <div class="col-sm-10">
+                                                            <input class="Input-Medium col-12 inputValidateControl" type="text" data-project-Id="@item.Id" placeholder="Proje adı yazınız..." value="@item.ProjectName" id="ProjectName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-email-input" class="col-sm-2 col-form-label text-left">Firma</label>
+                                                        <div class="col-sm-10">
+                                                            <select class="selectpicker font13 selectValidateControl p-0" id="SelectCompanyId" data-live-search="true" data-live-search-style="contains" data-show-subtext="true">
+                                                                <option selected data-tokens="" data-hesapkod="@item.CompanyId" value="@item.CompanyId">@item.CompanyName</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-tel-input" class="col-sm-2 col-form-label text-left">Sözleşme</label>
+                                                        <div class="col-sm-10">
+                                                            <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 Input-Medium selectValidateControl" id="SelectContractId">
+                                                                <option data-id="@item.ContractId" selected value="@item.CompanyId">@item.ContractName</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-email-input" class="col-sm-2 col-form-label text-left">Proje Sorumlusu</label>
+                                                        <div class="col-sm-10">
+                                                            <select class="selectpicker font13 selectValidateControl p-0" id="SelectPersonId" data-live-search="true" data-live-search-style="contains" data-show-subtext="true">
+                                                                <option data-tokens="" value="@item.ResponsibleId">@item.ResponsibleName</option>
+                                                                <option value="">Danışman Adı Arayınız...</option>
+                                                                @foreach (var t in Model.Person.Where(x => x.ID != item.ResponsibleId))
+                                                                {
+                                                                    <option data-tokens="" value="@t.ID">@t.FULLNAME</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-tel-input" class="col-sm-2 col-form-label text-left">Açıklama</label>
+                                                        <div class="col-sm-10">
+                                                            <textarea class="form-control inputValidateControl" rows="7" id="Description">@item.Description</textarea>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="mb-3" style="border: 1px #406c8033; border-style: inset;"></div>
+                                                <div class="form-group row" style="background-color: #20A1DA33; border-radius: 6px;">
+                                                    <label class="col-lg-3 col-form-label text-left">Proje Adımı</label>
+                                                    <label class="col-lg-3 col-form-label text-left">Başlangıç Tarihi</label>
+                                                    <label class="col-lg-3 col-form-label text-left">Bitiş Tarihi</label>
+                                                    <label class="col-lg-3 col-form-label text-left">Adam Gün</label>
+                                                </div>
+                                                @foreach (var Declaration in Model.ProjectSteps)
+                                                {
+                                                    <div class="form-group row getSteps">
+                                                        <label for="example-search-input" style="padding: 0px 3px 0px 3px;" id="stepName@(Declaration.StepId)" class="col-sm-3 col-form-label text-left my-auto">@Declaration.StepName</label>
+                                                        <div class="col-sm-3 my-auto" style="padding: 0px 3px 0px 3px;">
+                                                            <input class="form-control tarihGetir" type="date" value="@Declaration.StartDate.ToString("yyyy-MM-dd")" id="startDate@(Declaration.StepId)">
+                                                        </div>
+                                                        <div class="col-sm-3 my-auto" style="padding: 0px 3px 0px 3px;">
+                                                            <input class="form-control tarihGetir" type="date" value="@Declaration.EndDate.ToString("yyyy-MM-dd")" id="endDate@(Declaration.StepId)">
+                                                        </div>
+                                                        <div class="col-sm-3 my-auto" style="padding: 0px 2px 0px 3px;">
+                                                            <input class="form-control requiredTimes inputValidateControl" placeholder="Yazınız..." type="number" value="@Declaration.RequiredTime.ToString("0.####").Replace(",",".")" id="requiredTime@(Declaration.StepId)">
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="form-group row float-end col-sm-3">
+                                                    <button class="btn btn-primary" id="UpdateProject">Projeyi Güncelle</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-5 col-md-12 col-sm-12 p-4 ml-2" style="background-color: var(--thShadow); margin: inherit;">
+
+                                                <div class="row h-100" id="FileAnaRow" style=" background-color: #fff; border-radius: 10px; padding-top: 17px;margin-left:5px; margin-right:5px;box-shadow:7px 19px 14px 2px var(--thShadow)">
+                                                    <div class="col-12 text-center">
+                                                        <label style="color:var(--thText);font-size: unset;font-weight:bold;">DOSYA YÜKLE</label> <br />
+                                                        <label style="color:var(--thSubText);font-size:0.9rem;">Servis planına eklemek istediğiniz dosyaları yükleyebilirsiniz. </label> <br />
+                                                        <form id="upload">
+                                                            <div id="drop">
+                                                                <img src="~/Images/iconsforservcie/icons8-upload_to_cloud.png" height="50" /><br />
+                                                                <label style="font-size: 0.7rem;">Yüklemek istediğiniz dosyaları bu alana sürükleyip bırakınız.</label> <br />
+                                                                <label style="font-size: 0.8rem;">VEYA</label> <br />
+                                                                <a>Dosya Seç</a>
+                                                                <input type="file" name="upl" multiple id="multipleFile" />
+                                                            </div>
+                                                            <div class="Scroll-Blue pt-3" id="filesUploadEditPlan">
+                                                                <ul class="no_bullet">
+                                                                    @if (Model.ProjectFiles.Count() != 0)
+                                                                    {
+                                                                        foreach (var b in Model.ProjectFiles)
+                                                                        {
+                                                                            <li class="star" style="padding-bottom: 3.5rem; padding-top: 2rem;">
+                                                                                <div class="row">
+                                                                                    <div class="col-1"> <img class="fileTypeImage" src="" style="height:1.5rem;float: left;" /></div>
+                                                                                    <div class="col-7">
+                                                                                        <label style="font-size: 1rem;" class="fileType" data-file="@b.ProjectFileName">
+                                                                                            @b.ProjectFileName
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-1">
+                                                                                        <label style="">
+                                                                                            <a href="@Url.Action("SoftwareProjectsDownloadFile", "CpmServisSistemi", new { Id = b.Id })">
+                                                                                                <i class="icon sc-download p-2" style="color:var(--thBorder);font-size: 13px;" id="btnFileDownload" data-id="@b.Id"></i>
+                                                                                            </a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-1">
+                                                                                        <label><i class="icon sc-trash-bin p-2 ml-3 scTrashBin" style="background-color:transparent;color:var(--thBorder);font-size: 13px;" id="btnFileDelete" data-id="@b.Id"></i></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        }
+
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </form>
+                                                        <span style="font-size:0.7rem;color:var(--thSubText)">* zip, pdf, doc, docx, xls, xlsx, png, jpeg dosya formatları kabul edilmektedir.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/fileUpload/js/jquery.ui.widget.js"></script>
+<script src="~/Content/fileUpload/js/jquery.iframe-transport.js"></script>
+<script src="~/Content/fileUpload/js/jquery.fileupload.js"></script>
+<script src="~/Content/fileUpload/js/jquery.knob.js"></script>
+<script src="~/Content/fileUpload/js/script.js"></script>
+
+
+<script>
+
+    //#region Input ve Selectbox Kontrolleri
+    function inputControl(üstDiv) {
+
+        $(üstDiv + " .inputValidateControl").each(function () {
+            if ($(this).val() == "") {
+                $(this).attr("style", "border:1px solid var(--thRed)!important;border-radius:6px;padding-top:7px;padding-bottom:7px;");
+            }
+            else {
+                $(this).attr("style", "border:1px solid var(--thGreen)!important;border-radius:6px;padding-top:7px;padding-bottom:7px;");
+            }
+        });
+    }
+    function selectControl(üstDiv) {
+        $(üstDiv + " .selectValidateControl").each(function () {
+            if ($(this).find('option:selected').val() == "" || $(this).find('option:selected').val() == 0 || $(this).find('option:selected').length < 1) {
+                $(this).attr("style", "border:1px solid var(--thRed)!important; border-radius:6px");
+            }
+            else {
+                $(this).attr("style", "border:1px solid var(--thGreen)!important; border-radius:6px");
+            }
+        });
+    }
+    //#endregion
+
+       var kods = @Model.x;
+    //#region Dosyaları diziye atar
+    window.filesArray = [];
+    window.type = [];
+    $("#multipleFile").on("change", function (e) {
+        var files = e.target.files;
+        console.log(files);
+        var validImageTypes = ["image/gif",
+            "image/jpeg",
+            "image/png",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "application/vnd.ms-excel",
+            "application/msword",
+            "application/x-zip-compressed",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/pdf"];
+        $.map(files, function (val) {
+            if (validImageTypes.includes(val.type)) {
+                window.filesArray.push(val);
+            }
+            return val.type;
+        });
+    });
+    //#endregion
+
+    // #region  Dosya Sil
+    jQuery('body').on('click', '#btnFileDelete', function () {
+        var Id = $(this).attr("data-id");
+        var FILEREMOVE = $(this).parents(".star");
+        swal({
+            title: "Dikkat!",
+            text: "Dosyayı silmek istediğinize emin misiniz?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            buttons: ['Vazgeç', 'Sil']
+        })
+            .then((result) => {
+                if (result) {
+                    $.blockUI({
+                        message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+                    });
+                    $.ajax({
+                        url: "/CpmServisSistemi/DeleteFileSoftwareProject/" + Id,
+                        type: 'POST',
+                        data: { 'Id': Id },
+                        success: function () {
+                            FILEREMOVE.remove();
+                            setTimeout($.unblockUI, 300);
+                            swal("Dosyanız silindi.", {
+                                icon: "success",
+                                timer: 700
+                            });
+                        },
+                        error: function () {
+                            bootbox.alert("İşlem sırasında hata oluştu")
+                        }
+                    })
+                }
+
+                else {
+                    swal("Dosyanız güvende!");
+                }
+            });
+    });
+        //#endregion
+    //#region Proje Guncelle
+    $('body').on('click', '#UpdateProject', function () {
+        inputControl("#kt_content_container");
+        selectControl("#kt_content_container");
+        ProjectSteps = [];
+        kods.forEach(elm => {
+            ProjectSteps.push({
+                StepName: $("#stepName" + elm).text(),
+                StepId: elm,
+                StartDate: $("#startDate" + elm).val(),
+                EndDate: $("#endDate" + elm).val(),
+                RequiredTime: $("#requiredTime" + elm).val().replace('.', ',')
+            })
+        });
+        var ProjectId = $("#ProjectName").attr("data-project-Id") == '' ? '' : $("#ProjectName").attr("data-project-Id");
+        var ProjectName = $("#ProjectName").val() == '' ? '' : $("#ProjectName").val();
+        var CompanyId = $("#SelectCompanyId option:selected").val() == '' ? '' : $("#SelectCompanyId option:selected").val();
+        var CompanyName = $("#SelectCompanyId option:selected").text() == '' ? '' : $("#SelectCompanyId option:selected").text();
+        var ContractId = $("#SelectContractId option:selected").attr("data-id") == '' ? '' : $("#SelectContractId option:selected").attr("data-id");
+        var ContractName = $("#SelectContractId option:selected").text() == '' ? '' : $("#SelectContractId option:selected").text();
+        var Description = $("#Description").val() == '' ? '' : $("#Description").val();
+        var ResponsibleId = $("#SelectPersonId").val();
+        var REQUIRED = [];
+        $(".getSteps .requiredTimes").each(function () {
+            REQUIRED.push($(this).val());
+        });
+        var fileData = new FormData(); //Dosyalar
+        for (var i = 0; i < window.filesArray.length; i++) {
+            fileData.append(window.filesArray[i].name, window.filesArray[i]);
+        }
+        var filecount = window.filesArray.length;
+
+        if (CompanyId == '' || ProjectName == '' || ContractId == '' || Description == '' || ResponsibleId == '' || REQUIRED.includes(''))
+        {
+            Swal.fire(
+                'Dikkat !',
+                'Lütfen, kırmızı alanları doldurunuz !',
+                'warning'
+            )
+        }
+        else {
+            $.blockUI({
+                message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+            });
+            $.ajax({
+                method: "POST",
+                url: '/CpmServisSistemi/UpdateSoftwareProjectData',
+                data: {
+                    ProjectId: ProjectId,
+                    ProjectName: ProjectName,
+                    CompanyId: CompanyId,
+                    CompanyName: CompanyName,
+                    ContractId: ContractId,
+                    ResponsibleId: ResponsibleId,
+                    ContractName: ContractName,
+                    Description: Description,
+                    ProjectSteps: ProjectSteps
+                },
+                success: function (result) {
+                    setTimeout($.unblockUI, 500);
+                    toastr.success(result.Message);
+                    if (result.IsSuccess == true && filecount > 0) {
+                        $.ajax({
+                            type: 'POST',
+                            url: "/CpmServisSistemi/UploadSoftwareProjectFiles",
+                            data: fileData,
+                            dataType: "json",
+                            contentType: false,
+                            processData: false,
+                            success: function (result) {
+                                setTimeout($.unblockUI, 500);
+                                if (result.IsSuccess == true) {
+                                    toastr.success(result.Message);
+                                    window.location = "/CpmServisSistemi/AllSoftwareProjects";
+                                }
+                                else {
+                                    toastr.error(result.Message);
+                                }
+                            },
+                            error: function () {
+                                alert('Erişim sağlanamadı.');
+                            }
+                        });
+                    }
+
+                    else {
+                        window.location = "/CpmServisSistemi/AllSoftwareProjects";
+                    }
+                },
+                error: function () {
+                    alert('Erişim sağlanamadı.');
+                }
+            });
+        }
+    });
+        // #endregion
+
+
+
+</script>
+

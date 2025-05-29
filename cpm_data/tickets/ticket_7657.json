@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7657,
+  "files": [
+    {
+      "file_id": "2003",
+      "file_name": "2024 KESİN MİZAN LUCA.xlsx",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2003"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "2003",
+        "file_name": "2024 KESİN MİZAN LUCA.xlsx",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2003"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7657_2024 KESİN MİZAN LUCA.xlsx.xlsx",
+        "size": 87092
+      }
+    }
+  ]
+}

@@ -1,0 +1,386 @@
+﻿@model sistemproject.Models.FullCalendarViewModels.GetPlansViewModel
+
+@foreach (var x in Model.PlansInfo.Take(1))
+{
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12 pr-5 pl-5 pt-2 pb-3">
+            <div class="row">
+                <div class="col-lg-12 mb-3">
+                    <span class="ml-3" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;">Firma Adı</span>
+                    <select class="selectpicker font13" data-live-search="true" id="COMPANYIDUPDATE">
+                        <option selected value="@x.COMPANYID">@x.UNVAN</option>
+                        @foreach (var t in Model.CompanySelectList)
+                        {
+
+                            <option data-tokens="" value="@t.Value">@t.Text</option>
+
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Servis Tipi</span>
+                    <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2" name="btneditaltyetad" id="SERVICETYPEIDUPDATE">
+                        <option selected value="@x.SERVICETYPEID">@x.SERVICETYPENAME</option>
+                        @foreach (var h in Model.ServiceTypeSelectList)
+                        {
+
+                            <option value="@h.Value">@h.Text</option>
+
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                        Başlangıç Tarihi ve Saati
+                    </span>
+                    <input type="datetime-local" class="datetime-local col-12 Input-Medium mt-2" id="STARTDATEUPDATE" name="meeting-time" value="@x.STARTDATE.ToString("yyyy-MM-ddTHH:mm")">
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Bitiş Tarihi ve Saati</span>
+                    <input type="datetime-local" class="datetime-local col-12 Input-Medium mt-2" id="ENDDATEUPDATE" name="meeting-time" value="@x.ENDDATE.ToString("yyyy-MM-ddTHH:mm")">
+                </div>
+
+
+
+                <div class="col-lg-12 mb-3">
+                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">İl</span>
+                    <select class="Dropdown  col-lg-12 col-md-12 col-sm-12 mt-2" id="PROVINCEIDUPDATE">
+                        <option selected value="@x.SEHIRKOD">@x.PROVINCENAME</option>
+                        @foreach (var y in Model.ProvinceSelectList)
+                        {
+
+                            <option value="@y.Value">@y.Text</option>
+
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">İlçe</span>
+                    <input type="text" class="col-12 Input-Medium mt-2" id="DISTRICTIDUPDATE" placeholder="Yazınız..." style="padding-top: 7px; padding-bottom: 7px;" value="@x.DISTRICTNAME">
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Takvime Eklenecek Kişi</span>
+                    <select name="selValue" class="selectpicker col-12 font13" data-live-search="true" multiple data-actions-box="true" id="PERSONIDUPDATE">
+                        @foreach (var z in Model.PlansInfo)
+                        {
+                            <option selected value="@z.ID">@z.FULLNAME</option>
+                        }
+
+                        @foreach (var k in Model.PersonSelectList)
+                        {
+                            <option value="@k.Value">@k.Text</option>
+
+                        }
+                    </select>
+                </div>
+                <div class="form-check mt-4 col-lg-12">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="allDayCheckBoxEdit">
+                    <label class="form-check-label ml-5" style="color: var(--thTitle);
+        font-size: 12px !important;
+        font-weight: bold;" for="flexCheckDefault">
+                        Tüm Gün
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 p-4" style="background-color: var(--thShadow); margin: inherit;">
+            <div class="col-lg-12">
+                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Açıklama</span>
+                <div class="form-floating">
+                    <textarea style="padding-top: 0 !important; background-color: white !important;" class=" inputValidateControl form-control" placeholder="İş Özetiniz..." id="COMMENTUPDATE">@x.COMMENT</textarea>
+                </div>
+
+            </div>
+            <div class="row" id="FileAnaRow" style=" background-color: #fff; height: 42rem; border-radius: 10px; padding-top: 17px; margin: 1rem;box-shadow:7px 19px 14px 2px var(--thShadow)">
+                <div class="col-12 text-center">
+                    <label style="color:var(--thText);font-size: unset;font-weight:bold;">DOSYA YÜKLE</label> <br />
+                    <label style="color:var(--thSubText);font-size:0.9rem;">Servis planına eklemek istediğiniz dosyaları yükleyebilirsiniz. </label> <br />
+                    <form id="upload2" @*method="post" action="upload.php" enctype="multipart/form-data"*@>
+                        <div id="drop2">
+                            <img src="~/Images/iconsforservcie/icons8-upload_to_cloud.png" height="50" /><br />
+                            <label style="font-size: 0.7rem;">Yüklemek istediğiniz dosyaları bu alana sürükleyip bırakınız.</label> <br />
+                            <label style="font-size: 0.8rem;">VEYA</label> <br />
+                            <a>Dosya Seç</a>
+                            <input type="file" name="upl2" multiple id="multipleFile2" />
+                        </div>
+                        <div class="Scroll-Blue pt-3" id="filesUploadEditPlan">
+                            <ul class="no_bullet">
+                                @if (Model.FileList.Count != 0)
+                                {
+
+                                    foreach (var b in Model.FileList)
+                                    {
+                                        <li class="star" style="padding-bottom: 3.5rem; padding-top: 2rem;">
+                                            <div class="row">
+                                                <div class="col-1"> <img class="fileTypeImage" src="" style="height:1.5rem;float: left;" /></div>
+                                                <div class="col-7">
+                                                    <label style="font-size: 1rem;" class="fileType" data-file="@b.PLANFILENAME">
+                                                        @b.PLANFILENAME
+                                                    </label>
+                                                </div>
+                                                <div class="col-1">
+                                                    <label style="">
+                                                        <a href="@Url.Action("DownloadFile", "CpmServisSistemi", new { FILEID = b.FILEID })">
+                                                            <i class="icon sc-download p-2" style="color:var(--thBorder);font-size: 13px;" id="btnFileDownload" data-id="@b.FILEID"></i>
+                                                        </a>
+                                                    </label>
+                                                </div>
+                                                <div class="col-1">
+                                                    <label><i class="icon sc-trash-bin p-2 ml-3 scTrashBin" style="background-color:transparent;color:var(--thBorder);font-size: 13px;" id="btnFileDelete" data-id="@b.FILEID"></i></label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+
+                                }
+                            </ul>
+                        </div>
+                    </form>
+
+                    <span style="font-size:0.7rem;color:var(--thSubText)">* zip, pdf, doc, docx, xls, xlsx, png, jpeg dosya formatları kabul edilmektedir.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mr-1 ml-1 mt-3 mb-3">
+        <div class="col-lg-12 text-right">
+            <button type="button" class="Button-Outline-Close mr-2" data-bs-dismiss="modal" id="iptalUpdate" aria-label="Close">İptal</button>
+            <button type="button" class="Button-Outline-Kaydet" id="modalBtnPlanUpdate" data-id="@x.PLANGROUPCODE">Güncelle</button>
+        </div>
+    </div>
+}
+
+
+<script>
+    //#region Floating textarea
+    const txHeight = 59;
+    const tx = document.getElementsByTagName("textarea");
+
+    for (let i = 0; i < tx.length; i++) {
+        if (tx[i].value == '') {
+            tx[i].setAttribute("style", "height:" + txHeight + "px;overflow-y:hidden;white-space:pre-wrap;background-color:white !important;color: var(--thText)!important;border: 1px solid var(--thBorder)!important;border-radius:6px!important;font-size:12px!important;");
+        } else {
+            tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;white-space:pre-wrap;background-color:white !important;color: var(--thText)!important;border: 1px solid var(--thBorder)!important;border-radius:6px!important;font-size:12px!important;");
+        }
+        tx[i].addEventListener("input", OnInput, false);
+    }
+
+    function OnInput(e) {
+        this.style.height = "auto";
+        this.style.height = (this.scrollHeight) + "px";
+    }
+        //#endregion
+    function dosyaGorsel(dosyaname)
+    {
+        var extension = dosyaname.split('.').pop().toLowerCase();
+        if (extension == 'pdf') {
+            return '/Images/filetype/pdf.svg';
+        }
+        else if (extension == 'doc' || extension == 'docx') {
+            return '/Images/filetype/word.svg';
+        }
+        else if (extension == 'xls' || extension == 'xlsx') {
+            return '/Images/filetype/icons8-microsoft_excel_2019.svg';
+        }
+        else if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'svg') {
+            return '/Images/filetype/photo.svg';
+        }
+        else if (extension == 'zip' || extension == 'rar') {
+            return '/Images/filetype/zip.svg';
+        }
+        else if (extension == 'pptx' || extension == 'ppt') {
+            return '/Images/filetype/powerpoint.svg';
+        }
+        else if (extension == 'msg' || extension == 'ppt') {
+            return '/Images/filetype/mail.svg';
+        }
+        else
+            return '/Images/filetype/otherfiles.svg';
+    }
+
+    $(function () {
+        $("#filesUploadEditPlan .fileType").each(function () {
+            let fileImage = dosyaGorsel($(this).attr("data-file"));
+            $(this).parents(".star").find(".fileTypeImage").attr("src", fileImage);
+        });
+        window.filesArray2 = [];
+        $("#editPlan #multipleFile2").on("change", function (e) {
+            var files = e.target.files;
+            for (var i = 0; i < files.length; i++) {
+                window.filesArray2.push(files[i]);
+            }
+        });
+
+        var ul = $('#upload2 ul');
+        $('#drop2 a').click(function () {
+            // Simulate a click on the file input button
+            // to show the file browser dialog
+            $(this).parent().find('input').click();
+        });
+        // Initialize the jQuery File Upload plugin
+        $('#upload2').fileupload({
+            // This element will accept file drag/drop uploading
+            dropZone: $('#drop2'),
+            // This function is called when a file is added to the queue;
+            // either via the browse button, or via drag/drop:
+            add: function (e, data) {
+                var boyut = data.files[0].size;
+                if (boyut > 2000000) {
+                    alert("Dosya Boyutu Fazla!");
+                }
+                else {
+                    var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"' +
+                        ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
+
+                    // Append the file name and file size
+                    tpl.find('p').text(data.files[0].name)
+                        .append('<i>' + formatFileSize(data.files[0].size) + '</i>');
+
+                    // Add the HTML to the UL element
+                    data.context = tpl.appendTo(ul);
+
+                    // Initialize the knob plugin
+                    tpl.find('input').knob();
+
+                    // Listen for clicks on the cancel icon
+                    tpl.find('span').click(function () {
+
+                        if (tpl.hasClass('working')) {
+                            jqXHR.abort();
+                        }
+
+                        tpl.fadeOut(function () {
+                            tpl.remove();
+                        });
+
+                    });
+
+                    // Automatically upload the file once it is added to the queue
+                    var jqXHR = data.submit();
+                }
+            },
+
+            progress: function (e, data) {
+
+                // Calculate the completion percentage of the upload
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+
+                // Update the hidden input field and trigger a change
+                // so that the jQuery knob plugin knows to update the dial
+                data.context.find('input').val(progress).change();
+
+                if (progress == 100) {
+                    data.context.removeClass('working');
+                }
+            },
+
+            fail: function (e, data) {
+                // Something has gone wrong!
+                data.context.addClass('error');
+            }
+
+        });
+
+
+        // Prevent the default action when a file is dropped on the window
+        $(document).on('drop dragover', function (e) {
+            e.preventDefault();
+        });
+
+        // Helper function that formats the file sizes
+        function formatFileSize(bytes) {
+            if (typeof bytes !== 'number') {
+                return '';
+            }
+            if (bytes >= 1000000000) {
+                return (bytes / 1000000000).toFixed(2) + ' GB';
+            }
+
+            if (bytes >= 1000000) {
+                return (bytes / 1000000).toFixed(2) + ' MB';
+            }
+
+            return (bytes / 1000).toFixed(2) + ' KB';
+        }
+
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+        //var CpmKatilimcilari = $('#editPlan #PERSONIDUPDATE option:selected');
+        //CpmKatilimcilari.hide();
+        $('#editPlan #PERSONIDUPDATE').selectpicker('refresh');
+        //#region İllere Göre İlçe Filtrele
+        try {
+            $("body").on("change", "#PROVINCEIDUPDATE", function () {
+                var SEHIRKOD = $("#editPlan #PROVINCEIDUPDATE option:selected").val();
+                var PROVINCE = $("#editPlan #PROVINCEIDUPDATE option:selected").text();
+                var DISTRICTID = $("#editPlan #DISTRICTIDUPDATE");
+                if (SEHIRKOD != "" && PROVINCE != "Seçiniz") {
+                    $.ajax({
+                        url: '/CpmServisSistemi/GetDistrict',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { 'SEHIRKOD': SEHIRKOD },
+                        success: function (data) {
+                            DISTRICTID.empty();
+                            DISTRICTID.append('<option value="" selected>Seçiniz</option>');
+                            $.each(data, function (index, option) {
+                                DISTRICTID.append('<option value=' + option.ILCEKOD.toString() + '>' + option.ILCEAD + '</option>');
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+        //#endregion
+        // #region  Dosya Sil
+        jQuery('body').on('click', '#editPlan #btnFileDelete', function () {
+            var FILEID = $(this).attr("data-id");
+            var FILEREMOVE = $(this).parents(".star");
+            //var FILEREMOVE = $(this).parent(".fileDelete");
+            swal({
+                title: "Dikkat!",
+                text: "Dosyayı silmek istediğinize emin misiniz?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                buttons: ['Vazgeç', 'Sil']
+            })
+                .then((result) => {
+                    if (result) {
+                        $.blockUI({
+                            message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+                        });
+                        $.ajax({
+                            url: "/CpmServisSistemi/DeleteFile/" + FILEID,
+                            type: 'POST',
+                            data: { 'FILEID': FILEID },
+                            success: function () {
+                                FILEREMOVE.remove();
+                                setTimeout($.unblockUI, 300);
+                                swal("Dosyanız silindi.", {
+                                    icon: "success",
+                                    timer: 700
+                                });
+                            },
+                            error: function () {
+                                bootbox.alert("İşlem sırasında hata oluştu")
+                            }
+                        })
+                    }
+
+                    else {
+                        swal("Dosyanız güvende!");
+                    }
+                });
+        });
+        //#endregion
+    });
+</script>

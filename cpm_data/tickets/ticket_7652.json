@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7652,
+  "files": [
+    {
+      "file_id": "2002",
+      "file_name": "İptal eirsaliye.JPG",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2002"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "2002",
+        "file_name": "İptal eirsaliye.JPG",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2002"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7652_İptal eirsaliye.JPG.jpg",
+        "size": 116109
+      }
+    }
+  ]
+}

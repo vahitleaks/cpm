@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7666,
+  "files": [
+    {
+      "file_id": "2010",
+      "file_name": "UYARI .jpg",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2010"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "2010",
+        "file_name": "UYARI .jpg",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2010"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7666_UYARI .jpg.jpg",
+        "size": 148111
+      }
+    }
+  ]
+}

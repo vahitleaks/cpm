@@ -1,0 +1,940 @@
+﻿@using sistemproject.Models
+@model (List<sistemproject.Controllers.Node3Step>, GetNodesModel)
+@{
+    ViewBag.Title = "GetNodesNarrow";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+<style>
+
+    .tableDteails tbody tr {
+        border-bottom-width: 1px;
+        border-bottom-style: dashed;
+        border-bottom-color: #a1a5b76e;
+    }
+
+    .cardServiceForm:hover {
+        background-color: #bdd6eb !important;
+        cursor: pointer;
+    }
+
+    .nodeState {
+        float: left;
+        /*    margin-top: 0.7rem;*/
+        margin-right: 0.6rem;
+        font-size: 1.4rem;
+        border-radius: 50%;
+        padding: 6px;
+    }
+
+    .nodeStateDanger {
+        color: #ff0000 !important;
+        /*  background-color: #D9575721;*/
+    }
+
+    .nodeStateWarning {
+        color: #D97D21 !important;
+        /*  background-color: #d97d2121;*/
+    }
+
+    .nodeStateSuccess {
+        color: #17996E !important;
+        /* background-color: #17996E21;*/
+    }
+
+    .nodeStatePrimary {
+        color: #20A1DA !important;
+        /*        background-color: #20A1DA21;*/
+    }
+    .EditPencil {
+        padding: 0.8rem;
+        background: #a9a9a91f;
+        border-radius: 4px;
+    }
+
+    .ribbon-1 {
+        position: relative;
+        width: 100%;
+    }
+
+    .ribbon-box {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .overlay {
+        position: initial;
+        top: -16px;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        transition: .3s ease;
+        background-color: #fffefebf;
+        background-color: coral;
+        padding: 5px;
+    }
+
+    .ribbon-1:hover .overlay {
+        opacity: 1;
+    }
+
+    .icontoogle {
+        padding: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #555;
+        cursor: pointer;
+    }
+
+        .icontoogle:before {
+            font-family: 'FontAwesome';
+            font-size: 16px;
+            content: "\f0fe";
+            margin-right: 10px;
+            color: #cad4df;
+        }
+
+        .icontoogle.collapsed:before {
+            content: "\f068";
+            font-size: 12px;
+        }
+    /*    .toggle {
+        padding: 0.1rem;
+        border: 1px dotted gray;
+    }*/
+
+    .treeLine {
+        display: inline-block;
+        vertical-align: middle;
+        height: 10px;
+        width: 10px;
+        margin-top: 2px;
+        margin-right: 5px;
+        border-bottom-left-radius: 1px;
+        border-left: 1px dotted #eff2f5;
+        border-bottom: 1px dotted #eff2f5;
+    }
+
+    .node {
+        border-bottom-width: 1px;
+        border-bottom-style: dashed;
+        border-bottom-color: #a1a5b76e;
+        /*  padding: 2.8rem;*/
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        color: #a1a5b7;
+    }
+
+        .node h6 {
+            margin-bottom: auto !important;
+        }
+
+
+    .icontoogleTable {
+        padding: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #555;
+        cursor: pointer;
+    }
+
+        .icontoogleTable:before {
+            font-family: 'FontAwesome';
+            font-size: 16px;
+            content: "\f0fe";
+            margin-right: 10px;
+            color: #cad4df;
+        }
+
+        .icontoogleTable.collapsed:before {
+            content: "\f068";
+            font-size: 12px;
+        }
+
+    .sc-plus:hover {
+        color: darkslategrey;
+        cursor: pointer;
+    }
+
+    .sc-minus:hover {
+        color: darkred;
+        cursor: pointer;
+    }
+
+    h6 {
+        font-size: 0.8rem !important;
+        font-weight: 450 !important;
+    }
+
+    a {
+        color: darkslategrey !important;
+        text-decoration: unset !important;
+    }
+
+    .sc-check, .sc-trash-bin {
+        color: white;
+    }
+
+    .dropdown-toggle {
+        /* color: #cad4df !important;*/
+        /* border-color: #cad4df !important;*/
+    }
+
+        .dropdown-toggle:hover {
+            color: #fff !important;
+            border-color: #cad4df !important;
+            background-color: #cad4df !important;
+        }
+
+        .dropdown-toggle :focus-visible {
+            color: #fff !important;
+            border-color: #cad4df !important;
+            background-color: #cad4df !important;
+        }
+
+    .childPadding {
+        font-size: 16px;
+        color: #555;
+        cursor: pointer;
+    }
+
+    .nodeOrderStyle {
+        display: unset;
+        float: right;
+        margin-right: 1rem;
+        margin-left: 1rem;
+    }
+
+    .upArrow:hover {
+        cursor: pointer;
+        color: #1da1f2;
+        background-color: rgba(29, 161, 242, 0.1);
+    }
+
+    .downArrow:hover {
+        cursor: pointer;
+        color: #1da1f2;
+        background-color: rgba(29, 161, 242, 0.1);
+    }
+
+    .tableDteails td {
+        border: none !important
+    }
+
+
+    .tableDteails td, th {
+        padding: 0.5rem !important;
+    }
+
+    .tableDteails thead th {
+        border: none !important
+    }
+</style>
+
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-5">
+                            <div class="col-lg-12">
+                                <div class="card" style="min-height:18rem;">
+                                    <div class="card-header" style="min-height:0 !important; padding: .75rem 2.50rem !important;">
+                                        <h5>Ana Bilgiler</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <ul class="list-unstyled personal-detail">
+                                                    <li class=""><b> Proje Adı </b>: @Model.Item2.Project.ProjectName</li>
+                                                    <li class="mt-2 CompanyId" data-CompanyId="@Model.Item2.Project.CompanyId"><b> Firma </b>: @Model.Item2.Project.CompanyName</li>
+                                                    <li class="mt-2 ContractName"  data-district="@Model.Item2.Project."data-CompanyContract="@Model.Item2.Project.ContractName"  data-CompanyContractId="@Model.Item2.Project.ContractId"><b>Sözleşme</b>: @Model.Item2.Project.ContractName</li>
+                                                    <li class="mt-2"><b>Açıklama</b>:  @Model.Item2.Project.Description</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center" style="background-color: white; ">
+                                                    <table class="table table-flush  tableDteails">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-muted"></th>
+                                                                <th class="text-muted">Hedeflenen</th>
+                                                                <th class="text-muted">Güncel Gerçekleşen</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @{
+                                                                var targetStartDate = Model.Item2.ProjectReport.FirstOrDefault()?.TargetStartDate;
+                                                                var realizedStartDate = Model.Item2.ProjectReport.FirstOrDefault()?.RealizedStartDate;
+                                                                var targetEndDate = Model.Item2.ProjectReport.FirstOrDefault()?.TargetEndDate;
+                                                                var realizedEndDate = Model.Item2.ProjectReport.FirstOrDefault()?.RealizedEndDate;
+                                                            }
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Başlangıç Tarihi</td>
+                                                                <td class="text-muted">@(targetStartDate?.ToString("dd.MM.yyyy"))</td>
+                                                                <td class="text-muted">@(realizedStartDate?.ToString("dd.MM.yyyy"))</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Bitiş Tarihi</td>
+                                                                <td class="text-muted">@(targetEndDate?.ToString("dd.MM.yyyy"))</td>
+                                                                <td class="text-muted">@(realizedEndDate?.ToString("dd.MM.yyyy"))</td>
+                                                            </tr>
+                                                            <tr>
+
+                                                                @{ var targetServiceTime = Model.Item2.ProjectReport.FirstOrDefault()?.TargetServiceTime;
+                                                                    var realizedServiceTime = Model.Item2.ProjectReport.FirstOrDefault()?.RealizedServiceTime; }
+                                                                <td class="text-muted min-w-125px w-125px">Adam/Gün</td>
+                                                                <td class="text-muted">@(targetServiceTime?.ToString("0.##"))</td>
+                                                                <td class="text-muted">@(realizedServiceTime?.ToString("0.##"))</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                @if (Model.Item2.Percent == 0)
+                                                {
+                                                    <div class="d-flex align-items-center m-auto" style="margin-bottom:1rem !important">
+                                                        <span class="text-muted min-w-125px w-125px ml-2">Adam/Gün Yüzdesi</span>
+                                                        <div class="progress h-6px w-100 me-2 bg-light-success">
+                                                            <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                        <span class="text-gray-400 fw-semibold">0%</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    if (Model.Item2.Percent >= 100)
+                                                    {
+                                                        decimal result = Model.Item2.Percent - 100;
+
+                                                        <div class="d-flex align-items-center m-auto" style="margin-bottom:1rem !important">
+                                                            <span class="text-muted min-w-125px w-125px ml-2">Adam/Gün Yüzdesi</span>
+                                                            <div class="progress h-6px w-100 me-2 bg-light-success">
+                                                                <div class="progress-bar bg-success" role="progressbar" style="width:100%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            <span class="text-success fw-semibold">100%</span>
+                                                        </div>
+                                                        if (Convert.ToInt32(result) != 0)
+                                                        {
+                                                            <div class="d-flex align-items-center fw-bold fs-9" style="margin-bottom:1rem !important">
+                                                                <div class="d-flex align-items-center m-auto">
+                                                                    <span class="text-muted min-w-125px w-125px ml-2">Adam/Gün Yüzdesi</span>
+                                                                    <div class="progress h-6px w-100 me-2 bg-light-danger">
+                                                                        <div class="progress-bar bg-danger" role="progressbar" style="width:@result%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    </div>
+                                                                    <span class="text-success fw-semibold">@result%</span>
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="d-flex align-items-center m-auto" style="margin-bottom:1rem !important">
+                                                            <span class="text-muted min-w-125px w-125px ml-2">Adam/Gün Yüzdesi</span>
+                                                            <div class="progress h-6px w-100 me-2 bg-light-success">
+                                                                <div class="progress-bar bg-success" role="progressbar" style="width:@Convert.ToInt32(Model.Item2.Percent)%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            <span class="text-success fw-semibold">@Model.Item2.Percent.ToString("0.##")%</span>
+                                                        </div>
+                                                    }
+
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5 mb-5">
+                            <div class="col-lg-12">
+                                <div class="card" style="min-height:18rem;">
+                                    <div class="card-header" style="min-height:0 !important; padding: .75rem 2.50rem !important;">
+                                        <h5>Proje Adımları</h5>
+                                    </div>
+                                    <div class="card-body" id="RenderNodes">
+                                        @{ Html.RenderPartial("~/Views/Components/_NodesNarrow.cshtml", Model.Item1); }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade " id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" max-width: 869px!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Proje Adımı Yönetimi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" >Vazgeç</button>
+                @*<button type="button" class="btn btn-primary" data-projectId="" data-stepId="" data-groupNo="" id="UpdateStepDetail">Kaydet</button>*@
+                <button type="button" class="btn btn-primary" id="ChangeState">Tamamlanma Onayına Gönder</button>
+  
+                <button type="button" class="mr-2 btn btn-success" id="CreateServiceForm">Proje Formu Oluştur</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade " id="ServiceFormModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ServiceFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 924px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row  ml-1  " style="background-color:#fff;">
+                    <div class="col-lg-2 col-md-6 col-sm-12 text-leftmy-auto pl-4">
+                        <img src="/Images/images/cpm/Agenda.png" height="80">
+                    </div>
+                    <div class="col-lg-10 col-md-12 col-sm-12 my-auto pl-4">
+                        <span class="" style="color: var(--thTitle);font-weight:bold;">Proje Formu Oluştur</span> <br>
+                        <span class="font11" style="color: var(--thNewText);">Proje bazlı form oluşturmak için lütfen aşağıdaki alanları giriniz.</span>
+                    </div>
+                </div>
+                @*<h5 class="modal-title" id="ServiceFormModalLabel">Proje Adımı Yönetimi</h5>*@
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Vazgeç</button>
+                <button type="button" class="btn btn-primary" data-projectId="" data-stepId="" data-groupNo="" id="SubmitForm">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ChangeStateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ChangeStateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ChangeStateModalLabel">Durum Değiştir</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12 p-2">
+                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Durum Seç</span>
+                    <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="State">
+                        <option value="">Seçiniz</option>
+                        <option value="Başlanacak">Başlanacak</option>
+                        <option value="Devam Ediyor">Devam Ediyor</option>
+                        <option value="Yapıldı">Yapıldı</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" id="CloseStateModal">Vazgeç</button>
+                <button type="button" class="btn btn-primary" data-projectId="" data-stepId="" data-groupNo="" id="SubmitState">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/SweetAlert2/sweetalert2.all.min.js"></script>
+<script>
+
+
+    var quill = null;
+    function initEditor() {
+        quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+    }
+    // Modal açıldığında editör yüklenir
+    $('#ServiceFormModal').on('shown.bs.modal', function (e) {
+        initEditor();
+    });
+
+    // Modal kapandığında editör yok edilir
+    $('#ServiceFormModal').on('hidden.bs.modal', function (e) {
+        quill = null;
+    });
+    function getEditorData() {
+        var html = quill.root.innerHTML;
+        var text = quill.getText();
+        var contents = quill.getContents();
+        console.log('Girilen Metin:', text);
+        console.log('Metin İçeriği:', contents);
+        console.log('html İçeriği:', html);
+    }
+    $(document).ready(function () {
+        var ServiceFormModal = new bootstrap.Modal(document.getElementById('ServiceFormModal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        var ServiceFormModal = new bootstrap.Modal(document.getElementById('ServiceFormModal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        $('body').on('click', '.cardServiceForm', function () {
+            var ServiceFormId = $(this).attr("data-id");
+            var ProjectId = $(this).attr("data-projectid");
+            $.get('GetContentForm', { ProjectId: ProjectId, Crud: "Update", ServiceFormId: ServiceFormId }, function (data) {
+                $('#ServiceFormModal .modal-body').html(data);
+                // Tüm input, select ve button öğelerini devre dışı bırak
+             /*   $('#ServiceFormModal :input:not(.btn-secondary)').prop('disabled', true);*/
+                ServiceFormModal.show();
+            }, 'html');
+        });
+
+
+        $('body').on('shown.bs.modal', '#staticBackdrop2', function () {
+            $(this).css('overflow-y', 'auto');
+        });
+        $('body').on('shown.bs.modal', '#ServiceFormModal', function () {
+            $(this).css('overflow-y', 'auto');
+        });
+    });
+</script>
+<script type="text/javascript">
+    // #region Gunun Tarihini ve Saatini Getirme
+    try {
+        /*Günün tarihini alma ve formatlama) */
+        Date.prototype.getValidFormat = function () {
+            var ay = this.getMonth() + 1;
+            var gun = this.getDate();
+            var yil = this.getFullYear();
+            return yil + "-" + (ay < 10 ? "0" + ay : ay) + "-" + (gun < 10 ? "0" + gun : gun); //Gün ve ay 10 dan küçükse başına 0 gelir
+        };
+        var date = new Date();
+        $(".getDate").val(date.getValidFormat());
+    } catch (error) {
+        console.error(error);
+    }
+    // #endregion
+    //#region Dosyaları Diziye atma
+    window.filesArray = [];
+    $("#multipleFile").on("change", function (e) {
+        var files = e.target.files;
+        for (var i = 0; i < files.length; i++) {
+            window.filesArray.push(files[i]);
+        }
+    });
+    //#endregion
+    $(document).ready(function () {
+        var StepDetailModal2 = new bootstrap.Modal(document.getElementById('staticBackdrop2'), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        var ServiceFormModal = new bootstrap.Modal(document.getElementById('ServiceFormModal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        var ChangeStateModal = new bootstrap.Modal(document.getElementById('ChangeStateModal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        $('body').on('click', '#staticBackdrop2 #CreateServiceForm', function () {
+            var Id = $(this).attr("data-id");
+            var ProjectId = $(this).attr("data-projectid");
+            $.blockUI({
+                message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+            });
+            $.ajax({
+                type: 'POST',
+                url: '/Project/CheckNodeCompleted', // Controller ve Action'ınıza uygun olarak güncelleyin
+                data: { ProjectId: ProjectId, StepId: Id }, // Gönderilecek verileri belirtin
+                success: function (result) {
+                    setTimeout($.unblockUI, 300);
+                    if (result.IsSuccess) {
+                        $.get('GetContentForm', { ProjectId: ProjectId, Crud: "Create", ServiceFormId: null }, function (data) {
+                            $('#ServiceFormModal .modal-body').html(data);
+                            ServiceFormModal.show();
+                            $('#ServiceFormModal').find('.modal-footer #SubmitForm').attr('data-id', Id);
+                            $('#ServiceFormModal').find('.modal-footer #SubmitForm').attr('data-projectid', ProjectId);
+                        }, 'html');
+                    }
+                    else {
+                        swal(result.Message,
+                            {
+                                title: "UYARI !",
+                                icon: "warning",
+                                buttons: "Tamam",
+                                name
+                            });
+                    }
+                },
+                error: function (error) {
+                    setTimeout($.unblockUI, 300);
+                    // Hata durumunda yapılacak işlemler
+                    console.error(error.responseText);
+                }
+            });
+        });
+        $('body').on('click', '#staticBackdrop2 #ChangeState', function () {
+            debugger;
+            var StepId = $(this).attr("data-id");
+            var ProjectId = $(this).attr("data-projectid");
+            $.ajax({
+                url: '/Project/CheckNodeStateAndForm',
+                //url: '/Project/CheckNodeHasServiceForm',
+                type: 'POST',
+                data: { ProjectId: ProjectId, StepId: StepId },
+                success: function (result) {
+                    if (result.IsSuccess == false) {
+                        /* swal('Dikkat ! Bu kırılıma ait herhangi bir proje formu mevcut değildir. Bu nedenle "Tamamlanma Onayı" gönderemezsiniz.',*/
+                        swal(result.Message,
+                            {
+                                title: "UYARI !",
+                                icon: "warning",
+                                buttons: "Tamam",
+                                name
+                            });
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Uyarı !',
+                            text: "Yönetici onayına gönderilecek, emin misiniz?",
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            cancelButtonText: 'Vazgeç',
+                            confirmButtonText: 'Gönder'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/Project/SendForAdminApproval', // Controller ve Action'ınıza uygun olarak güncelleyin
+                                    data: { StepId: StepId }, // Gönderilecek verileri belirtin
+                                    success: function (result) {
+                                        if (result.IsSuccess) {
+                                            toastr.success(result.Message);
+                                        }
+                                        else {
+                                            toastr.warning(result.Message);
+                                        }
+                                    },
+                                    error: function (error) {
+                                        // Hata durumunda yapılacak işlemler
+                                        console.error(error.responseText);
+                                    }
+                                });
+                            }
+                        })
+                    }
+                }
+            });
+
+     
+        });
+
+        $('body').on('click', '#ChangeStateModal #CloseStateModal', function () {
+            StepDetailModal2.show();
+            ChangeStateModal.hide();
+        });
+
+        $('body').on('click', '#ChangeStateModal #SubmitState', function () {
+            var StepId = $(this).attr("data-id");
+            var CurrentState = $("#ChangeStateModal #State option:selected").text().trim();
+            if (CurrentState != null && CurrentState != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Project/UpdateStepState', // Controller ve Action'ınıza uygun olarak güncelleyin
+                    data: { StepId: StepId, CurrentState: CurrentState }, // Gönderilecek verileri belirtin
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            toastr.success(result.Message);
+                            ChangeStateModal.hide();
+                            StepDetailModal2.show();
+                        }
+                        else {
+                            toastr.warning(result.Message);
+                            ChangeStateModal.hide();
+                            StepDetailModal2.show();
+                        }
+                    },
+                    error: function (error) {
+                        // Hata durumunda yapılacak işlemler
+                        console.error(error.responseText);
+                    }
+                });
+            }
+            else {
+                alert("Lütfen durumu seçiniz!");
+            }
+        });
+
+       
+        $('body').on('click', '#ServiceFormModal #SubmitForm', function () {
+            debugger;
+            var StepId = $(this).attr("data-id");
+            var ProjectId = $(this).attr("data-projectid");
+            var CompanyId = $(".CompanyId").attr("data-CompanyId");
+            var CompanyContract = $(".ContractName").attr("data-CompanyContract");
+            var CompanyContractId = $(".ContractName").attr("data-CompanyContractId");
+            var FATURAADRES5 = $("#ServiceFormModal .modal-body #Companyinfo").data("ilce");
+            var FATURAADRES4 = $("#ServiceFormModal .modal-body #Companyinfo").data("sehir");
+            var StartDate = $("#ServiceFormModal .modal-body #StartDate").val();
+            var EndDate = $("#ServiceFormModal .modal-body #EndDate").val();
+            var SupportType = $("#ServiceFormModal .modal-body #SupportType option:selected").text();
+            var ServiceTime = $("#ServiceFormModal .modal-body #ServiceTime").val();
+            var Description = quill.root.innerHTML;
+            var CreateFormToCpmPerson = $("input[name=CreateFormToCpmPerson]").prop("checked");
+            var DontAddMe = $("input[name=DontAddMe]").prop("checked");
+
+            var AuthId = [];
+            var AuthFullName = [];
+            var AuthEmail = [];
+
+            var AuthorizedId = "";
+            var AuthorizedFullName = "";
+            var AuthorizedEmail = "";
+
+            var CpmResId = [];
+            var CpmResFullName = [];
+            var CpmResEmail = [];
+
+            var CpmResponsibleId = "";
+            var CpmResponsibleFullName = "";
+            var CpmResponsibleEmail = [];
+
+            var CompanyResId = [];
+            var CompanyResFullName = [];
+            var CompanyResEmail = [];
+
+            var CompanyResponsibleId = "";
+            var CompanyPersonName = "";
+            var CompanyPersonMail = [];
+
+
+            $("#ServiceFormModal .modal-body #Authorized :selected").each(function () {
+                AuthFullName.push($(this).text());
+                AuthId.push($(this).val());
+                AuthEmail.push($(this).data("email"));
+            });
+            var AuthorizedFullName = AuthFullName.join(";");
+            var AuthorizedId = AuthId.join(";");
+            var AuthorizedEmail = AuthEmail.join(";");
+
+            var CpmResFullName = [], CpmResId = [], CpmResEmail = [];
+            $("#ServiceFormModal .modal-body #CpmResponsible :selected").each(function () {
+                CpmResFullName.push($(this).text());
+                CpmResId.push($(this).val());
+                CpmResEmail.push($(this).data("email"));
+            });
+            var CpmResponsibleFullName = CpmResFullName.join(";");
+            var CpmResponsibleId = CpmResId.join(";");
+            var CpmResponsibleEmail = CpmResEmail.join(";");
+
+            var CompanyResFullName = [], CompanyResId = [], CompanyResEmail = [];
+            $("#ServiceFormModal .modal-body #CompanyResponsible :selected").each(function () {
+                CompanyResFullName.push($(this).text());
+                CompanyResId.push($(this).val());
+                CompanyResEmail.push($(this).data("email"));
+            });
+            var CompanyPersonName = CompanyResFullName.join(";");
+            var CompanyResponsibleId = CompanyResId.join(";");
+            var CompanyPersonMail = CompanyResEmail.join(";");
+
+            var formData = new FormData();
+            formData.append('StepId', StepId);
+            formData.append('ProjectId', ProjectId);
+            formData.append('CompanyId', CompanyId);
+            formData.append('CompanyContract', CompanyContract);
+            formData.append('CompanyContractId', CompanyContractId);
+            formData.append('FATURAADRES4', FATURAADRES4);
+            formData.append('FATURAADRES5', FATURAADRES5);
+            formData.append('CpmResponsibleId', CpmResponsibleId);
+            formData.append('CompanyResponsibleId', CompanyResponsibleId);
+            formData.append('CpmResponsibleFullName', CpmResponsibleFullName);
+            formData.append('CpmResponsibleEmail', CpmResponsibleEmail);
+            formData.append('CompanyPersonName', CompanyPersonName);
+            formData.append('CompanyPersonMail', CompanyPersonMail);
+            formData.append('AuthorizedId', AuthorizedId);
+            formData.append('AuthorizedFullName', AuthorizedFullName);
+            formData.append('AuthorizedEmail', AuthorizedEmail);
+            formData.append('StartDate', StartDate);
+            formData.append('EndDate', EndDate);
+            formData.append('SupportType', SupportType);
+            formData.append('ServiceTime', ServiceTime);
+            formData.append('Description', Description);
+            formData.append('CreateFormToCpmPerson', CreateFormToCpmPerson);
+            formData.append('DontAddMe', DontAddMe);
+
+            for (var i = 0; i < window.filesArray.length; i++) {
+                formData.append('File', window.filesArray[i]);
+            }
+            //Zorunlu Alan Kontrolleri
+            if (StepId == "" || CpmResponsibleId == "" || AuthorizedFullName == "" || SupportType == "" || (ServiceTime == 0 || ServiceTime == "")) {
+                swal('Lütfen boş alanları  doldurunuz!',
+                    {
+                        title: "UYARI !",
+                        icon: "warning",
+                        buttons: "Tamam",
+                        name
+                    });
+            }
+            else {
+                $.blockUI({
+                    message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: '/Project/CreateServiceForm', // Controller ve Action'ınıza uygun olarak güncelleyin
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        setTimeout($.unblockUI, 300);
+                        if (result.success) {
+                            toastr.success(result.message);
+                            ServiceFormModal.hide();
+                            StepDetailModal2.hide();
+                        }
+                        else {
+                            toastr.warning(result.message);
+                            ServiceFormModal.hide();
+                            StepDetailModal2.hide();
+                        }
+                    },
+                    error: function (error) {
+                        setTimeout($.unblockUI, 300);
+                        console.error('Ajax hatası: ' + error.statusText);
+                    }
+                });
+                setTimeout($.unblockUI, 300);
+            }
+
+        });
+
+
+        function StepDetailUpdate(Data, Modal) {
+
+            $.ajax({
+                url: '/Project/UpdateNodeDetail',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    Id: Data.Id,
+                    CurrentEmployee: Data.CurrentEmployee,
+                    CurrentStartDate: Data.CurrentStartDate,
+                    CurrentEndDate: Data.CurrentEndDate,
+                    CurrentDay: Data.CurrentDay,
+                    CurrentState: Data.CurrentState,
+                    CurrentDescription: Data.CurrentDescription
+                },
+                success: function (result) {
+                    if (result.IsSuccess) {
+                        toastr.success(result.Message);
+                        Modal.hide();
+                    }
+                    else {
+                        toastr.warning(result.Message);
+                        Modal.hide();
+                    }
+                }
+            });
+        }
+        //#region Kırılıma Detay Ekler
+        $('body').on('click', '#SubmitStepDetail', function () {
+            var EmpId = [];
+            var EmpFullName = [];
+            var EmployeeId = "";
+            var EmployeeFullName = "";
+            $("#staticBackdrop .modal-body #Employee :selected").map(function (i, el) {
+                EmpFullName.push($(el).text());
+                EmpId.push($(el).val());
+            }).get();
+            for (var i = 0; i < EmpFullName.length; i++) {
+                EmployeeFullName = EmployeeFullName + EmpFullName[i];
+                EmployeeId = EmployeeId + EmpId[i];
+
+                if (i != EmpId.length - 1) {
+                    EmployeeId = EmployeeId + ";";
+                    EmployeeFullName = EmployeeFullName + ";";
+                }
+            }
+
+            var Data = {
+                Id: $(this).attr('data-id'),
+                CurrentEmployee: EmployeeId,
+                CurrentStartDate: $("#staticBackdrop .modal-body #StartDate").val(),
+                CurrentEndDate: $("#staticBackdrop .modal-body #EndDate").val(),
+                CurrentDay: $("#staticBackdrop .modal-body #ManDay").val(),
+                CurrentState: $("#staticBackdrop .modal-body #State option:selected").text(),
+                CurrentDescription: $("#staticBackdrop .modal-body #Description").val()
+            }
+            StepDetailUpdate(Data, StepDetailModal);
+        });
+        $('body').on('click', '#UpdateStepDetail', function () {
+            debugger;
+            var EmpId = [];
+            var EmpFullName = [];
+            var EmployeeId = "";
+            var EmployeeFullName = "";
+            $("#staticBackdrop2 .modal-body #Employee :selected").map(function (i, el) {
+                EmpFullName.push($(el).text());
+                EmpId.push($(el).val());
+            }).get();
+            for (var i = 0; i < EmpFullName.length; i++) {
+                EmployeeFullName = EmployeeFullName + EmpFullName[i];
+                EmployeeId = EmployeeId + EmpId[i];
+
+                if (i != EmpId.length - 1) {
+                    EmployeeId = EmployeeId + ";";
+                    EmployeeFullName = EmployeeFullName + ";";
+                }
+            }
+            var Data = {
+                Id: $(this).attr('data-id'),
+                CurrentEmployee: EmployeeId,
+                CurrentStartDate: $("#staticBackdrop2 .modal-body #StartDate").val(),
+                CurrentEndDate: $("#staticBackdrop2 .modal-body #EndDate").val(),
+                CurrentDay: $("#staticBackdrop2 .modal-body #ManDay").val(),
+                CurrentState: $("#staticBackdrop2 .modal-body #State option:selected").text(),
+                CurrentDescription: $("#staticBackdrop2 .modal-body #Description").val()
+            }
+            StepDetailUpdate(Data, StepDetailModal2);
+        });
+        // #endregion
+
+        $('body').on('click', '#ShowStepDetailModal', function () {
+            debugger;
+            var Id = $(this).attr("data-id");
+            var Step = $(this).attr("data-step");
+            var GroupNo = $(this).attr("data-groupno");
+            var ProjectId = $(this).attr("data-projectid");
+            var State = $(this).attr("data-State");
+            if ($(this).hasClass("LastNode")) {
+                $.ajax({
+                    url: '/Project/CheckStepDetail',
+                    type: 'POST',
+                    data: { Id: Id },
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            $('#staticBackdrop').find('.modal-footer #SubmitStepDetail').attr('data-id', Id);
+                            $('#staticBackdrop').find('.modal-body #step-value').text(GroupNo + " " + Step);
+                            StepDetailModal.show();
+                        }
+                        else {
+                            $.get('GetDetail', { Id: Id, IsReadOnly: true }, function (data) {
+                                // Adım detayları dolu, _StepDetail.cshtml'yi yeniden yükleyin.
+                                $('#staticBackdrop2 .modal-body').html(data);
+                            }, 'html');
+                            $('#staticBackdrop2').find('.modal-footer #UpdateStepDetail').attr('data-id', Id);
+                            $('#staticBackdrop2').find('.modal-footer #ChangeState').attr('data-id', Id);
+                            $('#staticBackdrop2').find('.modal-footer #ChangeState').attr('data-projectid', ProjectId);
+                            $('#staticBackdrop2').find('.modal-footer #ChangeState').attr('data-State', State);
+                            $('#staticBackdrop2').find('.modal-footer #CreateServiceForm').attr('data-id', Id);
+                            $('#staticBackdrop2').find('.modal-footer #CreateServiceForm').attr('data-projectid', ProjectId);
+                            $('#staticBackdrop2').find('.modal-body #step-value').text(GroupNo + " " + Step);
+                            StepDetailModal2.show();
+                        }
+                    }
+                });
+            }
+        });
+
+    });
+</script>

@@ -1,0 +1,3 @@
+$( "#dtpickerdemo" ).datetimepicker({
+    locale: 'tr'
+  });

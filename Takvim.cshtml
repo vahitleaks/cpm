@@ -1,0 +1,554 @@
+﻿
+@{
+    ViewBag.Title = "Takvim";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+@Html.Partial("YeniPlanPopup/_editPlan")
+@Html.Partial("YeniPlanPopup/_createNewPlan")
+@Html.Partial("YeniPlanPopup/_editGorev")
+
+<link href="~/Content/FullCalendar/main_core.css?1" rel="stylesheet" />
+<link href="~/Content/FullCalendar/main_daygrid.css" rel="stylesheet" />
+<link href="~/Content/FullCalendar/main_bootstrap.css" rel="stylesheet" />
+<link href="~/Content/FullCalendar/main_tim.css" rel="stylesheet" />
+<link href="~/Content/FullCalendar/main_list.css" rel="stylesheet" />
+<link href="~/Content/User/Css/AnaCSS.css?1" rel="stylesheet" />
+<link href="~/Content/fileUpload/css/style.css" rel="stylesheet" />
+<script src="~/Scripts/FullCalendar/jquery.calendar.js?v=6" charset="utf-8" type="text/javascript"></script>
+
+<style>
+    .menu-active {
+        background-color: var(--thBG);
+        border-left: var(--thBlue) 8px solid;
+        margin-right: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+       
+    .form-floating > .form-control:focus, .form-floating > .form-control:not(:placeholder-shown) {
+        padding-top: 0.5rem !important;
+    }
+
+    .fileDelete {
+        background-color: var(--thWhite);
+        border-radius: 6px;
+        border: 1px solid var(--thDarkBlueText);
+        color: var(--thDarkBlueText);
+        font-size: 12px;
+        width: 15rem;
+        padding: 8px;
+        box-shadow: 0px 0px 4px 0px var(--thShadow);
+    }
+
+    .fc-day-number {
+        font-size: 1.5rem;
+    }
+
+    .fc-head {
+        border: hidden;
+    }
+
+    hr {
+        color: transparent;
+    }
+
+    @@media (min-width: 992px) {
+        .content {
+            padding: 0 0 !important;
+        }
+    }
+
+    .sc-download {
+        color: var(--thDarkBlueText);
+    }
+
+        .sc-download:hover {
+            background-color: var(--thGreenOpac50);
+            border-radius: 6px !important;
+            color: var(--thWhite);
+        }
+
+    .switcher-wrapper {
+        width: 400px;
+        height: 95%;
+        position: absolute;
+        right: -498px;
+        top: 1px;
+        bottom: 0;
+        z-index: 337;
+        background: var(--thWhite);
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+        transition: all .2s ease-out;
+        box-shadow: 3px 0px 19px 7px #406c8033;
+    }
+
+    .switcher-btn {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 24px;
+        background: var(--thWhite);
+        box-shadow: 0 0.3rem 0.6rem rgb(0 0 0 / 13%);
+        color: var(--thNewText);
+        text-align: center;
+        border-radius: inherit;
+        position: absolute;
+        top: 40%;
+        right: 100%;
+        cursor: pointer;
+    }
+
+        .switcher-btn:hover {
+            background: var(--thNewBlue);
+            color: var(--thNewText2);
+            font-weight: bold;
+        }
+
+    .switcher-wrapper.switcher-toggled {
+        right: -49px;
+    }
+
+    .switcher-body {
+        padding: 1.25rem;
+        height: auto;
+    }
+
+        .switcher-body .form-check .form-check-input,
+        .switcher-body .form-check .form-check-label {
+            cursor: pointer
+        }
+
+    .fc-dayGridMonth-view td.fc-day.fc-widget-content {
+        border: 1px solid var(--thBorderLight);
+    }
+
+    .fc-dayGridMonth-view td.fc-head-container.fc-widget-header {
+        margin-bottom: 10px;
+    }
+
+    .fc-dayGridMonth-view th.fc-mon {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: var(--thWhite);
+        margin-bottom: 10px;
+    }
+
+    .fc-dayGridMonth-view th.fc-tue {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: var(--thWhite);
+    }
+
+    .fc-dayGridMonth-view th.fc-wed {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: var(--thWhite);
+    }
+
+    .fc-dayGridMonth-view th.fc-thu {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: var(--thWhite);
+    }
+
+    .fc-dayGridMonth-view th.fc-fri {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: var(--thWhite);
+    }
+
+    .fc-dayGridMonth-view th.fc-sat {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: var(--thWhite);
+    }
+
+    .slider::before {
+        background-color: var(--thText2) !important;
+    }
+
+    .switchcolor::before {
+        background-color: var(--thNewGreen) !important;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--thGreen) !important;
+        border-color: var(--thGreen) !important;
+    }
+
+    /**/
+    .switch {
+        margin-left: -21px;
+        margin-top: 10px;
+    }
+
+        .switch:hover {
+            cursor: pointer;
+        }
+
+    .button-switch {
+        font-size: 1.450em;
+        height: 1.875em;
+        margin-bottom: 0.625em;
+        position: absolute;
+        width: 4.5em;
+    }
+
+        .button-switch:hover {
+            cursor: pointer;
+        }
+
+        .button-switch .switch {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            height: 0;
+            font-size: 1em;
+            left: 67px;
+            line-height: 0;
+            outline: none;
+            position: absolute;
+            top: -6px;
+            width: 0;
+            background-color: aqua;
+        }
+
+            .button-switch .switch:before, .button-switch .switch:after {
+                content: '';
+                font-size: 0.350em;
+                position: absolute;
+            }
+
+            .button-switch .switch:before {
+                border-radius: 1.40em;
+                background: var(--thBlueOpac20);
+                height: 2.050em;
+                left: -0.25em;
+                top: -0.1875em;
+                transition: background-color 0.25s ease-out 0.1s;
+                width: 5em;
+                border: 1px solid var(--thBorder);
+            }
+
+            .button-switch .switch:after {
+                box-shadow: 0 0.0625em 0.375em 0 #666;
+                border-radius: 50%;
+                background: var(--thBlue);
+                height: 1.5em;
+                transform: translate(0, 0);
+                transition: transform 0.25s ease-out 0.1s;
+                width: 1.5em;
+            }
+
+            .button-switch .switch:checked:after {
+                transform: translate(2.5em, 0);
+                background: var(--thGreen);
+            }
+
+            .button-switch .switch:checked ~ .lbl-off {
+                opacity: 0;
+            }
+
+            .button-switch .switch:checked ~ .lbl-on {
+                opacity: 1;
+            }
+
+            .button-switch .switch#switch-orange:checked:before {
+                /*         background: var(--thWhite);*/
+                border: 1px solid var(--thBorder);
+            }
+
+            .button-switch .switch#switch-blue:checked:before {
+                /*        background: var(--thRed);*/
+                border: 1px solid var(--thBorder);
+            }
+
+    /**/
+
+
+</style>
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-4">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="form-check form-check-inline" hidden>
+                                    <label style="font-weight: bold;color:var(--thHeadText)" class="mr-2 float-left mt-2 font11">Haftasonu Gizle/Göster</label>
+                                    <label class="switch switchfreeservice button-switch" style="margin-top: 27px; margin-left: 8rem;">
+                                        <input type="checkbox" id="CHECKWEEKEND" name="WEEKCHECK2" class="switch">
+                                        <span class="slider round "></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id='calendar' class=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="kt_explore" class="drawer drawer-end" data-kt-drawer="true" data-kt-drawer-name="explore" data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'350px', 'lg': '390px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_explore_toggle" data-kt-drawer-close="#kt_explore_close" style="width:400px !important;">
+    <div class="card shadow-none rounded-0 w-100">
+        <div class="card-header" id="kt_explore_header" style="background-color:var(--thCardBack)!important;border-bottom: 1px solid var(--thBorderLight)!important;box-shadow: none !important;">
+            <h3 class="card-title fw-bolder" style="margin-left:10px;color:var(--thText);">Detay</h3>
+            <div class="card-toolbar">
+                <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5" id="kt_explore_close">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
+                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="card-body" id="kt_explore_body" style="padding:0!important;background-color:var(--thCardBack)!important;">
+            <div id="kt_explore_scroll" class="scroll-y me-n5 pe-5" data-kt-scroll="true" data-kt-scroll-wrappers="#kt_explore_body" data-kt-scroll-dependencies="#kt_explore_header" data-kt-scroll-offset="5px">
+                <div class="" id="PLANDETAILSCARD">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/FullCalendar/moment.js" charset="utf-8" type="text/javascript"></script>
+<script src="~/Scripts/FullCalendar/main_core.js" charset="utf-8" type="text/javascript"></script>
+<script src="~/Scripts/FullCalendar/main_daygrid.js" charset="utf-8" type="text/javascript"></script>
+<script src="~/Scripts/FullCalendar/main_time.js" charset="utf-8" type="text/javascript"></script>
+<script src="~/Scripts/FullCalendar/main_interaction.js" charset="utf-8" type="text/javascript"></script>
+<script src="~/Scripts/FullCalendar/main_list.js" charset="utf-8" type="text/javascript"></script>
+
+<script charset="utf-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA==" crossorigin="anonymous"></script>
+
+<script>
+
+    $(document).ready(function () {
+  
+        //#region Floating textarea
+        const txHeight = 59;
+        const tx = document.getElementsByTagName("textarea");
+
+        for (let i = 0; i < tx.length; i++) {
+            if (tx[i].value == '') {
+                tx[i].setAttribute("style", "height:" + txHeight + "px;overflow-y:hidden;white-space:pre-wrap;background-color:white !important;color: var(--thText)!important;border: 1px solid var(--thBorder)!important;border-radius:6px!important;font-size:12px!important;");
+            } else {
+                tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;white-space:pre-wrap;background-color:white !important;color: var(--thText)!important;border: 1px solid var(--thBorder)!important;border-radius:6px!important;font-size:12px!important;");
+            }
+            tx[i].addEventListener("input", OnInput, false);
+        }
+
+        function OnInput(e) {
+            this.style.height = "auto";
+            this.style.height = (this.scrollHeight) + "px";
+        }
+        //#endregion
+
+        $(".fc-dayGridWeek-button").click(function () {
+            $(".form-check.form-check-inline").removeAttr("hidden");
+        });
+        $(".fc-timeGridDay-button").click(function () {
+            $(".form-check.form-check-inline").attr("hidden", "true");
+        });
+        $(function () {
+            $(".switcher-btn").on("click", function () {
+                $(".switcher-wrapper").toggleClass("switcher-toggled")
+            }),
+                $(".close-switcher").on("click", function () {
+                    $(".switcher-wrapper").removeClass("switcher-toggled")
+                });
+            //#region Günlük Tıklandığında Gün ve Tarihi alt alta yazdırma
+            $("body").on("click", ".fc-dayGridWeek-button,.fc-prev-button,.fc-next-button,.fc-today-button", function () {
+                $(".fc-day-header.fc-widget-header a").each(function () {
+                    if ($(this).find('span').length < 1) {
+                        var sondate = $(this).text().split(" ");
+                        $(this).text("");
+                        $(this).append("<span>" + sondate[2] + "</span></br><span style='color:var(--thSubText);font-size:0.9rem;font-weight:500;'>" + sondate[0] + " " + sondate[1] + "</span>");
+                    }
+                });
+            });
+            //#endregion
+            //#region Haftasonu Tıklandığında Gün ve Tarihi alt alta yazdırma
+            $("body").on("click", "#CHECKWEEKEND", function () {
+                $(".fc-day-header.fc-widget-header a").each(function () {
+                    if ($(this).find('span').length < 1) {
+                        var sondate = $(this).text().split(" ");
+                        $(this).text("");
+                        $(this).append("<span class=''>" + sondate[2] + "</span></br><span style='color:var(--thNewText2);' class=''>" + sondate[0] + " " + sondate[1] + "</span>");
+                    }
+                });
+            });
+            //#endregion
+        });
+        //#region ALLDAY Ekleme - Modal Plan Ekle
+        $("#newPlanCreate").on("click", "input[name=allDayCheckBox]", function () {
+            var STATE = $(this).prop("checked");
+            var STARTDATE;
+            var ENDDATE;
+            var DATESTART = [];
+            var DATEEND = [];
+            if (STATE == true) {
+                STARTDATE = $('#newPlanCreate #STARTDATE').val();
+                ENDDATE = $('#newPlanCreate #ENDDATE').val();
+                DATESTART = STARTDATE.split('T')[0];
+                DATEEND = ENDDATE.split('T')[0];
+                $('#newPlanCreate #STARTDATE').val(DATESTART + 'T09:00');
+                $('#newPlanCreate #ENDDATE').val(DATEEND + 'T18:00');
+
+            }
+            else {
+
+            }
+        });
+        //#endregion
+        //#region ALLDAY Ekleme-Modal Plan Update
+        $("#editPlan").on("click", "input[name=allDayCheckBoxEdit]", function () {
+            var STATE = $(this).prop("checked");
+            var STARTDATE;
+            var ENDDATE;
+            var DATESTART = [];
+            var DATEEND = [];
+            if (STATE == true) {
+                STARTDATE = $('#editPlan #STARTDATEUPDATE').val();
+                ENDDATE = $('#editPlan #ENDDATEUPDATE').val();
+                DATESTART = STARTDATE.split('T')[0];
+                DATEEND = ENDDATE.split('T')[0];
+                $('#editPlan #STARTDATEUPDATE').val(DATESTART + 'T09:00');
+                $('#editPlan #ENDDATEUPDATE').val(DATEEND + 'T18:00');
+            }
+            else {
+
+            }
+        });
+        //#endregion
+        //#region Haftasonu Gizle Göster Switch
+        $("body").on("click", "#CHECKWEEKEND", function () {
+            if (this.checked) {
+                this.setAttribute("checked", "true");
+                $(".switchfreeservice .slider ").addClass("switchcolor");
+            } else {
+                this.removeAttribute("checked");
+                $(".switchfreeservice .slider ").removeClass("switchcolor");
+            }
+        });
+        // #endregion
+        
+
+
+        $("body").on("click", "#PLANDETAILSCARD #btnGeciciGorev", function () {
+            debugger;
+            var PLANGROUPCODE = $(this).attr("data-permission");
+            var PERSONID = $(this).attr("data-userid");
+            var CompanyName = $(this).attr("data-company");
+            var CompanyId = $(this).attr("data-companyId");
+            window.location = "/CpmServisSistemi/GeciciGorev?PLANGROUPCODE=" + encodeURIComponent(PLANGROUPCODE) + "&PERSONID=" + encodeURIComponent(PERSONID) + "&CompanyName=" + encodeURIComponent(CompanyName) + "&CompanyId=" + encodeURIComponent(CompanyId);
+        });
+
+        $("body").on("click", "#PLANDETAILSCARD #btnGorevUpdate", function () {
+            debugger;
+            var PLANGROUPCODE = $(this).attr("data-permission");
+            var PERSONID = $(this).attr("data-userid");
+            var CompanyName = $(this).attr("data-company");
+            var CompanyId = $(this).attr("data-companyId");
+            window.location = "/CpmServisSistemi/GeciciGorevGuncelle?PLANGROUPCODE=" + encodeURIComponent(PLANGROUPCODE) + "&PERSONID=" + encodeURIComponent(PERSONID) + "&CompanyName=" + encodeURIComponent(CompanyName) + "&CompanyId=" + encodeURIComponent(CompanyId);
+        });
+
+        // #region Service Form Control
+        $("body").on("click", "#PLANDETAILSCARD #btnServiceFormAdd2", function () {
+            var PLANGROUPCODE = $(this).attr("data-durum");
+            $.ajax({
+                type: 'POST',
+                url: "/CpmServisSistemi/CreateServiceFormControl",
+                data: { 'PLANGROUPCODE': PLANGROUPCODE },
+                success: function (result) {
+                    if (result == 0) {
+                        swal('Yalnızca planda ekli olan "CPM Katılımcıları" plana bağlı servis formu oluşturabilir! Plansız servis formu oluşturmak için sayfadaki "Servis Formu Oluştur" butonuna tıklayabilirsiniz.',
+                            {
+                                title: "UYARI !",
+                                icon: "warning",
+                                buttons: "Tamam",
+                            });
+                    }
+                    else if (result == 1) {
+                        swal('Daha önce bu plana servis formu oluşturdunuz.Aynı plana ikinici bir servis formu oluşturamazsınız!',
+                            {
+                                title: "UYARI !",
+                                icon: "warning",
+                                buttons: "Tamam",
+                            });
+                    }
+                    else if (result == 2) {
+                        window.location = "/CpmServisSistemi/CreateServiceForm2?PLANGROUPCODE=" + PLANGROUPCODE;
+                    }
+                    else {
+                        toastr.error(result.Message);
+                    }
+                },
+                error: function () {
+                    alert('Erişim sağlanamadı.');
+                }
+            });
+        });
+        //#endregion
+        //#region  Service Form Duzenleye Git
+
+        jQuery('body').on('click', '#btnServiceFormEdit', function () {
+            debugger;
+            var SERVICEFORMID = $(this).attr("data-id");
+            var SERVICEFORMCONFIRM = $(this).attr("data-serviceformconfirm");
+            var PAGESTATE = $(this).attr("data-sayfa");
+            var PLANGROUPCODE = $(this).attr("data-durum");
+            var CPMRESPONSIBLE = $("#PLANDETAILSCARD #LoginUserName").val();
+            if (SERVICEFORMCONFIRM == 1) {
+                swal('Servis formu yetkili kişi tarafından onaylanmıştır.Onaylanan servis formları üzerinde düzenleme yapılamaz! "Tüm Servisler ya da Tüm Servislerim" sayfasına giderek formu inceleyebilirsiniz.',
+                    {
+                        icon: "warning",
+                        timer: 8000
+                    });
+            }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: "/CpmServisSistemi/EditServiceFormControl",
+                    data: { CPMRESPONSIBLE: CPMRESPONSIBLE, PLANGROUPCODE: PLANGROUPCODE },
+                    datatype: "html",
+                    cache: false,
+                    success: function (result) {
+                        if (result.STATE == 0) {
+                            swal('Sayın "' + result.CPMRESPONSIBLE + '" servis formunu yalnızca oluşturan Cpm Sorumlusu düzenleyebilir !',
+                                {
+                                    icon: "warning",
+                                    timer: 8000
+                                });
+                        }
+                        else {
+                            window.location = "/CpmServisSistemi/EditServiceForm?PAGESTATE=" + PAGESTATE + "&CPMRESPONSIBLE=" + CPMRESPONSIBLE + "&PLANGROUPCODE=" + PLANGROUPCODE;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            }
+        });
+        //#endregion
+    });
+
+  
+</script>
+
+<script src="~/Content/fileUpload/js/jquery.ui.widget.js"></script>
+<script src="~/Content/fileUpload/js/jquery.iframe-transport.js"></script>
+<script src="~/Content/fileUpload/js/jquery.fileupload.js"></script>
+<script src="~/Content/fileUpload/js/jquery.knob.js"></script>
+<script src="~/Content/fileUpload/js/script.js"></script>
+
+
+
+

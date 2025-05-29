@@ -1,0 +1,307 @@
+﻿@model System.Collections.Generic.IEnumerable<sistemproject.Models.CompanyConnectionInfos>
+
+@{
+
+    ViewBag.Title = "Firma Bağlantı Bilgileri";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr" style="background-color: #f2f6f7;">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/FullCalendar/main_core.css" rel="stylesheet" />
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
+    <title>@ViewBag.Title - Cpm Destek Paneli</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link href="~/Content/NewThema/SecretoCho-Fonts-icons/styles.css" rel="stylesheet" />
+    <link href="~/Content/NewThema/sidebar/assets/css/style.bundle.css" rel="stylesheet" />
+    <link href="~/Content/NewThema/css/style.css?v=2.0" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="/Images/favicon.ico">
+    <!-- App css -->
+    @*<link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />*@
+    <link href="~/Content/User/Css/multiselect/bootstrap-select.css" rel="stylesheet" />
+    <link href="~/Tema/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Tema/assets/css/icons.css" rel="stylesheet" />
+    <link href="~/Tema/assets/fonts/SecretoCho-Fonts-icons/style.css" rel="stylesheet" />
+    <link href="~/Tema/assets/css/metisMenu.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/loaderspinner.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.min.js"></script>
+    @*<script src="~/Content/DataTables/DataTables-1.10.24/js/jquery.dataTables.min.js"></script>*@
+    <script src="~/Scripts/LoaderSpinner/jquery.blockUI.js"></script>
+    <link href="~/Content/toastrAlert/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/LottieFiles/lottie-player.js"></script>
+    <style>
+        .body .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto Regular' !important;
+            font-weight: 600;
+        }
+
+        .displaycpm {
+            display: flex;
+        }
+
+            .displaycpm p {
+                /*  font-family: 'MS Gothic';*/
+                /*font-family: Roboto;*/
+                font-size: 14px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #406C80;
+                margin: auto 0px !important;
+            }
+
+            .displaycpm .companyname {
+                /*  font-family: 'MS Gothic';*/
+                /*  font-family: Roboto;*/
+                font-size: 16px;
+                line-height: 20px;
+                font-weight: 700;
+                color: #406C80;
+                margin: auto 0px !important;
+            }
+
+        .column {
+            width: 25%;
+            padding: 0 10px;
+        }
+
+        .card-div {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            text-align: center;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h3 style="width:fit-content; margin:auto; margin-top:15px; display: flex; justify-content: center; align-items: center;">BAĞLANTI BİLGİLERİ</h3>
+    @foreach (var item in @Model)
+    {
+        <div class="card" style="width:fit-content; margin:auto; margin-top:50px; display: flex; justify-content: center; align-items: center;">
+            <div class="card-body mt-3 mb-3" id="cardBody" style="padding:0 !important;">
+                <div class="row px-1 m-3">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    
+                        <div class=" mb-4" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                            <div class="pb-3 pt-3" style="margin:30px">
+                                <div class="displaycpm my-3 col-lg-12" style="padding-left:0px;">
+                                    <h5 style="color:#D97D21;font-weight:bold;">Bağlantı Adı</h5>
+                                </div>
+                                <div class="row displaycpm">
+
+                                    <input type="text" class="col-12 Input-Medium mt-2" id="connectionName" placeholder="" style="padding-top: 7px; padding-bottom: 7px;" value="@item.ConnectionName" readonly="">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- /// CONNECTION TYPE  -->
+                        <div class=" mb-4" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                            <div class="pb-3 pt-3" style="margin:30px">
+                                <div class="displaycpm my-3 col-lg-12" style="padding-left:0px;">
+                                    <h5 style="color:#D97D21;font-weight:bold;">Bağlantı Şekli</h5>
+                                </div>
+                                <div class="row displaycpm">
+
+                                    <input type="text" class="col-12 Input-Medium mt-2" id="vpnProgram" placeholder="" style="padding-top: 7px; padding-bottom: 7px;" value="@item.ConnectionType" readonly="">
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (item.ConnectionType.ToString() == "vpn")
+                        {
+                            <div class=" mb-4 vpnDiv" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                                <div class="pb-3 pt-3 vpnDiv" style="margin:30px">
+                                    <div class="displaycpm my-3 col-lg-6" style="padding-left:0px;">
+                                        <h5 style="color:#D97D21;font-weight:bold;">VPN Bağlantı Bilgileri</h5>
+                                    </div>
+
+                                    <div class="row displaycpm my-3">
+                                        @if (@item.VpnProgram != "other")
+                                        {
+                                            <div class="col-lg-12 col-md-12 col-sm-12 p-2">
+                                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">
+                                                    VPN
+                                                    Program Adı
+                                                </span>
+                                                <input type="text" class="col-12 Input-Medium mt-2" id="vpnProgram" placeholder="Program Adı" style="padding-top: 7px; padding-bottom: 7px;" value="@item.VpnProgram" readonly="">
+                                            </div>
+                                        }
+
+                                        @if (@item.VpnProgram == "other")
+                                        {
+                                            <div class="col-lg-12 col-md-12 col-sm-12 p-2">
+                                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">
+                                                    Program
+                                                </span>
+                                                <input type="text" class="col-12 Input-Medium mt-2" id="programName" placeholder="Program Adı" style="padding-top: 7px; padding-bottom: 7px;" value="@item.VpnProgramName" readonly="">
+                                            </div>
+                                        }
+
+                                    </div>
+                                    <div class="row displaycpm my-2">
+                                        <div class="col-lg-6 col-md-4 col-sm-12 p-2">
+                                            <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">IP Adresi</span>
+                                            <input type="text" class="col-12 Input-Medium mt-2" id="vProgramName" placeholder="" style="padding-top: 7px; padding-bottom: 7px;" value="@item.VpnIpAddress" readonly="">
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-4 col-sm-12 p-2">
+                                            <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Port</span>
+                                            <input type="text" class="col-12 Input-Medium mt-2" id="vPort" placeholder="" style="padding-top: 7px; padding-bottom: 7px;" value="@item.VpnPort" readonly="">
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row displaycpm my-3">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                                            <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Kullanıcı Adı</span>
+                                            <input type="text" class="col-12 Input-Medium mt-2" id="vUserName" placeholder="Kullanıcı Adı" style="padding-top: 7px; padding-bottom: 7px;" value="@item.VpnUserName" readonly="">
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                                            <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Şifre</span>
+                                            <input type="text" class="col-12 Input-Medium mt-2" id="vPassword" placeholder="Şifre" style="padding-top: 7px; padding-bottom: 7px;" value="@item.VpnPassword" readonly="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /// VPN INFO END -->
+                        }
+
+                        <!-- /// RD INFO  -->
+                        <div class=" mb-4" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                            <div class="pb-3 pt-3" style="margin:30px">
+                                <div class="displaycpm  col-lg-12" style="padding-left:0px;">
+                                    <h5 style="color:#D97D21;font-weight:bold;">Uzak Masaüstü Bağlantı Bilgileri</h5>
+                                </div>
+
+                                <div class="row displaycpm my-3">
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Bilgisayar Adı / IP Adresi</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="rdIP" placeholder="Bilgisayar Adı / IP Adresi" style="padding-top: 7px; padding-bottom: 7px;" value="@item.RdIp" readonly="">
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Kullanıcı Adı</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="rdUserName" placeholder="Kullanıcı Adı" style="padding-top: 7px; padding-bottom: 7px;" value="@item.RdUserName" readonly="">
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Şifre</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="rdPassword" placeholder="Şifre" style="padding-top: 7px; padding-bottom: 7px;" value="@item.RdPassword" readonly="">
+                                    </div>
+                                </div>
+
+                                <div class="row displaycpm my-3">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Domain(Opsiyonel)</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="rdDomain" placeholder="Domain" style="padding-top: 7px; padding-bottom: 7px;" value="@item.RdDomain" readonly="">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /// RD INFO END  -->
+                        <!-- /// SQL INFO  -->
+                        <div class=" mb-4 " style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                            <div class="pb-3 pt-3" style="margin:30px">
+                                <div class="displaycpm my-3 col-lg-6" style="padding-left:0px;">
+                                    <h5 style="color:#D97D21;font-weight:bold;">SQL Bağlantı Bilgileri</h5>
+                                </div>
+
+                                <div class="row displaycpm my-3">
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Sunucu Adı</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="sqlServerName" placeholder="Sunucu Adı" style="padding-top: 7px; padding-bottom: 7px;" value="@item.SqlServerName" readonly="">
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Kullanıcı Adı</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="sqlUserName" placeholder="Kullanıcı Adı" style="padding-top: 7px; padding-bottom: 7px;" value="@item.SqlUserName" readonly="">
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Şifre</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="sqlPassword" placeholder="Şifre" style="padding-top: 7px; padding-bottom: 7px;" value="@item.SqlPassword" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /// SQL INFO END  -->
+                        <!-- /// CPM INFO  -->
+                        <div class=" mb-4 " style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                            <div class="pb-3 pt-3" style="margin:30px">
+                                <div class="displaycpm my-3 col-lg-12" style="padding-left:0px;">
+                                    <h5 style="color:#D97D21;font-weight:bold;">CPM Kullanıcı Bilgileri</h5>
+                                </div>
+
+                                <div class="row displaycpm my-3">
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Kullanıcı Adı</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="cpmUserName" placeholder="Kullanıcı Adı" style="padding-top: 7px; padding-bottom: 7px;" value="@item.CpmUserName" readonly="">
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Şifre</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="cpmPassword" placeholder="Şifre" style="padding-top: 7px; padding-bottom: 7px;" value="@item.CpmPassword" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /// CPM INFO END  -->
+                        <!-- /// IT PERSONEL INFO  -->
+                        <div class=" mb-4" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                            <div class="pb-3 pt-3" style="margin:30px">
+                                <div class="displaycpm my-3 col-lg-12" style="padding-left:0px;">
+                                    <h5 style="color:#D97D21;font-weight:bold;">Firma IT Yetkilisi</h5>
+                                </div>
+
+                                <div class="row displaycpm my-3">
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Ad Soyad</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="itpNameSurname" placeholder="Kullanıcı Adı" style="padding-top: 7px; padding-bottom: 7px;" value="@item.ItpNameSurname" readonly="">
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Telefon</span>
+                                        <input type="text" class="col-12 Input-Medium mt-2" id="itpPhone" placeholder="Şifre" style="padding-top: 7px; padding-bottom: 7px;" value="@item.ItpPhone" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /// IT PERSONEL INFO END  -->
+                        <!-- /// DESCRIPTION -->
+                        <div class=" mb-4" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                            <div class="pb-3 pt-3" style="margin:30px">
+                                <div class="displaycpm my-3 col-lg-6" style="padding-left:0px;">
+                                    <h5 style="color:#D97D21;font-weight:bold;">Açıklama</h5>
+                                </div>
+
+                                <div class="displaycpm my-3">
+                                    <div class="form-floating col-lg-12 col-md-12 col-sm-12 mt-2" style="padding-right: 0px !important; padding-left: 0px !important;">
+                                        <textarea class=" form-control inputValidateControl" id="description" style="height:150px;overflow-y:hidden;white-space:pre-wrap;background-color:rgba(255, 255, 255, 0);color: var(--thText)!important;border: 1px solid var(--thBorder)!important;border-radius:6px!important;font-size:12px!important;" readonly>@item.Description</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /// DESCRIPTION END-->
+                        <!-- /// RD INFO  -->
+                        <!-- /// DESCRIPTION END-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>

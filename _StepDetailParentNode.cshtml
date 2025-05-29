@@ -1,0 +1,220 @@
+﻿@using sistemproject.Models
+@model sistemproject.Controllers.Node3Step
+
+<style>
+    table {
+        border: none !important;
+    }
+
+        table th {
+            border: none !important;
+        }
+
+        table td {
+            border: none !important;
+        }
+
+    .accordion-button:not(.collapsed) {
+        color: none !important;
+        background-color: none !important;
+    }
+
+    .accordion-button:not(.collapsed) {
+        color: #808080 !important;
+        background-color: white !important;
+    }
+
+    .accordion-body {
+        background-color: #406c800d;
+    }
+</style>
+
+<div class="col-12">
+    @helper RenderNode(sistemproject.Controllers.Node3Step node)
+    {
+        <div class="accordion-item">
+            @if (node.Children != null && node.Children.Count > 0)
+            {
+                <i class="sc-info-sign me-4 text-danger getChildInfo" data-ProjectId="@node.ProjectId" data-id="@node.Id" data-GroupNo="@node.GroupNo" data-Step="@node.Step" style="position: absolute; z-index: 1200; margin-top: 18px; margin-left: 4px; font-size: large;"> </i>
+            }
+            <h6 class="accordion-header" id="heading@(node.Id)">
+                <button class="accordion-button nodeClick" type="button" data-ProjectId="@node.ProjectId" data-id="@node.Id" data-GroupNo="@node.GroupNo" data-bs-toggle="collapse" data-bs-target="#collapse@(node.Id)" aria-expanded="true" aria-controls="collapse@(node.Id)">
+                    <label class="pl-3" data-ProjectId="@node.ProjectId" data-id="@node.Id" data-GroupNo="@node.GroupNo" data-Step="@node.Step">
+                        <font href="#" data-ProjectId="@node.ProjectId" data-id="@node.Id" data-GroupNo="@node.GroupNo" data-Step="@node.Step" class="@((node.Children != null && node.Children.Count > 0) ? "HasChildNode1" : "LastNode1")">@node.GroupNo @node.Step</font>
+                    </label>
+                    @if (node.Percent1 >= 100)
+                    {
+                        int percent1 = Convert.ToInt32(node.Percent1);
+                        int percent2 = Convert.ToInt32(node.Percent2);
+                        <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                            <div class="progress h-6px w-100 me-2 bg-light-success">
+                                <div class="progress-bar bg-success" role="progressbar" style="width:100%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="text-success fw-semibold">100%</span>
+                        </div><br />
+                        if (percent2 != 0)
+                        {
+                            <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                                <div class="progress h-6px w-100 me-2 bg-light-danger">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width:@(node.LastNode == false ? percent1 : percent2)%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="text-success fw-semibold">@(node.LastNode == false ? percent1 : percent2)%</span>
+                            </div>
+                        }
+                    }
+                    else if (node.Percent1 == 0)
+                    {
+                        <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                            <div class="progress h-6px w-100 me-2 bg-light-success">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="text-gray-400 fw-semibold">0%</span>
+                        </div>
+                    }
+                    else
+                    {
+                        int percent1 = Convert.ToInt32(node.Percent1);
+                        <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                            <div class="progress h-6px w-100 me-2 bg-light-success">
+                                <div class="progress-bar bg-success" role="progressbar" style="width:@percent1%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="text-success fw-semibold">@percent1%</span>
+                        </div>
+                    }
+                </button>
+            </h6>
+            <div id="collapse@(node.Id)" class="accordion-collapse collapse" aria-labelledby="heading@(node.Id)" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                    <div class="d-flex align-items-center">
+                        <strong class="text-secondary">Yükleniyor...</strong>
+                        <div class="spinner-border ms-auto text-success" role="status" aria-hidden="true"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model != null)
+    {
+        <div class="card mb-3" style="border:2px dashed #406c800d;">
+            <div class="card-header" id="" style="border: none;">
+                <label class="pl-3 my-auto">
+                    <font href="#" class="">@Model.GroupNo @Model.Step</font>
+                </label>
+                @if (Model.Percent1 >= 100)
+                {
+                    int percent1 = Convert.ToInt32(Model.Percent1);
+                    int percent2 = Convert.ToInt32(Model.Percent2);
+                    <div class="d-flex align-items-center w-100 mw-125px m-auto">
+                        <div class="progress h-6px w-100 me-2 bg-light-success">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <span class="text-gray-400 fw-semibold">100%</span>
+                    </div> <br />
+                    <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                        <div class="progress h-6px w-100 me-2 bg-light-danger">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width:@(Model.LastNode == false ? percent1:percent2 )%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <span class="text-success fw-semibold">@(Model.LastNode == false ? percent1:percent2)%</span>
+                    </div>
+                    @*<div class="d-flex align-items-center w-100 mw-125px m-auto">
+                <div class="progress h-6px w-100 me-2 bg-light-danger">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: @percent1%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <span class="text-gray-400 fw-semibold">@percent1%</span>
+            </div>*@
+                }
+                else if (Model.Percent1 == 0)
+                { <div class="d-flex align-items-center fw-bold fs-9">
+
+                        <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                            <div class="progress h-6px w-100 me-2 bg-light-success">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="text-gray-400 fw-semibold">0%</span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    int percent1 = Convert.ToInt32(Model.Percent1);
+                    <div class="d-flex align-items-center w-100 mw-250px m-auto">
+                        <div class="progress h-6px w-100 me-2 bg-light-success">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: @percent1%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <span class="text-gray-400 fw-semibold">@percent1%</span>
+                    </div>
+                }
+            </div>
+                <div class="card-body" style="background-color: #406c800d;">
+                    <div class="d-flex align-items-center me-3" style="border: 1px dashed #406c800d; background-color: white; ">
+                        <table class="table table-flush gy-1">
+                            <thead>
+                                <tr>
+                                    <th class="text-muted"></th>
+                                    <th class="text-muted">Hedeflenen</th>
+                                    <th class="text-muted">Gerşekleşen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted min-w-125px w-125px">Başlangıç Tarihi</td>
+                                    <td class="text-muted">@(Model.StartDate.HasValue ? Model.StartDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                                    <td class="text-muted">@(Model.RealizedStartDate.Value.ToString("yyyyMMdd") == "19000101" ? "-": Model.RealizedStartDate.Value.ToString("dd/MM/yyyy"))</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted min-w-125px w-125px">Bitiş Tarihi</td>
+                                    <td class="text-muted">@(Model.EndDate.HasValue ? Model.EndDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                                    <td class="text-muted">@(Model.RealizedEndDate.Value.ToString("yyyyMMdd") == "19000101" ? "-": Model.RealizedEndDate.Value.ToString("dd/MM/yyyy"))</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted min-w-125px w-125px">Adam/Gün</td>
+                                    <td class="text-muted">@(Model.Day.ToString("0.##")!=null ? Model.Day.ToString("0.##"):"0")</td>
+                                    <td class="text-muted">@(Model.RealizedDay.ToString("0.##")!=null ? Model.RealizedDay.ToString("0.##"):"0")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion" id="accordion">
+                @foreach (var node in Model.Children)
+                {
+                    @RenderNode(node)
+                }
+            </div>
+        }
+</div>
+
+<script>
+    $(".getChildInfo").click(function () {
+        var Id = $(this).attr("data-id");
+        var Step = $(this).attr("data-step");
+        var GroupNo = $(this).attr("data-groupno");
+        var ProjectId = $(this).attr("data-projectid");
+
+        $.get('GetDetailParentChildNode', { Id: Id, GroupNo: GroupNo, ProjectId: ProjectId }, function (data) {
+            // Adım detayları dolu, _StepDetail.cshtml'yi yeniden yükleyin.
+            $('#ParentModal .modal-body').html(data);
+            $('#ParentModal').find('.modal-header #StepName').text(GroupNo + " " + Step);
+            // Gizli divi ayıklama ve yazdırma işlemi
+            //var hiddenDiv = $(data).filter('.ParentNode').html();
+            //$(hiddenDiv).show();
+            //$('#ParentModal').find('.modal-header #StepName').html(hiddenDiv);
+        }, 'html');
+    });
+    $(".nodeClick").click(function () {
+        var clickedElement = $(this); // Store a reference to $(this)
+        var Id = clickedElement.attr("data-id");
+        var Step = clickedElement.attr("data-step");
+        var GroupNo = clickedElement.attr("data-groupno");
+        var ProjectId = clickedElement.attr("data-projectid");
+        if (!clickedElement.hasClass("collapsed")) {
+            // Use ! to check for false condition
+            $.get('NodeContent', { GroupNo: GroupNo, ProjectId: ProjectId, Id: Id }, function (data) {
+                // Adım detayları dolu, _StepDetail.cshtml'yi yeniden yükleyin.
+                clickedElement.parents('.accordion .accordion-item').find('.accordion-body').html(data); // Use clickedElement instead of $(this)
+            }, 'html');
+        }
+    });
+</script>
+

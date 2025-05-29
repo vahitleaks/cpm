@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7628,
+  "files": [
+    {
+      "file_id": "2000",
+      "file_name": "hata görüntü.docx",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2000"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "2000",
+        "file_name": "hata görüntü.docx",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2000"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7628_hata görüntü.docx.docx",
+        "size": 57174
+      }
+    }
+  ]
+}

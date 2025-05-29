@@ -1,0 +1,755 @@
+﻿@model sistemproject.Models.FullCalendarViewModels.GetPlansViewModel
+
+@{
+    ViewBag.Title = "PlanlananTumServisler";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+@Html.Partial("YeniPlanPopup/_editPlan")
+<link href="~/Content/ContextMenu/jquery.contextMenu.min.css" rel="stylesheet" />
+<link href="~/Content/DateRangePicker/daterangepicker.css" rel="stylesheet" />
+<link href="~/Content/fileUpload/css/style.css" rel="stylesheet" />
+
+<style>
+    /*    .col-form-label-sm {
+        padding:unset!important;
+    }
+    .personNameDots {
+        display: inline-block;
+        width: 509px;
+    }*/
+    .aside-enabled.aside-fixed[data-kt-aside-minimize=on] .wrapper {
+        padding-left: 75px !important;
+    }
+
+    .accordion-item:last-of-type .accordion-button.collapsed {
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    #scheduledServices .accordion-button::after {
+        background-image: none !important;
+    }
+
+    .ucNokta {
+        display: block;
+        width: 364px;
+        border: none;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .accordion-button.active {
+
+        background-color: #406c800d;
+    }
+
+    .accordion-button collapsed:focus
+    .accordion-button collapsed:focus-visible {
+        outline: none;
+        box-shadow: none;
+        border-color: transparent;
+    }
+</style>
+<link href="~/Content/screenSettingsAllPlans.css" rel="stylesheet" />
+<div class="d-flex flex-column flex-root" id="scheduledServices">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card mb-1" style="border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;box-shadow: 0px 0px 6px -3px #406c80!important;">
+                                    <div class="card-body" style="padding: 1rem 1.25rem;">
+                                        <div class="row">
+                                            <div class="col-lg-2 mb-3 mb-sm-0 mb-md-0">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Danışman</span>
+                                                <select class="selectpicker font13" data-live-search="true" id="PERSONNAME">
+                                                    <option data-tokens="" value="">Seçiniz...</option>
+                                                    @foreach (var t in Model.PersonSelectList)
+                                                    {
+
+                                                        <option data-tokens="" value="@t.Value">@t.Text</option>
+
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2 mb-3 mb-sm-0 mb-md-0">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Firma</span>
+                                                <select class="selectpicker font13" data-live-search="true" id="COMPANYID">
+                                                    <option data-tokens="" value="">Seçiniz...</option>
+                                                    @foreach (var l in Model.CompanySelectList)
+                                                    {
+
+                                                        <option value="@l.Value">@l.Text</option>
+
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2 mb-3 mb-sm-0 mb-md-0">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">İl</span>
+                                                <select class="selectpicker font13" data-live-search="true" id="PROVINCEID">
+                                                    <option data-tokens="" value="">Seçiniz...</option>
+                                                    @foreach (var y in Model.ProvinceSelectList)
+                                                    {
+
+                                                        <option value="@y.Value">@y.Text</option>
+
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2 mb-3 mb-sm-0 mb-md-0">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">İlçe</span>
+                                                <select class="selectpicker font13" data-live-search="true" id="DISTRICTID">
+                                                    <option data-tokens="" value="">Seçiniz...</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Tarih Aralığı</span>
+                                                <div class="input-group" style="margin-top: 0.7rem;">
+                                                    <input type="text" class="form-control" name="dates" id="DATE">
+                                                    @*<div class="input-group-append">
+                                                        <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                                    </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion accordion-flush mb-3" id="accordionFlushExample">
+                                    @foreach (var item in Model.PlanList)
+                                    {
+                                        <div class="accordion-item">
+                                            <div class="accordion-header">
+                                                <i class="" id="btnPlanUpdate" data-id="@item.PLANGROUPCODE" hidden></i>
+                                                <i class="" id="btnPlanDelete" data-id="@item.PLANGROUPCODE" data-stateform="@item.STATESERVICEFORM" data-serviceformonay="@item.SERVICEFORMCONFIRM" hidden></i>
+                                                <div class="accordion-button collapsed" type="button" data-id="@item.PLANGROUPCODE">
+                                                    <div class="row" style="width:inherit;">
+                                                        <div class="col-1 text-center">
+                                                            <img src="~/Images/iconsforservcie/icons8-schedule.png" height="35" width="35" />
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-12 col-sm-12">
+                                                            <label class="Label-Title companyNameDots" title="@item.UNVAN" style="font-size: 0.9rem;font-weight:bold!important;">@item.UNVAN</label>
+                                                            <label class="Label-Text2">@item.STARTDATE &nbsp; <b>*</b> &nbsp; @item.ENDDATE</label>
+                                                        </div>
+                                                       
+                                                        <div class="col-lg-3 col-md-12 col-sm-12">
+                                                            <label class="Label-Head font-weight-bold" style="font-size: 0.9rem;font-weight:400;">@item.SERVICETYPENAME</label> <br />
+                                                            @if (item.SERVICETYPEID != 8 && item.SERVICETYPEID != 17)
+                                                            {
+                                                                <label class="Label-Text2">@item.PROVINCENAME,@item.DISTRICTNAME</label>
+                                                            }
+                                                            </div>
+                                                      
+                                                        <div class="col-lg-5 col-md-12 col-sm-12">
+                                                            <label class="Label-Head font-weight-bold col-sm-6 col-lg-12 col-md-12  col-form-label col-form-label-sm text-left justify-content-start" title="@item.FULLNAME" style="font-size: 0.9rem;font-weight:400;">@item.FULLNAME</label>
+                                                            <i class="icon sc-menu-9 threeDotAlign" style="text-align: end;" id="ContextMenu"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="kt_explore" class="drawer drawer-end" data-kt-drawer="true" data-kt-drawer-name="explore" data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'350px', 'lg': '390px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_explore_toggle" data-kt-drawer-close="#kt_explore_close" style="width:400px !important;">
+    <div class="card shadow-none rounded-0 w-100">
+        <div class="card-header" id="kt_explore_header" style="background-color:var(--thCardBack)!important;border-bottom: 1px solid var(--thBorderLight)!important;box-shadow: none !important;">
+            <h3 class="card-title fw-bolder" style="margin-left:10px;color:var(--thText);">Detay</h3>
+            <div class="card-toolbar">
+                <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5" id="kt_explore_close">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
+                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+
+        </div>
+        <div class="card-body" id="kt_explore_body" style="padding:0!important;background-color:var(--thCardBack)!important;">
+            <div id="kt_explore_scroll" class="scroll-y me-n5 pe-5" data-kt-scroll="true" data-kt-scroll-wrappers="#kt_explore_body" data-kt-scroll-dependencies="#kt_explore_header" data-kt-scroll-offset="5px">
+                <div class="" id="PLANDETAILSCARD">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/ContextMenu/jquery.contextMenu.min.js"></script>
+<script src="~/Scripts/ContextMenu/jquery.ui.position.js"></script>
+<script src="~/Scripts/FullCalendar/moment.min.js"></script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.min.js"></script>
+<script>
+    //#region Tarih Convert
+
+    $(document).ready(function () {
+        $('#dateSelect').daterangepicker({
+            locale: {
+                format: "DD/MM/YYYY",  // Burada doğrudan istediğin formatı belirtiyoruz
+                separator: " - ",
+                applyLabel: "Uygula",
+                cancelLabel: "Vazgeç",
+                fromLabel: "Dan",
+                toLabel: "a",
+                customRangeLabel: "Seç",
+                daysOfWeek: ["Pt", "Sl", "Çr", "Pr", "Cm", "Ct", "Pz"],
+                monthNames: [
+                    "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+                    "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+                ],
+                firstDay: 1
+            }
+        });
+
+        var newDate = new Date();
+        var endDate = moment(newDate).format('DD/MM/YYYY'); // Bugünün tarihi
+        var startDate = moment(newDate).subtract(1, 'months').format('DD/MM/YYYY'); // 1 ay önceki tarih
+        $('#DATE').val(startDate + " - " + endDate);
+
+        $(function () {
+            date = new Date($('#DATE').val())
+            date.getDate(),
+                $('input[name="daterangepicker"]').daterangepicker({
+                    autoUpdateInput: true,
+                    locale: {
+                        cancelLabel: 'Clear'
+                    }
+                });
+
+            $('input[name="daterangepicker"]').on('apply.daterangepicker', function (ev, picker) {
+                $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+            });
+
+            $('input[name="daterangepicker"]').on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');
+            });
+
+
+            $('#DATE').daterangepicker({
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Uygula",
+                    "cancelLabel": "Vazgeç",
+                    "fromLabel": "Dan",
+                    "toLabel": "a",
+                    "customRangeLabel": "Seç",
+                    "daysOfWeek": [
+                        "Pt",
+                        "Sl",
+                        "Çr",
+                        "Pr",
+                        "Cm",
+                        "Ct",
+                        "Pz"
+                    ],
+                    "monthNames": [
+                        "Ocak",
+                        "Şubat",
+                        "Mart",
+                        "Nisan",
+                        "Mayıs",
+                        "Haziran",
+                        "Temmuz",
+                        "Ağustos",
+                        "Eylül",
+                        "Ekim",
+                        "Kasım",
+                        "Aralık"
+                    ],
+                    "firstDay": 1
+                }
+            })
+        });
+
+        $("body").on("click", ".accordion-button", function () {
+            debugger;
+            // Eğer tıklanan zaten aktifse, sınıfı kaldır
+            if ($(this).hasClass("active")) {
+                $(this).removeClass("active");
+            } else {
+                // Önce diğer tüm butonlardan 'active' sınıfını kaldır
+                $(".accordion-button").removeClass("active");
+                // Tıklanan butona 'active' sınıfını ekle
+                $(this).addClass("active");
+            }
+        });
+
+
+
+    //#endregion
+   
+    $('body').on('click', '#scheduledServices .accordion-button', function () {
+        var PLANGROUPCODE = $(this).attr("data-id")
+        getPlansDetails(PLANGROUPCODE);
+    });
+    //#region Plan Detay Getir
+    function getPlansDetails(PLANGROUPCODE) {
+        var planDetailsCard = $("#PLANDETAILSCARD");
+        //$.blockUI({
+        //    message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+        //});
+        $.ajax({
+            type: 'GET',
+            url: "/CpmServisSistemi/GetPlansDetailsScheduledServices?PLANGROUPCODE=" + PLANGROUPCODE,
+            datatype: "html",
+            cache: false,
+            success: function (data) {
+                planDetailsCard.html("");
+                if (data != null) {
+                    planDetailsCard.html(data);
+                    $(".drawer-end").addClass("drawer-on");
+                    $("body").attr("data-kt-drawer-explore", "on");
+                    $("body").attr("data-kt-drawer", "on");
+
+                }
+        /*        setTimeout($.unblockUI, 240);*/
+                sessionStorage.clear();
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+    }
+    //#endregion
+  
+        window.planEditModal = new bootstrap.Modal(document.getElementById('editPlan'), {
+            keyboard: false
+        });
+        // #region Service Form  Control
+        $("body").on("click", "#PLANDETAILSCARD #btnServiceFormAdd2", function () {
+            var PLANGROUPCODE = $(this).attr("data-durum");
+            $.ajax({
+                type: 'POST',
+                url: "/CpmServisSistemi/CreateServiceFormControl",
+                data: { 'PLANGROUPCODE': PLANGROUPCODE },
+                success: function (result) {
+                    if (result == 0) {
+                        swal('Yalnızca planda ekli olan "CPM Katılımcıları" plana bağlı servis formu oluşturabilir! Plansız servis formu oluşturmak için sayfadaki "Servis Formu Oluştur" butonuna tıklayabilirsiniz.',
+                            {
+                                title: "UYARI !",
+                                icon: "warning",
+                                buttons: "Tamam",
+                            });
+
+                    }
+                    else if (result == 1) {
+                        swal('Daha önce bu plana servis formu oluşturdunuz.Aynı plana ikinici bir servis formu oluşturamazsınız!',
+                            {
+                                title: "UYARI !",
+                                icon: "warning",
+                                buttons: "Tamam",
+                            });
+                    }
+                    else if (result == 2) {
+                        window.location = "/CpmServisSistemi/CreateServiceForm2?PLANGROUPCODE=" + PLANGROUPCODE;
+                    }
+                    else {
+                        toastr.error(result.Message);
+                    }
+                },
+                error: function () {
+                    alert('Erişim sağlanamadı.');
+                }
+            });
+        });
+        //#endregion
+        //#region  Service Form Duzenleye Git
+        jQuery('body').on('click', '#btnServiceFormEdit', function () {
+            var SERVICEFORMID = $(this).attr("data-id");
+            var SERVICEFORMCONFIRM = $(this).attr("data-serviceformconfirm");
+            var PAGESTATE = $(this).attr("data-sayfa");
+            var PLANGROUPCODE = $(this).attr("data-durum");
+            var CPMRESPONSIBLE = $("#PLANDETAILSCARD #LoginUserName").val();
+            if (SERVICEFORMCONFIRM == 1) {
+                swal('Servis formu yetkili kişi tarafından onaylanmıştır.Onaylanan servis formları üzerinde düzenleme yapılamaz!"Yapılan Sevisler" sayfasına giderek formu inceleyebilirsiniz.',
+                    {
+                        icon: "warning",
+                        timer: 8000
+                    });
+            }
+            else {
+                window.location = "/CpmServisSistemi/EditServiceForm?PAGESTATE=" + PAGESTATE + "&CPMRESPONSIBLE=" + CPMRESPONSIBLE + "&PLANGROUPCODE=" + PLANGROUPCODE;
+            }
+        });
+        //#endregion
+        // #region İllere Göre İlçe Filtrele
+        try {
+            $("body").on("change", "#PROVINCEID", function () {
+                var SEHIRKOD = $("#PROVINCEID option:selected").val();
+                var PROVINCE = $("#PROVINCEID option:selected").text();
+                var DISTRICTID = $("#DISTRICTID");
+                var SELECTDATE = $("#DATE");
+                if (SEHIRKOD != "" && PROVINCE != "Seçiniz") {
+                    $.ajax({
+                        url: '/CpmServisSistemi/GetDistrict',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { 'SEHIRKOD': SEHIRKOD },
+                        success: function (data) {
+                            DISTRICTID.empty();
+                            DISTRICTID.append('<option data-tokens="" value="">Seçiniz...</option>');
+                            $.each(data, function (index, option) {
+                                DISTRICTID.append('<option data-tokens="" value=' + option.ILCEKOD.toString() + '>' + option.ILCEAD + '</option>');
+                            });
+                            $('#DISTRICTID').selectpicker('refresh');
+                        }
+                    });
+                }
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+        // #endregion
+        // #region Planlanan Tüm Servisler Filtreleme Alanı
+        $("body").on("change", "#PERSONNAME,#COMPANYID,#PROVINCEID,#DATE,#PROVINCEID,#DISTRICTID", function () {
+            var FULLNAME = $("#PERSONNAME option:selected").text() == "" || $("#PERSONNAME option:selected").text() == "Seçiniz..." ? "" : $("#PERSONNAME option:selected").text();
+            var COMPANYID = $("#COMPANYID option:selected").val() == "" || $("#COMPANYID option:selected").val() == "Seçiniz..." ? "" : $("#COMPANYID option:selected").val();
+            var PROVINCEID = $("#PROVINCEID option:selected").val() == "" || $("#PROVINCEID option:selected").val() == "Seçiniz..." ? "" : $("#PROVINCEID option:selected").val();
+            var DISTRICTNAME = $("#DISTRICTID option:selected").text() == "" || $("#DISTRICTID option:selected").text() == "Seçiniz..." ? "" : $("#DISTRICTID option:selected").text();
+            var DATE = $("#DATE").val() == "" || $("#DATE").val() == "Seçiniz..." ? "" : $("#DATE").val();
+            var StartDate = DATE.split("-")[0].trim();
+            var EndDate = DATE.split("-")[1].trim();
+            var accordionList = $("#accordionFlushExample");
+            $.blockUI({
+                message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+            });
+            $.ajax({
+                method: "POST",
+                url: "/CpmServisSistemi/PlanlananTumServislerFilters",
+                data: {
+                    'FULLNAME': FULLNAME,
+                    'COMPANYID': COMPANYID,
+                    'PROVINCEID': PROVINCEID,
+                    'DISTRICTNAME': DISTRICTNAME,
+                    'StartDate': StartDate,
+                    'EndDate': EndDate
+                },
+                datatype: "html",
+                cache: false,
+                success: function (data) {
+                    accordionList.html("");
+                    if (data != null) {
+                        accordionList.html(data);
+                    }
+                    setTimeout($.unblockUI, 250);
+                },
+                error: function (xhr) {
+                    window.hata = xhr.responseText;
+                    alert('error');
+                }
+            });
+        });
+        // #endregion
+        //#region Plan Güncelleme - Verileri Modaldan Çekme
+        $("body").on("click", "#editPlan #modalBtnPlanUpdate", function () { //Ekle butonuna tiklandiginda...
+            var PLANGROUPCODE = $(this).attr("data-id");
+            var PERSONID = [];
+            var fileData = new FormData();
+            for (var i = 0; i < window.filesArray2.length; i++) {
+                fileData.append(window.filesArray2[i].name, window.filesArray2[i]);
+            }
+            var FILELENGTH = window.filesArray2.length;
+            $("#editPlan #PERSONIDUPDATE :selected").map(function (i, el) {
+                PERSONID.push($(el).val());
+            }).get();
+            if ($('#editPlan #COMPANYIDUPDATE').val() === null) {
+                alert("Firma adı seçiniz !");
+                return;
+            }
+            else if ($('#editPlan #SERVICETYPEIDUPDATE').val() === "") {
+                alert("Servis türü seçiniz !");
+                return;
+            }
+            else if ($('#editPlan #STARTDATEUPDATE').val() === "") {
+                alert("Başlangıç tarihi seçiniz !");
+                return;
+            }
+            else if ($('#editPlan #ENDDATEUPDATE').val() === "") {
+                alert("Bitiş tarihi seçiniz!");
+                return;
+            }
+            else if ($('#editPlan #PROVINCEIDUPDATE').val() === "") {
+                alert("İl seçiniz!");
+                return;
+            }
+            else if ($('#editPlan #DISTRICTIDUPDATE').val() === "") {
+                alert("İlçe yazınız!");
+                return;
+            }
+            else if (PERSONID.length < 1) {
+                alert("Kişi ekleyiniz!");
+                return;
+            }
+            else {
+                var PlanData = {
+                    FILELENGTH,
+                    fileData,
+                    PLANGROUPCODE,
+                    PERSONID,
+                    COMPANYID: $("#editPlan #COMPANYIDUPDATE option:selected").val(),
+                    SERVICETYPEID: $("#editPlan #SERVICETYPEIDUPDATE option:selected").val(),
+                    STARTDATE: $("#editPlan #STARTDATEUPDATE").val(),
+                    ENDDATE: $("#editPlan #ENDDATEUPDATE").val(),
+                    PROVINCEID: $("#editPlan #PROVINCEIDUPDATE option:selected").val(),
+                    DISTRICTNAME: $("#editPlan #DISTRICTIDUPDATE").val()
+                }
+                updatePlans(PlanData);
+            }
+        });
+        //#endregion
+        //#region Plan Güncelleme - Verileri Ajax İle Gonderme Fonksiyonu
+        function updatePlans(PlanData) {
+            $.blockUI({
+                message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+            });
+            $.ajax({
+                method: "POST",
+                url: '/CpmServisSistemi/UpdatePlan',
+                data: { PLANGROUPCODE: PlanData.PLANGROUPCODE, PERSONID: PlanData.PERSONID, COMPANYID: PlanData.COMPANYID, SERVICETYPEID: PlanData.SERVICETYPEID, STARTDATE: PlanData.STARTDATE, ENDDATE: PlanData.ENDDATE, PROVINCEID: PlanData.PROVINCEID, DISTRICTNAME: PlanData.DISTRICTNAME },
+                success: function (result) {
+                    setTimeout($.unblockUI, 300);
+                    window.planEditModal.hide();
+                    $(".drawer-end").removeClass("drawer-on");
+                    $(".drawer-end").addClass("drawer-off");
+                    $("body").attr("data-kt-drawer-explore", "off");
+                    $("body").attr("data-kt-drawer", "off");
+                    toastr.success(result.Message);
+                    //getPlans();
+                    if (result.IsSuccess == true && PlanData.FILELENGTH > 0) {
+                        $.ajax({
+                            type: 'POST',
+                            url: "/CpmServisSistemi/UploadPlanFilesUpdate",
+                            data: PlanData.fileData,
+                            dataType: "json",
+                            contentType: false,
+                            processData: false,
+                            success: function (result) {
+                                setTimeout($.unblockUI, 300);
+                                if (result.IsSuccess == true) {
+                                    $(".drawer-end").removeClass("drawer-on");
+                                    $(".drawer-end").addClass("drawer-off");
+                                    $("body").attr("data-kt-drawer-explore", "off");
+                                    $("body").attr("data-kt-drawer", "off");
+                                    toastr.success(result.Message);
+                                }
+                                else {
+                                    $(".drawer-end").removeClass("drawer-on");
+                                    $(".drawer-end").addClass("drawer-off");
+                                    $("body").attr("data-kt-drawer-explore", "off");
+                                    $("body").attr("data-kt-drawer", "off");
+                                    toastr.error(result.Message);
+                                }
+                            },
+                            error: function () {
+                                alert('Erişim sağlanamadı.');
+                            }
+                        });
+                    }
+                },
+                error: function () {
+                    window.planEditModal.hide();
+                    alert('Erişim sağlanamadı.');
+                }
+            });
+        }
+        //#endregion
+        // #region Plan Düzenle Popup - Firmaya İl-İlçe Bilgisi Getir
+        try {
+            $("body").on("change", "#editPlan #COMPANYIDUPDATE", function () {
+
+                var COMPANYID = $("#editPlan #COMPANYIDUPDATE option:selected").val();
+                var COMPANY = $("#editPlan #COMPANYID option:selected").text();
+                var PROVINCEID = $("#editPlan #PROVINCEIDUPDATE");
+                var DISTRICTNAME = $("#editPlan #DISTRICTIDUPDATE");
+                if (COMPANYID != "" && COMPANY != "Seçiniz") {
+                    $.ajax({
+                        url: '/CpmServisSistemi/GetCompanyProvinceAndDistrict',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { 'COMPANYID': COMPANYID },
+                        success: function (data) {
+                            $('#PROVINCEID option').last().remove();
+                            $.each(data, function (index, option) {
+                                if (option.ILAD == null) {
+                                    PROVINCEID.append('<option selected>Seçiniz</option>');
+                                    DISTRICTNAME.val(option.FATURAADRES4);
+                                }
+                                else {
+                                    PROVINCEID.append('<option selected value=' + option.FATURAADRES5.toString() + '>' + option.ILAD + '</option>');
+                                    DISTRICTNAME.val(option.FATURAADRES4);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+        // #endregion
+        //#region Plan Düzenle Popup - İl Seçilince İlçe Temizle
+        try {
+            $("body").on("change", "#editPlan #PROVINCEIDUPDATE", function () {
+                var DISTRICTNAME = $("#editPlan #DISTRICTIDUPDATE");
+                DISTRICTNAME.val("");
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+        // #endregion
+        //#region ALLDAY Ekleme-Modal Plan Update
+        $("#editPlan").on("click", "input[name=allDayCheckBoxEdit]", function () {
+            var STATE = $(this).prop("checked");
+            var STARTDATE;
+            var ENDDATE;
+            var DATESTART = [];
+            var DATEEND = [];
+            if (STATE == true) {
+                STARTDATE = $('#editPlan #STARTDATEUPDATE').val();
+                ENDDATE = $('#editPlan #ENDDATEUPDATE').val();
+                DATESTART = STARTDATE.split('T')[0];
+                DATEEND = ENDDATE.split('T')[0];
+                $('#editPlan #STARTDATEUPDATE').val(DATESTART + 'T09:00');
+                $('#editPlan #ENDDATEUPDATE').val(DATEEND + 'T18:00');
+            }
+            else {
+
+            }
+        });
+        //#endregion
+    });
+    $(function () {
+        $.contextMenu({
+            selector: '#ContextMenu',
+            trigger: 'hover',
+            delay: 100,
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+                if (m == "clicked: edit") {
+                    var PLANGROUPCODE = $(this).parents(".accordion-header").find("#btnPlanUpdate").attr("data-id");
+                    $.ajax({
+                        type: 'POST',
+                        url: "/CpmServisSistemi/GetEditPlan",
+                        data: { 'PLANGROUPCODE': PLANGROUPCODE },
+                        success: function (result) {
+                            if (result.IsSuccess == true) {
+                                swal(result.Message,
+                                    {
+                                        title: "UYARI !",
+                                        icon: "warning",
+                                        buttons: "Tamam",
+                                    });
+
+                            }
+                            else {
+                                $("#editPlan .modal-body").html(result);
+                                window.planEditModal.show()
+                            }
+                        },
+                        error: function () {
+                            alert('Erişim sağlanamadı.');
+                        }
+                    })
+                }
+                else if (m == "clicked: delete") {
+                    var PLANGROUPCODE = $(this).parents(".accordion-header").find("#btnPlanDelete").attr("data-id");
+                    var removingRow = $(this).parents(".accordion-item");
+                    $.ajax({
+                        url: "/CpmServisSistemi/DeletePlan/" + PLANGROUPCODE,
+                        type: 'POST',
+                        data: { 'PLANGROUPCODE': PLANGROUPCODE },
+                        success: function (result) {
+                            if (result.IsSuccess == false && result.State == 0) {
+
+                                swal(result.Message,
+                                    {
+                                        title: "UYARI !",
+                                        icon: "warning",
+                                        buttons: "Tamam",
+                                    });
+                                setTimeout($.unblockUI, 300);
+                            }
+                            else if (result.IsSuccess == false && result.State == 1) {
+                                swal(result.Message,
+                                    {
+                                        title: "UYARI !",
+                                        icon: "warning",
+                                        buttons: "Tamam",
+                                    });
+                                setTimeout($.unblockUI, 300);
+                            }
+                            else {
+
+                                swal({
+                                    title: "Dikkat!",
+                                    text: "Planı silmek istediğinize emin misiniz?",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true,
+                                    buttons: ['Vazgeç', 'Sil']
+                                })
+                                    .then((result) => {
+                                        if (result) {
+                                            $.blockUI({
+                                                message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+                                            });
+                                            removingRow.remove();
+                                            setTimeout($.unblockUI, 300);
+                                            $(".drawer-end").removeClass("drawer-on");
+                                            $(".drawer-end").addClass("drawer-off");
+                                            $("body").attr("data-kt-drawer-explore", "off");
+                                            $("body").attr("data-kt-drawer", "off");
+                                            swal("Plan silindi !", {
+                                                icon: "success",
+                                                timer: 700
+                                            });
+                                        }
+                                        else {
+                                            swal("Plan güvende !", {
+                                                icon: "warning",
+                                                timer: 700
+                                            });
+                                        }
+                                    });
+
+                            }
+                        },
+                        error: function () {
+                            swal("Plan silinemedi !", {
+                                icon: "error",
+                                timer: 700
+                            });
+                        }
+                    })
+                }
+                else {
+                }
+            },
+            items: {
+                "edit": { name: "Düzenle", icon: "icon sc-edit-pencil" },
+                "delete": { name: "Sil", icon: "icon sc-trash-bin" }
+            }
+        });
+    });
+</script>
+
+<script src="~/Content/fileUpload/js/jquery.ui.widget.js"></script>
+<script src="~/Content/fileUpload/js/jquery.iframe-transport.js"></script>
+<script src="~/Content/fileUpload/js/jquery.fileupload.js"></script>
+<script src="~/Content/fileUpload/js/jquery.knob.js"></script>
+<script src="~/Content/fileUpload/js/script.js"></script>

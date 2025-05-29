@@ -1,0 +1,27 @@
+﻿@model (List<sistemproject.Models.Tables.ANDWCNACEMENTFILES>, List<sistemproject.Models.Tables.ANDWCNVIDEOS>)
+@foreach (var item in Model.Item2)
+{
+<div class="card p-3 mb-2" id="VideosCard" style="background-color:#fff;border:none!important">
+    <div class="mb-3">
+        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+            Başlık
+        </span> <br />
+        <input type="text" style="padding-top: 7px; padding-bottom: 7px;" class="datetime-local  Input-Medium mt-2 inputValidateControl col-10" id="TitleVideo" placeholder="Yazınız..." value="@item.VideoHead">
+        <a href="#"><i class="icon sc-trash-bin p-2 mr-2 float-right Label-Red delete-video-button" id="DeleteVideo1"></i></a>
+    </div>
+    <div class="mb-3">
+        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+            Link
+        </span>
+        <input type="text" style="padding-top: 7px; padding-bottom: 7px;" class="datetime-local col-12 Input-Medium mt-2 inputValidateControl" id="VideoLink" placeholder="Yazınız..." value="@item.VideoLink">
+    </div>
+    <span style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+        Konu/İçerik
+    </span>
+    <div class="form-floating">
+        <textarea class=" form-control" id="VideoTopic" style="height: 85px;">@item.VideoTopic</textarea>
+        <label for="floatingTextarea">İş Özetiniz...</label>
+    </div>
+</div>
+}
+

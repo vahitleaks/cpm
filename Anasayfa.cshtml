@@ -1,0 +1,977 @@
+﻿@model sistemproject.Models.DashBoard
+@{
+    ViewBag.Title = "Anasayfa";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+
+<link href="~/Content/NewThema/mapTurkey/svg-turkiye-haritasi.css" rel="stylesheet" />
+<style>
+    .btn-group {
+        height: 28px;
+        /*  border: 2px solid #406C8033;
+        border-radius: 6px;*/
+    }
+
+    .btn-secondary {
+        background-color: #fff /*#406C801A*/ !important;
+        border: none !important;
+        color: #667880 !important;
+        font-weight: 600;
+    }
+
+    .active-button {
+        color: #fff !important;
+        font-weight: bold;
+        background-color: var(--thOrange) !important;
+        /*  color: #D99B21 !important;
+        font-weight: bold;*/
+    }
+
+    .btn-secondary:hover {
+        color: #fff !important;
+        font-weight: bold;
+        background-color: var(--thOrange) !important;
+    }
+
+    .badge {
+        color: #000;
+    }
+
+    .card {
+        box-shadow: 0 1px 11px 0 #406c803b !important;
+    }
+
+    .ButtonGroupAnimate .btn {
+        /* width: 6rem;*/
+        float: left;
+        margin: 0;
+        box-sizing: border-box;
+        position: relative;
+        font-size: 0.5vw;
+        min-height: 10px !important;
+        line-height: 1px;
+        border-radius: 6px;
+        cursor: pointer;
+        text-align: center;
+        padding: calc(0.75rem + 1px) calc(0.5rem + 1px) !important;
+    }
+
+    .ButtonGroupAnimate .btn-default {
+        border: 1px solid #406C801A !important;
+        color: #667880;
+    }
+
+    .ButtonGroupAnimate.btn-group > .btn:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .ButtonGroupAnimate.btn-group > .btn:nth-child(2) {
+        border-radius: 0;
+    }
+
+    .ButtonGroupAnimate.btn-group > .btn:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .ButtonGroupAnimate .btn.btn-default.btn-active {
+        color: white;
+        font-weight: bold;
+        background-color: #20A1DA;
+        transition: .3s all ease;
+    }
+
+    .ButtonGroupAnimate.btn-group {
+        clear: both;
+        margin-top: 10px;
+    }
+
+    /* .ButtonGroupAnimate .btn:nth-child(3)::before {
+        content: "";
+        height: 1.9rem;
+        width: 3rem;
+        background: #20A1DA;
+        position: absolute;
+        top: 0;
+        transition: .3s all ease;
+        z-index: -1;
+
+    }*/
+
+    .ButtonGroupAnimate .btn-active:first-child ~ .btn::before {
+        transform: translateX(calc(-4px - 200%));
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+    }
+
+    .ButtonGroupAnimate .btn-active:nth-child(2) ~ .btn::before {
+        transform: translateX(calc(-2px - 100%));
+    }
+
+    .aside-enabled.aside-fixed[data-kt-aside-minimize=on] .wrapper {
+        padding-left: 75px !important;
+    }
+
+    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+        max-width: 1320px !important;
+    }
+</style>
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <!--begin::Container-->
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-4">
+                     
+                                @if (Session["Role"] != null && Session["Role"].ToString() == "1")
+                                {
+                                <div class="col-8 text-right mt-3"><label class="font-weight-bold">Danışman Seçimi:</label></div>
+                                <div class="col-4 mb-2">
+                                    <select class="selectpicker font13 mt-0" data-live-search="true" id="selectResponsible">
+                                        <option value="">Filtrelemek için danışman seçiniz...</option>
+                                        @foreach (var Danisman in Model.Danismanlar)
+                                        {
+                                            <option value="@Danisman.ID">@Danisman.FULLNAME</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+                            <div class="col-xl-5 col-md-8 col-sm-12 mb-3">
+                                <div class="card" style="">
+                                    <div class="card-header" style="min-height: 6vh;padding: 0 1.15rem!important;">
+                                        <span style="font-size:calc(0.100rem + 0.600vw);" class="card-title fw-bolder text-dark">Servis Süresi</span>
+                                        <span class="my-auto" style="font-size:calc(0.180rem + 0.800vw);">
+                                            <img src="~/Images/iconsforservcie/ucnokta.svg" style="height:1.3rem;" />
+                                        </span>
+                                    </div>
+                                    <div class="card-body" style=" padding: 0rem 0.5rem;">
+                                        <div class="row pb-1">
+                                            @{
+                                                decimal today = Model.ServisSuresi.First(elm => elm.SUMTYPE == "DAY").SERVICETIME ?? 0;
+                                                decimal yesterday = Model.ServisSuresi.First(elm => elm.SUMTYPE == "YESTERDAY").SERVICETIME ?? 0;
+                                                decimal week = Model.ServisSuresi.First(elm => elm.SUMTYPE == "WEEK").SERVICETIME ?? 0;
+                                                decimal lastWeek = Model.ServisSuresi.First(elm => elm.SUMTYPE == "LASTWEEK").SERVICETIME ?? 0;
+                                                decimal month = Model.ServisSuresi.First(elm => elm.SUMTYPE == "MONTH").SERVICETIME ?? 0;
+                                                decimal lastMonth = Model.ServisSuresi.First(elm => elm.SUMTYPE == "LASTMONTH").SERVICETIME ?? 0;
+
+                                                decimal dayDifference = today - yesterday;
+                                                decimal weekDifference = week - lastWeek;
+                                                decimal monthDifference = month - lastMonth;
+
+                                                decimal dayPercent = yesterday == 0 ? 100 : dayDifference / yesterday * 100;
+                                                decimal weekPercent = lastWeek == 0 ? 100 : weekDifference / lastWeek * 100;
+                                                decimal monthPercent = lastMonth == 0 ? 100 : monthDifference / lastMonth * 100;
+
+                                                <div class="col-sm-4 text-center" style="border-right:1px solid #eff2f5;border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Günlük</span>
+                                                    <h5 id="Stoday" style="font-size: 2.5vmin;color:var(--thBlue)!important;">@(today.ToString("0.##"))</h5>
+                                                </div>
+                                                <div class="col-sm-4 text-center" style="border-right:1px solid #eff2f5;border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Haftalık</span>
+                                                    <h5 id="Sweek" style="font-size: 2.5vmin;color:var(--thBlue)!important;">@(week.ToString("0.##"))</h5>
+                                                </div>
+                                                <div class="col-sm-4 text-center" style="border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Aylık</span>
+                                                    <h5 id="Smonth" style="font-size: 2.5vmin;color:var(--thBlue)!important;">@(month.ToString("0.##"))</h5>
+
+                                                </div>
+                                            }
+                                            <div class="col-sm-4 pb-3 text-center ServiceTimeRowDay" style="padding-top: 1rem;border-right:1px solid #eff2f5;">
+                                                <span style="background-color:var(@(dayDifference > 0 ? "--thGreen" : "--thRed"));border-radius:6px;font-size:1.5vmin;" class="text-white me-3 p-2">
+                                                    <i class="icon sc-arrow-@(dayDifference > 0 ? "up" : "down") mt-3 text-white"></i>
+                                                    %@(dayPercent.ToString("0.##"))
+                                                </span>
+                                                <span style="color:var(@(dayDifference > 0 ? "--thGreen" : "--thRed"));font-size:1.5vmin;">@(dayDifference.ToString("0.##"))</span>
+                                            </div>
+                                            <div class="col-sm-4 pb-3 text-center ServiceTimeRowWeek" style="padding-top: 1rem;border-right:1px solid #eff2f5;">
+                                                <span style="background-color: var(@(weekDifference > 0 ? "--thGreen" : "--thRed"));
+        border-radius: 6px;font-size:1.5vmin;" class="text-white me-3 p-2">
+                                                    <i class="icon sc-arrow-@(weekDifference > 0 ? "up" : "down") mt-3 text-white"></i>
+                                                    %@(weekPercent.ToString("0.##"))
+                                                </span>
+                                                <span style="color: var(@(weekDifference > 0 ? "--thGreen" : "--thRed"));font-size: 1.5vmin;">@(weekDifference.ToString("0.##"))</span>
+                                            </div>
+                                            <div class="col-sm-4 pb-3 text-center ServiceTimeRowMonth" style="padding-top: 1rem;">
+                                                <span style="background-color:var(@(monthDifference > 0 ? "--thGreen" : "--thRed"));border-radius:6px;font-size:1.5vmin;" class="text-white me-3 p-2">
+                                                    <i class="icon sc-arrow-@(monthDifference > 0 ? "up" : "down") mt-3 text-white"></i>
+                                                    %@(monthPercent.ToString("0.##"))
+                                                </span>
+                                                <span style="color:var(@(monthDifference > 0 ? "--thGreen" : "--thRed"));font-size:1.5vmin;">@(monthDifference.ToString("0.##"))</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-4 col-sm-12 mb-2">
+                                <div class="card pb-1" style="">
+                                    <div class="card-header" style="min-height: 6vh;padding: 0 1.15rem!important;
+    ">
+                                        <span style="font-size:calc(0.100rem + 0.600vw);" class="card-title fw-bolder text-dark">Destek Taleplerim</span>
+                                        <span class="my-auto" style="font-size:calc(0.180rem + 0.800vw);">
+                                            <img src="~/Images/iconsforservcie/ucnokta.svg" style="height:1.3rem;" />
+                                        </span>
+                                    </div>
+                                    <div class="card-body" style=" padding: 0.3rem 0.5rem;">
+                                        <div class="row">
+                                            <div class="col-sm-12 text-center" style="border-right:1px solid #eff2f5;border-bottom: 1px solid #eff2f5;">
+                                                <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Bekleyen</span>
+                                                <h5 id="RequestWait" style="font-size: 2.5vmin;color:var(--thBlue);">@(Model.AcikTalepler.Count)</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 text-center">
+                                                <a class="Button-Details" href="/CpmServisSistemi/DestekTaleplerim">DETAYLARI GÖRÜNTÜLE </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-5 col-md-8 col-sm-12 mb-3">
+                                <div class="card" style="">
+                                    <div class="card-header" style="min-height: 6vh;padding: 0 1.15rem!important;
+    ">
+                                        <span style="font-size:calc(0.100rem + 0.600vw);" class="card-title fw-bolder text-dark">Servis Yapılan Müşteri Sayısı</span>
+                                        <span class="my-auto" style="font-size:calc(0.180rem + 0.800vw);">
+                                            <img src="~/Images/iconsforservcie/ucnokta.svg" style="height:1.3rem;" />
+                                        </span>
+                                    </div>
+                                    @{
+                                        decimal Today = Model.ServisYapilanMusteriSayisi.Where(elm => elm.Times == "TODAY").ToList().Count();
+                                        decimal Week = Model.ServisYapilanMusteriSayisi.Where(elm => elm.Times == "THISWEEK").ToList().Count();
+                                        decimal Month = Model.ServisYapilanMusteriSayisi.Where(elm => elm.Times == "THISMONTH").ToList().Count();
+                                        decimal Yesterday = Model.ServisYapilanMusteriSayisi.Where(elm => elm.Times == "YESTERDAY").ToList().Count();
+                                        decimal LastWeek = Model.ServisYapilanMusteriSayisi.Where(elm => elm.Times == "LASTWEEK").ToList().Count();
+                                        decimal LastMonth = Model.ServisYapilanMusteriSayisi.Where(elm => elm.Times == "LASTMONTH").ToList().Count();
+
+                                        decimal DayDifference = Today - Yesterday;
+                                        decimal WeekDifference = Week - LastWeek;
+                                        decimal MonthDifference = Month - LastMonth;
+
+                                        decimal DayPercent = Yesterday == 0 ? 100 : DayDifference / Yesterday * 100;
+                                        decimal WeekPercent = LastWeek == 0 ? 100 : WeekDifference / LastWeek * 100;
+                                        decimal MonthPercent = LastMonth == 0 ? 100 : MonthDifference / LastMonth * 100;
+
+                                        <div class="card-body" style=" padding: 0rem 0.5rem;">
+                                            <div class="row pb-1">
+                                                <div class="col-sm-4 text-center" style="border-right:1px solid #eff2f5;border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Günlük</span>
+                                                    <h5 id="Ctoday" style="font-size: 2.5vmin;color:var(--thBlue)!important;">@Today</h5>
+                                                </div>
+                                                <div class="col-sm-4 text-center" style="border-right:1px solid #eff2f5;border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Haftalık</span>
+                                                    <h5 id="Cweek" style="font-size: 2.5vmin;color:var(--thBlue)!important;">@Week</h5>
+                                                </div>
+                                                <div class="col-sm-4 text-center" style="border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Aylık</span>
+                                                    <h5 id="Cmonth" style="font-size: 2.5vmin;color:var(--thBlue)!important;">@Month</h5>
+                                                </div>
+                                                <div class="col-sm-4 pb-3 text-center CustomerDayRow" style="padding-top: 1rem;border-right:1px solid #eff2f5;">
+                                                    <span style="background-color:var(@(DayDifference > 0 ? "--thGreen" : "--thRed"));border-radius:6px;font-size:1.5vmin;" class="text-white me-3 p-2">
+                                                        <i class="icon sc-arrow-@(DayDifference > 0 ? "up" : "down") mt-3 text-white"></i>
+                                                        %@(DayPercent.ToString("0.##"))
+                                                    </span>
+                                                    <span style="color:var(@(DayDifference > 0 ? "--thGreen" : "--thRed"));font-size:1.5vmin;">@(DayDifference.ToString("0.##"))</span>
+                                                </div>
+                                                <div class="col-sm-4 pb-3 text-center CustomerWeekRow" style="padding-top: 1rem;border-right:1px solid #eff2f5;">
+                                                    <span style="background-color: var(@(WeekDifference > 0 ? "--thGreen" : "--thRed"));
+                                      border-radius: 6px;font-size:1.5vmin;" class="text-white me-3 p-2">
+                                                        <i class="icon sc-arrow-@(WeekDifference > 0 ? "up" : "down") mt-3 text-white"></i>
+                                                        %@(WeekPercent.ToString("0.##"))
+                                                    </span>
+                                                    <span style="color:var(@(WeekDifference > 0 ? "--thGreen" : "--thRed"));font-size: 1.5vmin;">@(WeekDifference.ToString("0.##"))</span>
+                                                </div>
+                                                <div class="col-sm-4 pb-3 text-center CustomerMonthRow" style="padding-top: 1rem;">
+                                                    <span style="background-color:var(@(MonthDifference > 0 ? "--thGreen" : "--thRed"));border-radius:6px;font-size:1.5vmin;" class="text-white me-3 p-2">
+                                                        <i class="icon sc-arrow-@(MonthDifference > 0 ? "up" : "down") mt-3 text-white"></i>
+                                                        %@(MonthPercent.ToString("0.##"))
+                                                    </span>
+                                                    <span style="color:var(@(MonthDifference > 0 ? "--thGreen" : "--thRed"));font-size:1.5vmin;">@(MonthDifference.ToString("0.##"))</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mt-3">
+
+                            <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
+                                <div class="card" style="">
+                                    <div class="card-header" style="min-height: 6vh;padding: 0 1.15rem!important;
+    ">
+                                        <span style="font-size:calc(0.100rem + 0.600vw);" class="card-title fw-bolder text-dark">Tarafıma Atanan Servisler</span>
+                                        <div class="btn-group my-auto" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-secondary ResServicedayFilter" data-id="1">Günlük</button>
+                                            <button type="button" class="btn btn-secondary ResServiceweekFilter" data-id="2">Haftalık</button>
+                                            <button type="button" class="btn btn-secondary ResServicemonthFilter" data-id="3">Aylık</button>
+                                            <button type="button" class="btn btn-secondary ResServiceallFilter" data-id="4">Tümü</button>
+                                        </div>
+                                        @*<span class="my-auto" style="font-size:calc(0.180rem + 0.800vw);">
+                                                <img src="~/Images/iconsforservcie/ucnokta.svg" style="height:1.3rem;" />
+                                            </span>*@
+                                    </div>
+                                    <div class="card-body" style=" padding: 0rem 0.5rem;">
+                                        <div class="row">
+                                            @foreach (var t in Model.TarafimaAtananServisler)
+                                            {
+                                                <div class="col-sm-4 text-center" style="border-right:1px solid #eff2f5;border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Onay Bekleyen</span>
+                                                    <h5 id="waitingCompletedServicesRes" style="font-size: 2.5vmin;color:var(--thBlue)!important;">@(t.Waiting ?? 0 )</h5>
+                                                </div>
+
+                                                <div class="col-sm-4 text-center" style="border-right:1px solid #eff2f5;border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Onaylanan</span>
+                                                    <h5 id="confirmedCompletedServicesRes" style="font-size: 2.5vmin;color:var(--thBlue)!important;">@(t.Confirmed ?? 0 )</h5>
+                                                </div>
+
+                                                <div class="col-sm-4 text-center" style="border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Reddedilen</span>
+                                                    <h5 id="declinedCompletedServicesRes" style="font-size: 2.5vmin;color:var(--thBlue)!important;">@(t.Declined ?? 0)</h5>
+                                                </div>
+                                            }
+                                            <div class="col-sm-12 pt-1 pb-1" style="text-align:right;">
+                                                <a class="Button-Details" href="/CpmServisSistemi/TumServislerim">DETAYLARI GÖRÜNTÜLE </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
+                                <div class="card" style="">
+                                    <div class="card-header" style="min-height: 6vh;padding: 0 1.15rem!important;
+    ">
+                                        <span style="font-size:calc(0.100rem + 0.600vw);" class="card-title fw-bolder text-dark">Tamamlanan Servisler(Genel)</span>
+                                        <div class="btn-group my-auto" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-secondary ServicedayFilter" data-id="1">Günlük</button>
+                                            <button type="button" class="btn btn-secondary ServiceweekFilter" data-id="2">Haftalık</button>
+                                            <button type="button" class="btn btn-secondary ServicemonthFilter" data-id="3">Aylık</button>
+                                            <button type="button" class="btn btn-secondary ServiceallFilter" data-id="4">Tümü</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style=" padding: 0rem 0.5rem;">
+                                        <div class="row">
+                                            @foreach (var x in Model.TamamlananServisler)
+                                            {
+                                                <div class="col-sm-4 text-center" style="border-right:1px solid #eff2f5;border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Onay Bekleyen</span>
+                                                    <h5 id="waitingCompletedServices" style="font-size: 2.5vmin;color:var(--thBlue)!important;">@(x.Waiting ?? 0)</h5>
+                                                </div>
+                                                <div class="col-sm-4 text-center" style="border-right:1px solid #eff2f5;border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Onaylanan</span>
+                                                    <h5 id="confirmedCompletedServices" style="font-size: 2.5vmin;color:var(--thGreen)!important;">@(x.Confirmed ?? 0)</h5>
+                                                </div>
+                                                <div class="col-sm-4 text-center" style="border-bottom: 1px solid #eff2f5;">
+                                                    <span style="font-size: 1.5vmin;color:var(--thSubText)!important;" class="text-muted m-b-0">Reddedilen</span>
+                                                    <h5 id="declinedCompletedServices" style="font-size: 2.5vmin;color:var(--thRed)!important;">@(x.Declined ?? 0)</h5>
+                                                </div>
+                                            }
+                                            <div class="col-sm-12 pt-1 pb-1" style="text-align:right;">
+                                                <a class="Button-Details" href="/CpmServisSistemi/TumServisler">DETAYLARI GÖRÜNTÜLE </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
+                                <div class="card CustomerChart" style="">
+                                    <div class="card-header" style="min-height: 6vh;padding: 0 1.15rem!important;
+    ">
+                                        <span style="font-size:calc(0.100rem + 0.700vw);" class="card-title fw-bolder text-dark">Müşteri Bazında Servis Süreleri</span>
+                                        @*<span class="my-auto" style="font-size:calc(0.180rem + 0.800vw);">
+                                                <img src="~/Images/iconsforservcie/ucnokta.svg" style="height:1.3rem;" />
+                                            </span>*@
+                                        <div class="btn-group my-auto" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-secondary CustomerdayFilter" data-id="0">Günlük</button>
+                                            <button type="button" class="btn btn-secondary CustomerweekFilter" data-id="1">Haftalık</button>
+                                            <button type="button" class="btn btn-secondary CustomermonthFilter" data-id="2">Aylık</button>
+                                            <button type="button" class="btn btn-secondary CustomerallFilter" data-id="3">Tümü</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style=" padding: 0rem 0.5rem;">
+                                        <canvas id="myChart3" width="400" height="200"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
+                                <div class="card AdvisorChart" style="">
+                                    <div class="card-header" style="min-height: 6vh;padding: 0 1.15rem!important;
+    ">
+                                        <span style="font-size:calc(0.100rem + 0.600vw);" class="card-title fw-bolder text-dark">Danışman Bazında Servis Süreleri</span>
+                                        <div class="btn-group my-auto" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-secondary dayFilter" data-id="0">Günlük</button>
+                                            <button type="button" class="btn btn-secondary weekFilter" data-id="1">Haftalık</button>
+                                            <button type="button" class="btn btn-secondary monthFilter" data-id="2">Aylık</button>
+                                            <button type="button" class="btn btn-secondary allFilter" data-id="3">Tümü</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style=" padding: 0rem 0.5rem;">
+                                        <canvas id="myChart" width="400" height="200"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
+                                <div class="card" style="">
+                                    <div class="card-header" style="min-height: 6vh;padding: 0 1.15rem!important;
+    ">
+                                        <span style="font-size:calc(0.100rem + 0.600vw);" class="card-title fw-bolder text-dark">Ay Bazında Servis Süreleri</span>
+                                        <span class="my-auto" style="font-size:calc(0.180rem + 0.800vw);">
+                                            <img src="~/Images/iconsforservcie/ucnokta.svg" style="height:1.3rem;" />
+                                        </span>
+                                    </div>
+                                    <div class="card-body" style=" padding: 0rem 0.5rem;">
+                                        <canvas id="myChart2" width="400" height="200"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
+                                <div class="card" style="">
+                                    <div class="card-header" style="min-height: 6vh;padding: 0 1.15rem!important;
+    ">
+                                        <span style="font-size:calc(0.100rem + 0.600vw);" class="card-title fw-bolder text-dark">Danışman Bazlı Bekleyen Talepler</span>
+                                        <div class="btn-group my-auto" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-secondary dayFilterApponintedAdvisor" data-id="7">0-7 Gün</button>
+                                            <button type="button" class="btn btn-secondary weekFilterApponintedAdvisor" data-id="10">7-10 Gün</button>
+                                            <button type="button" class="btn btn-secondary monthFilterApponintedAdvisor" data-id="15">10-15 Gün</button>
+                                            <button type="button" class="btn btn-secondary allFilterApponintedAdvisor" data-id="16">15+ Gün</button>
+                                        </div>
+                                        @*<span class="my-auto" style="font-size:calc(0.180rem + 0.800vw);">
+                                                <img src="~/Images/iconsforservcie/ucnokta.svg" style="height:1.3rem;" />
+                                            </span>*@
+                                    </div>
+                                    <div class="card-body" style=" padding: 0rem 0.5rem;">
+                                        <canvas id="myChartRequest" width="400" height="200"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+    <span class="svg-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect opacity="0.5" x="13" y="6" width="13" height="2" rx="1" transform="rotate(90 13 6)" fill="black"></rect>
+            <path d="M12.5657 8.56569L16.75 12.75C17.1642 13.1642 17.8358 13.1642 18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25L12.7071 5.70711C12.3166 5.31658 11.6834 5.31658 11.2929 5.70711L5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75C6.16421 13.1642 6.83579 13.1642 7.25 12.75L11.4343 8.56569C11.7467 8.25327 12.2533 8.25327 12.5657 8.56569Z" fill="black"></path>
+        </svg>
+    </span>
+</div>
+<script src="~/Scripts/charts/chart.esm.min.js"></script>
+<script src="~/Scripts/charts/chart.min.js"></script>
+<script src="~/Scripts/charts/helpers.esm.min.js"></script>
+
+<script src="~/Scripts/NewThema/d3/d3.v4.js"></script>
+<script src="~/Scripts/NewThema/mapTurkey/svg-turkiye-haritasi.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    var cpmResponsibleId = @Session["tNo"].ToString();
+    var state1 = '4';
+    var changing1 = false;
+    var changing2 = false;
+    $(document).ready(function () {
+
+        //$.ajax({
+        //    method: 'GET',
+        //    url: 'https://youtube.googleapis.com/youtube/v3/playlists?part=snippet&maxResults=500&key=AIzaSyAnHBzW46kCoZqoROQOnbkEqS64YtGlGg8&channelId=UCz_aZZzC5WGwJIXS7IiKeYQ',
+        //    success: function (response) {
+
+        //        response.items.forEach(elm => {
+        //            $.ajax({
+        //                method: 'GET',
+        //                url: 'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&key=AIzaSyAnHBzW46kCoZqoROQOnbkEqS64YtGlGg8&playlistId=PLQIVfBzlwLr2nJaULAz6fxpx7Np8tUOKV',
+        //                success: function (responseDetail) {
+        //                    responseDetail.items.forEach(elm2 => {
+        //                        console.log(elm2.snippet.title);
+        //                    })
+        //                }
+        //            })
+        //        })
+        //    }
+        //});
+
+        $("#selectResponsible").change(function () {
+            var id = $(this).val();
+            changing1 = true;
+            changing2 = true;
+            //TODO: Göster
+            $.blockUI({
+                message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+            });
+            cpmResponsibleId = id == "" ? '@Session["tNo"].ToString()' : id;
+            GetCompletedServicesResponsibleFilter(state1, cpmResponsibleId);
+            GetResponsibleDataMultiFilter(cpmResponsibleId);
+        });
+        function ChangeComplete() {
+            if (!changing1 && !changing2) {
+                //TODO : Gizle
+                setTimeout($.unblockUI, 240);
+            }
+        }
+        //#region Tamamlanan Servisler(Genel) Filtreleme
+        function GetCompletedServicesFilter(Filter) {
+            $.ajax({
+                method: "GET",
+                url: "/CpmServisSistemi/GetCompletedServices?State=" + Filter,
+                success: function (resp) {
+                    $("#declinedCompletedServices").text(resp[0].find(elm => elm.Key == 'Declined').Value ?? '0');
+                    $("#waitingCompletedServices").text(resp[0].find(elm => elm.Key == 'Waiting').Value ?? '0');
+                    $("#confirmedCompletedServices").text(resp[0].find(elm => elm.Key == 'Confirmed').Value ?? '0');
+                }
+            });
+        }
+        //#endregion
+        //#region Tarafıma Atanan Servisler Filtreleme
+        function GetCompletedServicesResponsibleFilter(Filter,ResponsibleId) {
+            $.ajax({
+                method: "GET",
+                url: "/CpmServisSistemi/GetCompletedServicesResponsible?State=" + Filter + "&CPMRESPONSIBLEID=" + ResponsibleId,
+                success: function (resp) {
+                    changing1 = false;
+                    $("#declinedCompletedServicesRes").text(resp[0].find(elm => elm.Key == 'Declined').Value ?? '0');
+                    $("#waitingCompletedServicesRes").text(resp[0].find(elm => elm.Key == 'Waiting').Value ?? '0');
+                    $("#confirmedCompletedServicesRes").text(resp[0].find(elm => elm.Key == 'Confirmed').Value ?? '0');
+                    ChangeComplete();
+                }
+            });
+        }
+        //#endregion
+        //#region Servis Süresi,Destek Taleplerim,Servis Yapılan Müşteri Sayısı Filtreleme
+        function GetResponsibleDataMultiFilter(ResponsibleId) {
+            $.ajax({
+                method: "GET",
+                url: "/CpmServisSistemi/GetMultiFilter?CPMRESPONSIBLEID=" + ResponsibleId,
+                success: function (resp) {
+                 //Servis Süresi
+                    changing2 = false;
+                    var Today = resp.Data.Item1.find(elm => elm.filter(elm2 => elm2.Key == 'SUMTYPE' && elm2.Value == 'DAY').length > 0).find(elm => elm.Key == 'SERVICETIME').Value ?? 0;
+                    var Yesterday = resp.Data.Item1.find(elm => elm.filter(elm2 => elm2.Key == 'SUMTYPE' && elm2.Value == 'YESTERDAY').length > 0).find(elm => elm.Key == 'SERVICETIME').Value ?? 0;
+                    var Week = resp.Data.Item1.find(elm => elm.filter(elm2 => elm2.Key == 'SUMTYPE' && elm2.Value == 'WEEK').length > 0).find(elm => elm.Key == 'SERVICETIME').Value ?? 0;
+                    var LastWeek = resp.Data.Item1.find(elm => elm.filter(elm2 => elm2.Key == 'SUMTYPE' && elm2.Value == 'LASTWEEK').length > 0).find(elm => elm.Key == 'SERVICETIME').Value ?? 0;
+                    var Month = resp.Data.Item1.find(elm => elm.filter(elm2 => elm2.Key == 'SUMTYPE' && elm2.Value == 'MONTH').length > 0).find(elm => elm.Key == 'SERVICETIME').Value ?? 0;
+                    var LastMonth = resp.Data.Item1.find(elm => elm.filter(elm2 => elm2.Key == 'SUMTYPE' && elm2.Value == 'LASTMONTH').length > 0).find(elm => elm.Key == 'SERVICETIME').Value ?? 0;
+                    var DayDifference = Today - Yesterday;
+                    var WeekDifference = Week - LastWeek;
+                    var MonthDifference = Month - LastMonth;
+                    var DayPercent = Yesterday == 0 ? 100 : DayDifference / Yesterday * 100;
+                    var WeekPercent = LastWeek == 0 ? 100 : WeekDifference / LastWeek * 100;
+                    var MonthPercent = LastMonth == 0 ? 100 : MonthDifference / LastMonth * 100;
+                    var GetcolorDay = "";
+                    var ArrowDay = "";
+                    var GetcolorWeek = "";
+                    var ArrowWeek = "";
+                    var GetcolorMonth = "";
+                    var ArrowMonth = "";
+                    if (DayDifference > 0)
+                    {
+                        GetcolorDay = "--thGreen";
+                        ArrowDay = "up";
+                    }
+                    else {
+                        GetcolorDay = "--thRed";
+                        ArrowDay = "down";
+                    }
+                    if (WeekDifference > 0 ) {
+                        GetcolorWeek = "--thGreen";
+                        ArrowWeek = "up";
+                    }
+                    else {
+                        GetcolorWeek = "--thRed";
+                        ArrowWeek = "down";
+                    }
+                    if (MonthDifference > 0)
+                    {
+                        GetcolorMonth = "--thGreen";
+                        ArrowMonth = "up";
+                    }
+                    else {
+                        GetcolorMonth = "--thRed";
+                        ArrowMonth = "down";
+                    }
+                    $(".ServiceTimeRowDay").html('');
+                    $(".ServiceTimeRowDay").append('<span style="background-color:var(' + GetcolorDay + ');border-radius:6px;font-size: 1.5vmin;" class="text-white me-3 p-2">\
+                        <i class= "icon sc-arrow-' + ArrowDay + ' mt-3 text-white" ></i >% ' + DayPercent.toFixed(2).replace(".00", "") + '</span><span style="color:var(' + GetcolorDay + ');font-size:1.5vmin;" >' + DayDifference.toFixed(2).replace(".00", "") + '</span>');
+                    $(".ServiceTimeRowWeek").html('');
+                    $(".ServiceTimeRowWeek").append('<span style="background-color:var(' + GetcolorWeek + ');border-radius:6px;font-size: 1.5vmin;" class="text-white me-3 p-2">\
+                        <i class= "icon sc-arrow-' + ArrowWeek + ' mt-3 text-white" ></i >% ' + WeekPercent.toFixed(2).replace(".00", "") + '</span><span style="color:var(' + GetcolorWeek + ');font-size:1.5vmin;" >' + WeekDifference.toFixed(2).replace(".00", "") + '</span>');
+                    $(".ServiceTimeRowMonth").html('');
+                    $(".ServiceTimeRowMonth").append('<span style="background-color:var(' + GetcolorMonth + ');border-radius:6px;font-size: 1.5vmin;" class="text-white me-3 p-2">\
+                        <i class= "icon sc-arrow-' + ArrowMonth + ' mt-3 text-white" ></i >% ' + MonthPercent.toFixed(2).replace(".00", "") + '</span><span style="color:var(' + GetcolorMonth + ');font-size:1.5vmin;" >' + MonthDifference.toFixed(2).replace(".00", "") + '</span>');
+
+                    $("#Stoday").text(Today.toFixed(2).replace(".00",""));
+                    $("#Sweek").text(Week.toFixed(2).replace(".00", ""));
+                    $("#Smonth").text(Month.toFixed(2).replace(".00", ""));
+                    //Servis Yapılan Müşteri Sayısı
+                    window.test = resp;
+                    var CToday = resp.Data.Item3.filter(elm => elm.filter(elm2 => elm2.Key == 'Times' && elm2.Value == 'TODAY').length > 0)?.length ?? 0;
+                    var CYesterday = resp.Data.Item3.filter(elm => elm.filter(elm2 => elm2.Key == 'Times' && elm2.Value == 'YESTERDAY').length > 0)?.length ?? 0;
+                    var CWeek = resp.Data.Item3.filter(elm => elm.filter(elm2 => elm2.Key == 'Times' && elm2.Value == 'THISWEEK').length > 0)?.length ?? 0;
+                    var CLastWeek = resp.Data.Item3.filter(elm => elm.filter(elm2 => elm2.Key == 'Times' && elm2.Value == 'LASTWEEK').length > 0)?.length ?? 0;
+                    var CMonth = resp.Data.Item3.filter(elm => elm.filter(elm2 => elm2.Key == 'Times' && elm2.Value == 'THISMONTH').length > 0)?.length ?? 0;
+                    var CLastMonth = resp.Data.Item3.filter(elm => elm.filter(elm2 => elm2.Key == 'Times' && elm2.Value == 'LASTMONTH').length > 0)?.length ?? 0;
+                    var CDayDifference = CToday - CYesterday;
+                    var CWeekDifference = CWeek - CLastWeek;
+                    var CMonthDifference = CMonth - CLastMonth;
+                    var CDayPercent =  CYesterday == 0 ? 100 : CDayDifference / CYesterday * 100;
+                    var CWeekPercent = CLastWeek == 0 ? 100 : CWeekDifference / CLastWeek * 100;
+                    var CMonthPercent = CLastMonth == 0 ? 100 : CMonthDifference / CLastMonth * 100;
+
+                    var getcolorDay = "";
+                    var arrowDay = "";
+                    var getcolorWeek = "";
+                    var arrowWeek = "";
+                    var getcolorMonth = "";
+                    var arrowMonth = "";
+                    if (CDayDifference > 0) {
+                        getcolorDay = "--thGreen";
+                        arrowDay = "up";
+                    }
+                    else {
+                        getcolorDay = "--thRed";
+                        arrowDay = "down";
+                    }
+                    if (CWeekDifference > 0) {
+                        getcolorWeek = "--thGreen";
+                        arrowWeek = "up";
+                    }
+                    else {
+                        getcolorWeek = "--thRed";
+                        arrowWeek = "down";
+                    }
+                    if (CMonthDifference > 0) {
+                        getcolorMonth = "--thGreen";
+                        arrowMonth = "up";
+                    }
+                    else {
+                        getcolorMonth = "--thRed";
+                        arrowMonth = "down";
+                    }
+                    $(".CustomerDayRow").html('');
+                    $(".CustomerDayRow").append('<span style="background-color:var(' + getcolorDay + ');border-radius:6px;font-size: 1.5vmin;" class="text-white me-3 p-2">\
+                        <i class= "icon sc-arrow-' + arrowDay + ' mt-3 text-white" ></i >% ' + CDayPercent.toFixed(2).replace(".00", "") + '</span><span style="color:var(' + getcolorDay + ');font-size:1.5vmin;" >' + CDayDifference.toFixed(2).replace(".00", "") + '</span>');
+                    $(".CustomerWeekRow").html('');
+                    $(".CustomerWeekRow").append('<span style="background-color:var(' + getcolorWeek + ');border-radius:6px;font-size: 1.5vmin;" class="text-white me-3 p-2">\
+                        <i class= "icon sc-arrow-' + arrowWeek + ' mt-3 text-white" ></i >% ' + CWeekPercent.toFixed(2).replace(".00", "") + '</span><span style="color:var(' + getcolorWeek + ');font-size:1.5vmin;" >' + CWeekDifference.toFixed(2).replace(".00", "") + '</span>');
+                    $(".CustomerMonthRow").html('');
+                    $(".CustomerMonthRow").append('<span style="background-color:var(' + getcolorMonth + ');border-radius:6px;font-size: 1.5vmin;" class="text-white me-3 p-2">\
+                        <i class= "icon sc-arrow-' + arrowMonth + ' mt-3 text-white" ></i >% ' + CMonthPercent.toFixed(2).replace(".00", "") + '</span><span style="color:var(' + getcolorMonth + ');font-size:1.5vmin;" >' + CMonthDifference.toFixed(2).replace(".00", "") + '</span>');
+
+                    $("#Ctoday").text(CToday.toFixed(2).replace(".00", ""));
+                    $("#Cweek").text( CWeek.toFixed(2).replace(".00", ""));
+                    $("#Cmonth").text(CMonth.toFixed(2).replace(".00", ""));
+                    //Destek Taleplerim
+                    $("#RequestWait").text(test.Data.Item2[0].Value);
+                    ChangeComplete();
+                }
+            });
+        }
+        //#endregion
+        $('body').on('click', '.ResServicedayFilter,.ResServiceweekFilter,.ResServicemonthFilter,.ResServiceallFilter', function () {
+            $('.btn-group button').removeClass('active-button');   // it remove all the active links
+            $(this).addClass('active-button');
+            state1 = $(this).attr("data-id");
+            GetCompletedServicesResponsibleFilter(state1, cpmResponsibleId);
+        });
+        $('body').on('click', '.ServicedayFilter,.ServiceweekFilter,.ServicemonthFilter,.ServiceallFilter', function () {
+            $('.btn-group button').removeClass('active-button');   // it remove all the active links
+            $(this).addClass('active-button');
+            GetCompletedServicesFilter($(this).attr("data-id"));
+        });
+        $('body').on('click', '.dayFilter,.weekFilter,.monthFilter,.allFilter', function () {
+            $('.btn-group button').removeClass('active-button');   // it remove all the active links
+            $(this).addClass('active-button');
+            GetServiceTimeByAdvisorFilter($(this).attr("data-id"));
+        });
+        $('body').on('click', '.CustomerdayFilter,.CustomerweekFilter,.CustomermonthFilter,.CustomerallFilter', function () {
+            $('.btn-group button').removeClass('active-button');   // it remove all the active links
+            $(this).addClass('active-button');
+            GetServiceTimeByCustomerFilter($(this).attr("data-id"));
+        });
+        $('body').on('click', '.dayFilterApponintedAdvisor,.weekFilterApponintedAdvisor,.monthFilterApponintedAdvisor,.allFilterApponintedAdvisor', function () {
+            $('.btn-group button').removeClass('active-button');   // it remove all the active links
+            $(this).addClass('active-button');
+            GetDayByAppointedAdvisorFilter($(this).attr("data-id"));
+        });
+        GetServiceTimeByAdvisor();
+        GetServiceTimeByMonths();
+        GetRequestByMonths();
+        GetServiceTimeByCustomers();
+        var chart = $("#chart_servissuresi"),
+            aspect = chart.width() / chart.height(),
+            container = chart.parent();
+        $(window).on("resize", function () {
+            var targetWidth = container.width();
+            chart.attr("width", targetWidth);
+            chart.attr("height", Math.round(targetWidth / aspect));
+        }).trigger("resize");
+
+        var chart = $("#chart_danisman"),
+            aspect = chart.width() / chart.height(),
+            container = chart.parent();
+        $(window).on("resize", function () {
+            var targetWidth = container.width();
+            chart.attr("width", targetWidth);
+            chart.attr("height", Math.round(targetWidth / aspect));
+        }).trigger("resize");
+
+        var chart = $("#chart_musteri"),
+            aspect = chart.width() / chart.height(),
+            container = chart.parent();
+        $(window).on("resize", function () {
+            var targetWidth = container.width();
+            chart.attr("width", targetWidth);
+            chart.attr("height", Math.round(targetWidth / aspect));
+        }).trigger("resize");
+  
+    //#endregion
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    const ctxR = document.getElementById('myChartRequest').getContext('2d');
+    const ctx3 = document.getElementById('myChart3').getContext('2d');
+    var chrt1 = null;
+    var chrt2 = null;
+    var chrt3 = null;
+    var chrt4 = null;
+    //#region Danışman Bazında Servis Süreleri Filtreleme
+    function GetServiceTimeByAdvisorFilter(Filter) {
+        $.ajax({
+            method: "GET",
+            url: "/CpmServisSistemi/GetServiceTimeByAdvisorFilter?State=" + Filter,
+            success: function (resp) {
+                var Advisor = [];
+                var ServiceTime = [];
+                $.each(resp, function (key, item) {
+                    for (var i = 0; i < item.length; i++) {
+                        if (item[i].Key == "Advisor") {
+                            Advisor.push(item[i].Value)
+                        }
+                        else if (item[i].Key == "ServiceTime") {
+                            ServiceTime.push(item[i].Value)
+                        }
+                    }
+                });
+                UpdateTableData(chrt1, ServiceTime, Advisor);
+            }
+        });
+    }
+    //#endregion
+
+    //#region Danışman Bazlı Yönledirmiş Bekleme Süreleri- Filtreleme
+    function GetDayByAppointedAdvisorFilter(Filter) {
+        $.ajax({
+            method: "GET",
+            url: "/CpmServisSistemi/GetDayByAppointedAdvisorFilter?State=" + Filter,
+            success: function (resp) {
+                var AppointedAdvisorName = [];
+                var Count = [];
+                $.each(resp, function (key, item) {
+                    for (var i = 0; i < item.length; i++) {
+                        if (item[i].Key == "AppointedAdvisorName") {
+                            AppointedAdvisorName.push(item[i].Value)
+                        }
+                        else if (item[i].Key == "Count") {
+                            Count.push(item[i].Value)
+                        }
+                    }
+                });
+                UpdateTableData(chrt4, Count,AppointedAdvisorName);
+            }
+        });
+    }
+    //#endregion
+
+    //#region Müşteri Bazında Servis Süreleri
+    function GetServiceTimeByCustomerFilter(Filter) {
+        $.ajax({
+            method: "GET",
+            url: "/CpmServisSistemi/GetServiceTimeByCustomerFilter?State=" + Filter,
+            success: function (resp) {
+                var Advisor = [];
+                var ServiceTime = [];
+                $.each(resp, function (key, item) {
+                    for (var i = 0; i < item.length; i++) {
+                        if (item[i].Key == "UNVAN") {
+                            Advisor.push(item[i].Value)
+                        }
+                        else if (item[i].Key == "ServiceTime") {
+                            ServiceTime.push(item[i].Value)
+                        }
+                    }
+                });
+                UpdateTableData(chrt3, ServiceTime, Advisor);
+            }
+        });
+    }
+    //#endregion
+    function GetServiceTimeByAdvisor() {
+        $.ajax({
+            method: "GET",
+            url: "/CpmServisSistemi/GetTableData1",
+            success: function (resp) {
+                var Advisor = [];
+                var ServiceTime = [];
+                $.each(resp, function (key, item) {
+                    for (var i = 0; i < item.length; i++) {
+                        if (item[i].Key == "Advisor") {
+                            Advisor.push(item[i].Value)
+                        }
+                        else if (item[i].Key == "ServiceTime") {
+                            ServiceTime.push(item[i].Value)
+                        }
+                    }
+                });
+                SetTableData(ctx, 'bar', Advisor, ServiceTime, 'Adam Gün', 'y');
+            }
+        });
+    }
+    function GetServiceTimeByMonths() {
+        $.ajax({
+            method: "GET",
+            url: "/CpmServisSistemi/GetTableData2",
+            success: function (resp) {
+                const labels = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+                SetTableData(ctx2, 'bar', labels, resp, 'Adam Gün', 'x');
+            }
+        });
+    }
+    function GetRequestByMonths() {
+        $.ajax({
+            method: "GET",
+            url: "/CpmServisSistemi/GetTableDataRequest",
+            success: function (resp) {
+                var AppointedAdvisorName = [];
+                var Count = [];
+                $.each(resp, function (key, item) {
+                    for (var i = 0; i < item.length; i++) {
+                        if (item[i].Key == "AppointedAdvisorName") {
+                            AppointedAdvisorName.push(item[i].Value)
+                        }
+                        else if (item[i].Key == "Count") {
+                            Count.push(item[i].Value)
+                        }
+                    }
+                });
+                SetTableData(ctxR, 'bar', AppointedAdvisorName, Count, 'Adet', 'x');
+            }
+        });
+    }
+    function GetServiceTimeByCustomers() {
+        $.ajax({
+            method: "GET",
+            url: "/CpmServisSistemi/GetTableData3",
+            success: function (resp) {
+                var Advisor = [];
+                var ServiceTime = [];
+                $.each(resp, function (key, item) {
+                    for (var i = 0; i < item.length; i++) {
+                        if (item[i].Key == "UNVAN") {
+                            Advisor.push(item[i].Value)
+                        }
+                        else if (item[i].Key == "ServiceTime") {
+                            ServiceTime.push(item[i].Value)
+                        }
+                    }
+                });
+                SetTableData(ctx3, 'bar', Advisor, ServiceTime, 'Adam Gün', 'y');
+            }
+        });
+    }
+    function UpdateTableData(ChartObject, Data, Labels) {
+        ChartObject.data.labels = [];
+        ChartObject.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+        });
+        ChartObject.data.labels.push(...Labels);
+        ChartObject.data.datasets.forEach((dataset) => {
+            dataset.data.push(...Data);
+        });
+        ChartObject.update();
+    }
+    function SetTableData(ChartObject, Type, Labels, Data, DataLabel, IndexAxis) {
+        var chrt = new Chart(ChartObject, {
+            type: Type,
+            data: {
+                labels: Labels,
+                datasets: [{
+                    label: DataLabel,
+                    data: Data,
+                    backgroundColor: [
+                        '#F26A29',
+                        '#307BA6',
+                        '#FBD95F',
+                        '#49B8DE',
+                        '#B2B0BD',
+                        '#A19BC3',
+                        '#17996E',
+                        '#1BA6B3',
+                        '#ABAB1A',
+                        '#FFB8B8',
+                        '#CC52A3',
+                        '#D9A36D',
+                        '#D95757'
+                    ],
+                    borderColor: [
+                        '#F26A29',
+                        '#307BA6',
+                        '#FBD95F',
+                        '#49B8DE',
+                        '#B2B0BD',
+                        '#A19BC3',
+                        '#17996E',
+                        '#1BA6B3',
+                        '#ABAB1A',
+                        '#FFB8B8',
+                        '#CC52A3',
+                        '#D9A36D',
+                        '#D95757'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: IndexAxis,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        switch (ChartObject) {
+            case ctx:
+                chrt1 = chrt;
+                break;
+            case ctx2:
+                chrt2 = chrt;
+                break;
+            case ctx3:
+                chrt3 = chrt;
+                break;
+            case ctxR:
+                chrt4 = chrt;
+                break;
+        }
+        }
+    });
+</script>
+
+

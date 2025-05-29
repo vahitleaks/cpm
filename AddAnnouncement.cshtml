@@ -1,0 +1,478 @@
+﻿
+@{
+    ViewBag.Title = "AddAnnouncement";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<script src="~/Content/NewThema/ckeditor/ckeditor.js"></script>
+<script src="~/Content/NewThema/ckeditor/samples/js/sample.js"></script>
+<link href="~/Content/NewThema/ckeditor/samples/css/samples.css" rel="stylesheet" />
+<link href="~/Scripts/fileUploadAnnouncements/fileup.css" rel="stylesheet" />
+<link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+<style>
+    .carousel-indicators li {
+        background: #c3c3c3 !important;
+    }
+
+    .carousel-indicators .active {
+        background: #333333 !important;
+    }
+
+    .ribbon-1 .ribbon-box {
+        position: relative;
+        background: #ffffff;
+        border: 5px double #eff2f9;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 12px;
+        padding: 31px 10px 7px 10px;
+    }
+
+    .ribbon-1 .ribbon {
+        padding: 0 15px;
+        height: 30px;
+        line-height: 30px;
+        clear: left;
+        position: absolute;
+        top: 0px;
+        left: -2px;
+        color: #ffffff;
+    }
+
+        .ribbon-1 .ribbon.ribbon-mark:before {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            display: block;
+            width: 0;
+            height: 0;
+            content: '';
+            border: 15px solid #20a1da;
+            border-right: 10px solid transparent;
+        }
+
+    .ribbon-1 .ribbon-right {
+        left: auto;
+        right: -2px;
+    }
+
+    .ribbon-1 .ribbon-mark.ribbon-right:before {
+        right: 100%;
+        left: auto;
+        border-right: 15px solid #20a1da;
+        border-left: 10px solid transparent;
+    }
+
+    .ribbon-1 .ribbon-icon {
+        clear: none;
+        padding: 0 5px;
+        height: 42px;
+        width: 30px;
+        line-height: 40px;
+        text-align: center;
+        left: 0px;
+        top: -2px;
+    }
+
+    .ribbon-1 .ribbon-mark.ribbon-icon:before {
+        top: 100%;
+        left: 0;
+        margin-top: -14px;
+        border-right: 15px solid #20a1da;
+        border-bottom: 10px solid transparent;
+    }
+
+    .ribbon-1 .ribbon-mark.ribbon-right {
+        right: -5px;
+        left: auto;
+    }
+
+    .ribbon-1 .ribbon-mark {
+        border-radius: 0;
+        top: -5px;
+        left: -5px;
+    }
+
+    .ribbon-1 p {
+        color: #50649c;
+    }
+    /************************************************/
+    .cke_reset {
+        border: 1px solid #fff;
+        margin-left: -2px;
+        margin-right: -2px;
+    }
+
+    .cke_bottom {
+        background: #fff !important;
+        border-top: 1px solid var(--thBorderLight) !important;
+    }
+
+    .cke_top {
+        border-bottom: 1px solid #F2F6F7;
+        background: #f1faff00;
+    }
+
+    .cke_contents.cke_reset {
+        min-height: 335px !important;
+    }
+
+    .content ul, .content ol, .content pre, .content blockquote, .content textarea:not([class^="cke"]), .content .cke {
+        margin: 0 !important;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus,
+    button:focus {
+        outline: none;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--thBlue) !important;
+        border-color: var(--thBlue) !important;
+    }
+
+    .aside-enabled.aside-fixed[data-kt-aside-minimize=on] .wrapper {
+        padding-left: 75px !important;
+    }
+
+    /*    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+        max-width: 1320px !important;
+    }*/
+
+    .btn-duyuru {
+        border: none;
+        background-color: var(--thBorderLight);
+        border-radius: 6px;
+    }
+
+    .card-duyuru {
+        height: 4rem;
+        background-color: transparent;
+    }
+
+        .card-duyuru:hover {
+            background-color: var(--thBorderLight);
+            cursor: pointer;
+        }
+
+    .dropDiv {
+        background-color: #fff;
+        margin-bottom: 30px;
+        border: 30px solid rgba(0, 0, 0, 0);
+        border-radius: 3px;
+        border-image: url('../../Images/iconsforservcie/Rectangle 6494.svg') 25 repeat;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: bold;
+        color: #7f858a;
+    }
+
+    .linkUpload {
+        background-color: #fff;
+        padding: 12px 26px;
+        color: var(--thBlue);
+        font-size: 0.8rem;
+        border-radius: 6px;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 12px;
+        line-height: 1;
+        border: 1px solid var(--thBlue);
+    }
+
+        .linkUpload:hover {
+            background-color: var(--thBlue);
+            color: #fff !important;
+        }
+
+    .bg-a1 {
+        background-color: var(--thBlue);
+    }
+
+    .carousel-indicators li {
+        height: 5px;
+    }
+</style>
+
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl mt-5">
+                        <div class="row m-1">
+                            <div class="col-12">
+                                <div class="row">
+
+                                    <div class="col-12" style="border-top-right-radius: 6px;border-bottom-right-radius: 6px;">
+                                        @*style="border-bottom: 2px solid var(--thBorderLight);"*@
+                                        <div class="row">
+                                            <div class="col-6 pl-4 pr-4" style="border: 1px solid var(--thBorderLight);">
+                                                <div class="row">
+                                                    <div class="col-12 my-auto p-0">
+                                                        <label class="font-weight-bold mt-2" style="font-size: medium;">Duyuru Başlık</label>
+                                                        <input class="mt-2 mb-5" type="text" name="name" placeholder="Duyuru başlığını buraya yazınız…" value="" style="height: 6rem; width: inherit; background-color: #fff;border:none!important;font-size:1rem;font-weight: 600;" id="AnnouncementHead" />
+                                                        <label class="font-weight-bold" style="font-size: medium;">Duyuru İçerik</label>
+                                                        <textarea id="editor" class="ck_editor">
+                                               </textarea>
+                                                    </div>
+                                                </div>
+                         
+                                            <div class="row">
+
+                                                <div class="col-3 my-auto" style="height:3rem; border-bottom: 2px solid var(--thBorderLight);">
+                                                    <label class="Label-Text" style="margin-top: 0.6rem;font-size:0.9rem!important;">Duyuru Tipi</label>
+                                                </div>
+                                                <div class="col-9 text-end pt-3" style="height:3rem; border-bottom: 2px solid var(--thBorderLight);">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox" id="ProjeCheckbox" name="ProjeCheckbox" value="option1" style="width: 1.3rem; height: 1.3rem;">
+                                                        <label class="form-check-label Label-Text" for="ProjeCheckbox" style="font-size: 0.9rem;">Proje</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox" id="BilgiCheckbox" name="BilgiCheckbox" value="option2" style="width: 1.3rem; height: 1.3rem;">
+                                                        <label class="form-check-label Label-Text" for="BilgiCheckbox" style="font-size: 0.9rem;">Bilgi</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                      
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                                <div class="row">
+
+                                                    <div class="col-3 my-auto" style="height:3rem; border-bottom: 2px solid var(--thBorderLight);">
+                                                        <label class="Label-Text" style="margin-top: 0.6rem;font-size:0.9rem!important;">Duyuru kanalları</label>
+                                                    </div>
+                                                    <div class="col-9 text-end pt-3" style="height:3rem; border-bottom: 2px solid var(--thBorderLight);">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="WebCheckbox" name="WebCheckbox" value="option1" style="width: 1.3rem; height: 1.3rem;">
+                                                            <label class="form-check-label Label-Text" for="WebCheckbox" style="font-size: 0.9rem;">Web Sitesi</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="EmailCheckbox" name="EmailCheckbox" value="option2" style="width: 1.3rem; height: 1.3rem;">
+                                                            <label class="form-check-label Label-Text" for="EmailCheckbox" style="font-size: 0.9rem;">E-posta</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="SmsCheckbox" name="SmsCheckbox" value="option3" style="width: 1.3rem; height: 1.3rem;">
+                                                            <label class="form-check-label Label-Text" for="SmsCheckbox" style="font-size: 0.9rem;">SMS</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row pt-3 pb-3">
+
+
+                                                    <div class="col-3" style="padding-top: 0.7rem;">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" id="ShareCheckbox" name="ShareCheckbox" value="option3" style="width: 1.3rem; height: 1.3rem;">
+                                                            <label class="form-check-label Label-Text" for="ShareCheckbox" style="font-size: 0.9rem;">Müşteri ile Paylaş</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-9" style="text-align: end;padding-top: 0.7rem;">
+                                                        <button type="button" style="" class="Button-Outline-Close" data-dismiss="modal">İptal</button>
+                                                        <button type="button" style="margin-left: 1rem;" class="Button-Outline-Kaydet" id="AddAnnouncement">
+                                                            Kaydet
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-6" style=" border-bottom: 1px solid var(--thBorderLight);
+        border-top: 1px solid var(--thBorderLight);
+        border-right: 1px solid var(--thBorderLight);
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="designUpload mt-3">
+                                                            <div class="fileup-btn dropDiv col-12 pb-4 pt-4">
+                                                                <img src="/Images/iconsforservcie/icons8-upload_to_cloud.png" height="50"><br>
+                                                                <label style="font-size: 0.7rem;">Dosya yüklemek için tıklayınız !</label>
+                                                                @*<a class="linkUpload">Dosya Seç</a>*@
+                                                                <input type="file" id="upload-3" multiple accept="image/*" max-file-size="1024">
+                                                            </div>
+                                                        </div>
+                                                        <div id="upload-3-queue"></div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="border-top: 1px solid var(--thBorderLight);">
+                                                    <div class="col-12 mt-3">
+                                                        <label class="font-weight-bold" style="padding-left: 1rem; font-size: medium;">Video</label>
+                                                        <button id="addNewVideo" type="button" class="Button-Add float-end">Yeni Video Ekle</button>
+                                                    </div>
+                                                    <div class="col-12 Scroll-Blue p-3" id="VideoMainCard" style="height:auto!important;">
+                                                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="false" data-interval="false">
+                                                            <ol class="carousel-indicators" id="CarouselIndicatorContainer">
+                                                                <li id="carousel-indicator1" data-target="#carouselExampleIndicators" data-slide-to="0" class="c-indicator active"></li>
+                                                            </ol>
+                                                            <div class="carousel-inner" id="CarouselContainer">
+                                                                <div id="carousel1" class="carousel-item active">
+                                                                    @{
+                                                                        Html.RenderPartial("~/Views/Shared/Duyurular/_AddVideo.cshtml");
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/SweetAlert2/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/fileUploadAnnouncements/fileup.js"></script>
+<script>
+
+    initSample();
+    $.fileup({
+        url: '',
+        inputID: 'upload-3',
+        queueID: 'upload-3-queue',
+        autostart: true
+
+
+    });
+    // #region Yapilanlar Video Ekle
+    $('body').on('click', '#addNewVideo', function () {
+        var CarouselCount = $("#CarouselContainer").children().length + 1;
+        var satirEkle = `<div id="carousel` + CarouselCount + `" class="carousel-item active">@{Html.RenderPartial("~/Views/Shared/Duyurular/_AddVideo.cshtml");}</div>`.replace('id="DeleteVideo1"', 'id="DeleteVideo' + CarouselCount+'"');
+        var indicatorEkle = '<li id="carousel-indicator' + CarouselCount+'" data-target="#carouselExampleIndicators" data-slide-to="' + (CarouselCount - 1) + '" class="c-indicator active"></li>';
+        $(".carousel-item").removeClass('active');
+        $("#CarouselContainer").append(satirEkle);
+        $(".c-indicator").removeClass('active');
+        $("#CarouselIndicatorContainer").append(indicatorEkle);
+    });
+    $("body").on("click", ".delete-video-button", function () {
+        if ($("#CarouselContainer").children().length > 1) {
+            var id = $(this).attr("id").replace('DeleteVideo', '');
+            var first = $("#CarouselContainer").children()[0].id;
+            console.log(first);
+            $("#carousel" + id).remove();
+            $("#carousel-indicator" + id).remove();
+            $(".c-indicator").removeClass('active');
+            $(".carousel-item").removeClass('active');
+            var slideTo = 0;
+            var carouselid = 1;
+            Array.from($('.c-indicator')).forEach(elm => { elm.dataset['slideTo'] = slideTo++; elm.id = 'carousel-indicator' + slideTo; });
+            Array.from($('.carousel-item')).forEach(elm => elm.id = 'carousel' + carouselid++);
+
+            $('#carousel1').addClass("active");
+            $('#carousel-indicator1').addClass("active");
+        }
+        else {
+        }
+    });
+    // #endregion
+    //#region Duyuru Ekleme
+    $('body').on('click', '#AddAnnouncement', function () {
+        debugger;
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+        var AnnouncementHead = $("#AnnouncementHead").val();
+        var AnnouncementTopic = $("textarea.ck_editor").val();
+        var ProjeCheckbox = $("input[name=ProjeCheckbox]").prop('checked');
+        var BilgiCheckbox = $("input[name=BilgiCheckbox]").prop('checked');
+        var WebCheckbox = $("input[name=WebCheckbox]").prop('checked');
+        var EmailCheckbox = $("input[name=EmailCheckbox]").prop('checked');
+        var SmsCheckbox = $("input[name=SmsCheckbox]").prop('checked');
+        var AnnouncementState = $("input[name=ShareCheckbox]").prop('checked');
+        //Resimler
+        var filesArr = [];
+        var filesArrChecked = [];
+        var x = 0;
+        var fileReadStart = 0;
+        var fileReadCompleted = 0;
+        while (true) {
+            fileReadStart++;
+            var reader = new FileReader();
+            var a = $('#upload-3')[0].fileup.files[x];
+            if (!a)
+                break;
+            var c = $(".fileup-radio")[x++].checked;
+            //filesArr.push({ file: a, checked: c });
+            reader.readAsArrayBuffer(a.file);
+            reader.onloadend = function (xx) {
+                filesArr.push(btoa(String.fromCharCode.apply(null, new Uint8Array(xx.currentTarget.result))));
+            };
+            filesArrChecked.push(c);
+        }
+        //Video
+        var VideoHead = [];
+        var VideoLink = [];
+        var VideoTopic = [];
+        $(".carousel-item").each(function () {
+            VideoHead.push($(this).find("#TitleVideo").val());
+            VideoLink.push($(this).find("#VideoLink").val());
+            VideoTopic.push($(this).find("#VideoTopic").val());
+        });
+        var data = {
+            'AnnouncementHead': AnnouncementHead,
+            'AnnouncementTopic': AnnouncementTopic,
+            'ProjeCheckbox': ProjeCheckbox,
+            'BilgiCheckbox': BilgiCheckbox,
+            'Images': window.filesArr,
+            'ImagesState': filesArrChecked,
+            'VideoHead': VideoHead,
+            'VideoLink': VideoLink,
+            'VideoTopic': VideoTopic,
+            'WebCheckbox': WebCheckbox,
+            'EmailCheckbox': EmailCheckbox,
+            'SmsCheckbox': SmsCheckbox,
+            'AnnouncementState': AnnouncementState
+        };
+        console.log(data);
+
+       if (AnnouncementHead=="") {
+            Swal.fire(
+                'UYARI ?',
+                'Lütfen "Duyuru Başlık" yazınız !',
+                'info'
+            )
+        }
+        else if ( AnnouncementTopic == "") {
+            Swal.fire(
+                'UYARI ?',
+                'Lütfen "Duyuru İçerik" yazınız!',
+                'info'
+            )
+        }
+        else if ($.inArray(true, filesArrChecked) == -1) {
+            Swal.fire(
+                'UYARI ?',
+                'Lütfen bir kapak fotoğrafı seçiniz!',
+                'info'
+            )
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/CpmServisSistemi/SaveAnnouncement",
+                dataType: "json",
+                data: data,
+                 success: function (result) {
+                    setTimeout($.unblockUI, 500);
+                    toastr.success(result.Message);
+                    window.location = "/CpmServisSistemi/AnnouncementList";
+                   },
+                 error: function (xhr) {
+                    alert(xhr);
+                 }
+            });
+        }
+    });
+    //#endregion
+</script>
+

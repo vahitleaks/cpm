@@ -1,0 +1,793 @@
+﻿@model sistemproject.Models.FullCalendarViewModels.ServiceFormOperationsViewModel
+@{
+    ViewBag.Title = "TumServislerim";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+@Html.Partial("ServiceForm/_ServiceForm")
+<style>
+    .aside-enabled.aside-fixed[data-kt-aside-minimize=on] .wrapper {
+        padding-left: 75px !important;
+    }
+
+    .accordion-item:last-of-type .accordion-button.collapsed {
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .accordion-button {
+        border-bottom: 2px solid var(--thBorder) !important;
+    }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #fff !important;
+            border-bottom: 1px solid var(--thBorder) !important;
+        }
+
+    ul li {
+        list-style: none;
+    }
+
+    label {
+        margin-bottom: 0rem !important;
+    }
+</style>
+<link href="~/Content/screenSettingsAllServiceForm.css" rel="stylesheet" />
+<link href="~/Content/ContextMenu/jquery.contextMenu.min.css" rel="stylesheet" />
+<link href="~/Content/DateRangePicker/daterangepicker.css" rel="stylesheet" />
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <label hidden class="LoginInfo" id="loginCpmResponsible" data-user="@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Session["fName"]?.ToString() ?? "")"></label>
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card mb-1" style="border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;box-shadow: 0px 0px 6px -3px #406c80!important;">
+                                    <div class="card-body" style="padding: 1rem 1.25rem;">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3 mb-3 mb-sm-0 mb-md-0">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Firma</span>
+                                                <select class="selectpicker font13" data-live-search="true" id="COMPANYID">
+                                                    <option selected value="">Seçiniz...</option>
+                                                    @foreach (var l in Model.CompanySelectList)
+                                                    {
+                                                        <option value="@l.Value">@l.Text</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 mb-3 mb-sm-0 mb-md-0">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Tarih Aralığı</span>
+                                                <div class="input-group" style="margin-top: 0.7rem;">
+                                                    <input type="text" class="form-control" name="dates" id="DATE">
+                                                    @*<div class="input-group-append">
+                                                            <span class="input-group-text"><i class="dripicons-calendar"></i></span>
+                                                        </div>*@
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 mb-3 mb-sm-0 mb-md-0">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Durum</span>
+                                                <select class="selectpicker font13" data-live-search="true" id="STATE">
+                                                    <option data-tokens="" value="">Seçiniz...</option>
+                                                    <option value="1">Onaylandı</option>
+                                                    <option value="0">Reddedildi</option>
+                                                    <option value="2">Beklemede</option>
+                                                    <option value="3">Zaman Aşımı Onaylı</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-1 col-md-1 col-sm-1">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Talep No</span>
+                                                <input value="" placeholder="Arama Yapınız..." type="text" class="Input-Medium mt-2" id="RequestNo"></input>
+                                            </div>
+                                            <div class="col-lg-1 col-md-1 col-sm-1 ml-5">
+                                                <span class="Label-Title" style="margin-left: 0.7rem;">Ara</span>
+                                                <input value="" placeholder="Arama Yapınız..." type="text" class="Input-Medium mt-2" id="Search"></input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion accordion-flush" id="accordionFlushExample">
+                                    @foreach (var item in Model.ServiceFormList2)
+                                    {
+                                        <div class="accordion-item">
+                                            <div class="accordion-header" id="flush-@item.SERVICEFORMID">
+                                                <div class="accordion-button collapsed" data-accordion-button="@item.SFORMGROUPCODE" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@item.SERVICEFORMID@item.SERVICEFORMID" aria-expanded="false" aria-controls="flush-@item.SERVICEFORMID">
+                                                    <div class="" hidden id="dataService">
+                                                        <i hidden class="icon sc-edit-pencil-2" id="btnServiceFormEdit" data-sayfa="SERVISNOTLARI" data-id="@item.SERVICEFORMID" data-state="@item.REMOTESERVICESTATE" data-serviceformconfirm="@item.SERVICEFORMCONFIRM" data-user="@item.CPMRESPONSIBLEID"></i>
+                                                        <i hidden class="icon sc-trash-bin" id="btnServiceFormDelete" data-serviceformconfirm="@item.SERVICEFORMCONFIRM" data-id="@item.SERVICEFORMID" data-sgroupcode="@item.SFORMGROUPCODE" data-pgroupcode="@item.PLANGROUPCODE"></i>
+                                                        <i hidden class="icon sc-download" id="btnServiceFormPdfDownload" data-id="@item.SERVICEFORMID" data-state="@item.REMOTESERVICESTATE"></i>
+                                                        <i hidden class="icon sc-mail" id="btnServiceFormMail" data-id="@item.SERVICEFORMID" data-state="@item.REMOTESERVICESTATE" data-mailsent="@item.MAILSENT"></i>
+                                                    </div>
+                                                    <div class="row" style="width:inherit;">
+                                                        <div class="col-lg-1 text-lg-center">
+
+                                                            @if (item.REMOTESERVICESTATE == true)
+                                                            {
+                                                                <img src="~/Images/iconsforservcie/icons8-customer_support.png" class="remoteImg" height="35" width="35" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/Images/iconsforservcie/icons8-flip_chart.png" class="serviceImg" height="35" width="35" />
+                                                            }
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-12 col-sm-12">
+                                                            <label class="Label-Title companyNameDots2" title="@item.COMPANYNAME" style="font-size: 0.9rem;">@item.COMPANYNAME</label>
+                                                            <label class="Label-Text" style="font-size: 0.8rem;">@item.STARTDATE.Value.ToString("dd/MM/yyyy HH:mm") &nbsp; <b>*</b> &nbsp; @item.ENDDATE.Value.ToString("dd/MM/yyyy HH:mm")</label><br />
+                                                            <label class="Label-Text" style="font-size: 0.8rem; margin-bottom: 0rem !important;" id="@item.SERVICEFORMID">Servis Form No: @item.SERVICEFORMID</label><br />
+                                                            @if (@item.REQUESTID != 0)
+                                                            {
+                                                                <label class="Label-Text" style="font-size: 0.8rem; margin-bottom: 0rem !important;" id="@item.REQUESTID">Talep No: @item.REQUESTID</label><br />
+
+                                                            }
+                                                            @if (item.Topic != null && item.Topic != "")
+                                                            {
+                                                                <label class="Label-Text" style="font-size: 0.8rem; margin-bottom: 0rem !important; width: 285px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" id="@item.REQUESTID">Konu: @item.Topic</label><br />
+                                                            }
+
+
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-12 col-sm-12">
+                                                            <label class="Label-Title" style="font-size: 0.9rem;">@item.SERVICETYPENAME</label> <br />
+                                                            <label class="Label-Text" style="font-size: 0.8rem;">@item.SUPPORTTYPE</label>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-12 col-sm-12 my-auto">
+                                                            @if (item.COMPANYCONTRACT == null || item.COMPANYCONTRACT == "")
+                                                            {
+                                                                <label class="Label-Text" style="font-size: 0.8rem;">Firmaya Ait Sözleşme Bulunmamaktadır</label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label class="Label-Text" style="font-size: 0.8rem;">@item.COMPANYCONTRACT</label>
+                                                            }
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-12 col-sm-12">
+                                                            <label class="Label-Title personNameDots2" title="@item.PERSONNAME" style="font-size: 0.9rem;">@item.PERSONNAME</label>
+                                                            <label class="Label-Title" style="font-size: 0.8rem;"><b>Cpm Sorumlusu : </b>@item.CPMRESPONSIBLE</label> <br />
+                                                            @if (item.FREESERVICETIME != 0 && item.FREESERVICETIME != null)
+                                                            {
+                                                                <label class="Label-Text" style="font-size: 0.8rem;">@item.SERVICETIME Dakika / @item.FREESERVICETIME Dakika</label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label class="Label-Text" style="font-size: 0.8rem;">@item.SERVICETIME Dakika</label>
+                                                            }
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-12 col-sm-12 my-auto">
+                                                            <div class="col-sm-3 col-lg-6 col-md-12  col-form-label col-form-label-sm text-center justify-content-center">
+                                                                @if (item.SERVICEFORMCONFIRM == 1)
+                                                                {
+                                                                    if (item.MAILSENT)
+                                                                    {
+                                                                        <i class="icon sc-mail pt-3" style="color: var(--thGreen);"></i><br />
+                                                                    }
+                                                                    <label class="Label-Green" style="font-weight:bold;font-size: 0.9rem;">Onaylandı </label>
+                                                                    <i class="icon sc-menu-9 approved" style="margin-left: 3rem;" id="ContextMenu2"></i>
+                                                                }
+                                                                else if (item.SERVICEFORMCONFIRM == 0)
+                                                                {
+                                                                    if (item.MAILSENT)
+                                                                    {
+                                                                        <i class="icon sc-mail pt-3" style="color:var(--thGreen);"></i><br />
+                                                                    }
+                                                                    <label class="Label-Red" style="font-weight:bold;font-size: 0.9rem!important;"><i class="icon sc-info-sign pt-2 Label-Red" style="cursor:pointer;">&nbsp;&nbsp;</i>Reddedildi</label>
+                                                                    <i class="icon sc-menu-9 denied" style="margin-left: 3.1rem;" id="ContextMenu"></i>
+                                                                }
+                                                                else if (item.SERVICEFORMCONFIRM == 3)
+                                                                {
+                                                                    if (item.MAILSENT)
+                                                                    {
+                                                                        <i class="icon sc-mail pt-3" style="color: var(--thGreen);"></i><br />
+                                                                    }
+                                                                    <label class="Label-Green" style="font-weight:bold;font-size: 0.9rem;padding: inherit;">Zaman Aşımı <br /> Onaylı</label>
+                                                                    <i class="icon sc-menu-9 timeoutConfirmed" style="margin-left: 2rem;" id="ContextMenu2"></i>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (item.MAILSENT)
+                                                                    {
+                                                                        <i class="icon sc-mail pt-3" style="color: var(--thGreen);"></i><br />
+                                                                    }
+                                                                    <label class="Label-Yellow" style="font-weight:bold;font-size: 0.9rem;">Beklemede</label>
+                                                                    <i class="icon sc-menu-9 pending" style="margin-left: 3rem;" id="ContextMenu"></i>
+                                                                }
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="flush-@item.SERVICEFORMID@item.SERVICEFORMID" class="accordion-collapse collapse" aria-labelledby="flush-@item.SERVICEFORMID" data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body ServiceFormData">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3 mb-4">
+                            <div class="col-12">
+                                Kayıt edilen son 50 Servis Formunu görüntülemektesiniz.
+                            </div>
+                        </div>
+
+                        @*<div id="serviceFormModal" class="modal" hidden>
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <div id="modalBody">Yükleniyor...</div>
+                                </div>
+                            </div>*@
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/ContextMenu/jquery.contextMenu.min.js"></script>
+<script src="~/Scripts/ContextMenu/jquery.ui.position.js"></script>
+<script src="~/Scripts/FullCalendar/moment.min.js"></script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.min.js"></script>
+
+<script>
+    $(function () {
+        debugger;
+        $.contextMenu({
+            selector: '#ContextMenu2',
+            trigger: 'hover',
+            delay: 100,
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+                if (m == "clicked: download") {
+                    var REMOTESERVICESTATE = $(this).parents(".accordion-header").find("#btnServiceFormPdfDownload").attr("data-state");
+                    if (REMOTESERVICESTATE == "True") {
+                        var SERVICEFORMID = $(this).parents(".accordion-header").find("#btnServiceFormPdfDownload").attr("data-id");
+                        var jobupdatediv = $("#serviceform");
+                        debugger;
+                        $.ajax({
+                            type: "GET",
+                            url: "/CpmServisSistemi/_ServisFormuindirmeEkrani?SERVICEFORMID=" + SERVICEFORMID,
+                            datatype: "html",
+                            cache: false,
+                            success: function (data) {
+                                if (data != null) {
+                                    jobupdatediv.html(data);
+                                    $("#mdlserviceform").modal("show");
+                                    $("#mdlserviceform").modal({ backdrop: 'static', keyboard: false });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Partial view yüklenirken hata oluştu: ', error);
+                                alert('Veri yüklenirken bir hata oluştu.');
+                            }
+                        });
+                    }
+                    else {
+                        var SERVICEFORMID = $(this).parents(".accordion-header").find("#btnServiceFormPdfDownload").attr("data-id");
+                        var jobupdatediv = $("#serviceform");
+                        debugger;
+                        $.ajax({
+                            type: "GET",
+                            url: "/CpmServisSistemi/_ServisFormuindirmeEkrani?SERVICEFORMID=" + SERVICEFORMID,
+                            datatype: "html",
+                            cache: false,
+                            success: function (data) {
+                                if (data != null) {
+
+                                    jobupdatediv.html(data);
+                                    $("#mdlserviceform").modal("show");
+                                    $("#mdlserviceform").modal({ backdrop: 'static', keyboard: false });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Partial view yüklenirken hata oluştu: ', error);
+                                alert('Veri yüklenirken bir hata oluştu.');
+                            }
+                        });
+                    }
+                }
+            },
+            items: {
+                "download": { name: "İndir", icon: "icon sc-download" }
+            }
+        });
+        $.contextMenu({
+            selector: '#ContextMenu',
+            trigger: 'hover',
+            delay: 100,
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+                if (m == "clicked: edit") {
+                    var PAGESTATE = $(this).parents(".accordion-header").find("#btnServiceFormEdit").attr("data-sayfa");
+                    var REMOTESERVICESTATE = $(this).parents(".accordion-header").find("#btnServiceFormEdit").attr("data-state");
+                    //var CPMRESPONSIBLE = $("#kt_post #loginCpmResponsible").attr("data-user");
+                    //var cpmResponsible = $(this).parents(".accordion-header").find("#btnServiceFormEdit").attr("data-user");
+                    var cpmResponsibleId = $(this).parents(".accordion-header").find("#btnServiceFormEdit").attr("data-user");
+                    var userId = "@(Session["tNo"]?.ToString() ?? "")";
+
+                        if (REMOTESERVICESTATE == "True") {
+                            var SERVICEFORMID = $(this).parents(".accordion-header").find("#btnServiceFormEdit").attr("data-id");
+                            window.location = "/CpmServisSistemi/EditRemoteServiceForm/?SERVICEFORMID=" + SERVICEFORMID;
+                        }
+                        else {
+                            var SERVICEFORMID = $(this).parents(".accordion-header").find("#btnServiceFormEdit").attr("data-id");
+                            window.location = "/CpmServisSistemi/EditServiceForm/?SERVICEFORMID=" + SERVICEFORMID + "&PAGESTATE=" + PAGESTATE;
+                        }
+
+
+                }
+                else if (m == "clicked: delete") {
+                    var SERVICEFORMID = $(this).parents(".accordion-header").find("#btnServiceFormDelete").attr("data-id");
+                    var SFORMGROUPCODE = $(this).parents(".accordion-header").find("#btnServiceFormDelete").attr("data-sgroupcode");
+                    var PLANGROUPCODE = $(this).parents(".accordion-header").find("#btnServiceFormDelete").attr("data-pgroupcode");
+                    var removingRow = $(this).parents(".accordion-item");
+                    swal({
+                        title: "Dikkat!",
+                        text: "Servis Formunu silmek istediğinize emin misiniz?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                        buttons: ['Vazgeç', 'Sil']
+                    })
+                        .then((result) => {
+                            if (result) {
+                                $.blockUI({
+                                    message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+                                });
+                                $.ajax({
+                                    url: "/CpmServisSistemi/DeleteServiceForm/",
+                                    type: 'POST',
+                                    data: { 'SERVICEFORMID': SERVICEFORMID, 'SFORMGROUPCODE': SFORMGROUPCODE, 'PLANGROUPCODE': PLANGROUPCODE },
+                                    success: function () {
+                                        removingRow.remove();
+                                        setTimeout($.unblockUI, 300);
+                                        swal("Servis formu silindi.", {
+                                            icon: "success",
+                                            timer: 700
+                                        });
+
+                                    },
+                                    error: function () {
+                                        swal("Servis formu silinemedi !", {
+                                            icon: "error",
+                                            timer: 700
+                                        });
+                                    }
+                                })
+                            }
+
+                            else {
+                                swal("Servis formu güvende !", {
+                                    icon: "warning",
+                                    timer: 700
+                                });
+                            }
+                        });
+                }
+                else if (m == "clicked: download") {
+                    debugger;
+                    var REMOTESERVICESTATE = $(this).parents(".accordion-header").find("#btnServiceFormPdfDownload").attr("data-state");
+                    if (REMOTESERVICESTATE == "True") {
+                        var SERVICEFORMID = $(this).parents(".accordion-header").find("#btnServiceFormPdfDownload").attr("data-id");
+                        var jobupdatediv = $("#serviceform");
+                        $.ajax({
+                            type: "GET",
+                            url: "/CpmServisSistemi/_UzaktanServisFormuindirmeEkrani?SERVICEFORMID=" + SERVICEFORMID,
+                            datatype: "html",
+                            cache: false,
+                            success: function (data) {
+                                if (data != null) {
+
+                                    jobupdatediv.html(data);
+                                    $("#mdlserviceform").modal("show");
+                                    $("#mdlserviceform").modal({ backdrop: 'static', keyboard: false });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Partial view yüklenirken hata oluştu: ', error);
+                                alert('Veri yüklenirken bir hata oluştu.');
+                            }
+                        });
+                    }
+                    else {
+                        var SERVICEFORMID = $(this).parents(".accordion-header").find("#btnServiceFormPdfDownload").attr("data-id");
+                        var jobupdatediv = $("#serviceform");
+                        debugger;
+                        $.ajax({
+                            type: "GET",
+                            url: "/CpmServisSistemi/_ServisFormuindirmeEkrani?SERVICEFORMID=" + SERVICEFORMID,
+                            datatype: "html",
+                            cache: false,
+                            success: function (data) {
+                                if (data != null) {
+
+                                    jobupdatediv.html(data);
+                                    $("#mdlserviceform").modal("show");
+                                    $("#mdlserviceform").modal({ backdrop: 'static', keyboard: false });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Partial view yüklenirken hata oluştu: ', error);
+                                alert('Veri yüklenirken bir hata oluştu.');
+                            }
+                        });
+                    }
+                }
+                else if (m == "clicked: mail") {
+                    var REMOTESERVICESTATE = $(this).parents(".accordion-header").find("#btnServiceFormMail").attr("data-state");
+                    var SERVICEFORMID = $(this).parents(".accordion-header").find("#btnServiceFormMail").attr("data-id");
+                    var jobupdatediv = $("#serviceform");
+
+                    $.ajax({
+                        url: '/CpmServisSistemi/SetSessionKeyAndValue?key=SERVICEFORMID&value=' + SERVICEFORMID,
+                        type: 'POST'
+                    });
+                    if (REMOTESERVICESTATE === "True") {
+                        window.location = "/CpmServisSistemi/UzaktanServisFormuMailGonderOnizleme/";
+                    }
+
+                    else {
+                        window.location = "/CpmServisSistemi/ServisFormuMailGonderOnizleme/";
+
+                    }
+                }
+            },
+            items: {
+                "edit": { name: "Düzenle", icon: "icon sc-edit-pencil" },
+                "delete": { name: "Sil", icon: "icon sc-trash-bin" },
+                "download": { name: "İndir", icon: "icon sc-download" },
+                "mail": {
+                    name: "Mail Gönder", icon: "icon sc-mail", visible: function () { }
+                },
+            },
+            events: {
+                show: function (opt) {
+
+                    var mailSent = $(this).parents(".accordion-header").find("#btnServiceFormMail").data("mailsent");
+
+                    console.log("Mail Sent Status: ", mailSent);
+
+
+                    if (mailSent == "True") {
+                        opt.items.mail.visible = false;
+                    } else {
+                        opt.items.mail.visible = true;
+                    }
+                }
+            }
+        });
+    });
+    //#region Tarih Convert
+    $('input[name="dates"]').daterangepicker({
+        "alwaysShowCalendars": true,
+    });
+    $(function () {
+        date = new Date($('#DATE').val())
+        date.getDate(),
+            $('input[name="daterangepicker"]').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear'
+                }
+            });
+
+        $('input[name="daterangepicker"]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        });
+
+        $('input[name="daterangepicker"]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+        var newDate = new Date();
+        var endDate = newDate.getDate() + '/' + (newDate.getMonth() + 1) + '/' + newDate.getFullYear();
+        var date = new Date();
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        var startDate = moment(firstDay).format('DD/MM/YYYY')
+        $('#DATE').val(startDate + " - " + endDate);
+        //var newDate = new Date();
+        //newDate.setDate(newDate.getDate() + 1);
+        //var endDate = newDate.getDate() + '/' + (newDate.getMonth() + 1) + '/' + newDate.getFullYear();
+
+        //var twoMonthsAgo = new Date();
+        //twoMonthsAgo.setMonth(newDate.getMonth() - 1);
+        ///*    var firstDay = new Date(date.getFullYear(), 0, 1);*/
+
+        //var startDate = moment(twoMonthsAgo).format('DD/MM/YYYY')
+
+        //$('#DATE').val(startDate + " - " + endDate);
+
+        $('#DATE').daterangepicker({
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": "Uygula",
+                "cancelLabel": "Vazgeç",
+                "fromLabel": "Dan",
+                "toLabel": "a",
+                "customRangeLabel": "Seç",
+                "daysOfWeek": [
+                    "Pz",
+                    "Pt",
+                    "Sl",
+                    "Çr",
+                    "Pr",
+                    "Cm",
+                    "Ct",
+
+                ],
+                "monthNames": [
+                    "Ocak",
+                    "Şubat",
+                    "Mart",
+                    "Nisan",
+                    "Mayıs",
+                    "Haziran",
+                    "Temmuz",
+                    "Ağustos",
+                    "Eylül",
+                    "Ekim",
+                    "Kasım",
+                    "Aralık"
+                ],
+                "firstDay": 1
+            }
+        })
+    });
+    //#endregion
+    // #region Gunun Tarihini ve Saatini Getirme
+    try {
+        /*Günün tarihini alma ve formatlama) */
+        Date.prototype.getValidFormat = function () {
+            var hours = this.getHours();
+            var minute = this.getMinutes();
+            var ay = this.getMonth() + 1;
+            var gun = this.getDate();
+            var yil = this.getFullYear();
+            return yil + "-" + (ay < 10 ? "0" + ay : ay) + "-" + (gun < 10 ? "0" + gun : gun) + "T" + (hours < 10 ? "0" + hours : hours) + ":" + (minute < 10 ? "0" + minute : minute); //Gün ve ay 10 dan küçükse başına 0 gelir
+        };
+        var date = new Date();
+        $("#DATE").val(date.getValidFormat());
+
+    } catch (error) {
+        console.error(error);
+    }
+    // #endregion
+    //#region Dosyaya ait resmi getiren fonksiyon
+    function dosyaGorsel(dosyaname) {
+        var extension = dosyaname.split('.').pop().toLowerCase();
+
+        if (extension == 'pdf') {
+            return '/Images/filetype/pdf.svg';
+        }
+        else if (extension == 'doc' || extension == 'docx') {
+            return '/Images/filetype/word.svg';
+        }
+        else if (extension == 'xls' || extension == 'xlsx') {
+            return '/Images/filetype/icons8-microsoft_excel_2019.svg';
+        }
+        else if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'svg') {
+            return '/Images/filetype/photo.svg';
+        }
+        else if (extension == 'zip' || extension == 'rar') {
+            return '/Images/filetype/zip.svg';
+        }
+        else if (extension == 'pptx' || extension == 'ppt') {
+            return '/Images/filetype/powerpoint.svg';
+        }
+        else if (extension == 'msg' || extension == 'ppt') {
+            return '/Images/filetype/mail.svg';
+        }
+        else
+            return '/Images/filetype/otherfiles.svg';
+    }
+    //#endregion
+
+    $(document).ready(function () {
+        $("#filesUpload .fileType").each(function () {
+            let fileImage = dosyaGorsel($(this).attr("data-file"));
+            $(this).parents(".star").find(".fileTypeImage").attr("src", fileImage);
+        });
+        //#region Servis Formu yapılan iş ve dosyaları getir
+        $('body').on('click', '.accordion .accordion-button', function () {
+            var SFORMGROUPCODE = $(this).parents(".accordion-header").find(".accordion-button").attr("data-accordion-button");
+            if ($(this).hasClass("collapsed") == false) {
+                var ServiceFormData = $(".ServiceFormData");
+                if (SFORMGROUPCODE != null) {
+                    $.blockUI({
+                        message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+                    });
+                    $.ajax({
+                        type: 'GET',
+                        url: "/CpmServisSistemi/GetServiceFormDetails?SFORMGROUPCODE=" + SFORMGROUPCODE,
+                        datatype: "html",
+                        cache: false,
+                        success: function (data) {
+                            ServiceFormData.html("");
+                            ServiceFormData.html(data);
+                            setTimeout($.unblockUI, 240);
+                        },
+                        error: function (xhr) {
+                            alert('error');
+                        }
+                    });
+                }
+                else {
+                    swal("Servis formuna ait herhangi bir bilgi bulunamamaktadır !",
+                        {
+                            icon: "warning",
+                            timer: 700
+                        });
+                    ServiceFormData.html("");
+                }
+            }
+        });
+        //#endregion
+        // #region Firmaya Ait Sozlesmeleri Getir
+        try {
+            $("body").on("change", "#COMPANYID", function () {
+                var SELECTCONTRACTID = $("#COMPANYCONTRACT");
+                var COMPANYID = $("#COMPANYID option:selected").val();
+                if (COMPANYID != "") {
+                    $.ajax({
+                        url: '/CpmServisSistemi/GetCompanyContract',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { 'COMPANYID': COMPANYID },
+                        success: function (data) {
+                            SELECTCONTRACTID.empty();
+                            SELECTCONTRACTID.append('<option data-tokens="" selected value=""></option>');
+                            $.each(data.CompanyContracts2, function (index, option) {
+                                SELECTCONTRACTID.append('<option data-id=' + option.ID + ' value=' + option.COMPANYID + '>' + option.COMPANYCONTRACT + '</option>');
+                            });
+
+                            $('#COMPANYCONTRACT').selectpicker('refresh');
+                        }
+                    });
+                }
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+        // #endregion
+
+
+        // #region Tüm Servislerim Filtreleme Alanı
+        $("body").on("change", "#COMPANYID,#DATE,#STATE", function () {
+            var COMPANYID = $("#COMPANYID option:selected").val() == "" || $("#COMPANYID option:selected").val() == "Seçiniz..." ? "" : $("#COMPANYID option:selected").val();
+            var SERVICEFORMCONFIRM = $("#STATE option:selected").val() == "" || $("#STATE option:selected").val() == "Seçiniz..." ? 5 : $("#STATE option:selected").val();
+            var CPMRESPONSIBLE = $("#kt_post #loginCpmResponsible").attr("data-user");
+            var DATE = $("#DATE").val();
+            var StartDate = DATE.split("-")[0].trim();
+            var EndDate = DATE.split("-")[1].trim();
+            var accordionList = $("#accordionFlushExample");
+            $.blockUI({
+                message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+            });
+            $.ajax({
+                method: "POST",
+                url: "/CpmServisSistemi/TumServislerimFilters",
+                data: {
+                    'COMPANYID': COMPANYID,
+                    'StartDate': StartDate,
+                    'EndDate': EndDate,
+                    'SERVICEFORMCONFIRM': SERVICEFORMCONFIRM,
+                    'CPMRESPONSIBLE': CPMRESPONSIBLE
+                },
+                datatype: "html",
+                cache: false,
+                success: function (data) {
+                    accordionList.html("");
+                    if (data != null) {
+                        accordionList.html(data);
+                    }
+                    setTimeout($.unblockUI, 250);
+                },
+                error: function (xhr) {
+                    window.hata = xhr.responseText;
+                    alert('error');
+                }
+            });
+        });
+        // #endregion
+        $("#RequestNo").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#accordionFlushExample .accordion-header").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        (function () {
+            var searchTerm;
+
+            // Küçük-büyük harf duyarsız içerik araması yapan bir contains fonksiyonu oluşturuluyor
+            jQuery.expr[':'].containsCaseInsensitive = function (n, i, m) {
+                return jQuery(n).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+            };
+
+            // Arama kutusundaki değişiklikleri yakalayan eventler
+            jQuery('#Search').on('change keyup paste click', function () {
+                var searchTerm = jQuery(this).val().toUpperCase(); // Harf duyarlılığını kaldır
+                if (searchTerm.length >= 3) {
+                    var found = false;
+
+                    jQuery('#accordionFlushExample .accordion-item').each(function () {
+                        var panel = jQuery(this);
+                        var headerText = panel.find('.accordion-header').text().toUpperCase();
+
+                        if (headerText.indexOf(searchTerm) >= 0) {
+                            panel.show(); // Eşleşeni göster
+                            /*        panel.find('.accordion-collapse').collapse('show'); // Aç*/
+                            /*          panel.find('.accordion-button').removeClass('collapsed'); // Header aktif yap*/
+                            found = true;
+                        } else {
+                            panel.hide(); // Uyuşmayanları gizle
+                            panel.find('.accordion-collapse').collapse('hide'); // Kapat
+                        }
+                    });
+
+                    // Hiç sonuç yoksa tümü gizlensin
+                    if (!found) {
+                        jQuery('#accordionFlushExample .accordion-item').hide();
+                    }
+                } else {
+                    // Arama 3 karakterden azsa tümünü göster
+                    jQuery('#accordionFlushExample .accordion-item').show();
+                    jQuery('#accordionFlushExample .accordion-collapse').collapse('hide');
+                    jQuery('#accordionFlushExample .accordion-button').addClass('collapsed');
+                }
+            });
+            // ENTER tuşuna basıldığında akordeonu aç
+            jQuery('#Search').on('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Sayfanın yeniden yüklenmesini önle
+                    var searchTerm = jQuery(this).val().toUpperCase();
+
+                    if (searchTerm.length >= 3) {
+                        jQuery('#accordionFlushExample .accordion-item').each(function () {
+                            var panel = jQuery(this);
+                            var header = panel.find('.accordion-header');
+                            var headerText = header.text().toUpperCase();
+
+                            if (headerText.indexOf(searchTerm) >= 0) {
+                                panel.find('.accordion-collapse').collapse('show'); // Aç
+                                panel.find('.accordion-button').removeClass('collapsed'); // Header aktif yap
+                            }
+                        });
+                    }
+                }
+            });
+
+
+        }());
+
+    });
+
+    $(document).on("click", "#mdlserviceform .restart", function () {
+        $("#mdlserviceform").modal("hide"); // Modalı kapat
+    });
+
+    $(document).on("click", "#downloadserviceform", function () {
+        generatePDF();
+    });
+
+    function generatePDF() {
+        const element = document.getElementById("pdfScreen");
+        var opt = {
+            margin: [0, 0, 0, 0],
+            filename: 'CPMServisFormu.pdf',
+            html2canvas: {
+                dpi: 300,
+                scale: 4,
+                letterRendering: true,
+                useCORS: true
+            },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+</script>
+

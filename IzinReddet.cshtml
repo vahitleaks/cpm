@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+</head>
+<body style="background-color:#F2F6F7; font-family:Arial, sans-serif; margin:0; padding:20px; text-align:center;">
+    <div style="max-width:600px; margin:auto; background:white; padding:20px; border-radius:10px;">
+        <div>
+            <img src="https://drive.google.com/uc?id=1ztaajrLfSZk3kUxlHqybzA2zqK46Vmib" height="100" title="CPM Logo">
+        </div>
+        <h2 style="color:#D97D21; letter-spacing:5px;">Dikkat!</h2>
+        <p style="color:#667880; font-size:16px; font-weight:bold;">
+            "<span style="color:black;">Onayla</span>" veya "<span style="color:black;">Reddet</span>" işleminizi tamamlamak için lütfen tıklayınız.
+        </p>
+        <p style="color:#667880; font-size:14px;">
+            Tıklamadığınız takdirde herhangi bir işlem yapılmayacaktır ve 48 saat içerisinde reddedilmeyen servisler onaylanmış olarak kabul edilecektir.
+        </p>
+        <div style="margin:20px 0;">
+            <a href="@Model.RejectLink" style="background-color:#CC1616; color:white; padding:10px 20px; text-decoration:none; border-radius:5px; display:inline-block;">
+                Reddet
+            </a>
+            <a href="@Model.ConfirmLink" style="background-color:#28a745; color:white; padding:10px 20px; text-decoration:none; border-radius:5px; display:inline-block; margin-left:15px;">
+                Onayla
+            </a>
+        </div>
+        <div style="margin-top:30px; text-align:center;">
+            <span style="font-size:14px;">İzin Başlangıç: <b>@Model.StartDate</b></span><br>
+            <span style="font-size:14px;">İzin Bitiş: <b>@Model.EndDate</b></span>
+        </div>
+        <div style="margin-top:20px; font-size:12px; color:#888;">
+            <p>www.cpm.com.tr</p>
+        </div>
+    </div>
+
+
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Tema/assets/js/bootstrap.bundle.min.js" charset="windows-1254" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Tema/assets/plugins/sweet-alert2/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+                keyboard: false
+            });
+            //#region Reddet  Tıkla
+            $('body').on('click', '#RejectForm', function () {
+                var SERVICETYPEID = $(this).attr("data-id");
+                $.ajax({
+                    type: 'POST',
+                    url: "/Permission/CheckStateForm",
+                    dataType: "json",
+                    data:
+                    {
+                        'SERVICETYPEID': SERVICETYPEID,
+                        'ControlState': 0
+                    },
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            myModal.show();
+                        }
+                        else {
+                            alert(result.Message);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+
+            });
+            //#endregion
+            //#region Reddet-Açıklama Kaydet
+            $('body').on('click', '#SendDescription', function () {
+                var SERVICETYPEID = $("#RejectForm").attr("data-id");
+                var REASONFORREJECTION = $("#REASONFORREJECTION").val().trim();
+                if (REASONFORREJECTION == '') {
+
+                    alert('Lütfen reddetme nedenini yazınız...');
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/Permission/Reject",
+                        dataType: "json",
+                        data:
+                        {
+                            'SERVICETYPEID': SERVICETYPEID,
+                            'REASONFORREJECTION': REASONFORREJECTION
+                        },
+                        success: function (result) {
+                            if (result.IsSuccess) {
+                                myModal.hide();
+                                window.close();
+                            }
+                            else {
+                                alert(result.Message);
+                            }
+                        },
+                        error: function (xhr) {
+                            alert('error');
+                        }
+                    });
+
+                }
+            });
+            //#endregion
+            //#region Onayla  Tıkla
+            $('body').on('click', '#ConfirmForm', function () {
+                var SERVICETYPEID = $(this).attr("data-id");
+                $.ajax({
+                    type: 'POST',
+                    url: "/Permission/CheckStateForm",
+                    dataType: "json",
+                    data:
+                    {
+                        'SERVICETYPEID': SERVICETYPEID,
+                        'ControlState': 1
+                    },
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            $.ajax({
+                                type: 'POST',
+                                url: "/Permission/Confirm",
+                                dataType: "json",
+                                data:
+                                {
+                                    'SERVICETYPEID': SERVICETYPEID
+                                },
+                                success: function (result) {
+                                    if (result.IsSuccess) {
+                                        alert(result.Message);
+                                        window.close();
+                                    }
+                                    else {
+                                        alert(result.Message);
+                                    }
+                                },
+                                error: function (xhr) {
+                                    alert('error');
+                                }
+                            });
+                        }
+                        else {
+                            alert(result.Message)
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+
+            });
+            //#endregion
+
+        });
+    </script>
+</body>
+</html>
+

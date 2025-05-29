@@ -1,0 +1,530 @@
+﻿@using sistemproject.Models
+@model  FilterModel
+@{
+    ViewBag.Title = "AllForms";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+
+<link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/Content/CustomerPanelCss/custom-modal2.css" rel="stylesheet" />
+<style>
+    .form-control:disabled, .form-control:read-only {
+        background-color: #406C800D;
+    }
+
+    .table thead th {
+        border-bottom: 1px solid #406C8033 !important;
+        background-color: #406C800D;
+    }
+
+    .threeDot {
+        white-space: nowrap;
+        display: inline-block;
+        overflow: hidden;
+        table-layout: fixed;
+        width: 180px;
+        text-overflow: ellipsis;
+    }
+
+    .rounded-circle {
+        box-shadow: none !important;
+    }
+
+    .card {
+        box-shadow: 0px 0px 20px rgb(31 36 54 / 10%) !important;
+    }
+
+    .card-header {
+        background-color: #fff !important;
+        border-top-right-radius: 6px !important;
+        border-top-left-radius: 6px !important;
+    }
+
+    .custom-select, .form-control-sm {
+        border-radius: 6px !important;
+    }
+
+    #showDetails {
+        cursor: pointer;
+    }
+    .sc-closeFilter:hover {
+        background-color: #eff2f9;
+        border-radius: 50%;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
+
+    .sc-closeFilter {
+        background-color: #fff;
+        border-radius: 50%;
+        padding: 0.5rem;
+    }
+</style>
+<link href="~/Content/DatatableCss/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DatatableCss/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DatatableCss/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/ProjectCss/style.css" rel="stylesheet" />
+
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="container-fluid">
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    @*<h4>Projelere Ait Servis Formları Listesi</h4>*@
+                                    <div class="">
+                                        <button type="button" class="btn btn-light-primary m-2 float-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="FilterForDatatable">
+                                            <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
+                                            <span class="svg-icon svg-icon-2">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z" fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->Filtreleme Seçenekleri
+                                        </button>
+                                        <!--begin::Content-->
+                                        <div class="px-5 py-5" data-kt-user-table-filter="form" style=" position: absolute; top: 93px; left: 24px; width: 292px; padding: 10px; background-color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); display: none; z-index: 3000;">
+                                            <div class="col-12 text-end">
+                                                <i class="sc-close sc-closeFilter"></i>
+                                                @*<span>Kapat</span>*@
+                                            </div>
+                                            <!--begin::Input group-->
+                                            <div class="mb-10">
+                                                <label class="form-label fs-6 fw-semibold">Firma:</label>
+                                                <select class="selectpicker font13 selectValidateControl p-0" id="company" data-live-search="true" data-live-search-style="contains" data-show-subtext="true" name="company" required data-column="0">
+                                                    <option data-tokens="" value="">Seçiniz</option>
+                                                    @foreach (var t in Model.Companys)
+                                                    {
+                                                        <option data-tokens="" data-hesapkod="@t.HESAPKOD" value="@t.UNVAN">@t.UNVAN</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="mb-10">
+                                                <label class="form-label fs-6 fw-semibold">Cpm Sorumlusu:</label>
+                                                <select class="selectpicker font13 selectValidateControl p-0" id="form-creator" data-live-search="true" data-live-search-style="contains" data-show-subtext="true" name="form-creator" required data-column="8">
+                                                    <option data-tokens="" value="">Seçiniz</option>
+                                                    @foreach (var t in Model.CpmEmployee)
+                                                    {
+                                                        <option data-tokens=""  data-email="@t.Email"value="@t.FullName" data-id="@t.UserName">@t.FullName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="mb-10">
+                                                <label class="form-label fs-6 fw-semibold">Destek Şekli:</label>
+                                                <select class="selectpicker font13 selectValidateControl p-0" id="support-type" data-live-search="true" data-live-search-style="contains" data-show-subtext="true" name="support-type" required data-column="2">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="Yerinde Destek">Yerinde Destek</option>
+                                                    <option value="Telefon Desteği">Telefon Desteği</option>
+                                                    <option value="Uzak Ara Bağlantı">Uzak Ara Bağlantı</option>
+                                                    <option value="E Mail">E Mail</option>
+                                                    <option value="CPM Ofis Çalışması">CPM Ofis Çalışması</option>
+                                                    <option value="CPM İç Toplantı">CPM İç Toplantı</option>
+                                                    @*<option value="Yerinde Destek">Yerinde Destek</option>
+                <option value="Telefon Desteği">Telefon Desteği</option>
+                <option value="Uzak Ara Bağlantı">Uzak Ara Bağlantı</option>
+                <option value="E Mail">E Mail</option>*@
+                                                </select>
+                                            </div>
+                                            <!--begin::Actions-->
+                                            <div class="d-flex justify-content-end">
+                                                <button id="FilterButton" type="button" class="btn btn-primary mr-3" data-kt-user-table-filter="filter">Filtrele</button>
+                                                <button type="button" class="btn btn-secondary" data-kt-user-table-filter="reset" id="ResetTable">Sıfırla</button>
+                                            </div>
+                                            <!--end::Actions-->
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header my-auto">
+                                            <h3 class="my-auto">Projelere Ait Servis Formları Listesi</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive dash-social">
+                                                <table id="datatable" class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Firma</th>
+                                                            <th>Proje Adı</th>
+                                                            <th>Destek Şekli</th>
+                                                            <th>Tarih</th>
+                                                            <th>Süre</th>
+                                                            <th>Cpm Katılımcıları</th>
+                                                            <th>Firma Katılımcıları</th>
+                                                            <th>Adım</th>
+                                                            <th>Formu Oluşturan</th>
+                                                            <th>Mail Gönderim Durumu</th>
+                                                            <th>Düzenle/Sil</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.ServiceForms)
+                                                        {
+                                                            <tr data-company="@item.CompanyName" data-supportType="@item.SupportType" data-formCreator="@item.FormCreator">
+                                                                <td class="fs-8">
+                                                                    <p class="d-inline-block align-middle mb-0 fs-8">
+                                                                        <a href="" class="d-inline-block align-middle mb-0 product-name threeDot" title="@item.CompanyName"><font style="font-weight:bold;">@item.CompanyName</font></a>
+                                                                        <br>
+                                                                        <span class="text-muted  threeDot" title="@item.ContractName">@item.ContractName</span>
+                                                                    </p>
+                                                                </td>
+                                                                <td class="fs-8 font-weight-bold">@item.ProjectName</td>
+                                                                <td>
+                                                                    <font class="fs-8">@item.SupportType</font>
+                                                                </td>
+                                                                <td class="fs-8 font-weight-bold">@item.StartDate.ToString("dd/MM/yyyy HH:mm") @item.EndDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                                                <td class="fs-8">@item.ServiceTime Dakika</td>
+                                                                <td class="fs-8 font-weight-bold">@item.CpmEmployeeFullNames</td>
+                                                                <td class="fs-8">@item.CompanyEmployeeFullNames</td>
+                                                                <td class="fs-8 font-weight-bold">
+                                                                    @item.Step
+                                                                </td>
+                                                                <td class="fs-8 ">
+                                                                    @item.FormCreator
+                                                                </td>
+                                                                <td class="fs-8 ">
+                                                                    @if (item.EmailState == true)
+                                                                    {
+                                                                        <i class="sc-mail text-success fs-3"></i>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <i class="sc-mail text-danger fs-3"></i>
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    <i id="UpdateForm" data-id="@item.Id" data-projectid="@item.ProjectId" class="sc-edit-pencil font-16 btn btn-sm btn-soft-info"></i>
+                                                                    <i id="DeleteForm" data-id="@item.Id" class="sc-trash-bin font-16 btn btn-sm btn-soft-danger"></i>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade " id="ServiceFormModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ServiceFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="min-width: 924px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row  ml-1  " style="background-color:#fff;">
+                    <div class="col-lg-2 col-md-6 col-sm-12 text-leftmy-auto pl-4">
+                        <img src="/Images/images/cpm/Agenda.png" height="80">
+                    </div>
+                    <div class="col-lg-10 col-md-12 col-sm-12 my-auto pl-4">
+                        <span class="" style="color: var(--thTitle);font-weight:bold;">Proje Servis Formu Oluştur</span> <br>
+                        <span class="font11" style="color: var(--thNewText);">Proje bazlı servis formu oluşturmak için lütfen aşağıdaki alanları giriniz.</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">Vazgeç</button>
+                <button type="button" class="btn btn-secondary" data-projectId="" data-stepId="" data-groupNo="" id="SubmitForm">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/bootstrap.bundle.min.js"></script>
+<script src="~/Scripts/SweetAlert2/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/DatatableScripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.responsive.min.js"></script>
+<script>
+    var quill = null;
+    function initEditor() {
+        quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+    }
+    // Modal açıldığında editör yüklenir
+    $('#ServiceFormModal').on('shown.bs.modal', function (e) {
+        initEditor();
+    });
+
+    // Modal kapandığında editör yok edilir
+    $('#ServiceFormModal').on('hidden.bs.modal', function (e) {
+        quill = null;
+    });
+    function getEditorData() {
+        var html = quill.root.innerHTML;
+        var text = quill.getText();
+        var contents = quill.getContents();
+        console.log('Girilen Metin:', text);
+        console.log('Metin İçeriği:', contents);
+        console.log('html İçeriği:', html);
+    }
+</script>
+<!-- Add this script to the bottom of the body tag -->
+<script>
+    // Kapat butonuna tıklanınca yapılacak işlemler
+    $(".sc-closeFilter").click(function () {
+        // Tüm filtre inputlarındaki seçimleri sıfırla
+        $('.selectpicker').selectpicker('val', '');
+        // Tüm satırları tekrar göster
+        //$("#datatable tr").show();
+        const filterForm = document.querySelector('[data-kt-user-table-filter="form"]');
+        filterForm.classList.toggle('d-block');
+    });
+    function FilterTargetList(TableId, filters, numbers) {
+        var table = TableId;
+        var tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those that don't match the filters
+        for (var i = 0; i < tr.length; i++) {
+            var match = true;
+            for (var j = 0; j < filters.length; j++) {
+                var filterValue = filters[j].value;
+                if (filterValue !== "All") {
+                    var td = tr[i].getElementsByTagName("td")[numbers[j]];
+                    if (td) {
+                        var txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filterValue.toUpperCase()) === -1) {
+                            match = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (match) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        // Get table element
+        var table = document.getElementById("datatable");
+        var filterButton = document.getElementById("FilterButton");
+
+        // Get filter dropdowns
+        var companyFilter = document.getElementById("company");
+        var formCreatorFilter = document.getElementById("form-creator");
+        var supportTypeFilter = document.getElementById("support-type");
+        var numbers = [0, 8, 2];
+        // Attach change listeners to filters
+        filterButton.addEventListener("click", function () {
+            var filters = [companyFilter, formCreatorFilter, supportTypeFilter];
+            FilterTargetList(table, filters, numbers);
+        });
+
+        // Temizleme butonuna tıklanınca yapılacak işlemler
+        $("#ResetTable").click(function () {
+            // Tüm filtre inputlarındaki seçimleri sıfırla
+            $('.selectpicker').selectpicker('val', '');
+            // Tüm satırları tekrar göster
+            $("#datatable tr").show();
+        });
+
+    });
+
+    $(document).ready(function () {
+        KTUsersList.init();
+    });
+    $('body').on('click', '#FilterForDatatable', function () {
+        const filterForm = document.querySelector('[data-kt-user-table-filter="form"]');
+        filterForm.classList.toggle('d-block');
+    });
+    const KTUsersList = (function () {
+        const datatable = $('#datatable').DataTable({
+            language: {
+                url: '/Scripts/DatatableScripts/tr.json'
+            }
+        });
+    })();
+</script>
+
+<script>
+    var ServiceFormModal = new bootstrap.Modal(document.getElementById('ServiceFormModal'), {
+        backdrop: 'static',
+        keyboard: false
+    });
+    //#region Servis formuna ait bilgileri getir
+    $('body').on('click', '#UpdateForm', function () {
+        var ServiceFormId = $(this).attr("data-id");
+        var ProjectId = $(this).attr("data-projectid");
+        $.get('GetContentForm', { ProjectId: ProjectId, Crud: "Update", ServiceFormId: ServiceFormId }, function (data) {
+            $('#ServiceFormModal .modal-body').html(data);
+            ServiceFormModal.show();
+            $('#ServiceFormModal').find('.modal-footer #SubmitForm').attr('data-formId', ServiceFormId);
+        }, 'html');
+    });
+    //#endregion
+    //#region Servis Formu Güncelle
+    $('body').on('click', '#ServiceFormModal #SubmitForm', function () {
+        var ServiceFormId = $(this).attr("data-formId");
+        var StartDate = $("#ServiceFormModal .modal-body #StartDate").val();
+        var EndDate = $("#ServiceFormModal .modal-body #EndDate").val();
+        var SupportType = $("#ServiceFormModal .modal-body #SupportType option:selected").text();
+        var ServiceTime = $("#ServiceFormModal .modal-body #ServiceTime").val();
+        var Description = quill.root.innerHTML;
+        var CreateFormToCpmPerson = $("input[name=CreateFormToCpmPerson]").prop("checked");
+        var DontAddMe = $("input[name=DontAddMe]").prop("checked");
+
+        var AuthId = [];
+        var AuthFullName = [];
+        var AuthEmail = [];
+        var AuthorizedId = "";
+        var AuthorizedFullName = "";
+        var AuthorizedEmail = "";
+
+        var CpmResId = [];
+        var CpmResFullName = [];
+        var CpmResponsibleId = "";
+        var CpmResponsibleFullName = "";
+
+        var CompanyResId = [];
+        var CompanyResFullName = [];
+        var CompanyResponsibleId = "";
+        var CompanyResponsibleFullName = "";
+
+        $("#ServiceFormModal .modal-body #Authorized :selected").map(function (i, el) {
+            AuthFullName.push($(el).text());
+            AuthId.push($(el).val());
+            AuthEmail.push($(el).attr("data-email"));
+        }).get();
+        for (var i = 0; i < AuthFullName.length; i++) {
+            AuthorizedFullName = AuthorizedFullName + AuthFullName[i];
+            AuthorizedId = AuthorizedId + AuthId[i];
+            AuthorizedEmail = AuthorizedEmail + AuthEmail[i];
+            if (i != AuthId.length - 1) {
+                AuthorizedId = AuthorizedId + ";";
+                AuthorizedFullName = AuthorizedFullName + ";";
+                AuthorizedEmail = AuthorizedEmail + ";";
+            }
+        }
+        $("#ServiceFormModal .modal-body #CpmResponsible :selected").map(function (i, el) {
+            CpmResFullName.push($(el).text());
+            CpmResId.push($(el).val());
+        }).get();
+        for (var i = 0; i < CpmResFullName.length; i++) {
+            CpmResponsibleFullName = CpmResponsibleFullName + CpmResFullName[i];
+            CpmResponsibleId = CpmResponsibleId + CpmResId[i];
+
+            if (i != CpmResId.length - 1) {
+                CpmResponsibleId = CpmResponsibleId + ";";
+                CpmResponsibleFullName = CpmResponsibleFullName + ";";
+            }
+        }
+        $("#ServiceFormModal .modal-body #CompanyResponsible :selected").map(function (i, el) {
+            CompanyResFullName.push($(el).text());
+            CompanyResId.push($(el).val());
+        }).get();
+        for (var i = 0; i < CompanyResFullName.length; i++) {
+            CompanyResponsibleFullName = CompanyResponsibleFullName + CompanyResFullName[i];
+            CompanyResponsibleId = CompanyResponsibleId + CompanyResId[i];
+
+            if (i != CompanyResId.length - 1) {
+                CompanyResponsibleId = CompanyResponsibleId + ";";
+                CompanyResponsibleFullName = CompanyResponsibleFullName + ";";
+            }
+        }
+        var formData = new FormData();
+        formData.append('Id', ServiceFormId);
+        formData.append('CpmResponsibleId', CpmResponsibleId);
+        formData.append('CompanyResponsibleId', CompanyResponsibleId);
+        formData.append('AuthorizedId', AuthorizedId);
+        formData.append('AuthorizedName', AuthorizedFullName);
+        formData.append('AuthorizedEmail', AuthorizedEmail);
+        formData.append('StartDate', StartDate);
+        formData.append('EndDate', EndDate);
+        formData.append('SupportType', SupportType);
+        formData.append('ServiceTime', ServiceTime);
+        formData.append('Description', Description);
+        formData.append('CreateFormToCpmPerson', CreateFormToCpmPerson);
+        formData.append('DontAddMe', DontAddMe);
+        for (var i = 0; i < window.filesArray.length; i++) {
+            formData.append('File', window.filesArray[i]);
+        }
+        if (CpmResponsibleId == "" || AuthorizedFullName == "" || SupportType == "" || (ServiceTime == 0 || ServiceTime == "")) {
+            swal('Lütfen boş alanları  doldurunuz!',
+                {
+                    title: "UYARI !",
+                    icon: "warning",
+                    buttons: "Tamam",
+                    name
+                });
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '/Project/UpdateServiceForm', // Controller ve Action'ınıza uygun olarak güncelleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    if (result.success) {
+                        toastr.success(result.message);
+                        ServiceFormModal.hide();
+                    }
+                    else {
+                        toastr.warning(result.message);
+                        ServiceFormModal.hide();
+                    }
+                },
+                error: function (error) {
+                    console.error('Ajax hatası: ' + error.statusText);
+                }
+            });
+        }
+    });
+    //#endregion
+    //#region Proje Sil
+    $("body").on("click", "#DeleteForm", function () {
+        var ServiceFormId = $(this).attr("data-id");
+        var table = $('#datatable').DataTable();
+        var removingRow = $(this).closest('tr');
+        Swal.fire({
+            title: 'Uyarı !',
+            text: "Servis formunu silmek istediğinize emin misiniz?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Vazgeç',
+            confirmButtonText: 'Servis Formunu Sil'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "POST",
+                    url: '/Project/DeleteServiceForm',
+                    data: {
+                        ServiceFormId: ServiceFormId,
+                    },
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            toastr.success(result.Message);
+                            table.row(removingRow).remove().draw();
+                        }
+                        else {
+                            toastr.warning(result.Message);
+                        }
+                    },
+                    error: function () {
+                        alert('Erişim sağlanamadı.');
+                    }
+                });
+            }
+        })
+    });
+</script>
+

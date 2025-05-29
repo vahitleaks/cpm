@@ -1,0 +1,235 @@
+﻿.col-form-label-sm {
+    padding: unset !important;
+}
+
+.personNameDots {
+    display: inline-block;
+    width: 509px;
+}
+
+
+@media only screen and (min-width: 375px) and (max-width: 667px) {
+    .personNameDots {
+        width:auto!important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+    .threeDotAlign {
+        margin-left:0;
+    }
+
+
+}
+
+@media only screen and (min-width: 414px) and (max-width: 896px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 390px) and (max-width: 844px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 360px) and (max-width:740px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 360px) and (max-width:740px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 412px) and (max-width:915px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 820px) and (max-width:1180px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width:1024px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width:912px) and (max-width:1368px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width:540px) and (max-width:720px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width:280px) and (max-width:653px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width:412px) and (max-width:914px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width:600px) and (max-width:1024px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}
+
+@media only screen and (min-width:800px) and (max-width:1280px) {
+    .personNameDots {
+        width: auto !important;
+    }
+    .companyNameDots {
+        width: auto !important;
+    }
+    .threeDot {
+        text-align: end;
+    }
+
+    .threeDotAlign {
+        margin-left: 0 !important;
+    }
+}

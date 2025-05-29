@@ -1,0 +1,2149 @@
+﻿
+@model  sistemproject.Models.CustomerPanelViewModels.MainDataViewModelList
+@{
+    ViewBag.Title = "RequestChatRoom";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+
+
+}
+<script src="~/Content/NewThema/ckeditor/ckeditor.js"></script>
+<script src="~/Content/NewThema/ckeditor/samples/js/sample.js"></script>
+<link href="~/Content/NewThema/ckeditor/samples/css/samples.css" rel="stylesheet" />
+<link href="~/Content/CustomerPanelCss/custom-modal.css" rel="stylesheet" />
+<link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/Content/fileUpload/css/style.css" rel="stylesheet" />
+<style>
+    #SendMessage:disabled {
+        cursor: not-allowed;
+    }
+
+    .sc-close:hover {
+        color: #D95757 !important;
+        font-size: 20px !important;
+    }
+
+    .sc-close {
+        font-size: 16px !important;
+    }
+
+    .btn-soft-danger {
+        color: #f1646c;
+    }
+
+        .btn-soft-danger:hover {
+            background-color: #f1646c;
+            color: #ffffff;
+        }
+
+    #drop a, #drop2 a {
+        background-color: #fff;
+        padding: 12px 26px;
+        color: var(--thBlue);
+        font-size: 0.8rem;
+        border-radius: 6px;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 12px;
+        line-height: 1;
+        border: 1px solid var(--thBlue);
+    }
+    /*    .thumbs {
+            width: 600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+            .thumbs img {
+                width: 100%;
+                border: 3px solid white;
+                box-sizing: border-box;
+                I transition: all 0.2s ease-in;
+            }
+
+                .thumbs img:hover {
+                    transform: scale(1.4) rotate (5deg);
+                    box-shadow: 0px 0px 20px rgba(0,0,0.5);
+                }
+
+    */
+
+    .deneme img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+        /*.deneme img:hover {
+            z-index: 4;
+            -webkit-transform: scale(1.5);
+            -ms-transform: scale(1.5);
+            -moz-transform: scale(1.5);
+            transform: scale(1.5);
+        }*/
+
+    .accordion-button::after {
+        background-image: none !important;
+    }
+
+    div.col-lg-4.closedMenu {
+        display: none !important;
+    }
+
+    .nameTitle {
+        font-size: 12px;
+        font-weight: bold;
+        color: #335766;
+    }
+
+    .chat-card:hover {
+        background-color: #fff !important;
+        border: 1px solid #fff !important;
+        cursor: pointer;
+    }
+
+    body .cke_reset {
+        background-color: #fff !important;
+    }
+
+    #profile-photo {
+        display: block;
+        margin-right: 0 !important;
+        border-radius: 999999px;
+        position: relative;
+        max-width: 45px;
+        max-height: 189px;
+        border-color: #e2e2e2;
+        background-color: #fff;
+        overflow: hidden;
+        box-shadow: 0 0rem 1rem rgb(15 27 0 / 15%) !important;
+    }
+
+    .profile-src {
+        height: 46px;
+        box-sizing: border-box;
+        color: rgb(85, 85, 85);
+        display: block;
+        max-width: 103%;
+        text-align: center;
+        vertical-align: middle;
+        perspective-origin: 80px 80px;
+        transform-origin: 80px 80px;
+        border: 0px none rgb(85, 85, 85);
+        border-radius: 999999px 999999px 999999px 999999px;
+        outline: rgb(85, 85, 85) none 0px;
+    }
+
+    #profile-photo-logo {
+        padding: 4px;
+        display: block;
+        margin-bottom: 10px;
+        border-radius: 999999px;
+        position: relative;
+        max-width: 44px;
+        border-color: #e2e2e2;
+        background-color: #fff;
+        overflow: hidden;
+        box-shadow: 0 0rem 1rem rgb(15 27 0 / 15%) !important;
+    }
+
+    .profile-src-logo {
+        box-sizing: border-box;
+        background-color: #e9ecefb0 !important;
+        color: rgb(85, 85, 85);
+        display: block;
+        max-width: 100%;
+        text-align: center;
+        vertical-align: middle;
+        perspective-origin: 80px 80px;
+        transform-origin: 80px 80px;
+        border: 0px none rgb(85, 85, 85);
+        border-radius: 999999px 999999px 999999px 999999px;
+        outline: rgb(85, 85, 85) none 0px;
+    }
+
+    .stateLink {
+        list-style: none;
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+    }
+
+    .tabDiv span {
+        font-size: 0.9rem;
+    }
+
+    .lineImg {
+        margin: 0px -30px;
+    }
+
+    .pageRouteButton {
+        padding: 0.3rem;
+        margin-right: 1rem;
+        border-radius: 4px;
+        border: 1px solid rgba(64, 108, 128, 0.2);
+    }
+
+    .btn-orange {
+        background: #D97D21 !important;
+        border-radius: 4px !important;
+        border: none !important;
+        font-size: 0.9rem !important;
+        line-height: normal !important;
+        color: #FFFFFF !important;
+    }
+
+        .btn-orange:hover {
+        }
+
+    .modal-title {
+        /*font-family: 'MS Gothic';*/
+        /* font-family: Roboto;*/
+    }
+
+    .btn-urgent {
+        background: #D95757 !important;
+        border-radius: 4px !important;
+        border: none !important;
+        font-size: 0.9rem !important;
+        line-height: normal !important;
+        color: #FFFFFF !important;
+    }
+
+        .btn-urgent:hover {
+        }
+
+    .sc-menu-9 {
+        transform: rotate(90deg) !important;
+        position: absolute;
+        font-size: 1.5rem;
+    }
+
+    .img-circle {
+        border-radius: 50%;
+    }
+
+    .img-thumbnail {
+        display: inline-block;
+        overflow: hidden;
+    }
+
+    p {
+        margin-bottom: 0 !important;
+    }
+
+    .description-orange {
+        background: #D97D21 !important;
+        border-radius: 4px !important;
+        border: none !important;
+        font-size: 0.9rem !important;
+        line-height: normal !important;
+        color: #FFFFFF !important;
+        font-weight: bold;
+    }
+
+    .description-blue {
+        background: #20A1DA !important;
+        border-radius: 4px !important;
+        border: none !important;
+        font-size: 0.9rem !important;
+        line-height: normal !important;
+        color: #FFFFFF !important;
+        font-weight: bold;
+    }
+
+    .description-gray {
+        background: #406C814D !important;
+        border-radius: 4px !important;
+        border: none !important;
+        font-size: 0.9rem !important;
+        line-height: normal !important;
+        color: #335766 !important;
+        font-weight: bold;
+    }
+
+
+    ul li {
+        list-style-type: none !important;
+    }
+
+    .accordion-body {
+        background-color: #F2F6F7 !important;
+        padding: 0 !important;
+    }
+
+    .accordion-item {
+        border: none !important;
+    }
+
+    .accordion-button {
+        border-bottom: 1px solid #406C8033;
+    }
+
+        .accordion-button:not(.collapsed) {
+            color: #0e1112;
+            background-color: #f2f6f7;
+            border-bottom: 1px solid #406C8033;
+        }
+
+    .accordion-button {
+        background-color: #f2f6f7;
+    }
+
+    .hr-sect {
+        display: flex;
+        flex-basis: 100%;
+        align-items: center;
+        color: #335766;
+        margin: 28px 15px;
+    }
+
+        .hr-sect::before,
+        .hr-sect::after {
+            content: "";
+            flex-grow: 1;
+            background: #406C801A;
+            height: 1px;
+            font-size: 0px;
+            line-height: 0px;
+            margin: 0px 8px;
+        }
+
+    /*    .sc-close {
+        border: none;
+        background: none;
+        color: #406C8180 !important;
+    }*/
+
+    a {
+        border-bottom: none !important;
+    }
+
+    .color-link-passive {
+        color: #667880 !important;
+    }
+
+    .color-link-active {
+        color: #D97D21 !important;
+    }
+
+    .breadcrumb {
+        background-color: transparent !important;
+        font-weight: 600;
+    }
+
+    .dot {
+        height: 12px;
+        width: 12px;
+        background-color: #bbc4c9ed;
+        border-radius: 50%;
+        display: inline-block;
+        background-image: url("btc.png");
+    }
+
+    .dot-line {
+        height: 2px;
+        margin: 20px 12% 5px 12%;
+        background-color: #406C801A;
+        display: block;
+    }
+
+    .sc-check-bg-filled {
+        color: #17996E;
+        font-size: 1.5rem;
+    }
+
+ 
+
+    .copied-text {
+        display: none;
+        margin-left: 5px;
+        color: green;
+        font-weight: bold;
+    }
+    #lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        text-align: center;
+    }
+
+    .lightbox-content {
+ /*       max-width: 90%;
+        max-height: 90%;
+        margin-top: 5%;*/
+    }
+
+    .close {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        font-size: 40px;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+<link href="~/Content/MyAllProjectCss/FileUpload/style.css" rel="stylesheet" />
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl mt-5">
+                        <div class="row m-3">
+                            @if (Model.RequestInfo.RequestState == "Açık")
+                            {
+                                <div class="col-lg-4 col-md-12 pl-0">
+                                    <nav style="--bs-breadcrumb-divider: '>'!important;" aria-label="breadcrumb">
+                                        <ol class="breadcrumb my-auto">
+                                            <a href="/CpmServisSistemi/DestekTalepleri?UserId=@(Session["tNo"]?.ToString())">
+                                            <li><i class="sc-arrow-left-long pageRouteButton"></i></li></a>
+                                            <li class="breadcrumb-item"><a class="color-link-passive" href="/CpmServisSistemi/Anasayfa">Anasayfa</a></li>
+                                            <li class="breadcrumb-item" aria-current="page"><a class="color-link-passive" href="/CpmServisSistemi/DestekTalepleri">Tüm Servis Talepleri</a></li>
+                                            <li class="breadcrumb-item color-link-active" aria-current="page">Talep Detayları</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                                <div class="col-lg-6 my-auto StateRowRequest">
+                                    <a href="#" class="" onclick="" id="closeRequest" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/check_circle.png">
+                                        <span style="margin-right:1rem;">Talebi Kapat</span>
+                                    </a>
+                                    <a href="#" class="" onclick="" id="ForwardRequest" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/forward_arrow.png">
+                                        <span>Talebi Yönlendir</span>
+                                    </a>
+                                    <a href="#" class="" onclick="" id="StartServiceRequest" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/start.png">
+                                        <span>Süreci Başlat</span>
+                                    </a>
+                                    <a href="/CpmServisSistemi/CreateServiceFormRequest?RequestId=@Model.RequestInfo.RequestId">
+                                        <img src="~/Images/requestImg/icons8-create_document.png" style="width: 20px; height: 20px;" />
+                                        <span>Servis Formu Oluştur</span>
+                                    </a>
+                                    <a href="#" class="" onclick="" id="TakeRequest">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/forward_arrow.png">
+                                        <span>Üzerine Al</span>
+                                    </a>
+                                    @if (Session["tNo"]?.ToString() == "1124" || Session["tNo"]?.ToString() == "1114" || Session["tNo"]?.ToString() == "18" || Session["tNo"]?.ToString() == "1123" || Session["tNo"]?.ToString() == "2")
+                                    {
+                                        <a href="#" class="" onclick="" id="RequestUpdate">
+                                            <img style="height: 1.5rem;" src="~/Images/requestImg/icons8-create_document.png">
+                                            <span data-toggle="modal" data-target="#ModulUpdate">Güncelle</span>
+                                        </a>
+                                    }
+                                </div>
+                                <div class="col-lg-2 my-auto text-end" style="padding-right: 1.5rem!important;">
+                                    <button class="btn btn-orange" style="">@Model.RequestInfo.Precedence</button>
+                                    <button class="btn btn-urgent" style="">@Model.RequestInfo.RequestState</button>
+                                    <i class="icon sc-menu-9 pending" id="ContextMenu"></i>
+                                    <div class="col-auto" style="margin-top:5px; margin-right:-15px">
+                                        <span class="Label-Head font-weight-bold">Danışman: <font style="color:gray;font-weight:100;">@(ViewBag.AppointedPersonName)</font></span>
+                                    </div>
+                                </div>
+
+                            }
+                            else if (Model.RequestInfo.RequestState == "Kapalı")
+                            {
+                                <div class="col-lg-4 col-md-12 pl-0">
+                                    <nav style="--bs-breadcrumb-divider: '>'!important;" aria-label="breadcrumb">
+                                        <ol class="breadcrumb my-auto">
+                                            <a href="/CpmServisSistemi/DestekTalepleri?UserId=@(Session["tNo"]?.ToString())">
+                                            <li><i class="sc-arrow-left-long pageRouteButton"></i></li></a>
+                                            <li class="breadcrumb-item"><a class="color-link-passive" href="/CpmServisSistemi/Anasayfa">Anasayfa</a></li>
+                                            <li class="breadcrumb-item" aria-current="page"><a class="color-link-passive" href="/CpmServisSistemi/TumDestekTalepleri">Tüm Servis Talepleri</a></li>
+                                            <li class="breadcrumb-item color-link-active" aria-current="page">Talep Detayları</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                                <div class="col-lg-6 my-auto StateRowRequest">
+
+                                    <a href="#" class="" onclick="" id="openRequest" data-closedate="@(Model.RequestInfo.CloseDate?.ToString("dd/MM/yyyy HH:mm:ss"))" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/check_circle.png">
+                                        <span style="margin-right:1rem;">Talebi Aç</span>
+                                    </a>
+                                </div>
+                                <div class="col-lg-2 my-auto text-end" style="padding-right: 1.5rem!important;">
+                                    <button class="btn btn-orange" style="">@Model.RequestInfo.Precedence</button>
+                                    <button class="btn btn-urgent" style="">@Model.RequestInfo.RequestState</button>
+                                    <i class="icon sc-menu-9 pending" id="ContextMenu"></i> 
+                                    <div class="col-auto" style="margin-top:5px; margin-right:-15px">
+                                        <span class="Label-Head font-weight-bold">Danışman: <font style="color:gray;font-weight:100;">@(ViewBag.AppointedPersonName)</font></span>
+                                    </div>
+                                </div>
+                            }
+                            else if (Model.RequestInfo.RequestState == "Yönlendirildi")
+                            {
+
+                                <div class="col-lg-4 col-md-12 pl-0">
+                                    <nav style="--bs-breadcrumb-divider: '>'!important;" aria-label="breadcrumb">
+                                        <ol class="breadcrumb my-auto">
+                                            <a href="/CpmServisSistemi/DestekTalepleri?UserId=@(Session["tNo"]?.ToString())">
+                                            <li><i class="sc-arrow-left-long pageRouteButton"></i></li></a>
+                                            <li class="breadcrumb-item"><a class="color-link-passive" href="/CpmServisSistemi/Anasayfa">Anasayfa</a></li>
+                                            <li class="breadcrumb-item" aria-current="page"><a class="color-link-passive" href="/CpmServisSistemi/DestekTalepleri">Tüm Servis Talepleri</a></li>
+                                            <li class="breadcrumb-item color-link-active" aria-current="page">Talep Detayları</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                                <div class="col-lg-6 my-auto StateRowRequest">
+                                    <a href="#" class="" onclick="" id="Deadline" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="/Images/sidebarimg/calendar.png" width="20" height="34">
+                                        <span>Termin Tarihi</span>
+                                    </a>
+                                    <a href="#" class="" onclick="" id="closeRequest" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/check_circle.png">
+                                        <span>Talebi Kapat</span>
+                                    </a>
+                                    <a href="#" class="" onclick="" id="ForwardRequest" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/forward_arrow.png">
+                                        <span>Talebi Yönlendir</span>
+                                    </a>
+                                    <a href="#" class="" onclick="" id="StartServiceRequest" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/start.png">
+                                        <span>Süreci Başlat</span>
+                                    </a>
+                                    <a href="/CpmServisSistemi/CreateServiceFormRequest?RequestId=@Model.RequestInfo.RequestId">
+                                        <img src="~/Images/requestImg/icons8-create_document.png" style="width: 20px; height: 20px;" />
+                                        <span>Servis Formu Oluştur</span>
+                                    </a>
+                                    <a href="#" class="" onclick="" id="TestRequest" data-requestid="@Model.RequestInfo.RequestId" disabled>
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/forward_arrow.png">
+                                        <span>Teste Gönder</span>
+                                    </a>
+                                    @if (Session["tNo"]?.ToString() == "1124" || Session["tNo"]?.ToString() == "1114" || Session["tNo"]?.ToString() == "18" || Session["tNo"]?.ToString() == "1123" || Session["tNo"]?.ToString() == "2")
+                                    {
+                                        <a href="#" class="" onclick="" id="RequestUpdate">
+                                            <img style="height: 1.5rem;" src="~/Images/requestImg/icons8-create_document.png">
+                                            <span data-toggle="modal" data-target="#ModulUpdate">Güncelle</span>
+                                        </a>
+                                    }
+                                    @if (Model.RequestInfo.CompanyId == "120.01.0242" & Model.RequestInfo.RelatedCompanyId != null)
+                                    {
+                                        <a href="#" class="" onclick="" id="transfer" data-requestid="@Model.RequestInfo.RequestId">
+                                            <img style="height: 1.5rem;" src="~/Images/requestImg/forward_arrow.png">
+                                            <span>Aktar</span>
+                                        </a>
+                                    }
+
+                                </div>
+                                <div class="col-lg-2 my-auto text-end" style="padding-right: 1.5rem!important;">
+                                    <button class="btn btn-orange" style="">@Model.RequestInfo.Precedence</button>
+                                    <button class="btn btn-urgent" style="">@Model.RequestInfo.RequestState</button>
+                                    <i class="icon sc-menu-9 pending" id="ContextMenu"></i>
+                                    <div class="col-auto" style="margin-top:5px; margin-right:-15px">
+                                        <span class="Label-Head font-weight-bold">Danışman: <font style="color:gray;font-weight:100;">@(ViewBag.AppointedPersonName)</font></span>
+                                    </div>
+                                </div>
+                            }
+                            else if (Model.RequestInfo.RequestState == "Süreç Başlatıldı")
+                            {
+
+                                <div class="col-lg-4 col-md-12 pl-0">
+                                    <nav style="--bs-breadcrumb-divider: '>'!important;" aria-label="breadcrumb">
+                                        <ol class="breadcrumb my-auto">
+                                            <a href="/CpmServisSistemi/DestekTalepleri?UserId=@(Session["tNo"]?.ToString())">
+                                            <li><i class="sc-arrow-left-long pageRouteButton"></i></li></a>
+                                            <li class="breadcrumb-item"><a class="color-link-passive" href="/CpmServisSistemi/Anasayfa">Anasayfa</a></li>
+                                            <li class="breadcrumb-item" aria-current="page"><a class="color-link-passive" href="/CpmServisSistemi/DestekTalepleri">Tüm Servis Talepleri</a></li>
+                                            <li class="breadcrumb-item color-link-active" aria-current="page">Talep Detayları</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                                <div class="col-lg-6 my-auto StateRowRequest">
+                                    <a href="#" class="" onclick="" id="Deadline" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="/Images/sidebarimg/calendar.png" width="20" height="34">
+                                        <span>Termin Tarihi</span>
+                                    </a>
+                                    <a href="#" class="" onclick="" id="closeRequest" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/check_circle.png">
+                                        <span>Talebi Kapat</span>
+                                    </a>
+                                    <a href="#" class="" onclick="" id="ForwardRequest" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/forward_arrow.png">
+                                        <span>Talebi Yönlendir</span>
+                                    </a>
+                                    <a href="/CpmServisSistemi/CreateServiceFormRequest?RequestId=@Model.RequestInfo.RequestId">
+                                        <img src="~/Images/requestImg/icons8-create_document.png" style="width: 20px; height: 20px;" />
+                                        <span>Servis Formu Oluştur</span>
+                                    </a>
+                                    <a href="#" class="" onclick="" id="TestRequest" data-requestid="@Model.RequestInfo.RequestId" disabled>
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/forward_arrow.png">
+                                        <span>Teste Gönder</span>
+                                    </a>
+                                    @if (Session["tNo"]?.ToString() == "1124" || Session["tNo"]?.ToString() == "1114" || Session["tNo"]?.ToString() == "18" || Session["tNo"]?.ToString() == "1123" || Session["tNo"]?.ToString() == "2")
+                                    {
+                                        <a href="#" class="" onclick="" id="RequestUpdate">
+                                            <img style="height: 1.5rem;" src="~/Images/requestImg/icons8-create_document.png">
+                                            <span data-toggle="modal" data-target="#ModulUpdate">Güncelle</span>
+                                        </a>
+                                    }
+                                    @if (Model.RequestInfo.CompanyId == "120.01.0242" & Model.RequestInfo.RelatedCompanyId != null)
+                                    {
+                                        <a href="#" class="" onclick="" id="transfer" data-requestid="@Model.RequestInfo.RequestId">
+                                            <img style="height: 1.5rem;" src="~/Images/requestImg/forward_arrow.png">
+                                            <span>Aktar</span>
+                                        </a>
+                                    }
+
+                                </div>
+                                <div class="col-lg-2 my-auto text-end" style="padding-right: 1.5rem!important;">
+                                    <button class="btn btn-orange" style="">@Model.RequestInfo.Precedence</button>
+                                    <button class="btn btn-urgent" style="">@Model.RequestInfo.RequestState</button>
+                                    <i class="icon sc-menu-9 pending" id="ContextMenu"></i>
+                                    <div class="col-auto" style="margin-top:5px; margin-right:-15px">
+                                        <span class="Label-Head font-weight-bold">Danışman: <font style="color:gray;font-weight:100;">@(ViewBag.AppointedPersonName)</font></span>
+                                    </div>
+                                </div>
+                            }
+                            else if (Model.RequestInfo.RequestState == "Müşteri Kontrolünde")
+                            { <div class="col-lg-4 col-md-12 pl-0">
+                                    <nav style="--bs-breadcrumb-divider: '>'!important;" aria-label="breadcrumb">
+                                        <ol class="breadcrumb my-auto">
+                                            <a href="/CpmServisSistemi/DestekTalepleri?UserId=@(Session["tNo"]?.ToString())">
+                                            <li><i class="sc-arrow-left-long pageRouteButton"></i></li></a>
+                                            <li class="breadcrumb-item"><a class="color-link-passive" href="/CpmServisSistemi/Anasayfa">Anasayfa</a></li>
+                                            <li class="breadcrumb-item" aria-current="page"><a class="color-link-passive" href="/CpmServisSistemi/DestekTalepleri">Tüm Servis Talepleri</a></li>
+                                            <li class="breadcrumb-item color-link-active" aria-current="page">Talep Detayları</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                                <div class="col-lg-6 my-auto StateRowRequest">
+
+                                    <a href="#" class="" onclick="" id="closeRequest" data-requestid="@Model.RequestInfo.RequestId">
+                                        <img style="height: 1.5rem;" src="~/Images/requestImg/check_circle.png">
+                                        <span>Talebi Kapat</span>
+                                    </a>
+
+                                </div>
+                                <div class="col-lg-2 my-auto text-end" style="padding-right: 1.5rem!important;">
+                                    <button class="btn btn-orange" style="">@Model.RequestInfo.Precedence</button>
+                                    <button class="btn btn-urgent" style="">@Model.RequestInfo.RequestState</button>
+                                    <i class="icon sc-menu-9 pending" id="ContextMenu"></i>
+                                    <div class="col-auto" style="margin-top:5px; margin-right:-15px">
+                                        <span class="Label-Head font-weight-bold">Danışman: <font style="color:gray;font-weight:100;">@(ViewBag.AppointedPersonName)</font></span>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                        <div class="row m-3">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div id="leftMenu" class="col-lg-4 d-none d-lg-block"
+                                         style="
+                                            border-top: 2px solid var(--thBorderLight);
+                                            border-left: 2px solid var(--thBorderLight);
+                                            border-bottom: 2px solid var(--thBorderLight);
+                                            border-top-left-radius: 6px;
+                                            border-bottom-left-radius: 6px;">
+                                        <div class="row mb-3">
+                                            <div class="col-2">
+                                                <img src="~/Images/requestImg/icons8-company.png" alt="image" />
+                                            </div>
+                                            <div class="col-9 my-auto">
+                                                <span data-requestid="@Model.RequestInfo.RequestId" id="RequestId" hidden></span>
+                                                <h6>@Model.RequestInfo.CompanyName</h6>
+                                                <div id="ContractNotification" class="mt-2 Label-Red" style="font-weight: 800 !important;"></div>
+                                                <div id="BlockedNotification" class="mt-2 Label-Red" style="font-weight: 800 !important;"></div>
+                                                @*<span style="font-weight: 700;line-height: 24px;">@Model.RequestInfo.CompanyName</span> <br />*@
+                                                <span style="color:#406C8180;">Firma Detay bigisi için sağdaki ikona tıklayınız ! </span>
+                                            </div>
+
+                                            <div class="col-1 my-auto">
+                                                <a id="CompanyInfoButton" data-id="@Model.RequestInfo.CompanyId" href="#"><i style="font-size: 1.5rem;" class="sc-info-sign"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <span> Talep#@Model.RequestInfo.RequestId</span> <br />
+
+
+                                                <span class="Label-Yellow">Ürün: @Model.RequestInfo.Module</span> <br />
+                                                <span class="Label-Head font-weight-bold">Talep Sahibi: <font style="color:gray;font-weight:100;">@Model.RequestInfo.Requester</font></span><br />
+                                                <span class="Label-Head font-weight-bold">Tel No: <font style="color:gray;font-weight:100;">@Model.RequestInfo.Tel</font></span><br />
+                                                @if (Model.RequestInfo.DeadlineDate != null)
+                                                {
+                                                    <span>Termin Tarihi: @Model.RequestInfo.DeadlineDate.Value.ToString("dd/MM/yyyy")</span> <br />
+                                                }
+                                                else
+                                                {
+                                                    <span>Termin Tarihi: - </span> <br />
+                                                }
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <span style="color:#406C8180;float:right;">@Model.RequestInfo.EntryUserDate.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-5" style="margin-bottom: 17rem;">
+                                            <div class="col-12">
+                                                <h5>@Model.RequestInfo.Topic</h5>
+                                                <p>@Model.RequestInfo.YourMessage</p>
+                                            </div>
+                                        </div>
+                                        <!--Dosya-->
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                                    <div class="accordion-item">
+                                                        <span class="accordion-header" id="panelsStayOpen-headingOne">
+                                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                                                <h6>Dosya Ekleri</h6>
+                                                            </button>
+                                                        </span>
+
+                                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                                            <div class="accordion-body">
+                                                                <div class="Scroll-Default" id="filesUpload" style="height: auto!important;padding-left:1rem;">
+                                                                    <ul class="no_bullet">
+                                                                        @if (Model.Files.Count > 0)
+                                                                        {
+                                                                            foreach (var f in Model.Files)
+                                                                            {
+                                                                                <li class="star" style="padding-bottom:0.5rem;padding-top: 0.5rem;">
+                                                                                    <div class="row">
+                                                                                        <div class="col-1">
+                                                                                            <img src="~/Images/requestImg/icons8-copy_link.png" style="height:24px;width:24px;float: left;" />
+                                                                                        </div>
+                                                                                        <div class="col-8">
+                                                                                            <label style="font-size: 1rem;" class="fileType" data-file="@f.FileId">
+                                                                                                @f.FileName
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="col-1">
+                                                                                            <label style="">
+                                                                                                <a href="@Url.Action("RequestsDownloadFile", "CpmServisSistemi", new { FileId = f.FileId })">
+                                                                                                    <i class="icon sc-download p-2" style="font-size: 16px;" id="btnFileDownload" data-id="@f.FileId"></i>
+                                                                                                </a>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </li>
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <li class="lineImg">
+                                                                                <div class="row">
+                                                                                    <div class="col-12">
+                                                                                        <img src="~/Images/requestImg/icons8-do_not_disturb.png" height="24" width="24" />
+                                                                                        <label style="font-size: 12px;" class="fileType" data-file="degerlendirme.xlsx">
+                                                                                            Yüklü Dosya Bulunamadı
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        }
+                                                                    </ul>
+                                                                    <div class="row" id="FileAnaRow" style=" background-color: #fff; height: 42rem; border-radius: 10px; padding-top: 17px; margin:1rem;box-shadow:7px 19px 14px 2px var(--thShadow)">
+                                                                        <div class="col-12 text-center">
+                                                                            <label class="mb-2" style="color:var(--thText);font-size: unset;font-weight:bold;">DOSYA YÜKLE</label> <br />
+                                                                            <label style="color:var(--thSubText);font-size:0.9rem;">Servis planına eklemek istediğiniz dosyaları yükleyebilirsiniz. </label> <br />
+                                                                            <form id="upload" class="mt-2">
+                                                                                <div id="drop">
+                                                                                    <img src="~/Content/Icons/icons8-upload_to_cloud.png" height="50" /><br />
+                                                                                    <label style="font-size: 0.7rem;">Yüklemek istediğiniz dosyaları bu alana sürükleyip bırakınız.</label> <br />
+                                                                                    <label style="font-size: 0.8rem;">VEYA</label> <br />
+                                                                                    <a>Dosya Seç</a>
+                                                                                    <input type="file" name="upl" multiple id="multipleFile" />
+                                                                                </div>
+                                                                                <div class="Scroll-Blue">
+                                                                                    <ul>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </form>
+                                                                            <span style="font-size:0.7rem;color:var(--thSubText)">* zip, pdf, doc, docx, xls, xlsx, png, jpeg dosya formatları kabul edilmektedir.</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mb-1" style="display: flex; justify-content: flex-end;">
+                                                <button type="button" class="Button-Outline-Kaydet" id="fileupdate">
+                                                    KAYDET
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="fullMenu" class="col-lg-8 col-md-12" style="border-top-right-radius: 6px;
+        border-top: 2px solid var(--thBorderLight);
+        border-bottom: 2px solid var(--thBorderLight);
+        border-left: 2px solid var(--thBorderLight);
+        border-right: 2px solid var(--thBorderLight);
+        border-bottom-right-radius: 6px;">
+                                        <div class="row mb-4 d-none d-lg-block" style="box-shadow: 1px 4px 8px -6px #406c80!important">
+                                            <div class="pb-3 pt-3">
+                                                <div class="row">
+                                                    <div class="fit-width">
+                                                        <span class="dot-line"></span>
+                                                    </div>
+                                                    <div class="col-3 text-center tabDiv" style="margin-top:-14px;">
+                                                        <i class="requestSubmitted sc-check-bg-filled"></i><br />
+                                                    </div>
+                                                    <div class="col-3 text-center tabDiv" style="margin-top:-14px;">
+                                                        <i class="@(ViewBag.CheckIconState >= 1 ? "sc-check-bg-filled" : "dot") consultantAppointed"></i><br />
+                                                    </div>
+                                                    <div class="col-3 text-center tabDiv" style="margin-top:-14px;">
+                                                        <i class="@(ViewBag.CheckIconState >= 2 ? "sc-check-bg-filled" : "dot") processStarted"></i><br />
+                                                    </div>
+                                                    <div class="col-3 text-center tabDiv" style="margin-top:-14px;">
+                                                        <i class="@(ViewBag.CheckIconState >= 3 ? "sc-check-bg-filled" : "dot") Completed"></i><br />
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-3 text-center tabDiv">
+                                                        <span class="">Talep Onaylandı</span>
+                                                    </div>
+                                                    <div class="col-3 text-center tabDiv">
+                                                        <span class="">Danışman Atandı</span>
+                                                    </div>
+                                                    <div class="col-3 text-center tabDiv">
+                                                        <span class="">Süreç Başladı</span>
+                                                    </div>
+                                                    <div class="col-3 text-center tabDiv">
+                                                        <span class="">Tamamlandı</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div style="max-height: 300px;overflow-y: auto;">
+                                                <div class="col-12" id="MainMessageCardRow" style="text-align: center;">
+                                                    @if (Model.Messages.Count() > 0)
+                                                    {
+                                                        foreach (var item in Model.Messages)
+                                                        {
+                                                            if (item.CustomerOrErp == "System")
+                                                            {
+                                                                <div class="hr-sect"><font style="font-weight:bold;color:#335766;">@item.PersonName tarafından @item.Message</font></div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="card mb-3 chat-card ml-3 mr-3" style="border:none !important;background-color:none !important;">
+                                                                    @if (item.ForwardCustomer == false)
+                                                                    {
+                                                                        <div class="row g-0 chat-card" id="tulin" style="background: #F2F6F7; border: 1px solid rgba(64, 108, 128, 0.2); border-radius: 10px;">
+                                                                            <div class="col-md-2 my-auto mx-auto text-center p-2">
+                                                                                <div class="img-thumbnail img-circle">
+                                                                                    <div style="position: relative; padding: 0; cursor: pointer;" type="file">
+                                                                                        @if (item.CustomerOrErp == "Müşteri")
+                                                                                        {
+                                                                                            string location = File.Exists(Path.Combine(Server.MapPath("~/Images/ProfileImages/Customer"), item.RequesterId + ".jpeg")) ? item.RequesterId + ".jpeg" : "default.png";
+                                                                                            <img src="~/Images/ProfileImages/Customer/@location" class="img-circle" style="width:66px; height: 66px;">
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            string location = File.Exists(Path.Combine(Server.MapPath("~/Images/ProfileImages/Advisor"), item.PersonId + ".jpeg")) ? item.PersonId + ".jpeg" : "default.png";
+                                                                                            <img src="~/Images/ProfileImages/Advisor/@location" class="img-circle" style="width:66px; height: 66px;">
+                                                                                        }
+                                                                                    </div>
+                                                                                </div> <br />
+
+                                                                                <span class=""><font class="nameTitle">@item.PersonName</font></span> <br />
+
+                                                                                @if (item.CustomerOrErp == "Müşteri")
+                                                                                {
+                                                                                    <label class="description-orange p-1 col-10">@item.CustomerOrErp</label> <br />
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <label class="description-blue p-1 col-10">ERP Danışmanı</label> <br />
+                                                                                }
+
+                                                                            </div>
+                                                                            <div class="col-md-9 tst" style="border-left:1px solid rgba(64, 108, 128, 0.2);">
+                                                                                @*<span class="Delete mt-1" style="float:right;" data-id="@item.MessageId"><i class="sc-trash-bin font-16 btn btn-sm btn-soft-danger"></i></span> <br />*@
+                                                                                <div class="card-body deneme lightbox-trigger" width="200" style="padding: 1rem 1.25rem !important; cursor: pointer;">
+                                                                                    @Html.Raw(@item.Message)
+                                                                                </div>
+                                                                                <div id="lightbox">
+                                                                                    <span class="close">&times;</span>
+                                                                                    <img class="lightbox-content">
+                                                                                </div>
+                                                                                <div class="card-footer col-12" style="padding: 0rem 0.5rem !important;text-align-last: right !important;background-color: transparent !important;border-top: none !important;top: 100% !important;width: 100% !important;position: sticky;">
+                                                                                    @item.SendTime.Value.ToString("dd/MM/yyyy HH:mm")
+                                                                                </div>
+                                                                                @if (item.ServiceTime != null && @item.ServiceTime != 0)
+                                                                                {
+
+                                                                                    <div style="padding: 0rem 0.5rem; text-align: right; background-color: transparent; border-top: none; width: 100%; margin-bottom: -5px;">
+                                                                                        Servis Bilgisi
+                                                                                    </div>
+
+                                                                                    <div class="card-footer col-12" style="padding: 0rem 0.5rem; text-align: right; background-color: transparent; border-top: none; width: 100%; margin-bottom: -5px;">
+                                                                                        @(item.ServiceStartDate.HasValue ? item.ServiceStartDate.Value.ToString("dd.MM.yyyy HH:mm") : "-")
+                                                                                        -
+                                                                                        @(item.ServiceEndDate.HasValue ? item.ServiceEndDate.Value.ToString("dd.MM.yyyy HH:mm") : "-")
+                                                                                    </div>
+
+                                                                                    <div class="card-footer col-12 Label-Red" style="padding: 0rem 0.5rem; text-align: right; background-color: transparent; border-top: none; width: 100%; margin-bottom: 15px;">
+                                                                                        Toplam Süre:@item.ServiceTime.ToString("0") dakika
+                                                                                    </div>
+                                                                                }
+                                                                            </div>
+                                                                            <div class="col-md-1 mt-3 position-relative" style=" max-width: 12.333333% !important;">
+                                                                                <img src="~/Images/checkbox/tick2.png" style="height: 15px;float: right; text-align: right" />
+                                                                                <i class="icon sc-duplicate-copy copy-icon copy" data-id=" @item.MessageId" data-message="@item.Message" style="margin-top: 1px; height: 15px; float: right; text-align: right; cursor: pointer; margin-right: 10px;"></i>
+
+                                                                            </div>
+
+
+
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                <div class="row g-0 chat-card" id="tulin" style="background: #F2F6F7; border: 1px solid rgba(64, 108, 128, 0.2); border-radius: 10px;">
+                                                                    <div class="col-md-2 my-auto mx-auto text-center p-2">
+                                                                        <div class="img-thumbnail img-circle">
+                                                                            <div style="position: relative; padding: 0; cursor: pointer;" type="file">
+                                                                                @if (item.CustomerOrErp == "Müşteri")
+                                                                                {
+                                                                                    string location = File.Exists(Path.Combine(Server.MapPath("~/Images/ProfileImages/Customer"), item.RequesterId + ".jpeg")) ? item.RequesterId + ".jpeg" : "default.png";
+                                                                                    <img src="~/Images/ProfileImages/Customer/@location" class="img-circle" style="width:66px; height: 66px;">
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    string location = File.Exists(Path.Combine(Server.MapPath("~/Images/ProfileImages/Advisor"), item.PersonId + ".jpeg")) ? item.PersonId + ".jpeg" : "default.png";
+                                                                                    <img src="~/Images/ProfileImages/Advisor/@location" class="img-circle" style="width:66px; height: 66px;">
+                                                                                }
+                                                                            </div>
+                                                                        </div> <br />
+
+                                                                        <span class=""><font class="nameTitle">@item.PersonName</font></span> <br />
+
+                                                                        @if (item.CustomerOrErp == "Müşteri")
+                                                                        {
+                                                                            <label class="description-orange p-1 col-10">@item.CustomerOrErp</label> <br />
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <label class="description-blue p-1 col-10">ERP Danışmanı</label> <br />
+                                                                        }
+
+                                                                    </div>
+                                                                    <div id="lightbox">
+                                                                        <span class="close">&times;</span>
+                                                                        <img class="lightbox-content">
+                                                                    </div>
+                                                                    <div class="col-md-8 tst" style="border-left:1px solid rgba(64, 108, 128, 0.2);">
+                                                                        @*<span class="Delete mt-1" style="float:right;" data-id="@item.MessageId"><i class="sc-trash-bin font-16 btn btn-sm btn-soft-danger"></i></span> <br />*@
+                                                                        <div class="card-body deneme lightbox-trigger" width="200" style="padding: 1rem 1.25rem !important; cursor: pointer;">
+                                                                            @Html.Raw(@item.Message)
+                                                                        </div>
+
+                                                                        <div class="card-footer col-12" style="padding: 0rem 0.5rem !important;text-align-last: right !important;background-color: transparent !important;border-top: none !important;top: 100% !important;width: 100% !important;position: sticky;">
+                                                                            @item.SendTime.Value.ToString("dd/MM/yyyy HH:mm")
+                                                                        </div>
+                                                                        @if (item.ServiceTime != null && @item.ServiceTime != 0)
+                                                                        {
+                                                                            <div style="padding: 0rem 0.5rem; text-align: right; background-color: transparent; border-top: none; width: 100%; margin-bottom: -5px;">
+                                                                                Servis Bilgisi
+                                                                            </div>
+
+                                                                            <div class="card-footer col-12" style="padding: 0rem 0.5rem; text-align: right; background-color: transparent; border-top: none; width: 100%; margin-bottom: -5px;">
+                                                                                @(item.ServiceStartDate.HasValue ? item.ServiceStartDate.Value.ToString("dd.MM.yyyy HH:mm") : "-")
+                                                                                -
+                                                                                @(item.ServiceEndDate.HasValue ? item.ServiceEndDate.Value.ToString("dd.MM.yyyy HH:mm") : "-")
+                                                                            </div>
+
+                                                                            <div class="card-footer col-12 Label-Red" style="padding: 0rem 0.5rem; text-align: right; background-color: transparent; border-top: none; width: 100%; margin-bottom: 15px;">
+                                                                                Toplam Süre:@item.ServiceTime.ToString("0") dakika
+                                                                            </div>
+
+                                                                        }
+                                                                    </div>
+
+                                                                    <div class="col-md-1 mt-3 position-relative" style=" max-width: 12.333333% !important;">
+                                                                        <img src="~/Images/checkbox/tick1.png" style="height: 15px;float: right; text-align: right" />
+                                                                        <i class="icon sc-duplicate-copy copy-icon copy" data-id=" @item.MessageId" data-message="@item.Message" style="margin-top: 1px; height: 15px; float: right; text-align: right; cursor: pointer; margin-right: 10px;"></i>
+
+                                                                    </div>
+                                                                </div>
+                                                                    }
+                                                                </div>
+
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="EmptyMessage m-lg-5 m-md-5">
+                                                            <img src="~/Images/requestImg/Message.png" />
+                                                            <h6>Mesaj Yok</h6>
+                                                            <span>Talebiniz için henüz bir cevap verilmedi.</span>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="border-top: 1px solid #406C801A; padding-top: 1rem;">
+                                            <div class="col-2 d-none d-lg-block">
+                                                <div id="profile-photo" class="">
+                                                    <img alt="profile-user" class="profile-src p-1" src="~/Images/ProfileImages/Advisor/@(Session["profilimage"]?.ToString() ?? "")" />
+                                                </div>
+                                            </div>
+                                            <div class="col-10 my-auto">
+                                                <span><font style="font-weight:bold;">@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Session["fName"]?.ToString() ?? "")</font> olarak mesaja cevap veriliyor.</span>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="border-bottom: 2px solid var(--thBorderLight);">
+                                            <div class="col-12 p-0">
+                                                <textarea id="editor" class="ck_editor">
+                                               </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row pt-3">
+                                            <div class="col-8">
+                                                <span>Talebi farklı bir danışmana yönlendirmek için sağ üstten <font style="font-weight:bold;">"Talebi Yönlendir"</font>  butonuna tıklayınız.</span>
+                                            </div>
+                                            <div class="col-2" style="text-align: right">
+                                                <div class="form-check form-check-inline">
+
+                                                    <input class="form-check-input" type="checkbox" id="ShareCheckbox" name="ShareCheckbox" style="width: 1.3rem; height: 1.3rem;" checked>
+                                                    <label class="form-check-label Label-Text" for="ShareCheckbox" style="font-size: 0.9rem;">Müşteriye İlet</label>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-2" style="text-align:end">
+                                                <button type="button" style="margin-left: 1rem;" class="Button-Outline-Kaydet" id="SendMessage">
+                                                    CEVAPLA
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="CustomModalDialog" class="custom-modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:#335766;" id="exampleModalLabel">Firma Bilgileri</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="sc-close"></i>
+                    <span aria-hidden="true">
+                    </span>
+                </button>
+            </div>
+            <div class="modal-body p-2" id="myModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="CreateServiceFormModalDialog" class="custom-modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width:800px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:#335766;">Yeni Servis Formu Kaydı</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="sc-close"></i>
+                    <span aria-hidden="true">
+                    </span>
+                </button>
+            </div>
+            <div class="modal-body p-2" id="createServiceFormModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="CloseRequestModal" class="custom-modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:#335766;font-weight:bold;" id="exampleModalLabel">Talebin Yeniden Açılması</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-2 mx-auto" style="text-align: center;">
+                <img src="/Images/requestImg/Task.png" style="float: unset;"> <br>
+                <p style="margin: 1rem 6rem; text-align: initial;color:#406C80;">
+                    Konunun çözümlenmediğini düşünüyorsanız, talebi yeniden açma talebinde bulunabilirsiniz. İsteğiniz onaylığında konu hakkında görüşmeye devam edebilirsiniz.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="" class="Button-Outline-Close float-start" data-bs-dismiss="modal" id="exitModel">Kapat</button>
+                <button type="button" style="width: auto !important;" class="Button-Outline-Kaydet float-end" id="openRequestAgain">
+                    Talebi Yeniden Aç
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="RequestOpen" class="custom-modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:#335766;font-weight:bold;" id="exampleModalLabel">Talebin Yeniden Açılması</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="sc-close"></i>
+                    <span aria-hidden="true">
+                    </span>
+                </button>
+            </div>
+            <div class="modal-body mx-auto" style="text-align: center;">
+                <img src="~/Images/requestImg/Complete.png" height="180px" />
+                <br />
+                <p style="margin: 1rem 6rem; text-align: initial;color:#406C80;">
+                    Konunun yeniden açılması talebiniz gönderildi. Süreç onaylandığında size haber vereceğiz.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="" class="Button-Outline-Kaydet float-end" data-bs-dismiss="modal" id="">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ForwardRequestModal" class="custom-modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:#335766;font-weight:bold;" id="exampleModalLabel">Talebi Yönlendir</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="sc-close"></i>
+                    <span aria-hidden="true">
+                    </span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row m-1">
+                    <div class="col-6" style="border-right: 1px solid #406C801A" ;>
+                        <img src="/Images/requestImg/Task.png" style="height: 10rem;" />
+                    </div>
+                    <div class="col-6">
+                        <span class="Label-Title" style="margin-left: 0.7rem;font-weight:bold;">Danışman</span>
+                        <select class="selectpicker font13" data-live-search="true" id="PersonNameDirected">
+                            <option data-tokens="" value="">Seçiniz...</option>
+                            @foreach (var t in Model.Person)
+                            {
+                                <option data-tokens="" value="@t.Value">@t.Text</option>
+                            }
+                        </select>
+                        <div id="forwardNotification" class="mt-2 Label-Red"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="" class="Button-Outline-Close float-end" data-bs-dismiss="modal" id="">Kapat</button>
+                <button type="button" style="width: 6rem !important;" class="Button-Outline-Kaydet float-end" id="personSave">
+                    Kaydet
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="DeadlineModal" class="custom-modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:#335766;font-weight:bold;" id="exampleModalLabel">Termin Tarihi</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="sc-close"></i>
+                    <span aria-hidden="true">
+                    </span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row m-1">
+                    <div class="col-6" style="border-right: 1px solid #406C801A" ;>
+                        <img src="/Images/requestImg/Task.png" style="height: 10rem;" />
+                    </div>
+                    <div class="col-6">
+                        <span class="Label-Title" style="margin-left: 0.7rem;font-weight:bold;">Tarih</span>
+
+                        <div class="input-group" style="margin-top: 0.7rem;">
+                            <input type="date" class="form-control" name="dates" id="dateSelect">
+
+                        </div>
+                        <div id="forwardNotification" class="mt-2 Label-Red"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="" class="Button-Outline-Close float-end" data-bs-dismiss="modal" id="">Kapat</button>
+                <button type="button" style="width: 6rem !important;" class="Button-Outline-Kaydet float-end" data-id="@Model.RequestInfo.RequestId" id="DateSave">
+                    Kaydet
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ModulUpdate" class="custom-modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:#335766;font-weight:bold;" id="exampleModulUpdate">Modül ve Öncelik Alanı Güncelle</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="sc-close"></i>
+                    <span aria-hidden="true">
+                    </span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row m-1">
+                    <div class="col-6">
+                        <span class="Label-Title" style="margin-left: 0.7rem;font-weight:bold;">Modül</span>
+                        <select class="selectpicker font13" data-live-search="true" id="Module">
+                            <option value="@Model.RequestInfo.Module">@Model.RequestInfo.Module</option>
+                            @foreach (var item in Model.ModuleSelectList)
+                            {
+                                <option data-tokens="" value="@item.Value">@item.Text</option>
+                            }
+
+                        </select>
+                        <div id="forwardNotification" class="mt-2 Label-Red"></div>
+                    </div>
+                    <div class="col-6">
+                        <span class="Label-Title" style="margin-left: 0.7rem;font-weight:bold;">Öncelik Alan</span>
+                        <select class="selectpicker font13" data-live-search="true" id="Precedence">
+                            <option value="@Model.RequestInfo.Precedence">@Model.RequestInfo.Precedence</option>
+                            @foreach (var item in Model.PrecedenceSelectList)
+                            {
+                                <option data-tokens="" value="@item.Value">@item.Text</option>
+                            }
+
+
+                        </select>
+                        <div id="forwardNotification" class="mt-2 Label-Red"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="" class="Button-Outline-Close float-end" data-dismiss="modal" id="">Kapat</button>
+                <button type="button" style="width: 6rem !important;" class="Button-Outline-Kaydet float-end" id="mdlupdate">
+                    Kaydet
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="StarRating" class="custom-modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:#335766;" id="exampleModalLabel">Bizi Değerlendirin</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="sc-close"></i>
+                    <span aria-hidden="true">
+                    </span>
+                </button>
+            </div>
+            <div class="modal-body mx-auto text-center">
+                <div class="img-thumbnail img-circle">
+                    <div style="position: relative; padding: 0; cursor: pointer;" type="file">
+                        <img src="~/Content/NewThema/chat/img/hakki-kilinc.jpg" class="img-circle" style="width:100px; height: 100px;">
+                    </div>
+                </div> <br />
+                <span class=""><font class="nameTitle">Hakkı Kılınç</font></span> <br />
+                <label class="description-gray p-2 col-10" style="background-color:#406C814D !important;color:#335766;">ERP Danışmanı</label>
+                <div class="stars-container">
+                    <span class="star-item star-item-1" data-id="1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+                            <path class="cls-1" d="M50,0L66.478,31.427,99.993,38.2,76.663,64.389,80.9,100,50,84.759,19.1,100l4.235-35.608L0.007,38.2l33.515-6.77L50,0" />
+                        </svg>
+                    </span>
+                    <span class="star-item star-item-2" data-id="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+                            <path class="cls-1" d="M50,0L66.478,31.427,99.993,38.2,76.663,64.389,80.9,100,50,84.759,19.1,100l4.235-35.608L0.007,38.2l33.515-6.77L50,0" />
+                        </svg>
+                    </span>
+                    <span class="star-item star-item-3" data-id="3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+                            <path class="cls-1" d="M50,0L66.478,31.427,99.993,38.2,76.663,64.389,80.9,100,50,84.759,19.1,100l4.235-35.608L0.007,38.2l33.515-6.77L50,0" />
+                        </svg>
+                    </span>
+                    <span class="star-item star-item-4" data-id="4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+                            <path class="cls-1" d="M50,0L66.478,31.427,99.993,38.2,76.663,64.389,80.9,100,50,84.759,19.1,100l4.235-35.608L0.007,38.2l33.515-6.77L50,0" />
+                        </svg>
+                    </span>
+                    <span class="star-item star-item-5" data-id="5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+                            <path class="cls-1" d="M50,0L66.478,31.427,99.993,38.2,76.663,64.389,80.9,100,50,84.759,19.1,100l4.235-35.608L0.007,38.2l33.515-6.77L50,0" />
+                        </svg>
+                    </span>
+                </div>
+                <input type="range" name="vote" min="0" class="form-control-range" hidden max="5" value="0" id="vote-slider">
+            </div>
+            <div class="modal-footer mb-2">
+                <button class="btn-go col-12" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">KAYDET</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/bootstrap.bundle.min.js"></script>
+<script src="~/Scripts/SweetAlert2/sweetalert2.all.min.js"></script>
+<script src="~/Content/fileUpload/js/jquery.ui.widget.js"></script>
+<script src="~/Content/fileUpload/js/jquery.iframe-transport.js"></script>
+<script src="~/Content/fileUpload/js/jquery.fileupload.js"></script>
+<script src="~/Content/fileUpload/js/jquery.knob.js"></script>
+<script src="~/Content/fileUpload/js/script.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+                  debugger;
+var state = "@Model.RequestInfo.RequestState";
+        var a = $("#SendMessage");
+        if (state == "Kapalı") {
+            a.attr("disabled", true); // Set disabled attribute
+        } else {
+            a.removeAttr("disabled"); // Remove disabled attribute
+        }
+    });
+    $(document).ready(function () {
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // Ocak 0 ile başlar, bu yüzden 1 ekliyoruz
+        var yyyy = today.getFullYear();
+
+        var formattedDate = yyyy + '-' + mm + '-' + dd;
+
+        $('#dateSelect').val(formattedDate); // Input alanına tarihi yerleştir
+
+
+    });
+
+    function CheckCont() {
+       window.CheckContractAndBlock = "";
+        $.ajax({
+            method: "POST",
+            url: "/CpmServisSistemi/CheckIfCompanyHaveContract",
+            data: {
+                RequestId: @Model.RequestInfo.RequestId
+            },
+            success: function (result) {
+                if (result.Item1 == false) {
+                    $("#ContractNotification").text('Seçilen firmanın sözleşmesi bulunmamaktadır!');
+                    CheckContractAndBlock = "Sözleşmesi bulunmayan firmalar için talep oluşturamazsınız!";
+                }
+                else {
+                    $("#ContractNotification").text('');
+                }
+                if (result.Item2 == true) {
+                    $("#BlockedNotification").text('Seçilen firma bloke edilmiştir!');
+                    CheckContractAndBlock = "Bloke edilen firmalar için talep oluşturamazsınız!";
+                }
+                else {
+                    $("#BlockedNotification").text('');
+                }
+            }
+        })
+    }
+    $(document).ready(function () {
+        CheckCont();
+    });
+    var loggedInPersonId = @(ViewBag.LoggedinPersonId);
+    var AppointedPersonId = @(ViewBag.AppointedPersonId);
+    var permissionedUsers = [];
+    $.ajax({
+        url: '/CpmServisSistemi/GetPermissionedUsers',
+        method: 'POST',
+        success: function (res) {
+            permissionedUsers = res;
+        }
+    })
+    var myModal = new bootstrap.Modal(document.getElementById('CustomModalDialog'), {
+        keyboard: false
+    })
+    var createServiceFormModal = new bootstrap.Modal(document.getElementById('CreateServiceFormModalDialog'), {
+        keyboard: false
+    })
+    var closeRequestModal = new bootstrap.Modal(document.getElementById('CloseRequestModal'), {
+        keyboard: false
+    })
+    var forwardRequest = new bootstrap.Modal(document.getElementById('ForwardRequestModal'), {
+        keyboard: false
+    })
+    var Deadline = new bootstrap.Modal(document.getElementById('DeadlineModal'), {
+        keyboard: false
+    })
+    var RequestOpen = new bootstrap.Modal(document.getElementById('RequestOpen'), {
+        keyboard: false
+    })
+    initSample();
+    function checkPermission() {
+        if (loggedInPersonId != AppointedPersonId && permissionedUsers.filter(elm=>elm == loggedInPersonId).length < 0) {
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                title: "Dikkat",
+                text: 'Bu işlemi yapmak için yetkiniz bulunmamaktadır!',
+                showConfirmButton: false,
+                timer: 2500
+            });
+
+            return false;
+        }
+        return true;
+    }
+    //#region Talep Kapat
+    $('body').on('click', '#closeRequest', function (event) {
+        if (checkPermission())
+        {
+            var CompanyId = '@Model.RequestInfo.CompanyId';
+            var RequestId = $("#closeRequest").attr("data-requestid");
+            Swal.fire({
+                title: 'Uyarı !',
+                text: "Talebi kapatma istediğinize emin misiniz?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Talebi Kapat'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        method: "POST",
+                        url: '/CpmServisSistemi/CloseRequest',
+                        data: {
+                            RequestId: RequestId,
+                            CompanyId: CompanyId
+                        },
+                        success: function (result) {
+                            if (result.IsSuccess) {
+                                toastr.success(result.Message);
+                                //closeRequestModal.show();
+                                getMessage();
+                                $('.Completed').removeClass('dot').addClass('sc-check-bg-filled');
+                                $(".sc-check-bg-filled").css({ "color": "#17996E", "font-size": "1.5rem" });
+                                CKEDITOR.instances['editor'].setReadOnly(true);
+                                $('#SendMessage').prop('disabled', true);
+                                $("#closeRequest").remove();
+                                $("#ForwardRequest").remove();
+                                $("#StartServiceRequest").remove();
+                                //$(".StateRowRequest").append('  <a href="#" class="float-left" onclick="" id="RequestOpenAgain">\
+                                //            <img style="height: 1.5rem;" src="/Images/requestImg/start.png">\
+                                //            <span style="margin-right:2rem;">Talebi Yeniden Aç</span></a>');
+                                window.location = "/CpmServisSistemi/DestekTaleplerim";
+                            }
+                            else {
+                                toastr.warning(result.Message);
+                            }
+                        },
+                        error: function () {
+                            alert('Erişim sağlanamadı.');
+                        }
+                    });
+                }
+            })
+        }
+    });
+    //#endregion
+    //#region Aktarma Butonu
+    $('body').on('click', '#transfer', function (event) {
+        debugger;
+        var RequestId = $("#transfer").attr("data-requestid");
+               $.ajax({
+                   method: "POST",
+                   url: '/CpmServisSistemi/Transfer',
+                   contentType: 'application/json; charset=utf-8',
+                   data: JSON.stringify({
+                       RequestId: RequestId,
+                       CompanyId: '@Model.RequestInfo.CompanyId',
+                       RelatedCompanyId: '@Model.RequestInfo.RelatedCompanyId',
+                       CompanyName: '@Model.RequestInfo.CompanyName',
+                       RelatedCompanyName: '@Model.RequestInfo.RelatedCompanyName'
+                   }),
+                    success: function (result) {
+                        if (result.IsSuccess == true) {
+                            setTimeout($.unblockUI, 3000);
+                            toastr.success(result.Message);
+                             window.location = "/CpmServisSistemi/RequestChatRoom?RequestId=@Model.RequestInfo.RequestId";
+                        }
+                        else {
+                            toastr.warning(result.Message);
+                        }
+                    },
+                });
+    });
+        //#endregion
+    //#region Talep Aç
+    $('body').on('click', '#openRequest', function (event) {
+
+        if (checkPermission())
+        {
+            debugger;
+            var CompanyId = '@Model.RequestInfo.CompanyId';
+
+            var RequestId = $("#openRequest").attr("data-requestid");
+
+            var closeDateStr = $(this).data("closedate"); // "16.10.2024 15:15:07"
+
+            // Noktaları slashe çevir
+            var formattedStr = closeDateStr.replace(/\./g, '/'); // "16/10/2024 15:15:07"
+
+            // Tarih ve saat bileşenlerini ayır
+            var parts = formattedStr.split(' ');
+            var dateParts = parts[0].split('/');
+
+
+            // Tarih formatı: new Date(year, monthIndex, day, hour, minute, second)
+            var closeDate = new Date(
+                parseInt(dateParts[2]),               // Yıl
+                parseInt(dateParts[1]) - 1,           // Ay (0-indexed)
+                parseInt(dateParts[0]),               // Gün
+
+            );
+
+            var today = new Date();
+            var businessDaysPassed = countBusinessDays(closeDate, today);
+
+            if (businessDaysPassed > 3) {
+                Swal.fire({
+                    position: 'top',
+                    icon: 'warning',
+                    title: "Dikkat",
+                    text: 'Talebi kapatmanızın üzerinden 3 iş günü geçtiği için yeni bir talep kaydı oluşturmanız önerilmektedir.',
+                    showConfirmButton: false,
+                    timer: 4500
+                });
+            }
+            else {
+     Swal.fire({
+                title: 'Uyarı !',
+                text: "Talebi açmak istediğinize emin misiniz?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Talebi Aç'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        method: "POST",
+                        url: '/CpmServisSistemi/OpenRequest',
+                        data: {
+                            RequestId: RequestId,
+                            CompanyId: CompanyId
+                        },
+                        success: function (result) {
+                            if (result.IsSuccess) {
+                                toastr.success(result.Message);
+                                //closeRequestModal.show();
+                                getMessage();
+                                $('.Completed').removeClass('dot').addClass('sc-check-bg-filled');
+                                $(".sc-check-bg-filled").css({ "color": "#17996E", "font-size": "1.5rem" });
+                                CKEDITOR.instances['editor'].setReadOnly(true);
+                                $('#SendMessage').prop('disabled', true);
+                                $("#openRequest").remove();
+                                $("#ForwardRequest").remove();
+                                //$(".StateRowRequest").append('  <a href="#" class="float-left" onclick="" id="RequestOpenAgain">\
+                                //            <img style="height: 1.5rem;" src="/Images/requestImg/start.png">\
+                                //            <span style="margin-right:2rem;">Talebi Yeniden Aç</span></a>');
+                                window.location = "/CpmServisSistemi/DestekTalepleri?UserId=@(Session["tNo"]?.ToString())";
+                            }
+                            else {
+                                toastr.warning(result.Message);
+                            }
+                        },
+                        error: function () {
+                            alert('Erişim sağlanamadı.');
+                        }
+                    });
+                }
+            })
+            }
+
+        }
+    });
+    //#endregion
+    function countBusinessDays(start, end) {
+        let count = 0;
+        const curDate = new Date(start);
+
+        while (curDate < end) {
+            const day = curDate.getDay();
+            if (day !== 0 && day !== 6) { // Pazar (0) ve Cumartesi (6) hariç
+                count++;
+            }
+            curDate.setDate(curDate.getDate() + 1);
+        }
+
+        return count;
+    }
+
+    //#region Danışman Şuan Servistedir Uyarısı
+    $('#PersonNameDirected').change(function () {
+        $.ajax({
+            method: "POST",
+            url: "/CpmServisSistemi/CheckIfPersonAtService",
+            data: {
+                PersonId: $(this).val()
+            },
+            success: function (result) {
+                if (result.isAtService)
+                    $("#forwardNotification").text('Danışman şuan servistedir!!');
+                else
+                    $("#forwardNotification").text('');
+            }
+        })
+    });
+    //#endregion
+
+    //#region Süreci Başlat
+    $('body').on('click', '#StartServiceRequest', function (event) {
+        debugger;
+        var AppointedPersonId = @(ViewBag.AppointedPersonId);
+        var RequestId = $("#closeRequest").attr("data-requestid");
+
+    $.ajax({
+        method: "POST",
+        url: '/CpmServisSistemi/StartService',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({
+            RequestId: RequestId,
+            AppointedAdvisorId: AppointedPersonId
+        }),
+
+        success: function (result) {
+            if (result.IsSuccess) {
+                toastr.success(result.Message);
+            } else {
+                toastr.warning(result.Message);
+            }
+            location.reload();
+        },
+        error: function (error) {
+            alert(error.responseText);
+        }
+
+    });
+});
+ //#endregion
+
+    //#region Talebi Yönlendir
+    $('body').on('click', '#ForwardRequest', function (event)
+    {
+        if (checkPermission()) {
+            var chatCount = $('.chat-card').length;
+            if (chatCount == 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: "Dikkat",
+                    text: 'Danışman ataması yapılmadan önce lütfen bilgilendirme mesajı giriniz!',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+            }
+            else {
+                forwardRequest.show();
+                $('.selectpicker').selectpicker('refresh');
+            }
+        }
+    });
+
+    $('body').on('click', '#ForwardRequestModal #personSave', function (event) {
+        var RequestId = $("#closeRequest").attr("data-requestid");
+        var ForwardTheRequestPersonId = $("#ForwardRequestModal #PersonNameDirected option:selected").val();
+        var ForwardTheRequestPersonName = $("#ForwardRequestModal #PersonNameDirected option:selected").text();
+        if (ForwardTheRequestPersonName == "" || ForwardTheRequestPersonName == "") {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Lüfen yönlendirmek istediğiniz danışmanı seçiniz !',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+        else {
+            $.ajax({
+                method: "POST",
+                url: '/CpmServisSistemi/ForwardRequest',
+                data: {
+                    RequestId: RequestId,
+                    ForwardTheRequestPersonId: ForwardTheRequestPersonId,
+                    ForwardTheRequestPersonName: ForwardTheRequestPersonName,
+                },
+                success: function (result) {
+                    if (result.IsSuccess == false) {
+                        toastr.warning(result.Message);
+                    }
+                    else {
+                        toastr.success(result.Message);
+                        forwardRequest.hide();
+                        getMessage();
+                        $('.consultantAppointed').removeClass('dot').addClass('sc-check-bg-filled'); 
+                        $('.processStarted').removeClass('sc-check-bg-filled').addClass('dot');
+                        $(".sc-check-bg-filled").css({ "color": "#17996E", "font-size": "1.5rem" });
+                        AppointedPersonId = ForwardTheRequestPersonId;
+                    }
+                },
+                error: function () {
+                    alert('Erişim sağlanamadı.');
+                }
+            });
+        }
+    });
+
+    //#endregion
+    //#region Termin Tarihi
+    $('body').on('click', '#Deadline', function (event) {
+
+        Deadline.show();
+                $('.selectpicker').selectpicker('refresh');
+    });
+
+    $('body').on('click', '#DeadlineModal #DateSave', function (event) {
+        debugger;
+        var RequestId = $("#DateSave").attr("data-id");
+        var DeadlineDate = $("#dateSelect").val();
+
+            $.ajax({
+                method: "POST",
+                url: '/CpmServisSistemi/DeadlineDate',
+                data: {
+                    RequestId: RequestId,
+                    DeadlineDate: DeadlineDate,
+                },
+                success: function (result) {
+                    if (result.IsSuccess == false) {
+                        toastr.warning(result.Message);
+                    }
+                    else {
+                        toastr.success(result.Message);
+                        Deadline.hide();
+
+                    }
+                },
+                error: function () {
+                    alert('Erişim sağlanamadı.');
+                }
+            });
+
+    });
+    //#endregion
+    //#region Üzerine Al
+    $('body').on('click', '#TakeRequest', function (event) {
+        debugger;
+        var UserId = '@(Session["tNo"]?.ToString())';
+        var User = '@Html.Raw(HttpUtility.JavaScriptStringEncode(Session["fName"]?.ToString()))';
+        var RequestId = $("#closeRequest").attr("data-requestid");
+        var ForwardTheRequestPersonId =UserId;
+        var ForwardTheRequestPersonName = User;
+
+        $.ajax({
+            method: "POST",
+            url: '/CpmServisSistemi/ForwardRequest',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+                RequestId: RequestId,
+                ForwardTheRequestPersonId: ForwardTheRequestPersonId,
+                ForwardTheRequestPersonName: ForwardTheRequestPersonName
+            }),
+
+            success: function (result) {
+                if (result.IsSuccess == false) {
+                    toastr.warning(result.Message);
+                } else {
+                    toastr.success(result.Message);
+                    getMessage();
+                    $('.consultantAppointed').removeClass('dot').addClass('sc-check-bg-filled');
+                    $(".sc-check-bg-filled").css({ "color": "#17996E", "font-size": "1.5rem" });
+                    AppointedPersonId = ForwardTheRequestPersonId;
+                }
+                location.reload();
+            },
+            error: function (error) {
+                alert(error.responseText);
+            }
+
+        });
+    });
+    //#endregion
+    //#region Talebin Yeniden Açılmasıö
+    $('body').on('click', '#openRequestAgain', function (event) {
+        closeRequestModal.hide();
+        RequestOpen.show();
+        //RequestOpenAgain
+    });
+    $('body').on('click', '#RequestOpenAgain', function (event) {
+        RequestOpen.show();
+        //RequestOpenAgain
+    });
+    //#endregion
+    //#region Açılır Kapanır Button
+    $('body').on('click', '#menuOpenButton', function (event) {
+        $('#leftMenu').toggleClass('closedMenu');
+        $('#fullMenu').toggleClass('col-lg-12');
+    });
+    //#endregion
+    //#region Mesaj Gönder
+    $('body').on('click', '#SendMessage', function () {
+
+        if (checkPermission()) {
+            var chatCount = $('.chat-card').length;
+            if (chatCount > 0) {
+                $('.processStarted').removeClass('dot').addClass('sc-check-bg-filled');
+                $(".sc-check-bg-filled").css({ "color": "#17996E", "font-size": "1.5rem" });
+            }
+            for (instance in CKEDITOR.instances) {
+                //update element
+                CKEDITOR.instances[instance].updateElement();
+            }
+            var RequestId = $("#RequestId").attr("data-requestid");
+            var Message = $('textarea.ck_editor').val();
+            var ForwardCustomer = $("input[name=ShareCheckbox]").prop('checked');
+
+            if (Message == '') {
+                Swal.fire(
+                    'UYARI !',
+                    'Lütfen, göndermek istediğiniz mesajı yazın !',
+                    'warning',
+                )
+            }
+            else {
+                $("#SendMessage").attr('disabled', true);
+                $.ajax({
+                    method: "POST",
+                    url: '/CpmServisSistemi/MessagesOfTheRequest',
+                    data: {
+                        RequestId: RequestId,
+                        Message: Message,
+                        ForwardCustomer: ForwardCustomer
+                    },
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            getMessage();
+                            CKEDITOR.instances.editor.setData('');
+                            setTimeout($.unblockUI, 500);
+                            toastr.success(result.Message);
+                        }
+                        else {
+                            toastr.warning(result.Message);
+                        }
+                        $("#SendMessage").attr('disabled', false);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Erişim sağlanamadı.');
+                    }
+                });
+            }
+        }
+    });
+    //#endregion
+    async function CheckFileExists(_url) {
+        return await $.ajax({
+            url: _url,
+            type: 'HEAD',
+            error: function () {
+                console.log('not');
+                return false;
+            },
+            success: function () {
+                console.log('ok');
+                return true;
+            }
+        });
+    }
+    //#region Mesaj Getir
+
+    function getMessage() {
+
+        $.ajax({
+            type: 'GET',
+            url: '/CpmServisSistemi/GetMessage',
+            success: function (response) {
+                if (response[0].ForwardCustomer == false) {
+                    $('#MainMessageCardRow .tulin').css('border-color', 'red');
+                }
+             var currentdate = new Date();
+                var datetime = currentdate.getDate() + "."
+                    + (currentdate.getMonth() + 1) + "."
+                    + currentdate.getFullYear() + "  "
+                    + currentdate.getHours() + ":"
+                    + currentdate.getMinutes();
+                if (CheckFileExists("/Images/ProfileImages/Customer/" + response[0].PersonId + ".jpeg"))
+                    var location = response[0].PersonId + ".jpeg";
+                else
+                    var location = "default.png";
+
+                if (CheckFileExists("/Images/ProfileImages/Advisor/" + response[0].PersonId + ".jpeg"))
+                    var location2 = response[0].PersonId + ".jpeg";
+                else
+                    var location2 = "default.png";
+
+                $(".EmptyMessage").remove();
+                if (response[0].CustomerOrErp == "System") {
+                    $("#MainMessageCardRow").append('<div class="hr-sect"><font style="font-weight:bold;color:#335766;">' + response[0].Message + '</font></div>');
+                }
+                else if (response[0].CustomerOrErp == "Müşteri") {
+                    $("#MainMessageCardRow").append('<div class="card mb-3 chat-card ml-3 mr-3" style="border:none !important;background-color:none !important;">\
+                        <div class="row g-0 chat-card tulin" style="background: #F2F6F7; border: 1px solid; border-color: rgba(64, 108, 128, 0.2); border-radius: 10px;">\
+                            <div class="col-md-2 my-auto mx-auto text-center p-2"><div class="img-thumbnail img-circle">\
+                                    <div style="position: relative; padding: 0; cursor: pointer;" type="file">\
+                                        <img src="/Images/ProfileImages/Customer/'+ location + '" class="img-circle" style="width:66px; height: 66px;"></div></div><br/>\
+                                <span><font class="nameTitle">'+ response[0].PersonName + '</font></span><br/><label class="description-orange p-1 col-10">' + response[0].CustomerOrErp + '</label>\
+                            </div><div class="col-md-10" style="border-left:1px solid rgba(64, 108, 128, 0.2);">\
+                                <div class="card-body deneme" style="padding: 1rem 1.25rem!important;">'+ response[0].Message + '</div><div class="card-footer col-12" style="padding: 0rem 0.5rem !important;text-align-last: right !important;background-color: transparent !important;border-top: none !important;top: 100% !important;width: 100% !important;position: sticky;">' + datetime + '</div></div></div></div>');
+                }
+
+                else if (response[0].CustomerOrErp == "ERP Danışmanı") {
+                    $("#MainMessageCardRow").append('<div class="card mb-3 chat-card ml-3 mr-3" style="border:1px solid !important;background-color:red !important;">\
+                        <div class="row g-0 chat-card tulin" style="background: #F2F6F7; border: 1px solid; border-color: rgb(237 99 99 / 50%); border-radius: 10px;">\
+                            <div class="col-md-2 my-auto mx-auto text-center p-2"><div class="img-thumbnail img-circle">\
+                                    <div style="position: relative; padding: 0; cursor: pointer;" type="file">\
+                                        <img src="/Images/ProfileImages/Advisor/'+ location2 + '" class="img-circle" style="width:66px; height: 66px;"></div></div><br/>\
+                                <span><font class="nameTitle">'+ response[0].PersonName + '</font></span><br/><label class="description-blue p-1 col-10">ERP Danışmanı</label>\
+                            </div><div class="col-md-10" style="border-left:1px solid rgba(64, 108, 128, 0.2);">\
+                                <div class="card-body deneme" style="padding: 1rem 1.25rem!important;">'+ response[0].Message + '</div><div class="card-footer col-12" style="padding: 0rem 0.5rem !important;text-align-last: right !important;background-color: transparent !important;border-top: none !important;top: 100% !important;width: 100% !important;position: sticky;">' + datetime + '</div></div></div></div>');
+                }
+
+
+
+            },
+            error: function () {
+                alert('Plan eklenirken bir problem oluştu.');
+            }
+        });
+    }
+    //#endregion
+    // #region Firma Bilgileri
+    $("body").on("click", "#CompanyInfoButton", function () {
+        var CompanyId = $(this).attr("data-id");
+        $.blockUI({
+            message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+        });
+        $.ajax({
+            type: 'POST',
+            url: "/CpmServisSistemi/CompanyInfo",
+            data: { 'CompanyId': CompanyId },
+            success: function (result) {
+                myModal.show();
+                $("#myModalBody").html(result);
+                setTimeout($.unblockUI, 300);
+            },
+            error: function () {
+                alert('Erişim sağlanamadı.');
+            }
+        });
+    });
+    //#endregion
+    //#region Modül Güncelle
+    $('body').on('click', '#mdlupdate', function () {
+        debugger;
+         var RequestId=@Model.RequestInfo.RequestId;
+        var MODULE = $("#ModulUpdate #Module option:selected").val();
+        var PRECEDENCE = $("#ModulUpdate #Precedence option:selected").val();//input
+
+        var formData = new FormData();
+
+        formData.append("MODULE", MODULE);
+        formData.append("PRECEDENCE", PRECEDENCE);
+        formData.append("RequestId", RequestId);
+
+        $("#ModulUpdate").removeClass("show");
+                $.ajax({
+                    type: "POST",
+                    url: "/CpmServisSistemi/ModuleandPrecedenceUpdate",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        if (result.IsSuccess == true) {
+                            setTimeout($.unblockUI, 3000);
+                            toastr.success(result.Message);
+                            window.location = "/CpmServisSistemi/RequestChatRoom?RequestId=@Model.RequestInfo.RequestId";
+                        }
+                        else {
+                            $("#ModulUpdate").addClass("show");
+                            //toastr.error(result.Message);
+                            //setTimeout($.unblockUI, 3000);
+                        }
+                    },
+                });
+
+        });
+     //#endregion
+    //#regionTeste Gönder
+    $('body').on('click', '#TestRequest', function (event) {
+        debugger;
+        var RequestId = $("#TestRequest").attr("data-requestid");
+
+   $.ajax({
+    method: "POST",
+       url: '/CpmServisSistemi/TestSend',
+    data: {
+        RequestId: RequestId,
+        @*CompanyName: '@Model.RequestInfo.CompanyName',
+        Topic: '@Model.RequestInfo.Topic'*@
+        @*YourMessage: '@Model.RequestInfo.YourMessage'*@
+    },
+    success: function (result) {
+        if (result.IsSuccess) {
+            toastr.success(result.Message);
+            location.reload();
+        }
+        else {
+            toastr.warning(result.Message);
+        }
+    },
+    error: function () {
+        toastr.error("Erişim sağlanamadı.");
+    }
+
+
+       });
+
+    });
+        //#endregion
+    $('body').on('click', '#ShareCheckbox', function (event) {
+        var ForwardCustomer = $("input[name=ShareCheckbox]").prop('checked');
+        if (ForwardCustomer ==false)
+        Swal.fire({
+            title: 'Uyarı !',
+            text: "Mesajınız müşteriye iletilmeyecek! Emin misiniz?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Evet'
+        });
+    });
+
+    //#region
+    $('body').on('click', '#fileupdate', function () {
+
+
+        var fileData = new FormData(); // Create a new FormData object to hold the files
+
+        // Add files to FormData
+        for (var i = 0; i < window.filesArray.length; i++) {
+            fileData.append(window.filesArray[i].name, window.filesArray[i]);
+        }
+
+        if (window.filesArray.length > 0) {
+
+
+            var RequestId = $("#RequestId").attr("data-requestid");
+            fileData.append('RequestId', RequestId); // Append RequestId as a form field
+
+            $.ajax({
+                type: 'POST',
+                url: "/CpmServisSistemi/UploadServiceRequestFiles",
+                data: fileData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    setTimeout($.unblockUI, 500); // Unblock the UI after a short delay
+                    if (result.IsSuccess) {
+                        toastr.success(result.Message);
+                    } else {
+                        toastr.error(result.Message);
+                    }
+                    window.location.reload();
+                },
+                error: function (xhr, status, error) {
+                    // Improved error handling
+                    console.error("Error:", status, error);
+                    toastr.error('An error occurred while uploading files.');
+                }
+            });
+        } else {
+            toastr.warning("Lütfen dosya ekleyiniz.");
+        }
+
+    });
+    //#endregion
+
+
+    //#region Dosyaları diziye atar
+    window.filesArray = [];
+    window.type = [];
+    $("#multipleFile").on("change", function (e) {
+        var files = e.target.files;
+        console.log(files);
+        var validImageTypes = ["image/gif",
+            "image/jpeg",
+            "image/png",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "application/vnd.ms-excel",
+            "application/msword",
+            "application/x-zip-compressed",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/pdf"];
+        $.map(files, function (val) {
+            if (validImageTypes.includes(val.type)) {
+                window.filesArray.push(val);
+            }
+            return val.type;
+        });
+        console.log(window.filesArray);
+    });
+    //#endregion
+    $('.copy').click(function () {
+        debugger;
+        var $this = $(this);
+        var message = $this.data('message');
+
+        var tempInput = $('<textarea>');
+        $('body').append(tempInput);
+        tempInput.val(message).select();
+        document.execCommand("copy");
+        tempInput.remove();
+
+        // Önceki mesajı temizle
+        $this.siblings('.copy-success').remove();
+
+        // "Kopyalandı" mesajını ekle
+        var successMessage = $('<span class="copy-success mt-3">Kopyalandı!</span>');
+        successMessage.css({
+            'position': 'absolute',
+            'color': 'green',
+            'padding': '3px 5px',
+            'border-radius': '5px',
+            'font-size': '12px',
+            'top': '20px',
+            'right': '0',
+            'z-index': '1000'
+        });
+
+        $this.parent().append(successMessage);
+
+        // 2 saniye sonra mesajı kaybet
+        setTimeout(function () {
+            successMessage.fadeOut(500, function () {
+                $(this).remove();
+            });
+        }, 2000);
+    });
+
+    $(document).ready(function () {
+        $(".lightbox-trigger").click(function () {
+            let imgSrc = $(this).attr("src");
+            $(".lightbox-content").attr("src", imgSrc);
+            $("#lightbox").fadeIn();
+        });
+
+        $("#lightbox, .close").click(function () {
+            $("#lightbox").fadeOut();
+        });
+    });
+</script>
+
+

@@ -1,0 +1,77 @@
+﻿@using sistemproject.Models
+@model List<sistemproject.Controllers.Node3Step>
+<div class="col-12">
+    @helper RenderNode(sistemproject.Controllers.Node3Step node)
+    {
+    <div class="node">
+        <i data-icon="" class="icon nodeStateDanger nodeState" @(node.LastNode == true && node.CurrentState == "Başlanacak" ? "" : "hidden") style=""></i>
+        <i data-icon="" class="icon nodeStateWarning nodeState" @(node.LastNode == true && node.CurrentState == "Devam Ediyor" ? "" : "hidden") style=""></i>
+        <i data-icon="" class="icon nodeStateSuccess nodeState" @(node.LastNode == true && node.CurrentState == "Tamamlandı" ? "" : "hidden") style=""></i>
+        <i data-icon="" class="icon nodeStatePrimary nodeState" @(node.LastNode == true && node.CurrentState == "Yönetici Onayı" ? "" : "hidden") style=""></i>
+        <div class="float-end d-flex align-items-center bg-light-gradient">
+            <div class="min-w-100px pe-1">
+                <div class="me-3">
+                    <div class="d-flex align-items-center fw-bold text-white">**********</div>
+                    <div class="d-flex align-items-center fw-bold fs-9">Hedeflenen</div>
+                    <div class="d-flex align-items-center fw-bold fs-9">Güncel Gerçekleşen</div>
+                </div>
+            </div>
+            @{
+                var startDate = node.StartDate != null && node.StartDate.HasValue ? node.StartDate.Value.ToString("dd/MM/yyyy") : "-";
+                var endDate = node.EndDate != null && node.EndDate.HasValue ? node.EndDate.Value.ToString("dd/MM/yyyy") : "-";
+                var realizedStartDate = node.RealizedStartDate != null && node.RealizedStartDate.Value.ToString("yyyyMMdd") != "19000101" ? node.RealizedStartDate.Value.ToString("dd/MM/yyyy") : "-";
+                var realizedEndDate = node.RealizedEndDate != null && node.RealizedEndDate.Value.ToString("yyyyMMdd") != "19000101" ? node.RealizedEndDate.Value.ToString("dd/MM/yyyy") : "-";
+            }
+            <div class="min-w-150px pe-1">
+                <div class="me-3">
+                    <div class="d-flex align-items-center fw-bold fs-9">Başlangıç Tarihi</div>
+                    <div class="d-flex align-items-center fw-bold fs-9 text-dark">@startDate</div>
+                    <div class="d-flex align-items-center fw-bold fs-9 text-dark">@realizedStartDate</div>
+                </div>
+            </div>
+            <div class="min-w-150px pe-1">
+                <div class="me-3">
+                    <div class="d-flex align-items-center fw-bold fs-9">Bitiş Tarihi</div>
+                    <div class="d-flex align-items-center fw-bold fs-9 text-dark">@endDate</div>
+                    <div class="d-flex align-items-center fw-bold fs-9 text-dark">@realizedEndDate</div>
+                </div>
+            </div>
+            <div class="min-w-150px pe-1">
+                <div class="me-3">
+                    <div class="d-flex align-items-center fw-bold fs-9">Adam/Gün</div>
+                    <div class="d-flex align-items-center fw-bold fs-9 text-dark"><font>@node.Day.ToString("0.##")</font></div>
+                    <div class="d-flex align-items-center fw-bold fs-9 text-dark"><font>@node.RealizedDay.ToString("0.##")</font></div>
+                </div>
+            </div>
+        </div>
+        <h6 class="toggle">
+            <span class="@((node.Children != null && node.Children.Count > 0) ? "icontoogle" : "childPadding") tooglePlusButton"></span>
+            <label data-ProjectId="@node.ProjectId" data-id="@node.Id" data-GroupNo="@node.GroupNo" data-Step="@node.Step" class="rowEditIcon">
+                <a id="ShowStepDetailModal" href="#" data-ProjectId="@node.ProjectId" data-id="@node.Id" data-GroupNo="@node.GroupNo" data-Step="@node.Step"
+                   class="@((node.Children != null && node.Children.Count > 0) ? "HasChildNode" : "LastNode")">@node.GroupNo @node.Step</a>
+            </label>
+        </h6>
+        <ul class="children" style="display:none">
+            @foreach (var child in node.Children)
+            {
+                <li>@RenderNode(child) </li>
+            }
+        </ul>
+    </div>
+    }
+    @if (Model != null && Model.Count > 0)
+    {
+        <ul class="treeview">
+            @foreach (var node in Model)
+            {
+                <li>@RenderNode(node)</li>
+            }
+        </ul>
+    }
+</div>
+<script>
+    $(".tooglePlusButton").click(function () {
+        $(this).toggleClass("collapsed");
+        $(this).parent().siblings(".children").toggle();
+    });
+</script>

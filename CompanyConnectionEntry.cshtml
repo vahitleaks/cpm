@@ -1,0 +1,844 @@
+﻿@model sistemproject.Models.CompanyConnectionInfoRequest
+@{
+    ViewBag.Title = "CompanyConnectionEntry";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+@Html.Partial("CompanyConInfoPartialViews/_AddCompanyConInfoEntry")
+@Html.Partial("CompanyConInfoPartialViews/_UpdateCompanyConInfoEntry")
+
+<style>
+
+
+    .card {
+        padding: 0px !important;
+        border: none;
+    }
+
+    .container {
+        text-align: center;
+        padding: 50px;
+        background-color: #f4f4f4;
+    }
+
+    .empty-state {
+        margin-top: 50px;
+    }
+
+    .empty-icon {
+        width: 100px;
+        margin-bottom: 20px;
+    }
+
+    .empty-message {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .primary-btn {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+        .primary-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .content-card {
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-top: 20px;
+        padding: 20px;
+        text-align: left;
+    }
+
+    .card-header h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .card-body p {
+        font-size: 16px;
+        color: #333;
+    }
+
+    .actions {
+        text-align: right;
+    }
+
+        .actions .btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+    .edit-btn .sc-edit-pencil {
+        color: #007bff;
+        font-size: 20px;
+    }
+
+    .delete-btn .sc-trash {
+        color: #dc3545;
+        font-size: 20px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .error-message p {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+
+    .btn-soft-danger:hover {
+        background-color: #f1646c;
+        color: #ffffff;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .card {
+        padding: 16px;
+        background-color: #ffffff;
+    }
+
+    .breadcrumb {
+        background-color: transparent !important;
+        font-weight: 600;
+    }
+
+    .displaycpm {
+        display: flex;
+    }
+
+    table {
+        box-shadow: none;
+    }
+
+    .displaycpm p {
+        /*  font-family: 'MS Gothic';*/
+        /*font-family: Roboto;*/
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 400;
+        color: #406C80;
+        margin: auto 0px !important;
+    }
+
+    .displaycpm .companyname {
+        /*  font-family: 'MS Gothic';*/
+        /*  font-family: Roboto;*/
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 700;
+        color: #406C80;
+        margin: auto 0px !important;
+    }
+
+    .icn {
+        padding: 0px !important;
+        width: 36px;
+        height: 36px;
+        margin-right: 16px;
+    }
+
+    .icn2 {
+        padding: 0px !important;
+        width: 36px;
+        height: 36px;
+        margin-right: 16px;
+    }
+
+    .icn3 {
+        padding: 0px !important;
+        width: 20px;
+        height: 20px;
+        margin-right: 16px;
+    }
+
+    .companyicn {
+        padding: 0px !important;
+        width: 48px;
+        height: 48px;
+        margin-right: 16px;
+    }
+
+    .contact-icon {
+        margin: auto 4px;
+        padding: 4px;
+    }
+
+    .fontTitle {
+        color: #406C80;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .label-text {
+        color: #406C80 !important;
+        font-size: 0.9rem !important;
+    }
+
+    .pageRouteButton {
+        background-color: #406C8033;
+        padding: 0.3rem;
+        margin-right: 1rem;
+        border-radius: 4px;
+    }
+
+    .lineHeight {
+        line-height: 2rem;
+    }
+
+    .licenseinfo {
+        margin: 6px;
+        padding: 10px;
+    }
+    /******************************************/
+    .file-box-content {
+        margin-bottom: -16px;
+    }
+
+        .file-box-content .file-box {
+            border: 1px solid #eff2f9;
+            border-radius: 5px;
+            padding: 20px;
+            width: 160px;
+            display: inline-block;
+            margin-right: 5px;
+            margin-bottom: 16px;
+            background-color: #ffffff;
+        }
+
+            .file-box-content .file-box .download-icon-link {
+                color: #a4abc5;
+            }
+
+                .file-box-content .file-box .download-icon-link .file-download-icon {
+                    font-size: 13px;
+                    position: relative;
+                    top: -10px;
+                    left: 110px;
+                }
+
+                .file-box-content .file-box .download-icon-link:hover {
+                    color: #4d79f6;
+                }
+
+            .file-box-content .file-box i {
+                font-size: 34px;
+            }
+    /*****************************************/
+    .bs-tooltip-auto[x-placement^=top] .arrow::before, .bs-tooltip-top .arrow::before {
+        border-top-color: #20A1DA !important;
+    }
+
+    .sc-trash-bin {
+        color: #D95757 !important;
+        font-size: 15px;
+    }
+
+    .sc-edit-pencil {
+        color: #406c80 !important;
+        font-size: 15px !important;
+    }
+</style>
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl mt-5">
+                        <div class="row m-3">
+                            <div class="col-lg-12 col-md-12">
+                                <nav style="--bs-breadcrumb-divider: '>'!important;" aria-label="breadcrumb">
+                                    <ol class="breadcrumb my-auto">
+                                        <li><i class="sc-arrow-left-long pageRouteButton"></i></li>
+                                        <li class="breadcrumb-item"><a class="color-link-passive" href="/CpmServisSistemi/Anasayfa">Anasayfa</a></li>
+                                        <li class="breadcrumb-item color-link-active" aria-current="page">Firma Bilgilerim</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="row mt-3" style="background-color:white;">
+                            <div class="col-lg-10 col-md-10 col-sm-12 d-flex justify-content-start align-items-center" style="padding-left: 15px;">
+                                <div class="displaycpm my-3" style="background-color:#ffffff;">
+                                    <img class="companyicn" src="~/Images/requestImg/company.png">
+                                    <p class="companyname">
+
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 mt-4">
+                                <button class="Button-Outline-Kaydet" id="newconbtn" data-toggle="modal" data-target="#AddModal" style="width:110px;">
+                                    <i class="icon sc-plus" style="color:white;"> Bağlantı Ekle</i>
+
+                                </button>
+
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-12 mt-4">
+                                <button class="Button-Outline-Kaydet" style="" id="btnSave">
+                                    <i class="icon sc-save" style="color:white;">  Kaydet</i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-lg-12 col-md-12 col-sm-12" id="ConTable">
+                                <table class="table">
+                                    <tbody class="Conicerik">
+                                        @foreach (var items in Model.connectionInfos)
+                                        {
+
+                                            <tr class="Coniceriksatir">
+                                                <td colspan="3">
+                                                    <div class="card mb-1 vpncard" style="border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;box-shadow: 0px 0px 6px -3px #406c80!important;">
+                                                        <div class="card-body" style="padding: 1rem 1.25rem;">
+                                                            <div class="row">
+                                                                <div class="col-lg-10">
+                                                                    <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">
+                                                                        @items.ConnectionName
+                                                                    </span>
+                                                                    <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">
+                                                                        @items.ConnectionType
+                                                                    </span>
+                                                                    <span id="connectionName" hidden>@items.ConnectionName</span>
+                                                                    <span id="connectionType" hidden>@items.ConnectionType</span>
+                                                                    <span id="vpnProgram" hidden>@items.VpnProgram</span>
+                                                                    <span id="VpnProgramName" hidden>@items.VpnProgramName</span>
+                                                                    <span id="vpnIpAddress" hidden>@items.VpnIpAddress</span>
+                                                                    <span id="VpnPort" hidden>@items.VpnPort</span>
+                                                                    <span id="vUserName" hidden>@items.VpnUserName</span>
+                                                                    <span id="vPassword" hidden>@items.VpnPassword</span>
+                                                                    <span id="rdIP" hidden>@items.RdIp</span>
+                                                                    <span id="rdUserName" hidden>@items.RdUserName</span>
+                                                                    <span id="rdPassword" hidden>@items.RdPassword</span>
+                                                                    <span id="rdDomain" hidden>@items.RdDomain</span>
+                                                                    <span id="sqlServerName" hidden>@items.SqlServerName</span>
+                                                                    <span id="sqlUserName" hidden>@items.SqlUserName</span>
+                                                                    <span id="sqlPassword" hidden>@items.SqlPassword</span>
+                                                                    <span id="cpmUserName" hidden>@items.CpmUserName</span>
+                                                                    <span id="cpmPassword" hidden>@items.CpmPassword</span>
+                                                                    <span id="description" hidden>@items.Description</span>
+                                                                    <span id="itpNameSurname" hidden>@items.ItpNameSurname</span>
+                                                                    <span id="itpPhone" hidden>@items.ItpPhone</span>
+                                                                    <span id="Guid" hidden>@items.Guid</span>
+                                                                </div>
+                                                                <div class="col-lg-1 d-flex align-items-center justify-content-end">
+                                                                    <i class="icon sc-edit-pencil p-1" id="edit" data-id="@items.Guid"></i>
+                                                                </div>
+                                                                <div class="col-lg-1 d-flex align-items-center justify-content-start">
+                                                                    <i class="icon sc-trash-bin p-1 color-Red Delete" data-toggle="modal" data-id="@items.Guid"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        }
+                                    </tbody>
+                                </table>
+
+                                @*<span class="mt-2" style="color: #e25151db; font-size: 12px !important; font-weight: bold; padding-left: 7px !important;">
+                                        * Ekleme, Düzenleme ve Silme işlemlerinizin kaydedilebilmesi için lütfen Bilgileri Kaydet butonuna tıklayınız.
+                                    </span>*@
+
+
+                            </div>
+
+                        </div>
+                        <div class="card" style="background-color: white; color:#dc1111;">
+                            <div class="card-footer">
+                                <p>* Ekleme, Düzenleme ve Silme işlemlerinizin kaydedilebilmesi için lütfen "Kaydet" butonuna tıklayınız.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        $("body").on("change", "#connectionType", function () {
+            const connectionType = $(this).val();
+            if (connectionType != "vpn") {
+                $(".vpnDiv").attr("hidden", true);
+            } else {
+                $(".vpnDiv").removeAttr("hidden");
+            }
+        });
+        $("body").on("change", "#vpnProgram", function () {
+            const connectionType = $(this).val();
+            if (connectionType != "other") {
+                $(".divVpnProgramName").attr("hidden", true);
+            } else {
+                $(".divVpnProgramName").removeAttr("hidden");
+            }
+        });
+        var conInfoModels = [];
+        var CON = [];
+
+
+        var companyNamee = getCompanyname();
+        $(".companyname").text(companyNamee);
+        function containerDivEach() {
+            $(".Coniceriksatir").each(function (index) {
+                var ConnectionName = $(this).find("#connectionName").text();
+                var connectionType = $(this).find("#connectionType").text(); // `option:selected` yerine `text()`
+                var VpnProgram = $(this).find('#vpnProgram').text(); // `option:selected` yerine `text()`
+                var VpnProgramName = $(this).find('#VpnProgramName').text();
+                var VpnIpAddress = $(this).find('#vpnIpAddress').text();
+                var VpnPort = $(this).find('#VpnPort').text(); // `vPort` yerine `VpnPort`
+                var VpnUserName = $(this).find('#vUserName').text();
+                var VpnPassword = $(this).find('#vPassword').text();
+                var RdIp = $(this).find('#rdIP').text();
+                var RdUserName = $(this).find('#rdUserName').text();
+                var RdPassword = $(this).find('#rdPassword').text();
+                var RdDomain = $(this).find('#rdDomain').text();
+                var SqlServerName = $(this).find('#sqlServerName').text();
+                var SqlUserName = $(this).find('#sqlUserName').text();
+                var SqlPassword = $(this).find('#sqlPassword').text();
+                var CpmUserName = $(this).find('#cpmUserName').text();
+                var CpmPassword = $(this).find('#cpmPassword').text();
+                var Description = $(this).find('#description').text();
+                var ItpNameSurname = $(this).find('#itpNameSurname').text();
+                var ItpPhone = $(this).find('#itpPhone').text();
+                var AccountNo = $(this).find('#AccountNo').text();
+                var Guid = $(this).find('#Guid').text();
+
+                ConnectionName = ConnectionName == null ? '' : ConnectionName;
+                connectionType = connectionType == null ? '' : connectionType;
+                VpnProgramName = VpnProgramName == null ? '' : VpnProgramName;
+                VpnIpAddress = VpnIpAddress == null ? '' : VpnIpAddress;
+                VpnPort = VpnPort == null ? '' : VpnPort;
+                VpnUserName = VpnUserName == null ? '' : VpnUserName;
+                VpnPassword = VpnPassword == null ? '' : VpnPassword;
+                RdIp = RdIp == null ? '' : RdIp;
+                RdUserName = RdUserName == null ? '' : RdUserName;
+                RdPassword = RdPassword == null ? '' : RdPassword;
+                RdDomain = RdDomain == null ? '' : RdDomain;
+                SqlServerName = SqlServerName == null ? '' : SqlServerName;
+                SqlPassword = SqlPassword == null ? '' : SqlPassword;
+                CpmUserName = CpmUserName == null ? '' : CpmUserName;
+                CpmPassword = CpmPassword == null ? '' : CpmPassword;
+                Description = Description == null ? '' : Description;
+                ItpNameSurname = ItpNameSurname == null ? '' : ItpNameSurname;
+                ItpPhone = ItpPhone == null ? '' : ItpPhone;
+                AccountNo = AccountNo == null ? '' : AccountNo;
+                Guid = Guid == null ? '' : Guid;
+
+                conInfoModels.push({
+                    ConnectionName: ConnectionName,
+                    connectionType: connectionType,
+                    Guid: Guid,
+                    VpnProgram: VpnProgram,
+                    VpnProgramName: VpnProgramName,
+                    VpnIpAddress: VpnIpAddress,
+                    VpnPort: VpnPort,
+                    VpnUserName: VpnUserName,
+                    VpnPassword: VpnPassword,
+                    RdIp: RdIp,
+                    RdUserName: RdUserName,
+                    RdPassword: RdPassword,
+                    RdDomain: RdDomain,
+                    SqlServerName: SqlServerName,
+                    SqlServerName: SqlServerName,
+                    SqlUserName: SqlUserName,
+                    SqlPassword: SqlPassword,
+                    CpmUserName: CpmUserName,
+                    CpmUserName: CpmUserName,
+                    CpmPassword: CpmPassword,
+                    Description: Description,
+                    ItpNameSurname: ItpNameSurname,
+                    ItpPhone: ItpPhone
+                });
+
+                CON = {
+                    connectionInfos: conInfoModels,
+                    AccountNo: getCompanyId(),
+                    CompanyName: getCompanyname()
+                };
+            });
+        }
+
+
+
+        //#region Guid oluşturma
+        function generateGUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0,
+                    v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        //#endregion GUID
+        //#region CompanyId alma fonksiyonu
+        function getCompanyId() {
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            return urlParams.get('AccountNo');
+        };
+        function getCompanyname() {
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            return urlParams.get('CompanyName');
+        };
+        //#endregion
+        //#region Ekleme Modal Kaydet
+        $("body").on("click", "#conok", function () {
+            debugger;
+            var table = $("#ConTable");
+            var AccountNo = getCompanyId();
+
+            var connectionName = $('#AddModal #connectionName').val();
+            var connectionType = $('#AddModal #connectionType option:selected').val();
+            var VpnProgram = $('#AddModal #vpnProgram option:selected').val();
+            var VpnProgramName = $('#AddModal #VpnProgramName').val();
+            var VpnIpAddress = $('#AddModal #vpnIpAddress').val();
+            var VpnPort = $('#AddModal #vPort').val();
+            var VpnUserName = $('#AddModal #vUserName').val();
+            var VpnPassword = $('#AddModal #vPassword').val();
+            var RdIp = $('#AddModal #rdIP').val();
+            var RdUserName = $('#AddModal #rdUserName').val();
+            var RdPassword = $('#AddModal #rdPassword').val();
+            var RdDomain = $('#AddModal #rdDomain').val();
+            var SqlServerName = $('#AddModal #sqlServerName').val();
+            var SqlUserName = $('#AddModal #sqlUserName').val();
+            var SqlPassword = $('#AddModal #sqlPassword').val();
+            var CpmUserName = $('#AddModal #cpmUserName').val();
+            var CpmPassword = $('#AddModal #cpmPassword').val();
+            var Description = $('#AddModal #description').val();
+            var ItpNameSurname = $('#AddModal #itpNameSurname').val();
+            var ItpPhone = $('#AddModal #itpPhone').val();
+            var Guid = generateGUID();
+
+            // Tabloya yeni bir satır ekleme:
+
+            var newRowHtml = `<tr class="Coniceriksatir">
+                                    <td colspan = "3" >
+                                        <div class="card mb-1 vpncard" style="border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;box-shadow: 0px 0px 6px -3px #406c80!important;">
+                                            <div class="card-body" style="padding: 1rem 1.25rem;">
+                                                <div class="row">
+                                  <div class="col-lg-10">
+                                            <span id="connectionName">${connectionName}</span>
+                                            <span id="connectionType" hidden>${connectionType}</span>
+                                            <span id="vpnProgram" hidden>${VpnProgram}</span>
+                                            <span id="VpnProgramName" hidden>${VpnProgramName}</span>
+                                            <span id="vpnIpAddress" hidden>${VpnIpAddress}</span>
+                                            <span id="VpnPort" hidden>${VpnPort}</span>
+                                            <span id="vUserName" hidden>${VpnUserName}</span>
+                                            <span id="vPassword" hidden>${VpnPassword}</span>
+                                            <span id="rdIP" hidden>${RdIp}</span>
+                                            <span id="rdUserName" hidden>${RdUserName}</span>
+                                            <span id="rdPassword" hidden>${RdPassword}</span>
+                                            <span id="rdDomain" hidden>${RdDomain}</span>
+                                            <span id="sqlServerName" hidden>${SqlServerName}</span>
+                                            <span id="sqlUserName" hidden>${SqlUserName}</span>
+                                            <span id="sqlPassword" hidden>${SqlPassword}</span>
+                                            <span id="cpmUserName" hidden>${CpmUserName}</span>
+                                            <span id="cpmPassword" hidden>${CpmPassword}</span>
+                                            <span id="description" hidden>${Description}</span>
+                                            <span id="itpNameSurname" hidden>${ItpNameSurname}</span>
+                                            <span id="itpPhone" hidden>${ItpPhone}</span>
+                                            <span id="AccountNo" hidden>${AccountNo}</span>
+                                            <span id="Guid" hidden>${Guid}</span>
+                                        </div>
+                                                    <div class="col-lg-1 d-flex align-items-center justify-content-end">
+                                                        <i class="icon sc-edit-pencil p-1"  id="edit" data-toggle="modal" data-target="#editModal1" data-id=" + Guid + "></i>
+                                                    </div>
+                                                    <div class="col-lg-1 d-flex align-items-center justify-content-start">
+                                                        <i class="icon sc-trash-bin p-1 color-Red Delete" data-id=" + Guid + "></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                        </td >
+</tr >`;
+
+
+            $("table tbody").append(newRowHtml);
+            $('#AddModal input').val('');
+            $('#AddModal select').val('');
+
+        });
+        //#endregion
+        //#region Düzenleme Modal çağırma
+        $("body").on('click', '#edit', function () {
+
+            debugger;
+            // Get the parent card of the clicked edit button
+            var card = $(this).closest('.vpncard');
+            var connectionName = card.find('#connectionName').text();
+            var connectionType = card.find('#connectionType').text();
+            var vpnProgram = card.find('#vpnProgram').text();
+            var vpnProgramName = card.find('#VpnProgramName').text();
+            var vpnIpAddress = card.find('#vpnIpAddress').text();
+            var vpnPort = card.find('#VpnPort').text();
+            var vUserName = card.find('#vUserName').text();
+            var vPassword = card.find('#vPassword').text();
+            var rdIP = card.find('#rdIP').text();
+            var rdUserName = card.find('#rdUserName').text();
+            var rdPassword = card.find('#rdPassword').text();
+            var rdDomain = card.find('#rdDomain').text();
+            var sqlServerName = card.find('#sqlServerName').text();
+            var sqlUserName = card.find('#sqlUserName').text();
+            var sqlPassword = card.find('#sqlPassword').text();
+            var cpmUserName = card.find('#cpmUserName').text();
+            var cpmPassword = card.find('#cpmPassword').text();
+            var description = card.find('#description').text();
+            var itpNameSurname = card.find('#itpNameSurname').text();
+            var itpPhone = card.find('#itpPhone').text();
+            var accountNo = card.find('#AccountNo').text();
+            var Guid = card.find('#Guid').text();
+
+
+            if (connectionType != "vpn") {
+                $(".vpnDiv").attr("hidden", true);
+            } else {
+                $(".vpnDiv").removeAttr("hidden");
+            }
+
+            // Set the data in the modal
+            $('#UpdateModal #modalConnectionName').val(connectionName);
+            $('#UpdateModal #modalConnectionName').attr('data-id', Guid);
+            $('#UpdateModal #modalConnectionType').val(connectionType);
+            $('#UpdateModal #modalVpnProgram').val(vpnProgram);
+            $('#UpdateModal #modalVpnProgramName').val(vpnProgramName);
+            $('#UpdateModal #modalVpnIpAddress').val(vpnIpAddress);
+            $('#UpdateModal #modalVpnPort').val(vpnPort);
+            $('#UpdateModal #modalVUserName').val(vUserName);
+            $('#UpdateModal #modalVPassword').val(vPassword);
+            $('#UpdateModal #modalRdIP').val(rdIP);
+            $('#UpdateModal #modalRdUserName').val(rdUserName);
+            $('#UpdateModal #modalRdPassword').val(rdPassword);
+            $('#UpdateModal #modalRdDomain').val(rdDomain);
+            $('#UpdateModal #modalSqlServerName').val(sqlServerName);
+            $('#UpdateModal #modalSqlUserName').val(sqlUserName);
+            $('#UpdateModal #modalSqlPassword').val(sqlPassword);
+            $('#UpdateModal #modalCpmUserName').val(cpmUserName);
+            $('#UpdateModal #modalCpmPassword').val(cpmPassword);
+            $('#UpdateModal #modalDescription').val(description);
+            $('#UpdateModal #modalItpNameSurname').val(itpNameSurname);
+            $('#UpdateModal #modalItpPhone').val(itpPhone);
+            $('#UpdateModal #modalAccountNo').val(accountNo);
+
+            // Show the modal
+            $('#UpdateModal').modal('show');
+
+        });
+        //#endregion
+        //#region Düzenleme Modal Kaydet
+        $('body').on('click', '#btnUpdate', function () {
+            debugger;
+            var AccountNo = getCompanyId();
+
+            var connectionName = $('#UpdateModal #modalConnectionName').val();
+            var connectionType = $('#UpdateModal #modalConnectionType option:selected').val();
+            var VpnProgram = $('#UpdateModal #modalVpnProgram option:selected').val();
+            var VpnProgramName = $('#UpdateModal #modalVpnProgramName').val();
+            var VpnIpAddress = $('#UpdateModal #modalVpnIpAddress').val();
+            var VpnPort = $('#UpdateModal #modalVpnPort').val();
+            var VpnUserName = $('#UpdateModal #modalVUserName').val();
+            var VpnPassword = $('#UpdateModal #modalVPassword').val();
+            var RdIp = $('#UpdateModal #modalRdIP').val();
+            var RdUserName = $('#UpdateModal #modalRdUserName').val();
+            var RdPassword = $('#UpdateModal #modalRdPassword').val();
+            var RdDomain = $('#UpdateModal #modalRdDomain').val();
+            var SqlServerName = $('#UpdateModal #modalSqlServerName').val();
+            var SqlUserName = $('#UpdateModal #modalSqlUserName').val();
+            var SqlPassword = $('#UpdateModal #modalSqlPassword').val();
+            var CpmUserName = $('#UpdateModal #modalCpmUserName').val();
+            var CpmPassword = $('#UpdateModal #modalCpmPassword').val(); // Modalda girilen güncel değeri alıyoruz
+            var Description = $('#UpdateModal #modalDescription').val();
+            var ItpNameSurname = $('#UpdateModal #modalItpNameSurname').val();
+            var ItpPhone = $('#UpdateModal #modalItpPhone').val();
+            var Guid = $('#UpdateModal #modalConnectionName').attr('data-id');
+
+            // Kartı GUID'ye göre bul ve sil
+            var cardToDelete = $(`tr:has(span#Guid:contains('${Guid}'))`);
+            cardToDelete.remove();
+
+            var newRowHtml = `<tr class="Coniceriksatir">
+        <td colspan="3">
+            <div class="card mb-1 vpncard" style="border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;box-shadow: 0px 0px 6px -3px #406c80!important;">
+                <div class="card-body" style="padding: 1rem 1.25rem;">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <span id="connectionName">${connectionName}</span>
+                            <span id="connectionType" hidden>${connectionType}</span>
+                            <span id="vpnProgram" hidden>${VpnProgram}</span>
+                            <span id="VpnProgramName" hidden>${VpnProgramName}</span>
+                            <span id="vpnIpAddress" hidden>${VpnIpAddress}</span>
+                            <span id="VpnPort" hidden>${VpnPort}</span>
+                            <span id="vUserName" hidden>${VpnUserName}</span>
+                            <span id="vPassword" hidden>${VpnPassword}</span>
+                            <span id="rdIP" hidden>${RdIp}</span>
+                            <span id="rdUserName" hidden>${RdUserName}</span>
+                            <span id="rdPassword" hidden>${RdPassword}</span>
+                            <span id="rdDomain" hidden>${RdDomain}</span>
+                            <span id="sqlServerName" hidden>${SqlServerName}</span>
+                            <span id="sqlUserName" hidden>${SqlUserName}</span>
+                            <span id="sqlPassword" hidden>${SqlPassword}</span>
+                            <span id="cpmUserName" hidden>${CpmUserName}</span>
+                            <span id="cpmPassword" hidden>${CpmPassword}</span> <!-- Güncellenmiş değer burada -->
+                            <span id="description" hidden>${Description}</span>
+                            <span id="itpNameSurname" hidden>${ItpNameSurname}</span>
+                            <span id="itpPhone" hidden>${ItpPhone}</span>
+                            <span id="AccountNo" hidden>${AccountNo}</span>
+                            <span id="Guid" hidden>${Guid}</span>
+                        </div>
+                        <div class="col-lg-1 d-flex align-items-center justify-content-end">
+                            <i class="icon sc-edit-pencil p-1" id="edit" data-toggle="modal" data-target="#editModal1" data-id="${Guid}"></i>
+                        </div>
+                        <div class="col-lg-1 d-flex align-items-center justify-content-start">
+                            <i class="icon sc-trash-bin p-1 color-Red Delete" data-id="${Guid}"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>`;
+
+            $("table tbody").append(newRowHtml);
+            $('#UpdateModal').modal('hide');
+        });
+        //#endregion
+        //#region Değişikleri Kaydet butonu
+        $('body').on('click', '#btnSave', function () {
+            debugger;
+            if ($(".Coniceriksatir").length > 0) {
+                containerDivEach();
+            } else {
+                CON = {
+                    connectionInfos: null,
+                    AccountNo: getCompanyId(),
+                    CompanyName: getCompanyname()
+                };
+            }
+            $.blockUI({
+                message: '<lottie-player autoplay loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+            });
+
+            $.ajax({
+                url: "/CpmServisSistemi/SaveCompanyConnectionInfo",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(CON),
+                success: function (result) {
+                    if (result.IsSuccess) {
+                        $("#AddModal").modal({ backdrop: 'static', keyboard: false });
+                        setTimeout($.unblockUI, 3000);
+                        toastr.success(result.Message);
+                        location.reload();
+                    } else {
+                        toastr.error(result.Message);
+                        setTimeout($.unblockUI, 3000);
+                    }
+                },
+            });
+
+
+        });
+        //#endregion
+
+
+        //#region Silme İşlemi
+
+
+        $("body").on("click", ".Delete", function () {
+            var card = $(this).parents(".Coniceriksatir");
+            swal({
+                title: "Dikkat!",
+                text: "Silmek istediğinize emin misiniz?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                buttons: ['Vazgeç', 'Sil']
+            }).then((result) => {
+                if (result) {
+                    swal("Dosyanız silindi.", {
+                        icon: "success",
+                        timer: 400
+                    });
+                    card.remove();
+                    card.html("");
+                }
+            });
+        });
+
+        //#endregion
+
+
+
+
+    });
+
+
+</script>
+

@@ -1,0 +1,97 @@
+﻿
+body {
+    background-color: #E6A7444D;
+     font-family: 'Roboto Regular';
+    /*    font-family: ubuntu;*/
+}
+
+
+h6 {
+    color: #C37700;
+    text-align: center;
+    padding-bottom: 8px;
+    margin: 5px;
+    /*   font-family: ubuntu;*/
+     font-family: 'Roboto Regular';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 22px;
+    padding-top: 10px;
+}
+
+.text-muted {
+    color: #C37700 !important;
+    font-size: 12px;
+    font-style: normal !important;
+    font-weight: bold;
+}
+
+label {
+    color: #C37700;
+    font-style: italic;
+    font-size: 8px;
+}
+
+.auth-page-lg {
+    text-align: center;
+    float: right;
+    padding-right: 120px;
+}
+
+.card-body {
+    background-color: #FFFFFF66;
+    border-radius: 25px;
+    height: 293px;
+    width: 300px;
+    padding: 9px 25px;
+}
+
+
+
+
+
+.log-btn {
+    width: 65%;
+    font-size: 12px;
+    height: 25px;
+    color: #fff;
+    margin: 9px;
+    padding: 3px 5px;
+    text-align: center;
+    border: none;
+    border-radius: 9px;
+    background-color: #E6A744;
+    font-weight: bold;
+}
+
+
+    .log-btn:hover {
+        width: 65%;
+        font-size: 12px;
+        height: 25px;
+        color: #fff;
+        margin: 9px;
+        padding: 3px 5px;
+        text-align: center;
+        border: none;
+        border-radius: 9px;
+        background-color: #E6A744;
+        font-weight: bold;
+    }
+
+input {
+    border-radius: 10px !important;
+    height: 30px;
+    width: 15px !important;
+    border: 2px solid #E6A744B3 !important;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    padding: 17px;
+    padding-top: 1px
+}

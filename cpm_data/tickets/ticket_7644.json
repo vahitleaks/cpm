@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7644,
+  "files": [
+    {
+      "file_id": "2001",
+      "file_name": "image001 - 2025-05-06T164444.077.png",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2001"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "2001",
+        "file_name": "image001 - 2025-05-06T164444.077.png",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2001"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7644_image001 - 2025-05-06T164444.077.png.png",
+        "size": 1316762
+      }
+    }
+  ]
+}

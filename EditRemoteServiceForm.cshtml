@@ -1,0 +1,769 @@
+﻿@model sistemproject.Models.FullCalendarViewModels.PlansViewModel
+@{
+    ViewBag.Title = "EditRemoteServiceForm";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+    var mainProcHiddenStatus = "hidden";
+    var subProcHiddenStatus = "hidden";
+    var projectHiddenStatus = "hidden";
+    var projectStepHiddenStatus = "hidden";
+}
+
+<link href="~/Content/fileUpload/css/style.css" rel="stylesheet" />
+<style>
+    .accordion-button:not(.collapsed) {
+        background-color: #fff !important;
+    }
+
+    .form-check-input {
+        margin-top: 0.1rem !important;
+    }
+
+    #startStop {
+        border: none;
+        border-radius: 10px;
+        font-size: 20px;
+        padding: 5px 12px 2px 12px;
+        color: var(--thBlue);
+    }
+
+    .resetbtn {
+        border: none;
+        border-radius: 10px;
+        font-size: 20px;
+        padding: 5px 5px 2px 5px;
+    }
+
+        .resetbtn .sc-update {
+            font-size: 1.5rem;
+            color: var(--thBlue);
+        }
+</style>
+@foreach (var x in Model.GetDataCompany.Take(1))
+{
+    <div class="d-flex flex-column flex-root">
+        <div class="page d-flex flex-row flex-column-fluid">
+            <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+                <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                    <div class="post d-flex flex-column-fluid" id="kt_post">
+                        <div id="kt_content_container" class="container-xxl">
+                            <div class="row mr-1 ml-1 pt-3" style="background-color:#fff;">
+                                <div class="col-lg-1 col-md-6 col-sm-12 text-leftmy-auto pl-4">
+                                    <img src="~/Images/images/cpm/ClipBoard@2x.png" height="100">
+                                </div>
+                                <div class="col-lg-11 col-md-12 col-sm-12 my-auto pl-4">
+                                    <span class="" style="color: var(--thTitle);font-weight:bold;">Uzaktan Servis Formu Düzenle</span> <br>
+                                    <span class="font11" style="color: var(--thNewText);">Uzaktan servis formunu düzenlemek için lütfen aşağıdaki alanları giriniz.</span>
+                                </div>
+                            </div>
+                            <div class="row mr-1 ml-1 pt-3  pr-3  pl-3 pb-0" style="background-color:#fff;">
+                                <div class="col-12">
+                                    <div class="row pt-3" id="validationControl">
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="row">
+                                                <div class="col-lg-12 pr-2 pl-2 pb-3">
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;padding-left: 12px!important;"><b>Firma Adı</b>&nbsp;&nbsp;(Firma bilgilerini görmek için ‘bilgi’ ikonu üzerine geliniz.)</span>
+                                                    <img src="~/Images/iconsforservcie/icons8-info.png" class="float-lg-right" height="25" />
+                                                    <select class="selectpicker font13 selectValidateControl p-0" id="SELECTSERVICEFORMCOMPANYID" data-live-search="true" data-live-search-style="contains" data-show-subtext="true">
+                                                        @*<option data-tokens="" selected value="@x.COMPANYID">@x.UNVAN</option>*@
+                                                        <option data-tokens="" selected data-hesapkod="@x.COMPANYID" value="@x.COMPANYID">@x.UNVAN</option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Sözleşme</span>
+                                                    <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="SELECTCONTRACTID">
+
+                                                        @if (Model.CompanyContracts2 != null)
+                                                        {
+                                                            foreach (var contract in Model.CompanyContracts2)
+                                                            {
+                                                                bool isSelected = contract.ID.ToString().Contains(x.COMPANYCONTRACTID.ToString());
+                                                                <option data-id="@contract.ID" @(isSelected ? "selected" : "") value="@contract.COMPANYID">@contract.COMPANYCONTRACT</option>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="">No employees found</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Destek Şekli</span>
+                                                    <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="SELECTSUPPORTTYPEID">
+                                                        <option value="03" @(x.SUPPORTTYPE == "Yerinde Destek" ? "selected" : "")>Yerinde Destek</option>
+                                                        <option value="04" @(x.SUPPORTTYPE == "Telefon Desteği" ? "selected" : "")>Telefon Desteği</option>
+                                                        <option value="05" @(x.SUPPORTTYPE == "Uzak Ara Bağlantı" ? "selected" : "")>Uzak Ara Bağlantı</option>
+                                                        <option value="06" @(x.SUPPORTTYPE == "E Mail" ? "selected" : "")>E Mail</option>
+                                                        <option value="08" @(x.SUPPORTTYPE == "CPM Ofis Çalışması" ? "selected" : "")>CPM Ofis Çalışması</option>
+                                                        <option value="09" @(x.SUPPORTTYPE == "CPM İç Toplantı" ? "selected" : "")>CPM İç Toplantı</option>
+                                                        @*<option selected>@x.SUPPORTTYPE</option>
+                                                            <option value="03">Yerinde Destek</option>
+                                                            <option value="04">Telefon Desteği</option>
+                                                            <option value="05">Uzak Ara Bağlantı</option>
+                                                            <option value="99">E Mail</option>*@
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+                                                    @if (@ViewBag.Durum == "YETKILI")
+                                                    {
+                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Bilgi E-Posta Yetkilisi</span>
+                                                        <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2" id="SELECTINFOEMAIL" disabled>
+                                                            <option value="@x.AUTHORIZEDNO">@x.AUTHORIZEDNAME</option>
+                                                            @foreach (var c in Model.CompanyEmailAuthorized2)
+                                                            {
+                                                                <option value="@c.ID">@c.YETKILIADSOYAD</option>
+                                                            }
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Bilgi E-Posta Yetkilisi</span>
+                                                        <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2" id="SELECTINFOEMAIL">
+                                                            <option value="@x.AUTHORIZEDNO">@x.AUTHORIZEDNAME</option>
+                                                            @foreach (var c in Model.CompanyEmailAuthorized2)
+                                                            {
+                                                                <option value="@c.ID">@c.YETKILIADSOYAD</option>
+                                                            }
+                                                        </select>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+                                                    @if (@ViewBag.Durum == "YETKILI")
+                                                    {
+                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Bilgi E- Posta Adresi</span>
+                                                        <input type="email" placeholder="Örn : isim@mail.com" aria-describedby="emailHelp" class="col-12 Input-Medium mt-2" id="SELECTEMAILADDRESS" value="@x.AUTHORIZEDMAIL">
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Bilgi E- Posta Adresi</span>
+                                                        <input type="email" placeholder="Örn : isim@mail.com" aria-describedby="emailHelp" class="col-12 Input-Medium mt-2" id="SELECTEMAILADDRESS" style="padding-top: 7px; padding-bottom: 7px;" value="@x.AUTHORIZEDMAIL">
+                                                    }
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Servis Durumu</span>
+                                                    <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-1 selectValidateControl" id="SELECTSERVICETYPEID">
+                                                        <option selected value="@x.SERVICETYPEID">@x.SERVICETYPENAME</option>
+                                                        @foreach (var s in Model.ServiceTypeSelectList)
+                                                        {
+                                                            <option value="@s.Value">@s.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                @if (x.SERVICETYPEID == 3)
+                                                {
+                                                    projectHiddenStatus = "";
+                                                    projectStepHiddenStatus = "";
+
+
+                                                }
+                                                else if (x.SERVICETYPEID == 2)
+                                                {
+                                                    mainProcHiddenStatus = "";
+                                                    subProcHiddenStatus = "";
+
+                                                }
+                                                <!--Ana İşlem Başlangıç-->
+                                                <!--<div class="col-lg-12 p-2 SelectMainProcess" hidden>
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Ana Grup</span>
+                                                    <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="MainProcess">
+                                                        <option value="">Seçiniz</option>
+                                                    </select>
+                                                </div>-->
+
+                                                <div class="col-lg-12 p-2 SelectMainProcess" @mainProcHiddenStatus>
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Ana Grup</span>
+                                                    <select class="selectpicker font13 selectValidateControl p-0" id="MainProcess" data-live-search="true" data-live-search-style="contains" data-show-subtext="true">
+                                                        <option value="">Ana Grup Arayınız...</option>
+
+                                                        @foreach (dynamic item in Model.MainProcess.Items)
+                                                        {
+                                                            <option @((x.MAINPROCESS == item.Text) ? "selected" : "") value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-lg-12 p-2 SelectSubProcess" @subProcHiddenStatus>
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Alt Grup</span>
+                                                    <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="SubProcess">
+                                                        <option value="">Seçiniz</option>
+                                                        @foreach (dynamic item in Model.SubProcess.Items)
+                                                        {
+                                                            var xx = item;
+                                                            <option @((x.SUBPROCESS == item.Text) ? "selected" : "") value="@item.Value">@item.Text</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <!--Ana İşlem Bitiş-->
+                                                <!--Projeler Başlangıç-->
+                                                <div class="col-lg-12 p-2 SelectProject" @projectHiddenStatus>
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Projeler</span>
+                                                    <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="SelectProject">
+                                                        @foreach (dynamic item in Model.ProjectList.Items)
+                                                        {
+                                                            var xx = item;
+                                                            <option @((x.PROJECTID.ToString() == item.Id.ToString()) ? "selected" : "") value="@item.Id">@item.ProjectName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-12 p-2 SelectProjectSteps" @projectStepHiddenStatus>
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Proje Adımları</span>
+                                                    <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="SelectProjectSteps">
+                                                        @foreach (dynamic item in Model.ProjectStepsList.Items)
+                                                        {
+                                                            var xx = item;
+                                                            <option @((x.STEPID.ToString() == item.StepId.ToString()) ? "selected" : "") value="@item.StepId">@item.StepName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <!--Projeler Bitiş-->
+                                                <div class="col-lg-12 p-2">
+                                                    <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">İşlem Seçimi</span>
+                                                    <select name="selValue" class="selectpicker col-12 font13" data-live-search="true" multiple data-actions-box="true" id="SelectServiceSelection">
+                                                        @foreach (var z in Model.ServiceSelection)
+                                                        {
+                                                            if (Model.ServiceSelection.Any(ab => Model.ServiceSelection2.Any(y => y.ID == z.ID)))
+                                                            {
+                                                                <option selected value="@z.ID" data-id="@z.TIPKOD">@z.SERVICESELECTION</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@z.ID" data-id="@z.TIPKOD"> @z.SERVICESELECTION </option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12" style=" border-left: 1px solid var(--thBorderLight) !important;">
+                                            <div class="row" style="margin-bottom: 17px !important;">
+                                                <div class="col-lg-12 p-2">
+                                                    <div class="row" style=" font-weight: bold; color: var(--thBlue); border: 2px solid var(--thBlue); background-color: transparent; border-radius: 8px; padding:1.3rem; font-size: 1.1rem;margin-right: 0px;
+    margin-left: 0px;">
+                                                        <span class="float-left pt-2 font13" style="color: var(--thHeadText);">Toplam Servis Süresi: <b>@x.REMOTESERVICETOTALTIME.Value.ToString("HH:mm:ss")</b></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                        Başlangıç Zamanı
+                                                    </span>
+                                                    <input type="datetime-local" class="datetime-local col-12 Input-datetimeLocal mt-2 tarihGetir" id="SELECTSTARTDATE" name="meeting-time" value="@ViewBag.STARTDATE">
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                        Bitiş Zamanı
+                                                    </span>
+                                                    <input type="datetime-local" class="datetime-local col-12 Input-datetimeLocal mt-2 tarihGetir" id="SELECTENDDATE" name="meeting-time" value="@ViewBag.ENDDATE">
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+
+                                                    <div class="form-check form-check-inline mr-5">
+                                                        <span class="mr-5" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Servis Süresi</span>
+                                                    </div>
+                                                    <div class="form-check form-check-inline mr-5">
+                                                        <input class="form-check-input" type="checkbox" id="allDAY" name="allDAY" value="">
+                                                        <label class="form-check-label" for="inlineCheckbox1">Tüm Gün</label>
+                                                    </div>
+
+                                                    <div class="form-check form-check-inline">
+                                                        @if (x.MANUELCHECKSTATE == true)
+                                                        {
+                                                            <input class="form-check-input" type="checkbox" value="" id="manuelSetting" name="manuelSetting" checked>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input class="form-check-input" type="checkbox" value="" id="manuelSetting" name="manuelSetting">
+
+                                                        }
+                                                        <label class="form-check-label" for="inlineCheckbox2">Manuel Giriş</label>
+                                                    </div>
+
+                                                    <span class="float-right baseServisSuresi" style="color:var(--thTitle);font-size: 12px !important;padding-left: 10px!important;text-align: right;font-weight: bold;" hidden></span>
+                                                    @if (x.MANUELCHECKSTATE == true)
+                                                    {
+                                                        <input type="number" style="background-color: #f2f6f7" class="col-12 Input-Medium mt-2 inputValidateControl" id="BASESERVICETIME" placeholder="Dakika giriniz(Örn. 30)" value="@x.SERVICETIME">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" disabled class="col-12 Input-Medium mt-2 inputValidateControl" id="BASESERVICETIME" placeholder="Dakika giriniz(Örn. 30)" style="" value="@x.SERVICETIME">
+                                                    }
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Ücretsiz Servis Süresi</span>
+                                                    <span class="float-right toplamUcretsizServisSuresi" style="color:var(--thTitle);font-weight: bold;font-size: 12px !important;padding-left: 10px!important;text-align: right;" hidden></span>
+                                                    <input type="number" style="" class="datetime-local col-12 Input-Medium mt-2" id="SELECTMANDAYFREEID" placeholder="Dakika giriniz(Örn. 30)" value="@x.FREESERVICETIME" hidden>
+                                                    <input type="number" style="" class="datetime-local col-12 Input-Medium mt-2" id="BASEFREESERVICETIME" placeholder="Dakika giriniz(Örn. 30)" value="@x.FREESERVICETIME">
+                                                </div>
+
+                                                <div class="col-lg-12 p-2">
+                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Hesaplanan Servis Süresi</span>
+                                                    <span class="float-right toplamServisSuresi" style="color:var(--thTitle);font-size: 12px !important;padding-left: 10px!important;text-align: right;font-weight: bold;" hidden></span>
+                                                    <input style="" class="col-12 Input-Medium mt-2" type="number" id="SELECTMANDAYID" value="@x.SERVICETIME" placeholder="0" disabled>
+                                                    <span class="float-left toplamServisSuresiInfo" style="color:var(--thRed);font-size: 12px !important;padding-left: 10px!important;text-align: left;font-weight: bold;" hidden></span>
+                                                </div>
+
+                                                <div class="col-lg-12 p-2">
+
+                                                    @if (x.CALCULATIONPARAMETER == 0)
+                                                    {
+                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Hesaplama Katsayısı</span>
+                                                        <input style="" class="col-12 Input-Medium mt-2" type="number" id="HESAPKATSAYISI" placeholder="Örn. 3" disabled>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Hesaplama Katsayısı</span>
+                                                        <input style="" class="col-12 Input-Medium mt-2" type="number" id="HESAPKATSAYISI" placeholder="Örn. 3" value="@x.CALCULATIONPARAMETER" disabled>
+                                                    }
+
+                                                </div>
+                                                <div class="col-lg-12 pb-3">
+                                                    <label hidden></label> <br />
+                                                    @if (x.PROGRAMMERSTATE == true)
+                                                    {
+                                                        <div class="form-check form-check-inline mr-5">
+                                                            <input class="form-check-input font18" type="checkbox" value="" id="YAZILIMCICHECK" name="YAZILIMCICHECK" checked>
+                                                            <label class="form-check-label" style="color: var(--thNewText);" for="flexCheckDefault">Yazılımcı</label>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="form-check form-check-inline mr-5">
+                                                            <input class="form-check-input font18" type="checkbox" value="" id="YAZILIMCICHECK" name="YAZILIMCICHECK">
+                                                            <label class="form-check-label" style="color: var(--thNewText);" for="flexCheckDefault">Yazılımcı</label>
+                                                        </div>
+                                                    }
+                                                    @if (x.WEEKENDSTATE == true)
+                                                    {
+                                                        <div class="form-check form-check-inline mr-5">
+                                                            <input class="form-check-input font18" type="checkbox" value="" id="HAFTASONUCHECK" name="HAFTASONUCHECK" checked>
+                                                            <label class="form-check-label" style="color: var(--thNewText);" for="flexCheckDefault">Hafta sonu</label>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="form-check form-check-inline mr-5">
+                                                            <input class="form-check-input font18" type="checkbox" value="" id="HAFTASONUCHECK" name="HAFTASONUCHECK">
+                                                            <label class="form-check-label" style="color: var(--thNewText);" for="flexCheckDefault">Hafta sonu</label>
+                                                        </div>
+                                                    }
+                                                    @if (x.WEEKDAYSTATE == true)
+                                                    {
+                                                        <div class="form-check form-check-inline mr-5">
+                                                            <input class="form-check-input font18" type="checkbox" value="" id="HAFTAICICHECK" name="HAFTAICICHECK" checked>
+                                                            <label class="form-check-label" style="color: var(--thNewText);" for="flexCheckDefault">Hafta içi (Mesai saatleri dışında)</label>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="form-check form-check-inline mr-5">
+                                                            <input class="form-check-input font18" type="checkbox" value="" id="HAFTAICICHECK" name="HAFTAICICHECK">
+                                                            <label class="form-check-label" style="color: var(--thNewText);" for="flexCheckDefault">Hafta içi (Mesai saatleri dışında)</label>
+                                                        </div>
+                                                    }
+                                                    <div class="col-lg-12 pb-3">
+                                                        <span class="float-left selectParticipatorInfo" style="color:var(--thRed);font-size: 12px !important;padding-left: 10px!important;text-align: left;font-weight: bold;" hidden></span><br />
+                                                        <span class="float-left checkboxInfo" style="color:var(--thRed);font-size: 12px !important;padding-left: 10px!important;text-align: left;font-weight: bold;" hidden></span><br />
+                                                        <span class="float-left checkboxTotalTimeInfo" style="color:var(--thRed);font-size: 12px !important;padding-left: 10px!important;text-align: left;font-weight: bold;" hidden></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mr-1 ml-1" style="background-color:#fff;border-top: 1px solid var(--thBorderLight);">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="row pt-5">
+                                                        <div class="col-12 pb-2">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-12 my-auto pl-3">
+                                                                    <span class="fontBold" style="color:var(--thTitle);font-size: 13px !important;padding-left: 10px!important;"><b>Yapılanlar</b></span>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12 my-auto  text-lg-right text-md-left pr-4">
+                                                                    <button id="addRowYapilanlar" type="button" class="Button-Add">Yeni Satır Ekle</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 Scroll-Blue p-3" id="ANACARDYAPILAN" style="height:auto!important;">
+
+                                                            @if (Model.ServiceFormInfo == null || Model.ServiceFormInfo.Count == 0)
+                                                            {
+                                                                <div class="card p-3 mb-2" id="yapilanlarCard" style="background-color:var(--thBG);border:none!important">
+                                                                    <div class="mb-3">
+                                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                            Talep Eden Kişi
+                                                                        </span> <br />
+                                                                        <input type="text" style="padding-top: 7px; padding-bottom: 7px;" class="datetime-local  Input-Medium mt-2 inputValidateControl col-10" id="GETREQUESTER" placeholder="Yazınız...">
+                                                                        <i class="icon sc-trash-bin p-2 mr-2 float-right Label-Red" id="deleteYapilanlarCard"></i>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                            Talep Edilen Konu
+                                                                        </span>
+                                                                        <input type="text" style="padding-top: 7px; padding-bottom: 7px;" class="datetime-local col-12 Input-Medium mt-2 inputValidateControl" id="GETREQUESTEDSUBJECT" placeholder="Yazınız...">
+                                                                    </div>
+                                                                    <span style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                        Yapılan İş Özeti
+                                                                    </span>
+                                                                    @*<textarea placeholder="Yazınız..." class="Input-Medium col-12 inputValidateControl mt-2" id="GETWORKDONESUMMARY" rows="3" style="white-space:pre-wrap;color: var(--thNewText2);"></textarea>*@
+                                                                    <div class="form-floating">
+                                                                        <textarea class="form-control inputValidateControl" id="GETWORKDONESUMMARY"></textarea>
+                                                                        <label for="floatingTextarea">İş Özetiniz...</label>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+
+                                                                foreach (var item in Model.ServiceFormInfo)
+                                                                {
+
+                                                                    <div class="card p-3 mb-2" id="yapilanlarCard" style="background-color:var(--thBG);border:none!important">
+                                                                        <div class="mb-3">
+                                                                            <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                                Talep Eden Kişi
+                                                                            </span> <br />
+                                                                            <input type="text" style="padding-top: 7px; padding-bottom: 7px;" class="datetime-local  Input-Medium mt-2 inputValidateControl col-10" id="GETREQUESTER" placeholder="Yazınız..." value="@item.REQUESTER">
+                                                                            <i class="icon sc-trash-bin p-2 mr-2 float-right Label-Red" id="deleteYapilanlarCard"></i>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                                Talep Edilen Konu
+                                                                            </span>
+                                                                            <input type="text" style="padding-top: 7px; padding-bottom: 7px;" class="datetime-local col-12 Input-Medium mt-2 inputValidateControl" id="GETREQUESTEDSUBJECT" placeholder="Yazınız..." value="@item.REQUESTEDSUBJECT">
+                                                                        </div>
+                                                                        <span style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                            Yapılan İş Özeti
+                                                                        </span>
+                                                                        <div class="form-floating">
+                                                                            <textarea class="form-control inputValidateControl" id="GETWORKDONESUMMARY">@item.WORKDONESUMMARY</textarea>
+                                                                            <label for="floatingTextarea">İş Özetiniz...</label>
+                                                                        </div>
+                                                                        @*<textarea placeholder="Yazınız..." class="Input-Medium col-12 inputValidateControl mt-2" id="GETWORKDONESUMMARY" rows="3" style="white-space:pre-wrap;color: var(--thNewText2);">@item.WORKDONESUMMARY</textarea>*@
+                                                                    </div>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12" style=" border-left: 1px solid var(--thBorderLight) !important;">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="row pt-5">
+                                                        <div class="col-12 pb-2">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-12 my-auto pl-3">
+                                                                    <span class="fontBold" style="color:var(--thTitle);font-size: 13px !important;padding-left: 10px!important;"><b>E-Posta Bilgilendirme</b></span>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-12 my-auto  text-lg-right text-md-left">
+                                                                    <button id="addNewEmail" type="button" class="Button-Add">Yeni E-posta Ekle</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 Scroll-Brown p-3" id="emailAnaCard" style="height:auto;">
+
+                                                            @if (Model.ServiceFormEmails == null || Model.ServiceFormEmails.Count == 0)
+                                                            {
+                                                                <div class="card p-2 EmailCards mb-2" style="background-color:var(--thBG);border:none!important;" id="emailCard">
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-lg-10">
+                                                                            <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                                Ad-Soyad
+                                                                            </span> <br>
+                                                                            <input type="text" class="Input-Medium mt-2 getName col-12" id="GETNAME" placeholder="Yazınız...">
+                                                                        </div>
+                                                                        <div class="col-1 my-auto">
+                                                                            <input class="form-check-input my-auto" type="radio" name="exampleRadios" id="SendEmailFormPerson">
+                                                                        </div>
+                                                                        <div class="col-1 my-auto pt-4">
+                                                                            <i class="icon sc-trash-bin Label-Red" id="deleteEmailCard"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                            E-Posta
+                                                                        </span>
+                                                                        <input type="email" class="datetime-local col-12 Input-Medium mt-2 inputValidateControl getmail" id="GETEMAIL" placeholder="Örn : isim@mail.com" aria-describedby="emailHelp">
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (var s in Model.ServiceFormEmails)
+                                                                {
+                                                                    if (s.EMAIL != null && s.EMAIL != "")
+
+                                                                    {
+                                                                        if (@ViewBag.Durum == s.EMAIL)
+                                                                        {
+                                                                            <div class="card p-2 EmailCards mb-2" style="background-color:var(--thBG);border:none!important;" id="emailCard">
+                                                                                <div class="row mb-3">
+                                                                                    <div class="col-lg-10 confirmmail">
+                                                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                                            Ad-Soyad
+                                                                                        </span> <br>
+                                                                                        <input type="text" class="Input-Medium mt-2 getName col-12" value="@s.NAMESURNAME" data-yetkili="true" id="GETNAME">
+                                                                                    </div>
+                                                                                    <div class="col-1 my-auto">
+                                                                                        <input class="form-check-input my-auto" type="radio" name="exampleRadios" id="SendEmailFormPerson" checked>
+                                                                                    </div>
+                                                                                    <div class="col-1 my-auto pt-4">
+                                                                                        <i class="icon sc-trash-bin Label-Red" id="deleteEmailCard"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="mb-3 confirmmail">
+                                                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                                        E-Posta
+                                                                                    </span>
+                                                                                    <input type="email" class="datetime-local col-12 Input-Medium mt-2 inputValidateControl getmail" id="GETEMAIL" placeholder="Örn : isim@mail.com" aria-describedby="emailHelp" value="@s.EMAIL" data-yetkili="true">
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <div class="card p-2 EmailCards mb-2" style="background-color:var(--thBG);border:none!important;" id="emailCard">
+                                                                                <div class="row mb-3">
+                                                                                    <div class="col-lg-10">
+                                                                                        <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                                            Ad-Soyad
+                                                                                        </span> <br>
+                                                                                        <input type="text" class="Input-Medium mt-2 getName col-12" id="GETNAME" placeholder="Yazınız..." value="@s.NAMESURNAME">
+                                                                                    </div>
+                                                                                    <div class="col-1 my-auto">
+                                                                                        <input class="form-check-input my-auto" type="radio" name="exampleRadios" id="SendEmailFormPerson">
+                                                                                    </div>
+                                                                                    <div class="col-1 my-auto pt-4">
+                                                                                        <i class="icon sc-trash-bin Label-Red" id="deleteEmailCard"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                                        E-Posta
+                                                                                    </span>
+                                                                                    <input type="email" class="datetime-local col-12 Input-Medium mt-2 inputValidateControl getmail" id="GETEMAIL" placeholder="Örn : isim@mail.com" aria-describedby="emailHelp" value="@s.EMAIL">
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+
+                                                                    }
+                                                                }
+                                                            }
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mr-1 ml-1 p-3 mb-5" style="background-color:#fff;border-top:1px solid var(--thBorderLight);">
+                                <div class="col-12 text-right">
+                                    <a type="button" class="Button-Outline-Close mr-4 restart text-center pt-2" href="/CpmServisSistemi/Takvim">İptal</a>
+                                    @*<button class="Button-Outline-Close mr-4">İptal</button>*@
+                                    <button class="Button-Outline-Kaydet" id="RemoteServiceFormSaveButton">Kaydet</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    // #region Servis Durumu seçildiğinde Proje ve proje adımları dropdownları ya da ana group ve alt group dropdownları göster
+    try {
+        $("#SELECTSERVICETYPEID").on("change", function () {
+            const serviceTypeId = $(this).val();
+            const serviceTypeName = $(this).find("option:selected").text();
+
+            if (serviceTypeId === "3" && serviceTypeName === "Proje") {
+                $(".SelectMainProcess, .SelectSubProcess").attr("hidden", true);
+                $("#SubProcess, #MainProcess").val("");
+                $(".SelectProject, .SelectProjectSteps").removeAttr("hidden");
+                $("#SelectProjectSteps, #SelectProject").val("");
+                var usedNames = {};
+                $("select[id='SelectProject'] > option").each(function () {
+                    if (usedNames[this.label]) {
+                        $(this).remove();
+                    } else {
+                        usedNames[this.label] = this.label;
+                    }
+                });
+                $("select[id='SelectProjectSteps'] > option").each(function () {
+                    if (usedNames[this.label]) {
+                        $(this).remove();
+                    } else {
+                        usedNames[this.label] = this.label;
+                    }
+                });
+            }
+            else if (serviceTypeId === "2" && serviceTypeName === "Servis") {
+                $("#SubProcess, #MainProcess").append('<option value="" selected>Seçiniz</option>');
+                $(".SelectMainProcess, .SelectSubProcess").removeAttr("hidden");
+                $("#SubProcess, #MainProcess").val("");
+                $(".SelectProject, .SelectProjectSteps").attr("hidden", true);
+                $("#SelectProjectSteps, #SelectProject").val("");
+
+                //$.get('GetProcess', null, function (data) {
+                //    for (var i = 0; i < data.length; i++) {
+                //        $("#MainProcess").append('<option value=' + data[i].MainProcess + '>' + data[i].MainProcess + '</option>');
+                //    }
+                //}, 'json');
+            }
+            else {
+                $(".SelectProject, .SelectProjectSteps, .SelectMainProcess, .SelectSubProcess").attr("hidden", true);
+                $("#SelectProjectSteps, #SelectProject, #SubProcess, #MainProcess").val("");
+            }
+        });
+
+    } catch (e) {
+        console.error(error);
+    }
+    // #endregion
+
+
+
+    // #region Ana Group seçildiğinde ona ait alt groupları getir
+    try {
+        $("body").on("change", "#MainProcess", function () {
+            var MainProcessId = $("#MainProcess option:selected").val();
+            var MainProcess = $("#MainProcess option:selected").text().trim();
+            var SubProcess = $("#SubProcess");
+            if (MainProcessId != "" && MainProcessId != "Seçiniz") {
+                SubProcess.empty();
+                SubProcess.append('<option value="" selected>Seçiniz</option>');
+                $.get('/CpmServisSistemi/GetSubProcess', { MainProcess: MainProcess }, function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        SubProcess.append('<option value=' + data[i].MainProcess + '>' + data[i].SubProcess + '</option>');
+                    }
+                }, 'json');
+            }
+        });
+    }
+    catch (error) {
+        console.error(error);
+    }
+    // #endregion
+    // #region Servis Durumu seçildiğinde Proje ve preje adımları dropdownları göster
+    //try {
+    //    $("body").on("change", "#SELECTSERVICETYPEID", function () {
+    //        var SelectProjectSteps = $("#SelectProjectSteps");
+    //        var SelectProject = $("#SelectProject");
+    //        var serviceTypeId = $("#SELECTSERVICETYPEID option:selected").val();
+    //        var serviceTypeName = $("#SELECTSERVICETYPEID option:selected").text();
+    //        if (serviceTypeId == 3 && serviceTypeName == "Proje") {
+    //            $('.SelectProject').removeAttr('hidden');
+    //            $('.SelectProjectSteps').removeAttr('hidden');
+    //            SelectProject.append('<option value="" selected>Seçiniz</option>');
+    //            SelectProjectSteps.append('<option value="" selected>Seçiniz</option>');
+    //            SelectProjectSteps.val('');
+    //            SelectProject.val('');
+    //            var usedNames = {};
+    //            $("select[id='SelectProject'] > option").each(function ()
+    //            {
+    //                if (usedNames[this.label]) {
+    //                    $(this).remove();
+    //                } else {
+    //                    usedNames[this.label] = this.label;
+    //                }
+    //            });
+    //        }
+    //        else {
+    //            var SelectProjectSteps = $("#SelectProjectSteps");
+    //            SelectProjectSteps.val('');
+    //            var SelectProject = $("#SelectProject");
+    //            SelectProject.val('');
+    //            $('.SelectProject').attr("hidden", true);
+    //            $('.SelectProjectSteps').attr("hidden", true);
+    //        }
+
+    //    });
+    //}
+    //catch (error) {
+    //    console.error(error);
+    //}
+    // #endregion
+
+    function clearSelections(type) {
+
+        if (type > 0) {
+            //Proje Adımlarını Sıfırla
+            var SelectProjectSteps = $("#SelectProjectSteps");
+            SelectProjectSteps.empty();
+            SelectProjectSteps.append('<option value="" selected>Seçiniz</option>');
+
+            if (type > 1) {
+                //Projeleri Sıfırla
+                var SelectProject = $("#SelectProject");
+                SelectProject.empty();
+                SelectProject.append('<option value="" selected>Seçiniz</option>');
+
+                if (type > 2) {
+                    //Sözleşmeleri Sıfırla
+                    var SELECTCONTRACTID = $("#SELECTCONTRACTID");
+                    SELECTCONTRACTID.empty();
+                    SELECTCONTRACTID.append('<option value="" selected>Seçiniz</option>');
+                }
+            }
+        }
+    }
+
+    // #region Proje seçildiğinde na ait adımları getir
+    try {
+        $("body").on("change", "#SelectProject", function () {
+            var ProjectId = $("#SelectProject option:selected").val();
+            var SelectProjectSteps = $("#SelectProjectSteps");
+            if (ProjectId != "" && ProjectId != "Seçiniz") {
+                $.ajax({
+                    url: '/CpmServisSistemi/GetProjectSteps',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { 'ProjectId': ProjectId },
+                    success: function (data) {
+                        clearSelections(1);
+                        $.each(data.ProjectSteps, function (index, option) {
+                            SelectProjectSteps.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+                        });
+                    }
+                });
+            }
+        });
+    }
+    catch (error) {
+        console.error(error);
+    }
+    // #endregion
+
+</script>
+<script src="~/Scripts/FloatingTextarea/floatingTextarea.js?v=5"></script>
+<script src="~/Scripts/EmailControl/emailControl.js?v=5"></script>
+<script src="~/Scripts/ServiceTimeControl/serviceTimeControl.js?v=5"></script>
+<script src="~/Scripts/PageScripts/EditRemoteServiceForm.js?v=5"></script>
+<script src="~/Content/fileUpload/js/jquery.ui.widget.js?v=5"></script>
+<script src="~/Content/fileUpload/js/jquery.iframe-transport.js?v=5"></script>
+<script src="~/Content/fileUpload/js/jquery.fileupload.js?v=5"></script>
+<script src="~/Content/fileUpload/js/jquery.knob.js?v=5"></script>
+<script src="~/Content/fileUpload/js/script.js?v=5"></script>
+<script>
+
+    $(document).ready(function () {
+        isSavedForm = true;
+        setCofficients();
+        setSavedFormFreeServiceTime(@Model.GetDataCompany[0].FREESERVICETIME);
+        setSavedFormServiceTime(@Model.GetDataCompany[0].SERVICETIME);
+
+    });
+
+</script>

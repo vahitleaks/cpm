@@ -1,0 +1,128 @@
+﻿@using sistemproject.Models
+@model PermissionModel
+@{
+    ViewBag.Title = "LeavePermission";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<style>
+    .table td {
+        border-top: none !important;
+        border-bottom: none !important;
+    }
+    .table thead th {
+        border-top: 1px solid #dee2e6 !important;
+        border-bottom: 1px solid #dee2e6 !important;
+    }
+    .table > :not(:last-child) > :last-child > * {
+        border-bottom-color: #dee2e6 !important;
+    }
+</style>
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <div class="card">
+                                    @{
+                                        string name = string.Empty;
+                                        if (Model.Permissions != null && !string.IsNullOrEmpty(Model.Permissions.AD))
+                                        {
+                                            name = Model.Permissions.AD.Substring(0, Math.Min(1, Model.Permissions.AD.Length));
+                                        }
+
+                                        string surname = string.Empty;
+                                        if (Model.Permissions != null && !string.IsNullOrEmpty(Model.Permissions.SOYAD))
+                                        {
+                                            surname = Model.Permissions.SOYAD.Substring(0, Math.Min(1, Model.Permissions.SOYAD.Length));
+                                        }
+                                        string newFullName = name + surname;
+                                    }
+                                    <div class="card-body d-flex flex-center flex-column py-9 px-5">
+                                        <div class="symbol symbol-65px symbol-circle mb-2">
+                                            <span class="symbol-label fs-2x fw-semibold text-success bg-light-success">@newFullName</span>
+                                        </div>
+                                        <a href="#" class="fs-4 text-gray-800 text-hover-primary fw-bold mb-0"></a>
+                                        <div class="d-flex flex-center flex-wrap mb-3 mt-4">
+                                            <div class="border border-dashed rounded w-200px py-3 px-4 mx-2 mb-3 text-center">
+                                                <div class="fs-6 fw-bold text-gray-700">Son Hak Edilen İzin Gün</div>
+                                                <div class="fw-semibold text-gray-400">@(Model.Permissions != null ? Model.Permissions.SONHAKEDISIZINGUN.ToString("0.##") : string.Empty)</div>
+                                            </div>
+                                            <div class="border border-dashed rounded w-200px py-3 px-4 mx-2 mb-3 text-center">
+                                                <div class="fs-6 fw-bold text-gray-700">Kalan İzin Gün</div>
+                                                <div class="fw-semibold text-gray-400">@(Model.Permissions != null ? Model.Permissions.IZINKALAN.ToString("0.##") : string.Empty)</div>
+                                            </div>
+                                        </div>
+                                        <div class="fw-bold text-gray-700">
+                                            <p>* Takvime eklediğiniz fakat henüz kullanmadığınız izinler "Kalan İzin Gün" hesabına dahil değildir. </p>
+                                            <p>* Muhasebe ve IK departmanlarının kontrolleri sonucunda hesaplamalarda değişiklikler olabilir.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mt-3">
+                                    <div class="card-header">
+                                        <h5 class="my-auto">İzin Detayları</h5>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-row-dashed table-row-gray-300 gy-7">
+                                                    <thead>
+                                                        <tr class="fw-bold fs-6 text-gray-800">
+                                                            <th class="">Talep Tarihi</th>
+                                                            <th class="">Başlangıç  Tarihi</th>
+                                                            <th class="">Bitiş Tarihi</th>
+                                                            <th class="text-center">İzin Tipi</th>
+                                                            <th class="text-end" style="width: 150px">Personel İzin Saat</th>
+                                                            <th class="text-end" style="width: 150px">Personel İzin Gün</th>
+                                                            <th class="text-end" style="width: 150px">İzin Durumu</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.PermissionDetails != null)
+                                                        {
+                                                            var colors = new[] { "bg-warning", "bg-danger", "bg-success", "bg-primary", "bg-info" };
+                                                            var colorsbadge = new[] { "badge-light-warning", "badge-light-danger", "badge-light-success", "badge-light-primary", "badge-light-info" };
+                                                            var counter = 0;
+                                                            var counterbadge = 0;
+                                                            foreach (var permission in Model.PermissionDetails)
+                                                            {
+                                                                var currentColor = colors[counter % colors.Length];
+                                                                var currentColorbadge = colorsbadge[counterbadge % colorsbadge.Length];
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="position-relative ps-6 pe-3 py-2">
+                                                                            <div class="position-absolute start-0 top-0 w-4px h-100 rounded-2 @currentColor"></div>
+                                                                            <div class="fs-7 text-muted fw-bold">@permission.TALEPTARIH.ToString("dd/MM/yyyy")</div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td><span class="fs-7 text-muted fw-bold">@permission.BASTARIH.ToString("dd/MM/yyyy")</span></td>
+                                                                    <td><span class="fs-7 text-muted fw-bold">@permission.BITTARIH.ToString("dd/MM/yyyy")</span></td>
+                                                                    <td class="text-center"><span class="">@permission.IZIN_TIP</span></td>
+                                                                    <td style="width: 150px" class="text-end"><span class="fs-7 text-muted fw-bold">@permission.PERIZN_IZINSAAT.ToString("0.##")</span></td>
+                                                                    <td style="width: 150px" class="text-end"><span class="fs-7 text-muted fw-bold">@permission.PERIZN_IZINGUN.ToString("0.##")</span></td>
+                                                                    <td style="width: 150px" class="text-end"><span class="fs-7 text-muted fw-bold">@permission.PERMISSIONSTATE</span></td>
+                                                                </tr>
+                                                                counter++;
+                                                                counterbadge++;
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

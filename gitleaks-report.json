@@ -1,0 +1,22 @@
+[
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 7,
+  "EndLine": 7,
+  "StartColumn": 76263,
+  "EndColumn": 76288,
+  "Match": "e.SHORTKEY=e.default=void ",
+  "Secret": "e.default=void",
+  "File": "quill.min.js",
+  "SymlinkFile": "",
+  "Commit": "",
+  "Entropy": 3.5216405,
+  "Author": "",
+  "Email": "",
+  "Date": "",
+  "Message": "",
+  "Tags": [],
+  "Fingerprint": "quill.min.js:generic-api-key:7"
+ }
+]

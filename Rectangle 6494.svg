@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="210" viewBox="0 0 400 210">
+  <defs>
+    <filter id="Rectangle_6494" x="0" y="0" width="400" height="210" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feFlood flood-color="#406c80" flood-opacity="0.2" result="color"/>
+      <feComposite operator="out" in="SourceGraphic" in2="blur"/>
+      <feComposite operator="in" in="color"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g data-type="innerShadowGroup">
+    <rect id="Rectangle_6494-2" data-name="Rectangle 6494" width="400" height="210" rx="10" fill="#fff"/>
+    <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Rectangle_6494)">
+      <rect id="Rectangle_6494-3" data-name="Rectangle 6494" width="400" height="210" rx="10" fill="#fff"/>
+    </g>
+    <g id="Rectangle_6494-4" data-name="Rectangle 6494" fill="none" stroke="#406c80" stroke-width="1" stroke-dasharray="4">
+      <rect width="400" height="210" rx="10" stroke="none"/>
+      <rect x="0.5" y="0.5" width="399" height="209" rx="9.5" fill="none"/>
+    </g>
+  </g>
+</svg>

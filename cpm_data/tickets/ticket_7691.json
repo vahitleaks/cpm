@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7691,
+  "files": [
+    {
+      "file_id": "2014",
+      "file_name": "cmp hata 14.05.2025.jpg",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2014"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "2014",
+        "file_name": "cmp hata 14.05.2025.jpg",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2014"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7691_cmp hata 14.05.2025.jpg.jpg",
+        "size": 226987
+      }
+    }
+  ]
+}

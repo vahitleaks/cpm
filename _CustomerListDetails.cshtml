@@ -1,0 +1,119 @@
+﻿@model sistemproject.Models.FullCalendarViewModels.ServiceFormOperationsViewModel
+
+@{int sayi = 1;}
+@{string companycontract = "";}
+@{string VERGIHESAPNO = "";}
+@{string TELEFON1 = "";}
+@{string EMAIL1 = "";}
+@{string ADRESS = "";}
+@{string SEHIRAD = "";}
+@{string ILCEAD = "";}
+@{string YETKILIADSOYAD = "";}
+
+
+    <div class="@*row">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            @if (y.VERGIHESAPNO != "" && y.VERGIHESAPNO != null)
+            {
+                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Vergi No</label>
+                <input class="col-12 input-disabled Label-Text2 mb-2" disabled type="text" name="name" value="@y.VERGIHESAPNO" />
+            }
+            else
+            {
+                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Vergi No</label>
+                <input class="col-12 input-disabled Label-Text2 mb-2" disabled type="text" name="name" value="Bilgi yok" />
+            }
+            @if (y.TELEFON1 != "" && y.TELEFON1 != null)
+            {
+                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Telefon</label>
+                <input class="col-12 input-disabled  mb-2 Label-Text2" disabled type="text" name="name" value="@y.TELEFON1" />
+            }
+            else
+            {
+                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Telefon</label>
+                <input class="col-12 input-disabled  mb-2 Label-Text2" disabled type="text" name="name" value="Bilgi yok" />
+            }
+            @if (y.EMAIL1 != "" && y.EMAIL1 != null)
+            {
+                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">E-posta</label>
+                <input class="col-12 input-disabled  Label-Text2" disabled type="email" name="name" value="@y.EMAIL1" />
+            }
+            else
+            {
+                <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">E-posta</label>
+                <input class="col-12 input-disabled  Label-Text2" disabled type="email" name="name" value="Bilgi yok" />
+            }
+            @if (y.SASIFRE != null && y.SASIFRE != "")
+            {
+                <label class="Label-Title mt-2" style="font-size: 0.8rem;margin-left: 0.4rem;">CPM SA Şifre</label>
+                <input class="col-12 input-disabled  Label-Text2" disabled type="text" name="name" value="@y.SASIFRE" />
+            }
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card" style="background-color: transparent;border:none!important;">
+                <div class="card-body" style="padding: 0 0.25rem;">
+                    @if (ADRESS != y.ADRESS && SEHIRAD != y.SEHIRAD && ILCEAD != y.ILCEAD)
+                    {
+                        if (y.ADRESS != "" && y.ADRESS != null)
+                        {
+                            <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Adresi</label>
+                            <input class="col-12 input-disabled Label-Text2 mb-2" disabled type="text" name="name" value="@y.ADRESS"/>
+                        }
+                        if (y.SEHIRAD != "" && y.SEHIRAD != null)
+                        {
+                            <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">İl</label>
+                            <input class="col-12 input-disabled  mb-2 Label-Text2" disabled type="text" name="name" value="@y.SEHIRAD"/>
+                        }
+                        if (y.ILCEAD != "" && y.ILCEAD != null)
+                        {
+                            <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">İlçe</label>
+                            <input class="col-12 input-disabled  Label-Text2" disabled type="text" name="name" value="@y.ILCEAD"/>
+                        }
+                    }
+                    @if (y.COMPANYCONTRACT != null && y.COMPANYCONTRACT != "")
+                    {
+                        <label class="Label-Title mt-2" style="font-size: 0.8rem;margin-left: 0.4rem;">Sözleşme</label>
+                        <input class="col-12 input-disabled  Label-Text2" disabled type="text" name="name" value="@y.COMPANYCONTRACT" />
+                        <label class="Label-Title mt-2" style="font-size: 0.8rem;margin-left: 0.4rem;">Kalan Adam Gün</label>
+                        <input class="col-12 input-disabled  Label-Text2" disabled type="text" name="name" value="@y.RSERVICEDAY" />
+                    }
+                </div>
+            </div>
+        </div>*@
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            @foreach (var p in Model.ListMusteri2.Select(a => a.HESAPKOD))
+            {
+                if (p.FULLNAME != "" && p.FULLNAME != null)
+                {
+                    <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Yetkili @sayi</label>
+                    <input class="col-12 input-disabled Label-Text2 mb-2" disabled type="text" name="name" value="@p.YETKILIADSOYAD" />
+                }
+                else
+                {
+                    <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Yetkili @sayi</label>
+                    <input class="col-12 input-disabled Label-Text2 mb-2" disabled type="text" name="name" value="Bilgi Yok" />
+                }
+                if (p.EMAIL1 != "" && p.EMAIL1 != null)
+                {
+                    <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Yetkili @sayi E-posta</label>
+                    <input class="col-12 input-disabled Label-Text2 mb-2" disabled type="text" name="name" value="@p.EMAIL1" />
+                }
+                else
+                {
+                    <label class="Label-Title" style="font-size: 0.8rem;margin-left: 0.4rem;">Yetkili @sayi E-posta</label>
+                    <input class="col-12 input-disabled Label-Text2 mb-2" disabled type="text" name="name" value="Bilgi Yok" />
+                }
+                { sayi++; }
+            }
+        </div>
+    </div>
+    @companycontract = y.COMPANYCONTRACT;
+    VERGIHESAPNO = y.VERGIHESAPNO;
+    TELEFON1 = y.TELEFON1;
+    EMAIL1 = y.EMAIL1;
+    ADRESS = y.ADRESS;
+    SEHIRAD = y.SEHIRAD;
+    ILCEAD = y.ILCEAD;
+    YETKILIADSOYAD = y.YETKILIADSOYAD;
+
+    sayi = 1;*@

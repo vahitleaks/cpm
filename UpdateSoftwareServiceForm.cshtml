@@ -1,0 +1,458 @@
+﻿@model(List<dynamic>, List<dynamic>, List<dynamic>, List<dynamic>)
+@{
+    ViewBag.Title = "UpdateSoftwareServiceForm";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<style>
+    .bootstrap-select {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .form-control {
+        border: 1px solid var(--thBorder) !important;
+        border-radius: 6px !important;
+    }
+</style>
+<link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/Content/fileUpload/css/style.css" rel="stylesheet" />
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-5 mb-5">
+                            <div class="col-lg-12">
+                                <div class="card" style="border:none !important">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-1 col-md-6 col-sm-12 text-left pl-4">
+                                                <img src="/Images/images/cpm/Sketch Book@2x.png" height="80">
+                                            </div>
+                                            <div class="col-11 my-auto">
+                                                <h4 class="mt-0 header-title">Servis Formu Düzenle</h4>
+                                                <p class="text-muted mb-3">
+                                                    Formu düzenlemek için aşağıda istenen proje bilgilerini, doğru şekilde giriniz !
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            @foreach (var y in Model.Item3.Take(1))
+                                            {
+                                                <div class="col-lg-7">
+
+                                                    <div class="form-group row">
+                                                        <label for="example-email-input" class="col-sm-3 col-form-label text-left">Proje Seçimi</label>
+                                                        <div class="col-sm-9">
+                                                            <select class="selectpicker font13 selectValidateControl p-0" id="SelectProjectId" data-live-search="true" data-live-search-style="contains" data-show-subtext="true">
+                                                                <option data-tokens="" value="">Proje seçiniz</option>
+                                                                <option data-tokens="" selected value="@y.ProjectId">@y.ProjectName</option>
+                                                                @foreach (var t in Model.Item1.Where(x => x.Id != y.ProjectId))
+                                                                {
+                                                                    <option data-tokens="" value="@t.Id">@t.ProjectName</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-email-input" class="col-sm-3 col-form-label text-left">Proje Adımı Seçimi</label>
+                                                        <div class="col-sm-9">
+                                                            <select class="selectpicker font13 selectValidateControl p-0" id="SelectProjectSteps" data-live-search="true" data-live-search-style="contains" data-show-subtext="true">
+                                                                <option selected value="@y.ProjectStepId">@y.StepName</option>
+                                                                @*<option data-tokens="" value="0">Proje adımı seçiniz</option>*@
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-text-input" class="col-sm-3 col-form-label text-left">Firma Adı</label>
+                                                        <div class="col-sm-9">
+                                                            <input readonly class="Input-Medium col-12 inputValidateControl" type="text" placeholder="Konu/Başlık bilgisi giriniz" value="@y.CompanyName" data-id="@y.CompanyId" id="SelectCompany">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-text-input" class="col-sm-3 col-form-label text-left">Sözleşme</label>
+                                                        <div class="col-sm-9">
+                                                            <input readonly class="Input-Medium col-12 inputValidateControl" type="text" placeholder="Konu/Başlık bilgisi giriniz" data-id="@y.ContractId" value="@y.ContractName" id="CompanyContract">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-email-input" class="col-sm-3 col-form-label text-left">Proje Sorumlusu Seçimi</label>
+                                                        <div class="col-sm-9">
+                                                            <select class="selectpicker font13 selectValidateControl p-0" id="ProjectResponsible" data-live-search="true" data-live-search-style="contains" data-show-subtext="true" name="PResponsible">
+                                                                <option data-tokens="" selected value="@y.ProjectResponsible">@y.Responsible</option>
+                                                                @foreach (var t in Model.Item2.Where(x => x.ID != y.ProjectResponsible))
+                                                                {
+                                                                    <option data-tokens="" value="@t.ID">@t.FULLNAME</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-text-input" class="col-sm-3 col-form-label text-left">Çalışma Günü</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="Input-Medium col-12 inputValidateControl tarihGetir" type="date" placeholder="Tarih seçiniz" value="@y.WorkDay" id="WorkDay">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-text-input" class="col-sm-3 col-form-label text-left">Çalışma Süresi(Saat)</label>
+                                                        <div class="col-sm-6">
+                                                            @if (y.AllDay == true)
+                                                            {
+                                                                <input disabled class="Input-Medium col-12 inputValidateControl" type="number" placeholder="Çalışma süresi giriniz (saat)" value="@y.WorkHour" id="WorkTime" style="background-color: #f2f6f7;">
+                                                            }
+                                                            else
+                                                            {
+                                                                <input class="Input-Medium col-12 inputValidateControl" type="number" placeholder="Çalışma süresi giriniz (saat)" value="@y.WorkHour" id="WorkTime">
+                                                            }
+                                                        </div>
+                                                        <div class="form-check form-check-inline mr-5 col-sm-2">
+                                                            @if (y.AllDay == true)
+                                                            {
+                                                                <input class="form-check-input" checked type="checkbox" id="allDAY" name="allDAY" value="">
+                                                            }
+                                                            else
+                                                            {
+                                                                <input class="form-check-input" type="checkbox" id="allDAY" name="allDAY" value="">
+                                                            }
+
+                                                            <label class="form-check-label" for="inlineCheckbox1">Tüm Gün</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-text-input" class="col-sm-3 col-form-label text-left">Konu</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="Input-Medium col-12 inputValidateControl" type="text" placeholder="Konu/Başlık bilgisi giriniz" value="@y.Topic" id="Topic">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="example-tel-input" class="col-sm-3 col-form-label text-left">Açıklama</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control inputValidateControl" rows="7" id="Description">@y.Description</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row float-end col-sm-3">
+                                                        <button class="btn btn-primary " id="SubmitServiceForm" data-id="@y.ServiceFormId">Servis Formu Kaydet</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div class="col-lg-5 col-md-12 col-sm-12 p-4 ml-2" style="background-color: var(--thShadow); margin: inherit;">
+                                                <div class="row h-100" id="FileAnaRow" style=" background-color: #fff; border-radius: 10px; padding-top: 17px;margin-left:5px; margin-right:5px;box-shadow:7px 19px 14px 2px var(--thShadow)">
+                                                    <div class="col-12 text-center">
+                                                        <label style="color:var(--thText);font-size: unset;font-weight:bold;">DOSYA YÜKLE</label> <br />
+                                                        <label style="color:var(--thSubText);font-size:0.9rem;">Servis planına eklemek istediğiniz dosyaları yükleyebilirsiniz. </label> <br />
+                                                        <form id="upload">
+                                                            <div id="drop">
+                                                                <img src="~/Images/iconsforservcie/icons8-upload_to_cloud.png" height="50" /><br />
+                                                                <label style="font-size: 0.7rem;">Yüklemek istediğiniz dosyaları bu alana sürükleyip bırakınız.</label> <br />
+                                                                <label style="font-size: 0.8rem;">VEYA</label> <br />
+                                                                <a>Dosya Seç</a>
+                                                                <input type="file" name="upl" multiple id="multipleFile" />
+                                                            </div>
+                                                            <div class="Scroll-Blue">
+                                                                <ul class="no_bullet">
+                                                                    @if (Model.Item4.Count() != 0)
+                                                                    {
+                                                                        foreach (var b in Model.Item4)
+                                                                        {
+                                                                            <li class="star" style="padding-bottom: 3.5rem; padding-top: 2rem;">
+                                                                                <div class="row">
+                                                                                    <div class="col-1"> <img class="fileTypeImage" src="" style="height:1.5rem;float: left;" /></div>
+                                                                                    <div class="col-7">
+                                                                                        <label style="font-size: 1rem;" class="fileType" data-file="@b.ServiceFormFileName">
+                                                                                            @b.ServiceFormFileName
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-1">
+                                                                                        <label style="">
+                                                                                            <a href="@Url.Action("SoftwareProjectFormDownloadFile", "CpmServisSistemi", new { Id = b.Id })">
+                                                                                                <i class="icon sc-download p-2" style="color:var(--thBorder);font-size: 13px;" id="btnFileDownload" data-id="@b.Id"></i>
+                                                                                            </a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-1">
+                                                                                        <label><i class="icon sc-trash-bin p-2 ml-3 scTrashBin" style="background-color:transparent;color:var(--thBorder);font-size: 13px;" id="btnFileDelete" data-id="@b.Id"></i></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        }
+
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </form>
+                                                        <span style="font-size:0.7rem;color:var(--thSubText)">* zip, pdf, doc, docx, xls, xlsx, png, jpeg dosya formatları kabul edilmektedir.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/SweetAlert2/sweetalert2.all.min.js"></script>
+<script src="~/Content/fileUpload/js/jquery.ui.widget.js"></script>
+<script src="~/Content/fileUpload/js/jquery.iframe-transport.js"></script>
+<script src="~/Content/fileUpload/js/jquery.fileupload.js"></script>
+<script src="~/Content/fileUpload/js/jquery.knob.js"></script>
+<script src="~/Content/fileUpload/js/script.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+
+        // #region  Dosya Sil
+        jQuery('body').on('click', '#btnFileDelete', function () {
+            var Id = $(this).attr("data-id");
+            var FILEREMOVE = $(this).parents(".star");
+            swal({
+                title: "Dikkat!",
+                text: "Dosyayı silmek istediğinize emin misiniz?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                buttons: ['Vazgeç', 'Sil']
+            })
+                .then((result) => {
+                    if (result) {
+                        $.blockUI({
+                            message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+                        });
+                        $.ajax({
+                            url: "/CpmServisSistemi/DeleteFileSoftwareProjectForms/" + Id,
+                            type: 'POST',
+                            data: { 'Id': Id },
+                            success: function () {
+                                FILEREMOVE.remove();
+                                setTimeout($.unblockUI, 300);
+                                swal("Dosyanız silindi.", {
+                                    icon: "success",
+                                    timer: 700
+                                });
+                            },
+                            error: function () {
+                                bootbox.alert("İşlem sırasında hata oluştu")
+                            }
+                        })
+                    }
+
+                    else {
+                        swal("Dosyanız güvende!");
+                    }
+                });
+        });
+        //#endregion
+
+
+        //#region Input ve Selectbox Kontrolleri
+        function inputControl(üstDiv) {
+
+            $(üstDiv + " .inputValidateControl").each(function () {
+                if ($(this).val() == "") {
+                    $(this).attr("style", "border:1px solid var(--thRed)!important;border-radius:6px;padding-top:7px;padding-bottom:7px;");
+                }
+                else {
+                    $(this).attr("style", "border:1px solid var(--thGreen)!important;border-radius:6px;padding-top:7px;padding-bottom:7px;");
+                }
+            });
+        }
+        function selectControl(üstDiv) {
+            $(üstDiv + " .selectValidateControl").each(function () {
+                if ($(this).find('option:selected').val() == "" || $(this).find('option:selected').val() == 0 || $(this).find('option:selected').length < 1) {
+                    $(this).attr("style", "border:1px solid var(--thRed)!important; border-radius:6px");
+                }
+                else {
+                    $(this).attr("style", "border:1px solid var(--thGreen)!important; border-radius:6px");
+                }
+            });
+        }
+        //#endregion
+        // #region Gunun Tarihini ve Saatini Getirme
+        try {
+            /*Günün tarihini alma ve formatlama) */
+            Date.prototype.getValidFormat = function () {
+                var ay = this.getMonth() + 1;
+                var gun = this.getDate();
+                var yil = this.getFullYear();
+                return yil + "-" + (ay < 10 ? "0" + ay : ay) + "-" + (gun < 10 ? "0" + gun : gun); //Gün ve ay 10 dan küçükse başına 0 gelir
+            };
+            var date = new Date();
+            $(".tarihGetir").val(date.getValidFormat());
+        } catch (error) {
+            console.error(error);
+        }
+        // #endregion
+        //#region Dosyaları diziye atar
+        window.filesArray = [];
+        window.type = [];
+        $("#multipleFile").on("change", function (e) {
+            var files = e.target.files;
+            var validImageTypes = ["image/gif",
+                "image/jpeg",
+                "image/png",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                "application/vnd.ms-excel",
+                "application/msword",
+                "application/x-zip-compressed",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "application/pdf"];
+            $.map(files, function (val) {
+                if (validImageTypes.includes(val.type)) {
+                    window.filesArray.push(val);
+                }
+                return val.type;
+            });
+        });
+        //#endregion
+        //#region Servis Formu Kaydet
+        $('body').on('click', '#SubmitServiceForm', function () {
+            inputControl("#kt_content_container");
+            selectControl("#kt_content_container");
+            var ServiceFormId = $(this).attr("data-id");
+            var ProjectId = $("#SelectProjectId option:selected").val() == '' ? null : $("#SelectProjectId option:selected").val();
+            var ProjectStepId = $("#SelectProjectSteps option:selected").val() == '' ? null : $("#SelectProjectSteps option:selected").val();
+            var CompanyId = $("#SelectCompany").attr("data-id") == '' ? null : $("#SelectCompany").attr("data-id");
+            var ContractId = $("#CompanyContract").attr("data-id") == '' ? null : $("#CompanyContract").attr("data-id");
+            var ProjectResponsible = $("#ProjectResponsible option:selected").val() == '' ? null : $("#ProjectResponsible option:selected").val();
+            var WorkDay = $("#WorkDay").val();
+            var WorkHour = $("#WorkTime").val() == '' ? null : $("#WorkTime").val();
+            var Topic = $("#Topic").val() == '' ? null : $("#Topic").val();
+            var Description = $("#Description").val() == '' ? null : $("#Description").val();
+            var AllDay = $("input[name=allDAY]").prop("checked");
+            var fileData = new FormData(); //Dosyalar
+            for (var i = 0; i < window.filesArray.length; i++) {
+                fileData.append(window.filesArray[i].name, window.filesArray[i]);
+            }
+            var filecount = window.filesArray.length;
+            if (ProjectId == null || ProjectStepId == null || CompanyId == null || ContractId == null
+                || ProjectResponsible == null || WorkHour == null || Topic == null || Description == null) {
+                Swal.fire(
+                    'Dikkat !',
+                    'Lütfen, kırmızı alanları doldurunuz !',
+                    'warning'
+                )
+            }
+            else {
+                $.blockUI({
+                    message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+                });
+                $.ajax({
+                    url: '/CpmServisSistemi/UpdateSoftwareServiceFormSave',
+                    type: 'POST',
+                    //method: "POST",
+                    //url: '/CpmServisSistemi/SoftwareSaveServiceForm1',
+                    data: {
+                        'ServiceFormId': ServiceFormId,
+                        'ProjectId': ProjectId,
+                        'ProjectStepId': ProjectStepId,
+                        'CompanyId': CompanyId,
+                        'ContractId': ContractId,
+                        'ProjectResponsible': ProjectResponsible,
+                        'WorkDay': WorkDay,
+                        'WorkHour': WorkHour,
+                        'Topic': Topic,
+                        'Description': Description,
+                        'AllDay': AllDay
+                    },
+                    success: function (result) {
+                        setTimeout($.unblockUI, 500);
+                        toastr.success(result.Message);
+                        if (result.IsSuccess == true && filecount > 0) {
+                            debugger;
+                            $.ajax({
+                                type: 'POST',
+                                url: "/CpmServisSistemi/SoftProServiceFormFiles",
+                                data: fileData,
+                                dataType: "json",
+                                contentType: false,
+                                processData: false,
+                                success: function (result) {
+                                    setTimeout($.unblockUI, 500);
+                                    if (result.IsSuccess == true) {
+                                        toastr.success(result.Message);
+                                        window.location = "/CpmServisSistemi/AllSoftwareProjectForms";
+                                    }
+                                    else {
+                                        toastr.error(result.Message);
+                                    }
+                                },
+                                error: function () {
+                                    alert('Erişim sağlanamadı.');
+                                }
+                            });
+                        }
+                        else {
+                            window.location = "/CpmServisSistemi/AllSoftwareProjectForms";
+                        }
+                    },
+                    error: function () {
+                        alert('Erişim sağlanamadı.');
+                    }
+                });
+            }
+        });
+        // #endregion
+
+        // #region Proje seçildiğinde ona ait adımları getir
+        try {
+            $("body").on("change", "#SelectProjectId", function () {
+                var ProjectId = $("#SelectProjectId option:selected").val();
+                var SelectProjectSteps = $("#SelectProjectSteps");
+                var ProjectResponsible = $("#ProjectResponsible");
+                if (ProjectId != "" && ProjectId != "Seçiniz") {
+                    $.ajax({
+                        url: '/CpmServisSistemi/GetSoftwareProjectSteps',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { 'ProjectId': ProjectId },
+                        success: function (data) {
+                            SelectProjectSteps.empty();
+                            $.each(data.ProjectSteps, function (index, option) {
+                                SelectProjectSteps.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+                            });
+                            SelectProjectSteps.selectpicker("refresh");
+                            $.each(data.SoftwareProjectList, function (index, option) {
+                                $("#SelectCompany").val(option.CompanyName);
+                                $("#SelectCompany").attr("data-id", option.CompanyId);
+                                $("#CompanyContract").attr("data-id", option.ContractId);
+                                $("#CompanyContract").val(option.ContractName);
+                                $('select[name=PResponsible] option:selected').val(option.ResponsibleId);
+                                $('select[name=PResponsible] option:selected').text(option.FullName);
+                                ProjectResponsible.selectpicker("refresh");
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+        // #endregion
+        //#region Tüm Gün tıklandığında
+        $("body").on("click", "input[name=allDAY]", function () {
+            var CHECKSTATE = $("input[name=allDAY]").prop("checked");
+            if (CHECKSTATE == true) {
+                $("#WorkTime").prop("disabled", true);
+                $("#WorkTime").attr("style", "background-color:#f2f6f7");
+                $("#WorkTime").val(8);
+            }
+            else {
+                $("#WorkTime").prop("disabled", false);
+                $("#WorkTime").removeAttr("style", "background-color:#fff");
+                $("#WorkTime").val("");
+            }
+        });
+        //#endregion
+    });
+
+
+
+</script>

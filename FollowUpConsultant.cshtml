@@ -1,0 +1,279 @@
+﻿@using sistemproject.Models
+@model (List<FollowUpConsultant>, List<FollowUpConsultant>)
+@{
+    ViewBag.Title = "FollowUpConsultant";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<link href="~/Content/ProjectCss/style.css" rel="stylesheet" />
+<style>
+    .accordion-button {
+        padding: 0.5rem 0.5rem;
+    }
+
+    .accordion-header {
+        margin-top: 0 !important;
+    }
+
+    .accordion-body {
+        padding: 0.5rem 0.5rem;
+    }
+</style>
+
+<style>
+    .icontoogle {
+        padding: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #555;
+        cursor: pointer;
+    }
+
+        .icontoogle:before {
+            font-family: 'FontAwesome';
+            font-size: 13px;
+            /*    content: "\f0fe";*/
+            content: "\f054";
+            margin-right: 10px;
+            color: #cad4df;
+        }
+
+        .icontoogle.collapsed:before {
+            /* content: "\f068";*/
+            content: "\f078";
+            font-size: 13px;
+        }
+
+    .treeLine {
+        display: inline-block;
+        vertical-align: middle;
+        height: 10px;
+        width: 10px;
+        margin-top: 2px;
+        margin-right: 5px;
+        border-bottom-left-radius: 1px;
+        border-left: 1px dotted #eff2f5;
+        border-bottom: 1px dotted #eff2f5;
+    }
+
+    .node {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        color: #a1a5b7;
+    }
+
+        .node h6 {
+            margin-bottom: auto !important;
+        }
+
+    /*    h6 {
+        font-size: 0.8rem !important;
+        font-weight: 450 !important;
+    }*/
+
+    a {
+        color: darkslategrey !important;
+        text-decoration: unset !important;
+    }
+</style>
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="container-fluid">
+                            <div class="row mt-5">
+                                <div class="col-5">
+                                    @{
+                                        decimal toplam = 0; // toplamı tutacak değişken
+                                        decimal toplam2 = 0;
+                                    }
+                                    <div class="card">
+                                        <div class="card-header" style="min-height:0 !important; padding: .75rem 3.25rem !important;">
+                                            <h4 class="">Adım Bazlı Danışman Efor Takibi</h4>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            @foreach (var item in Model.Item1.GroupBy(elm => new { elm.MainGroup, elm.StepName, elm.TotalDay }))
+                                            {
+                                                if (item.Key.TotalDay != 0)
+                                                {
+                                                    toplam += item.Key.TotalDay; // toplama ekleme işlemi
+                                                }
+                                            }
+                                            <span class="float-end fs-6"><font class="font-weight-bold">Toplam : @toplam.ToString("N2") Adam/Gün</font></span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="">
+
+                                                @foreach (var item in Model.Item1.GroupBy(elm => new { elm.MainGroup, elm.StepName, elm.TotalDay }))
+                                                {
+                                                    <h6>
+                                                        @item.Key.MainGroup @item.Key.StepName &nbsp;
+                                                        @if (item.Key.TotalDay != 0)
+                                                        {
+                                                            toplam += item.Key.TotalDay; // toplama ekleme işlemi
+                                                            <font class="float-end"> @item.Key.TotalDay.ToString("0.##") Adam/Gün</font>
+                                                        }
+                                                    </h6>
+                                                    <div class="separator separator-dashed my-1"></div>
+                                                    foreach (var line in item.Where(elm => elm.ResponsibleName != null).OrderByDescending(x => x.TotalServiceDay))
+                                                    {
+                                                        string name = line.ResponsibleName.Substring(0, 1);
+                                                        string surname = line.ResponsibleName.Split(' ')[1].Substring(0, 1);
+                                                        string newFullName = name + surname;
+                                                        string imagePath = Path.Combine(Server.MapPath("~/Images/ProfileImages/Advisor"), line.ResponsibleId + ".jpeg");
+                                                        string imageFile = File.Exists(imagePath) ? line.ResponsibleId + ".jpeg" : "";
+                                                        <div class="Employee">
+                                                            <div class="d-flex flex-stack">
+                                                                <div class="d-flex align-items-center me-3">
+                                                                    @if (imageFile != "")
+                                                                    {
+                                                                        <div class="symbol symbol-40px symbol-circle  mb-2 me-2">
+                                                                            <img src="~/Images/ProfileImages/Advisor/@imageFile" alt="image">
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="symbol symbol-40px symbol-circle mb-2 me-2">
+                                                                            <span class="symbol-label fs-5 fw-semibold text-success bg-light-success">@newFullName</span>
+                                                                        </div>
+                                                                    }
+                                                                    <div class="flex-grow-1">
+                                                                        <a href="#" class="text-gray-800 text-hover-primary fs-7 fw-bold lh-0">@line.ResponsibleName</a>
+                                                                        <span class="text-gray-400 fw-semibold d-block fs-7">@line.TotalServiceDay.ToString("N2") Adam/Gün</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex align-items-center w-100 mw-125px">
+                                                                    <div class="progress h-6px w-100 me-2 bg-light-success">
+                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: @(line.PercenTage.ToString("0"))%" aria-valuenow="@(line.PercenTage.ToString("0"))" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    </div>
+                                                                    <span class="text-gray-400 fw-semibold">@(line.PercenTage.ToString("N2"))%</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="separator separator-dashed my-1"></div>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-7">
+                                    <div class="card">
+                                        <div class="card-header" style="min-height:0 !important; padding: .75rem 3.25rem !important;">
+                                            <h4 class="">Genel Proje Bazlı Danışman Efor Takibi</h4>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            @foreach (var item in Model.Item2.OrderByDescending(x => x.TotalServiceDay))
+                                            {
+                                                if (item.TotalServiceDay != 0)
+                                                {
+                                                    toplam2 += item.TotalServiceDay; // toplama ekleme işlemi
+                                                }
+                                            }
+                                            <span class="float-end"><font class="font-weight-bold fs-6">Toplam : @toplam2.ToString("N2") Adam/Gün</font></span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="accordion" id="kt_accordion_1">
+                                                @{ int counter = 1;}
+                                                @foreach (var item in Model.Item2.OrderByDescending(x => x.TotalServiceDay))
+                                                {
+                                                    string name = item.EmployeeName.Substring(0, 1);
+                                                    string surname = item.EmployeeName.Split(' ')[1].Substring(0, 1);
+                                                    string newFullName = name + surname;
+
+                                                    string imagePath = Path.Combine(Server.MapPath("~/Images/ProfileImages/Advisor"), item.EmployeeId + ".jpeg");
+                                                    string imageFile = File.Exists(imagePath) ? item.EmployeeId + ".jpeg" : "";
+
+                                                    <div class="accordion-item">
+                                                        <h6 class="accordion-header" id="kt_accordion_1_header_@counter">
+                                                            <button data-projectId="@TempData["ProjectId"]" data-User="@item.EmployeeId" class="accordion-button fs-4 fw-semibold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#kt_accordion_1_body_@counter" aria-expanded="false" aria-controls="kt_accordion_1_body_@counter">
+                                                                <div class="row" style="width:inherit;">
+                                                                    <div class="d-flex flex-stack">
+                                                                        <div class="d-flex align-items-center me-3">
+                                                                            @if (imageFile != "")
+                                                                            {
+                                                                                <div class="symbol symbol-40px symbol-circle  mb-2 me-2">
+                                                                                    <img src="~/Images/ProfileImages/Advisor/@imageFile" alt="image">
+                                                                                </div>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <div class="symbol symbol-40px symbol-circle mb-2 me-2">
+                                                                                    <span class="symbol-label fs-5 fw-semibold text-success bg-light-success">@newFullName</span>
+                                                                                </div>
+                                                                            }
+                                                                            <div class="flex-grow-1">
+                                                                                <a href="#" class="text-gray-800 text-hover-primary fs-7 fw-bold lh-0">@item.EmployeeName</a>
+                                                                                <span class="text-gray-400 fw-semibold d-block fs-7">@item.TotalServiceDay.ToString("N2") Adam/Gün</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center w-100 mw-125px">
+                                                                            <div class="progress h-6px w-100 me-2 bg-light-success">
+                                                                                <div class="progress-bar bg-success" role="progressbar" style="width: @item.TotalServiceDayPercent.ToString("0")%" aria-valuenow="@item.TotalServiceDayPercent.ToString("0")" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                            </div>
+                                                                            <span class="text-gray-400 fw-semibold fs-7">@(item.TotalServiceDayPercent.ToString("N2"))%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                        </h6>
+                                                        <div id="kt_accordion_1_body_@counter" class="accordion-collapse collapse" aria-labelledby="kt_accordion_1_header_@counter" data-bs-parent="#kt_accordion_1">
+                                                            <div class="accordion-body EmployeeContent">
+                                                                <div class="d-flex align-items-center">
+                                                                    <strong class="text-secondary">Yükleniyor...</strong>
+                                                                    <div class="spinner-border ms-auto text-secondary" role="status" aria-hidden="true"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    counter++;
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".tooglePlusButton").click(function () {
+        $(this).toggleClass("collapsed");
+        $(this).parent().siblings(".children").toggle();
+    });
+
+    //#region Danışmana ait bilgileri getir
+    $('body').on('click', '.accordion .accordion-button', function () {
+        var AccordionBody = $(".EmployeeContent");
+        var ProjectId = $(this).attr("data-projectid");
+        var User = $(this).attr("data-user");
+
+
+        if ($(this).hasClass("collapsed") == false) {
+
+            if (ProjectId != null || User != null) {
+                AccordionBody.html(`<div class="d-flex align-items-center">
+                        <strong class="text-secondary">Yükleniyor...</strong>
+                        <div class="spinner-border ms-auto text-secondary" role="status" aria-hidden="true"></div>
+                    </div>`);
+                $.get('GetEmployeeContent', { ProjectId: ProjectId, Employee: User }, function (data)//Yeniden yükler listeyi
+                {
+
+                    AccordionBody.html(data);
+                    setTimeout($.unblockUI, 240);
+                }, 'html');
+            }
+            else {
+                ServiceFormData.html("");
+            }
+        }
+
+    });
+        //#endregion
+</script>

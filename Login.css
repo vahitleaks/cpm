@@ -1,0 +1,175 @@
+﻿
+body {
+    background-color: #00A2DE4D;
+     font-family: 'Roboto Regular';
+    /*  font-family: ubuntu;*/
+}
+
+.body.accountbg {
+    background-image:;
+}
+
+.account
+
+h4 {
+    color: #00A2DE;
+    text-align: center;
+    padding: auto;
+    margin: 5px;
+     font-family: 'Roboto Regular';
+    /* font-family: ubuntu;*/
+    font-style: italic;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.auth-page-lg {
+    text-align: center;
+    float: right;
+    padding-right: 120px;
+}
+
+.card-body {
+    background-color: #ffffffE6;
+    border-radius: 35px;
+    height: 290px;
+    width: 330px;
+    padding: 9px 25px;
+    /*margin-top: 205px;*/
+}
+
+
+
+label {
+    color: #999898;
+    font-size: 12px;
+    padding-left: 13px;
+}
+
+.log-btn {
+    width: 75%;
+    font-size: 12px;
+    height: 25px;
+    color: #fff;
+    margin: 10px 37px;
+    padding: 3px 5px;
+    text-align: center;
+    border: none;
+    border-radius: 15px;
+    background-color: #72AAD3;
+    font-weight: bold;
+}
+
+
+    .log-btn:hover {
+        width: 75%;
+        font-size: 12px;
+        height: 25px;
+        color: #fff;
+        margin: 10px 37px;
+        padding: 3px 5px;
+        text-align: center;
+        border: none;
+        border-radius: 15px;
+        background-color: #72AAD3;
+        font-weight: bold;
+    }
+
+a.text-muted {
+    color: #999898 !important;
+    padding-top: 12px;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.icon {
+    color: #00A2DE;
+}
+
+.Input-LeftIcon-Group .Input-LeftIcon {
+    border-radius: 10px;
+    font-style: italic;
+    padding-bottom: 14px;
+    padding-left: 34px;
+    padding-top: 19px;
+    font-size: 14px;
+    border: none;
+    background-color: #00A2DE1A;
+    width: 90%;
+    height: 40px;
+    margin-left: -29px;
+    margin-bottom: 12px;
+    margin-top: 8px;
+    font-family: ubuntu;
+}
+
+
+:focus {
+    outline: none;
+    outline-color: none;
+    outline-style: none;
+    outline-width: none;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    margin-top: 5px;
+    width: 20px;
+    height: 8px;
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 6px;
+    left: 0;
+    right: 0;
+    bottom: 6px;
+    background-color: rgb(220, 221, 220);
+    -webkit-transition: .4s;
+    transition: .4s;
+    width: 22px;
+    height: 9px
+}
+
+    .slider::before {
+        position: absolute;
+        content: "";
+        height: 15px;
+        width: 14px;
+        left: -0.5px;
+        bottom: -2.4px;
+        background-color: #7F8A40;
+        -webkit-transition: .4s;
+        transition: .4s;
+        height: 14px;
+    }
+
+input:checked + .slider {
+    background-color: rgb(220, 221, 220);
+}
+
+    input:checked + .slider::before {
+        -webkit-transform: translateX(10px);
+        transform: translateX(10px);
+    }
+
+input:focus + .sliders {
+    -webkit-box-shadow: 0 0 1px green;
+    box-shadow: 0 0 1px blue;
+}
+
+.slider.round {
+    border-radius: 16px;
+}
+
+    .slider.round::before {
+        border-radius: 50%;
+    }

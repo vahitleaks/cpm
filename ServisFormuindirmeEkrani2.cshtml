@@ -1,0 +1,545 @@
+﻿<!--@model sistemproject.Models.FullCalendarViewModels.PlansViewModel
+@{
+    ViewBag.Title = "ServisFormuindirmeEkrani2";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<style>
+    .container {
+        max-width: 924px !important;
+    }
+
+    html {
+        background: var(--thBG) !important;
+    }
+</style>
+<div class="container h-100" style="background-color: var(--thBG);">
+    <div class="row mb-5" style="margin-top:11rem;">
+        <div class="col-10">
+            <h1 style="color: var(--thOrange);">Servis Formu Ön İzleme Ekranına Hoşgeldiniz</h1>
+            <span>Servis formunu indirmek için "İndir" butonuna tıklayınız!</span>
+        </div>
+        <div class="col-1">
+            <i class="icon sc-download Button-Download float-right" type="button" id="downloadserviceform"></i>
+        </div>
+        <div class="col-1">
+            <a type="button" class="Button-Outline-Close mr-4 restart text-center pt-2" href="/CpmServisSistemi/Takvim">Çıkış</a>
+        </div>
+    </div>-->
+    @*<div class="row mb-5" style="margin-top:11rem;">
+            <div class="col-12">
+                <h1 style="color: var(--thOrange);">Servis Formu Ön İzleme Ekranına Hoşgeldiniz</h1>
+                <span>Servis formunu indirmek için "İndir" butonuna tıklayınız!</span>
+                <i class="icon sc-download Button-Download float-right" type="button" id="downloadserviceform"></i>
+            </div>
+        </div>*@
+    <!--<div class="row mb-5" style="border:2px solid var(--thBlue);border-radius:6px;">
+        <div class="col-12">
+            <div class="row mt-3" id="pdfScreen" style="background-color: var(--thBG);">
+                <div class="col-12">
+                    @if (ViewBag.Durum == 0)
+                    {
+                        foreach (var x in Model.GetDataCompany.Take(1))
+                        {
+                            <div class="row">
+                                <div class="col-3" style=" padding-left: 2.5rem; padding-top: 4rem;">
+                                    <img src="~/Images/images/cpm/cpm-logo-yerli@2x.png" height="85" />
+                                </div>
+                                <div class="col-9" style="padding-top:10px;padding-bottom:10px;">
+                                    <div class="row" style="padding-bottom:0.500rem;">
+                                        <div class="col-12">
+                                            <span style="color:var(--thOrange);font-size: 1.700rem;font-weight: bold;word-spacing: 14px;letter-spacing:1rem;margin-top:10px;">SERVİS RAPORU</span>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:5px;">
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size: 0.700rem !important;font-weight: bolder;padding-right: 5px;">Firma Adı</span>
+                                        </div>
+                                        <div class="col-9">
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.UNVAN</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Destek Şekli</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Servis Tipi</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Başlangıç Zamanı</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Bitiş Zamanı</span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.SUPPORTTYPE</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.SERVICETYPENAME</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.STARTDATE.Value.ToString("dd/MM/yyyy HH:mm")</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.ENDDATE.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Tarih</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Servis Süresi</span><br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Ücretsiz Servis Süresi</span><br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">CPM Sorumlusu</span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.SERVICEFORMCREATIONDATE.Value.ToString("dd/MM/yyyy HH:mm")</span><br />
+                                            <span class="toplamServisSuresi" style="color:var(--thTitle);font-size:0.700rem;" id="SERVICETIME" data-id="@x.SERVICETIME">:&nbsp;&nbsp; @ViewBag.KatilimciSayisi<font id="serviceTimeFont"></font>
+                                            </span> <br />
+                                                    <span class="toplamUcretsizServisSuresi" style="color:var(--thTitle);font-size:0.700rem;" id="FREESERVICETIME" data-id="@x.FREESERVICETIME">:&nbsp;&nbsp; @(x.FREESERVICETIME !=0 ? ViewBag.KatilimciSayisi : "")<font id="freeserviceTimeFont"></font></span><br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @ViewBag.CPMSORUMLUSU</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" style="margin:1rem!important;padding:1rem!important;border-radius:12px!important;border:none!important;">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <span style="color:var(--thTitle);font-size:0.730rem;font-weight:bold;">Sözleşme No</span>
+                                    </div>
+                                    <div class="col-9">
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Anlaşılan Servis</span><br />
+                                        <span style="color:var(--thTitle);font-size:0.730rem;font-weight:bold;">Toplam Harcanan Servis</span> <br />
+                                        <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Kalan Servis</span><br />
+                                    </div>
+                                    <div class="col-3">
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; </span> <br />
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; 0</span> <br />
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; 0</span><br />
+
+                                    </div>
+                                    <div class="col-3">
+                                        <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Sözleşme Başlangıç Tarihi</span> <br />
+                                        <span style="color:var(--thTitle);font-size:0.730rem;font-weight:bold;">Sözleşme Bitiş Tarihi</span> <br />
+                                        <span style="color:var(--thTitle);font-size:0.730rem;font-weight:bold;">Cari Hesap Bakiyeniz</span>
+
+                                    </div>
+                                    <div class="col-3">
+                                        <span style="color:var(--thNewText2);font-size:0.730rem;">:&nbsp;&nbsp; </span> <br />
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; </span> <br />
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Bakiye Bulunmamaktadır.</span>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" style="margin:1rem!important;margin-top:1rem!important;padding:1rem!important;border-radius:12px!important;border:none!important;">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">CPM Katılımcıları</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;" id="CPMPERSONS">
+                                            @x.PERSONNAME
+                                        </span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Firma Katılımcıları</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;" id="COMPANYPERSONS">
+                                            @x.COMPANYPERSONNAME
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            if (x.PROGRAMMERSTATE == true || x.WEEKENDSTATE == true || x.WEEKDAYSTATE == true || x.CALCULATIONPARAMETER != 0)
+                            {
+                                <div class="card" style="margin:1rem!important;margin-top:0!important;padding:1rem!important;border-radius:12px!important;border:none!important;">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Notlar</span>
+                                        </div>
+                                        <div class="col-9">
+                                            @if (x.PROGRAMMERSTATE == true && x.WEEKENDSTATE == true)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Yazılım birimi tarafından verilen servisler, 1.5 katı olarak hesaplanmıştr.</span> <br />
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">&nbsp;&nbsp; &nbsp;Haftasonu verilen servisler, 1.5 katı olarak hesaplanmıştır.</span>
+                                            }
+                                            else if (x.PROGRAMMERSTATE == true && x.WEEKDAYSTATE == true)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Yazılım birimi tarafından verilen servisler, 1.5 katı olarak hesaplanmıştr.</span> <br />
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">&nbsp;&nbsp; &nbsp;Hafta içi mesai dışı verilen servisler, 1.5 katı olarak hesaplanmıştır.</span>
+                                            }
+                                            else if (x.WEEKDAYSTATE == true)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Hafta içi mesai dışı verilen servisler, 1.5 katı olarak hesaplanmıştr.</span>
+                                            }
+                                            else if (x.WEEKENDSTATE == true)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Haftasonu verilen servisler, 1.5 katı olarak hesaplanmıştır.</span>
+                                            }
+                                            else if (x.PROGRAMMERSTATE == true)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Yazılım birimi tarafından verilen servisler, 1.5 katı olarak hesaplanmıştr.</span>
+                                            }
+                                            else if (x.CALCULATIONPARAMETER != 0)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Bu servis, @x.CALCULATIONPARAMETER katı olarak hesaplanmıştr.</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <span style="padding-left:35px;padding-top:20px;color:var(--thOrange);font-size:0.950rem;font-weight:bold;">VERİLEN HİZMET DETAYI</span>
+                            int t = 0;
+
+                            foreach (var y in Model.ServiceFormInfo)
+                            {
+                                if (t == 4)
+                                {
+
+                                    <div class="card" style="margin-right:1rem!important;margin-left:1rem!important;margin-top:0.900rem!important;padding:1rem!important;border-radius:12px!important;border:none!important;page-break-after:always!important;page-break-inside:auto!important;">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Talep Eden</span> <br />
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Konu</span> <br />
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">İş Özeti</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @y.REQUESTER</span> <br />
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @y.REQUESTEDSUBJECT</span> <br />
+                                                <p style="white-space: pre-wrap;color: var(--thNewText2); font-size: 0.700rem;">:&nbsp;&nbsp; @y.WORKDONESUMMARY</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div class="card" style="margin-right:1rem!important;margin-left:1rem!important;margin-top:0.900rem!important;padding:1rem !important; border-radius:12px !important;border:none!important;">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Talep Eden</span> <br />
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Konu</span> <br />
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">İş Özeti</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @y.REQUESTER</span> <br />
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @y.REQUESTEDSUBJECT</span> <br />
+                                                <p style="white-space: pre-wrap;color: var(--thNewText2); font-size: 0.700rem;">:&nbsp;&nbsp; @y.WORKDONESUMMARY</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                t++;
+                            }
+                            <div class="card" id="#page2el" style="position: sticky;background-color: var(--thBlue); color: var(--thWhite); margin: 1rem !important; margin-top: 15rem !important; padding: 1rem !important; border-radius: 12px !important; border: none !important;">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-1" style="padding-top: 5px;text-align: right!important;">
+                                                <i class="sc-map" style="font-size:1.5rem;color: var(--thWhite);"></i>
+                                            </div>
+                                            <div class="col-4" style="padding:0!important;">
+                                                <span style="font-size:0.700rem;">
+                                                    İkitelli OSB Mah. YTÜ Teknopark Sok. No.1 <br />
+                                                    Kat.1 No.18 Başakşehir – İstanbul
+                                                </span>
+                                            </div>
+                                            <div class="col-1" style="padding-top: 8px;text-align: right!important;">
+                                                <i class="sc-mail" style="font-size:1.5rem;color: var(--thWhite);"></i>
+                                            </div>
+                                            <div class="col-3" style="padding:0!important;">
+                                                <span style="font-size:0.700rem;">info@cpm.com.tr</span> <br />
+                                                <span style="font-size:0.700rem;">muhasebe@cpm.com.tr</span>
+                                            </div>
+                                            <div class="col-1" style="padding-top: 7px;text-align: right!important;">
+                                                <i class="sc-device-phone" style="font-size:1.5rem;color: var(--thWhite);"></i>
+                                            </div>
+                                            <div class="col-2" style="padding:0!important;">
+                                                <label style="font-size:0.700rem;margin-top: 12px;font-weight:bold;">+90 444 8 177</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pb-2" style="position: sticky;">
+                                <div class="col-6">
+                                    <span style="float:left;font-size:0.700rem;padding-left:1.5rem;">© Copyright CPM Yazılım 2021. Tüm Hakları Saklıdır.</span>
+                                </div>
+                                <div class="col-6">
+                                    <span style="float:right;font-size:0.700rem;padding-right:1.5rem;">www.cpm.com.tr</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        foreach (var x in Model.GetDataCompany.Take(1))
+                        {
+                            <div class="row">
+                                <div class="col-3" style=" padding-left: 2.5rem; padding-top: 4rem;">
+                                    <img src="~/Images/images/cpm/cpm-logo-yerli@2x.png" height="85" />
+                                </div>
+                                <div class="col-9" style="padding-top:10px;padding-bottom:10px;">
+                                    <div class="row" style="padding-bottom:0.500rem;">
+                                        <div class="col-12">
+                                            <span style="color:var(--thOrange);font-size: 1.700rem;font-weight: bold;word-spacing: 14px;letter-spacing:1rem;margin-top:10px;">SERVİS RAPORU</span>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:5px;">
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size: 0.700rem !important;font-weight: bolder;padding-right: 5px;">Firma Adı</span>
+                                        </div>
+                                        <div class="col-9">
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.UNVAN</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Destek Şekli</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Servis Tipi</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Başlangıç Zamanı</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Bitiş Zamanı</span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.SUPPORTTYPE</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.SERVICETYPENAME</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.STARTDATE.Value.ToString("dd/MM/yyyy HH:mm")</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.ENDDATE.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Tarih</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Servis Süresi</span><br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">Ücretsiz Servis Süresi</span><br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem!important;font-weight:bolder;padding-right:5px;">CPM Sorumlusu</span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @x.SERVICEFORMCREATIONDATE.Value.ToString("dd/MM/yyyy HH:mm")</span><br />
+                                            <span class="toplamServisSuresi" style="color:var(--thTitle);font-size:0.700rem;" id="SERVICETIME" data-id="@x.SERVICETIME">:&nbsp;&nbsp; @ViewBag.KatilimciSayisi<font id="serviceTimeFont"></font>
+                                            </span> <br />
+                                                    <span class="toplamUcretsizServisSuresi" style="color:var(--thTitle);font-size:0.700rem;" id="FREESERVICETIME" data-id="@x.FREESERVICETIME">:&nbsp;&nbsp; @(x.FREESERVICETIME !=0 ? ViewBag.KatilimciSayisi : "")<font id="freeserviceTimeFont"></font></span><br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem;">:&nbsp;&nbsp; @ViewBag.CPMSORUMLUSU</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" style="margin:1rem!important;padding:1rem!important;border-radius:12px!important;border:none!important;">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <span style="color:var(--thTitle);font-size:0.730rem;font-weight:bold;">Sözleşme No</span>
+                                    </div>
+                                    <div class="col-9">
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @x.COMPANYCONTRACT</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @foreach (var p in Model.ServiceFormInfo2)
+                                    {
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Anlaşılan Servis</span><br />
+                                            <span style="color:var(--thTitle);font-size:0.730rem;font-weight:bold;">Toplam Harcanan Servis</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Kalan Servis</span><br />
+                                        </div>
+                                        <div class="col-3">
+                                            <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @p.AGREEDDAY Gün / @(Convert.ToDecimal(p.AGREEDDAY * 6).ToString("F",System.Globalization.CultureInfo.InvariantCulture).Replace(".00", "")) Saat
+                                            </span><br />
+                                            <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @ViewBag.KatilimciSayisi @((Convert.ToDecimal(x.SERVICETIME) / 60 / 6).ToString("F",System.Globalization.CultureInfo.InvariantCulture).Replace(".00", "")) Gün /&nbsp;&nbsp;@ViewBag.KatilimciSayisi @((Convert.ToDecimal(x.SERVICETIME) / 60).ToString("F",System.Globalization.CultureInfo.InvariantCulture).Replace(".00", "")) Saat</span> <br />
+                                            <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @x.RSERVICEDAY Gün / @(Convert.ToDecimal(x.RSERVICEDAY * 6).ToString("F",System.Globalization.CultureInfo.InvariantCulture).Replace(".00", "")) Saat</span><br />
+                                        </div>
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Sözleşme Başlangıç Tarihi</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.730rem;font-weight:bold;">Sözleşme Bitiş Tarihi</span> <br />
+                                            <span style="color:var(--thTitle);font-size:0.730rem;font-weight:bold;">Cari Hesap Bakiyeniz</span>
+                                        </div>
+                                        <div class="col-3">
+                                            <span style="color:var(--thNewText2);font-size:0.730rem;">:&nbsp;&nbsp; @p.STARTDATE.Value.ToString("dd-MM-yyyy")</span> <br />
+                                            <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @p.ENDDATE.Value.ToString("dd-MM-yyyy")</span> <br />
+                                            @if (p.BALANCE == null || p.BALANCE.ToString() == "" || p.BALANCE == 0.000000M)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Bakiye Bulunmamaktadır.</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @ViewBag.Bakiye</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card" style="margin:1rem!important;margin-top:0!important;padding:1rem!important;border-radius:12px!important;border:none!important;">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">CPM Katılımcıları</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;" id="CPMPERSONS">
+                                            @x.PERSONNAME
+                                        </span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Firma Katılımcıları</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span style="color:var(--thNewText2);font-size:0.700rem;" id="COMPANYPERSONS">
+                                            @x.COMPANYPERSONNAME
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            if (x.PROGRAMMERSTATE == true || x.WEEKENDSTATE == true || x.WEEKDAYSTATE ==true || x.CALCULATIONPARAMETER != 0)
+                            {
+                                <div class="card" style="margin:1rem!important;margin-top:0!important;padding:1rem!important;border-radius:12px!important;border:none!important;">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Notlar</span>
+                                        </div>
+                                        <div class="col-9">
+                                            @if (x.PROGRAMMERSTATE == true && x.WEEKENDSTATE == true)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Yazılım birimi tarafından verilen servisler, 1.5 katı olarak hesaplanmıştr.</span> <br />
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">&nbsp;&nbsp; &nbsp;Haftasonu verilen servisler, 1.5 katı olarak hesaplanmıştır.</span>
+                                            }
+                                            else if (x.PROGRAMMERSTATE == true && x.WEEKDAYSTATE == true)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Yazılım birimi tarafından verilen servisler, 1.5 katı olarak hesaplanmıştr.</span> <br />
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">&nbsp;&nbsp; &nbsp;Hafta içi mesai dışı verilen servisler, 1.5 katı olarak hesaplanmıştır.</span>
+                                            }
+                                            else if (x.WEEKDAYSTATE == true)
+                                            {
+                                            <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Hafta içi mesai dışı verilen servisler, 1.5 katı olarak hesaplanmıştr.</span>
+                                            }
+                                            else if (x.WEEKENDSTATE == true)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Haftasonu verilen servisler, 1.5 katı olarak hesaplanmıştır.</span>
+                                            }
+                                            else if (x.PROGRAMMERSTATE == true)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Yazılım birimi tarafından verilen servisler, 1.5 katı olarak hesaplanmıştr.</span>
+                                            }
+                                            else if (x.CALCULATIONPARAMETER != 0)
+                                            {
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; Bu servis, @x.CALCULATIONPARAMETER katı olarak hesaplanmıştr.</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <span style="padding-left:35px;padding-top:20px;color:var(--thOrange);font-size:0.950rem;font-weight:bold;">VERİLEN HİZMET DETAYI</span>
+                            int t = 0;
+
+                            foreach (var y in Model.ServiceFormInfo)
+                            {
+                                if (t == 4)
+                                {
+
+                                    <div class="card" style="margin-right:1rem!important;margin-left:1rem!important;margin-top:0.900rem!important;padding:1rem!important;border-radius:12px!important;border:none!important;page-break-after:always!important;page-break-inside:auto!important;">
+
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Talep Eden</span> <br />
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Konu</span> <br />
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">İş Özeti</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @y.REQUESTER</span> <br />
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @y.REQUESTEDSUBJECT</span> <br />
+                                                <p style="white-space: pre-wrap;color: var(--thNewText2); font-size: 0.700rem;">:&nbsp;&nbsp; @y.WORKDONESUMMARY</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div class="card" style="margin-right:1rem!important;margin-left:1rem!important;margin-top:0.900rem!important;padding:1rem !important; border-radius:12px !important;border:none!important;">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Talep Eden</span> <br />
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">Konu</span> <br />
+                                                <span style="color:var(--thTitle);font-size:0.700rem;font-weight:bold;">İş Özeti</span>
+                                            </div>
+                                            <div class="col-9">
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @y.REQUESTER</span> <br />
+                                                <span style="color:var(--thNewText2);font-size:0.700rem;">:&nbsp;&nbsp; @y.REQUESTEDSUBJECT</span> <br />
+                                                <p style="white-space: pre-wrap;color: var(--thNewText2); font-size: 0.700rem;">:&nbsp;&nbsp; @y.WORKDONESUMMARY</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                t++;
+                            }
+                            <div class="card" id="#page2el" style="position: sticky;background-color: var(--thBlue); color: var(--thWhite); margin: 1rem !important; margin-top: 15rem !important; padding: 1rem !important; border-radius: 12px !important; border: none !important;">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-1" style="padding-top: 5px;text-align: right!important;">
+                                                <i class="sc-map" style="font-size:1.5rem;color: var(--thWhite);"></i>
+                                            </div>
+                                            <div class="col-4" style="padding:0!important;">
+                                                <span style="font-size:0.700rem;">
+                                                    İkitelli OSB Mah. YTÜ Teknopark Sok. No.1 <br />
+                                                    Kat.1 No.18 Başakşehir – İstanbul
+                                                </span>
+                                            </div>
+                                            <div class="col-1" style="padding-top: 8px;text-align: right!important;">
+                                                <i class="sc-mail" style="font-size:1.5rem;color: var(--thWhite);"></i>
+                                            </div>
+                                            <div class="col-3" style="padding:0!important;">
+                                                <span style="font-size:0.700rem;">info@cpm.com.tr</span> <br />
+                                                <span style="font-size:0.700rem;">muhasebe@cpm.com.tr</span>
+                                            </div>
+                                            <div class="col-1" style="padding-top: 7px;text-align: right!important;">
+                                                <i class="sc-device-phone" style="font-size:1.5rem;color: var(--thWhite);"></i>
+                                            </div>
+                                            <div class="col-2" style="padding:0!important;">
+                                                <label style="font-size:0.700rem;margin-top: 12px;font-weight:bold;">+90 444 8 177</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pb-2" style="position: sticky;">
+                                <div class="col-6">
+                                    <span style="float:left;font-size:0.700rem;padding-left:1.5rem;">© Copyright CPM Yazılım 2021. Tüm Hakları Saklıdır.</span>
+                                </div>
+                                <div class="col-6">
+                                    <span style="float:right;font-size:0.700rem;padding-right:1.5rem;">www.cpm.com.tr</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/ServiceTimeControl/serviceTimeControl3.js?v=1"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $('#CPMPERSONS').each(function () {
+            var str = $("#CPMPERSONS").html().trim();
+            $("#CPMPERSONS").html(str.replaceAll(",", "</br>"));
+        });
+        $('#COMPANYPERSONS').each(function () {
+            var str = $("#COMPANYPERSONS").html().trim();
+            $("#COMPANYPERSONS").html(str.replaceAll(",", "</br>"));
+        });
+    });
+
+    $("#downloadserviceform").click(function () {
+        generatePDF();
+    });
+    function generatePDF() {
+        const element = document.getElementById("pdfScreen");
+        var opt = {
+            margin: [0, 0, 0, 0],
+            filename: 'CPMServisFormu.pdf',
+            html2canvas: {
+                dpi: 300,
+                scale: 4,
+                letterRendering: true,
+                useCORS: true
+            },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+</script>-->
+
+
+

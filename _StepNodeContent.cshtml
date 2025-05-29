@@ -1,0 +1,33 @@
+﻿@using sistemproject.Models
+@model sistemproject.Controllers.Node3Step
+
+
+    <div class="d-flex align-items-center me-3" style="border: 1px dashed #406c800d; background-color: white; ">
+        <table class="table table-flush gy-1">
+            <thead>
+                <tr>
+                    <th class="text-muted"></th>
+                    <th class="text-muted">Hedeflenen</th>
+                    <th class="text-muted">Gerşekleşen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-muted min-w-125px w-125px">Başlangıç Tarihi</td>
+                    <td class="text-muted">@(Model.StartDate.HasValue ? Model.StartDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                    <td class="text-muted">@(Model.RealizedStartDate.Value.ToString("yyyyMMdd") == "19000101" ? "-": Model.RealizedStartDate.Value.ToString("dd/MM/yyyy"))</td>
+                </tr>
+                <tr>
+                    <td class="text-muted min-w-125px w-125px">Bitiş Tarihi</td>
+                    <td class="text-muted">@(Model.EndDate.HasValue ? Model.EndDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                    <td class="text-muted">@(Model.RealizedEndDate.Value.ToString("yyyyMMdd") == "19000101" ? "-": Model.RealizedEndDate.Value.ToString("dd/MM/yyyy"))</td>
+                </tr>
+                <tr>
+                    <td class="text-muted min-w-125px w-125px">Adam Gün</td>
+                    <td class="text-muted">@(Model.Day.ToString("0.##")!=null ? Model.Day.ToString("0.##"):"0")</td>
+                    <td class="text-muted">@(Model.RealizedDay.ToString("0.##")!=null ? Model.RealizedDay.ToString("0.##"):"0")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+

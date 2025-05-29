@@ -1,0 +1,176 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="myModal" data-backdrop="static">
+            <div class="modal-dialog modal-lg  modal-dialog-centered">
+                <div class="modal-content" style="padding:4rem!important;background-color:#F2F6F7;">
+                    @if (ViewBag.Durum == 0)
+                    {
+                        <div class="row">
+                            <div class="col-4 float-left">
+                                <img src="~/Images/images/cpm/Group 8859@2x.png" height="250" style="object-fit:contain;" />
+                            </div>
+                            <div class="col-8 my-auto text-right"><span class="" style="font-weight:bold;font-size:22px;color:#CC1616;">Servis formunu zaten reddettiniz !</span></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-5">
+                                <img src="~/Images/images/cpm/Icon awesome-facebook.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-instagram.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-linkedin.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-twitter.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-youtube.png" style="height:15px;" />
+                            </div>
+                            <div class="col-4">
+                                <img src="~/Images/images/cpm/cpm.png" style="object-fit:contain;height:50px;" />
+                            </div>
+                            <div class="col-3 text-right">
+                                <span style="font-size: 12px;">www.cpm.com.tr</span>
+                            </div>
+                        </div>
+                    }
+                    else if (ViewBag.Durum == 1)
+                    {
+                        <div class="row">
+                            <div class="col-4 float-left">
+                                <img src="~/Images/images/cpm/Group 8859@2x.png" height="250" style="object-fit:contain;" />
+                            </div>
+                            <div class="col-8 my-auto text-right"><span class="" style="font-weight:bold;font-size:18px;color:#CC1616;">Daha önce onaylanan formu reddedemezsiniz!</span></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-5">
+                                <img src="~/Images/images/cpm/Icon awesome-facebook.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-instagram.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-linkedin.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-twitter.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-youtube.png" style="height:15px;" />
+                            </div>
+                            <div class="col-4">
+                                <img src="~/Images/images/cpm/cpm.png" style="object-fit:contain;height:50px;" />
+                            </div>
+                            <div class="col-3 text-right">
+                                <span style="font-size: 12px;">www.cpm.com.tr</span>
+                            </div>
+                        </div>
+                    }
+                    else if (ViewBag.Durum == 5)
+                    {
+                        <div class="row">
+                            <div class="col-4 float-left">
+                                <img src="~/Images/images/cpm/Group 8859@2x.png" height="250" style="object-fit:contain;" />
+                            </div>
+                            <div class="col-8 my-auto text-right"><span class="" style="font-weight:bold;font-size:18px;color:#20A1DA ;">Servis formunuz yeniden düzenlenmiştir.Lütfen, size iletilen güncel mailden "Reddetme" işlemini gerçekleştiriniz!</span></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-5">
+                                <img src="~/Images/images/cpm/Icon awesome-facebook.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-instagram.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-linkedin.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-twitter.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-youtube.png" style="height:15px;" />
+                            </div>
+                            <div class="col-4">
+                                <img src="~/Images/images/cpm/cpm.png" style="object-fit:contain;height:50px;" />
+                            </div>
+                            <div class="col-3 text-right">
+                                <span style="font-size: 12px;">www.cpm.com.tr</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-4 float-left">
+                                <img src="~/Images/images/cpm/Group 8859@2x.png" height="150" style="object-fit:contain;" />
+                            </div>
+                            <div class="col-8 my-auto text-left"><span class="" style="font-weight:bold;font-size:22px;color:#CC1616;">Servis Formunu Reddettiniz !</span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <span style="color:#667880;">Lütfen reddetme nedenini yazınız...</span>
+                                <textarea id="REASONFORREJECTION" name="REASONFORREJECTION" rows="4" class="col-12 mt-2" style="border: none !important;">
+                           </textarea>
+                            </div>
+                        </div>
+                        <div class="row mt-3 mb-5">
+                            <div class="col-12 text-right">
+                                <button class="btn btn-primary" id="SendDescription" data-id="@ViewBag.ServiceFormId">Gönder</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <img src="~/Images/images/cpm/Icon awesome-facebook.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-instagram.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-linkedin.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-twitter.png" class="mr-2" style="height:15px;" />
+                                <img src="~/Images/images/cpm/Icon awesome-youtube.png" style="height:15px;" />
+                            </div>
+                            <div class="col-4">
+                                <img src="~/Images/images/cpm/cpm.png" style="object-fit:contain;height:50px;" />
+                            </div>
+                            <div class="col-3 text-right">
+                                <span style="font-size: 12px;">www.cpm.com.tr</span>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Tema/assets/js/bootstrap.bundle.min.js" charset="windows-1254" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+                keyboard: false
+            });
+            myModal.show();
+            //#region Reddet-Açıklama Kaydet
+
+            $('body').on('click', '#SendDescription', function () {
+                var SERVICEFORMID = $(this).attr("data-id");
+                var REASONFORREJECTION = $("#REASONFORREJECTION").val().trim();
+
+                if (REASONFORREJECTION == '') {
+
+                    alert('Lütfen reddetme nedenini yazınız...');
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/ServiceFormOnay/SaveDescription",
+                        dataType: "json",
+                        data:
+                        {
+                            'SERVICEFORMID': SERVICEFORMID,
+                            'REASONFORREJECTION': REASONFORREJECTION
+                        },
+                        success: function (data) {
+                            window.close();
+                        },
+                        error: function (xhr) {
+                            alert('error');
+                        }
+                    });
+
+                }
+            });
+
+        //#endregion
+        });
+    </script>
+</body>
+</html>
+

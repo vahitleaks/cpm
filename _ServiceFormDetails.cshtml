@@ -1,0 +1,79 @@
+﻿@model sistemproject.Models.FullCalendarViewModels.ServiceFormOperationsViewModel
+<div class="row">
+    <div class="col-lg-9 col-md-12 col-sm-12">
+        @if (ViewBag.ReddetmeNedeni != null)
+        {
+            <div class="card mr-2 ml-2 mb-2 p-2" style="background-color:var(--thRed);">
+                <label class="" style="color:#fff;"><b>Reddetme Nedeni :</b>&nbsp;@ViewBag.ReddetmeNedeni</label>
+            </div>
+        }
+
+            @foreach (var x in Model.ServiceFormInfo)
+            {
+                <div class="card mr-lg-2 ml-lg-2 mb-3" style="background-color: var(--thCardBack);border:2px solid var(--thBorderLight);">
+                    <div class="card-body" style="padding: 1rem 1.25rem;">
+                        <div class="">
+                            <img src="~/Images/iconsforservcie/icons8-flip_chart.png" height="25" />
+                            <label class="Label-Head font-weight-bold" style="font-size:1rem;font-weight:bold;">@x.REQUESTEDSUBJECT</label> <br />
+                        </div>
+                        <div style="padding-left: 2.2rem;">
+                            <label class="Label-Text" style="font-size: 0.9rem;">@x.REQUESTER</label>
+                        </div>
+                        <div class="">
+                            <p class="Label-Text" style="padding-right:2rem;padding-left:2rem;padding-top:1rem;font-size: 0.9rem;">
+                                @x.WORKDONESUMMARY
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card" style="background-color: var(--thCardBack);border:2px solid var(--thBorderLight);">
+            <div class="card-header" style="min-height: 24px; padding:4px 1.25rem;border-bottom: 1px solid var(--thBorderLight);">
+                <label class="Label-Title" style="font-size:1rem;font-weight: bold!important;">Servis Dosyaları</label>
+            </div>
+            <div class="card-body" style="padding: 0 0.25rem;">
+                <ul class="no_bullet" id="filesUpload">
+                    @if (Model.ServiceFormImpressionFiles.Count != 0)
+                    {
+                        foreach (var b in Model.ServiceFormImpressionFiles)
+                        {
+                            <li class="star" style="padding-bottom:0.5rem;padding-top: 0.5rem;">
+                                <div class="row">
+                                    <div class="col-1"> <img class="fileTypeImage" src="/Images/filetype/otherfiles.svg" style="height:1.5rem;float: left;"></div>
+                                    <div class="col-8">
+                                        <label style="font-size: 1rem;" class="fileType" data-file="@b.IMPFILENAME">@b.IMPFILENAME</label>
+                                    </div>
+                                    <div class="col-1">
+                                        <label style="">
+                                            <a href="@Url.Action("ServiceDownloadFile", "CpmServisSistemi", new { FILEID = b.FILEID })">
+                                                <i class="icon sc-download p-2" style="color:var(--thBorder);font-size: 13px;" id="btnFileDownload" data-id="@b.FILEID"></i>
+                                            </a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                    }
+                    else
+                    {
+                        <li class="star" style="padding-bottom:0.5rem;padding-top: 0.5rem;">
+                            <div class="row">
+                                <div class="col-1">
+                                    <img class="fileTypeImage" src="~/Images/iconsforservcie/icons8-high_priority.png" style="height:1.3rem;float: left;">
+                                </div>
+                                <div class="col-9">
+                                    <label style="font-size: 1rem;" class="fileType" data-file="degerlendirme.xlsx">
+                                        Yüklü Dosya Bulunamadı
+                                    </label>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

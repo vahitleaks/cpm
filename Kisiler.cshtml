@@ -1,0 +1,557 @@
+﻿@model  IEnumerable<sistemproject.Models.FullCalendarViewModels.GetPlansViewModel>
+@{
+    ViewBag.Title = "Kisiler";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<link href="~/Content/User/Css/AnaCSS.css" rel="stylesheet" />
+<link href="~/Content/FullCalendar/main_core.css" rel="stylesheet" />
+<style>
+    .menu-active {
+        background-color: var(--thBG);
+        border-left: var(--thBlue) 8px solid;
+        margin-right: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    .cardPlans:hover {
+        cursor: pointer;
+        /*        background-color:var(--thBlue);*/
+    }
+
+    #profile-photo {
+        box-shadow: 0 0rem 0.5rem rgb(15 27 0 / 15%) !important;
+    }
+
+    .toggle {
+        width: 85px !important;
+        height: 36px !important;
+    }
+
+    .btn-primary {
+        color: #fff !important;
+        background-color: var(--thBrownOpac40) !important;
+        border-color: var(--thWhite) !important;
+        border-radius: 50px;
+    }
+
+    .btn-default {
+        margin-right: 5px;
+        color: var(--thBrown) !important;
+        background-color: var(--thWhite) !important;
+        border-radius: 50px;
+        border: 1px solid var(--thBrownOpac20);
+    }
+
+    .switch {
+        margin-left: -21px;
+        margin-top: 10px;
+    }
+
+        .switch:hover {
+            cursor: pointer;
+        }
+
+    .button-switch {
+        font-size: 1.450em;
+        height: 1.875em;
+        margin-bottom: 0.625em;
+        position: absolute;
+        width: 4.5em;
+    }
+
+        .button-switch:hover {
+            cursor: pointer;
+        }
+
+        .button-switch .switch {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            height: 0;
+            font-size: 1em;
+            left: 67px;
+            line-height: 0;
+            outline: none;
+            position: absolute;
+            top: -6px;
+            width: 0;
+            background-color: aqua;
+        }
+
+            .button-switch .switch:before, .button-switch .switch:after {
+                content: '';
+                font-size: 0.350em;
+                position: absolute;
+            }
+
+            .button-switch .switch:before {
+                border-radius: 1.40em;
+                background: var(--thBlueOpac20);
+                height: 2.050em;
+                left: -0.25em;
+                top: -0.1875em;
+                transition: background-color 0.25s ease-out 0.1s;
+                width: 5em;
+                border: 1px solid var(--thBorder);
+            }
+
+            .button-switch .switch:after {
+                box-shadow: 0 0.0625em 0.375em 0 #666;
+                border-radius: 50%;
+                background: var(--thBlue);
+                height: 1.5em;
+                transform: translate(0, 0);
+                transition: transform 0.25s ease-out 0.1s;
+                width: 1.5em;
+            }
+
+            .button-switch .switch:checked:after {
+                transform: translate(2.5em, 0);
+                background: var(--thRed);
+            }
+
+            .button-switch .switch:checked ~ .lbl-off {
+                opacity: 0;
+            }
+
+            .button-switch .switch:checked ~ .lbl-on {
+                opacity: 1;
+            }
+
+            .button-switch .switch#switch-orange:checked:before {
+                /*         background: var(--thWhite);*/
+                border: 1px solid var(--thBorder);
+            }
+
+            .button-switch .switch#switch-blue:checked:before {
+                /*        background: var(--thRed);*/
+                border: 1px solid var(--thBorder);
+            }
+
+    /*switch*/
+    .card.active {
+        min-height: 5rem !important;
+        height: auto !important;
+    }
+
+    .backgroundtr {
+        background: var(--thBrownOpac10);
+    }
+
+    .ucNokta {
+        display: block;
+        width: 158px;
+        border: 1px solid purple;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .Scroll-Brown {
+        height: 682px !important;
+    }
+
+    .Scroll-Blue::-webkit-scrollbar-track {
+        border-radius: 20px !important;
+        background: var(--thBlueOpac8);
+    }
+
+    .Scroll-Blue::-webkit-scrollbar-thumb {
+        border-radius: 20px !important;
+        background: var(--thBlueOpac8) !important;
+    }
+
+        .Scroll-Blue::-webkit-scrollbar-thumb:window-inactive {
+            background: var(--thBlueOpac20) !important;
+        }
+
+    .Scroll-Blue {
+        height: 100px !important;
+    }
+
+        .Scroll-Blue::-webkit-scrollbar {
+            width: 3px !important;
+        }
+
+    .card-body {
+        font-size: 7px;
+    }
+
+    table thead {
+        border-bottom: 2px solid var(--thBorderLight);
+    }
+
+    table tbody td, th {
+        border: none !important;
+        padding: 0.25rem !important;
+    }
+
+    .table thead th {
+        border: none !important;
+        text-align: center;
+        font-size: 1em !important;
+        color: var(--thSubText);
+        padding: 1.25rem !important;
+    }
+
+        .table thead th span {
+            color: var(--thSubText) !important;
+            font-size: 1em !important;
+        }
+
+    .card {
+        border: none !important;
+    }
+
+    tbody:before {
+        line-height: 0.5em;
+        content: ".";
+        color: white;
+        display: block;
+    }
+
+    .lineHeight {
+        line-height: 18px;
+    }
+
+    .slider::before {
+        background-color: var(--thText2) !important;
+    }
+
+    .switchcolor::before {
+        background-color: var(--thNewGreen) !important;
+    }
+
+    @@media(max-width: 768px) {
+        span {
+            font-size: 0.8rem !important;
+        }
+
+        table {
+            table-layout: fixed;
+            width: 200% !important;
+            max-width: 200% !important;
+        }
+
+            table td {
+                width: 50%;
+            }
+    }
+</style>
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-3">
+                            <div class="col-lg-4 my-auto">
+                                <label style="font-weight: bold;color:var(--thHeadText)" class="mr-2 float-left mt-2 font11">Haftasonu Gizle/Göster</label>
+                                <label class="switch switchfreeservice button-switch" style="margin-top:5px;">
+                                    <input type="checkbox" id="CHECKWEEKEND" name="WEEKCHECK2" class="switch">
+                                    <span class="slider round "></span>
+                                </label>
+                            </div>
+                            <div class="col-8 text-right my-auto">
+                                <span class="fontBold" style="color:var(--thBlue);">@ViewBag.startdate.ToString("dd MMMM")</span><span> - </span>
+                                <span class="fontBold" style="color:var(--thBlue);">@ViewBag.enddate.ToString("dd MMMM")</span>
+                            </div>
+                        </div>
+                        <div class="fc-toolbar fc-header-toolbar pl-0 pr-0">
+                            <div class="fc-left">
+                                <div>
+                                    <button type="button" class="fc-myCustomButtonNewPlan-button fc-button fc-button-primary">Yeni Plan Oluştur</button>
+                                    <button type="button" class="fc-myCustomButtonServisFormu-button fc-button fc-button-primary">Servis Formu Oluştur</button>
+                                    <button type="button" class="fc-myCustomButtonUzakService-button fc-button fc-button-primary">Uzaktan Servis</button>
+                                    <button type="button" class="fc-myCustomButtonGeciciGorev-button fc-button fc-button-primary">Geçici Görev ve İş Emri</button>
+                                    @*<a href="/CpmServisSistemi/ServisNotlari">
+            <button type="button" class="fc-myCustomButtonYapilanService-button fc-button fc-button-primary">Yapılan Servisler</button>
+        </a>*@
+                                </div>
+                            </div>
+                            <div class="fc-center">
+                                <div>
+                                    <a href="/CpmServisSistemi/Kisiler?DURUM=-1">
+                                        <button type="button" class="fc-prev-button fc-button fc-button-primary">Geçen Hafta</button>
+                                    </a>
+                                    <a href="/CpmServisSistemi/Kisiler?DURUM=0">
+                                        <button type="button" class="fc-today-button fc-button fc-button-primary">Bu Hafta</button>
+                                    </a>
+                                    <a href="/CpmServisSistemi/Kisiler?DURUM=1">
+                                        <button type="button" class="fc-next-button fc-button fc-button-primary">Gelecek Hafta</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="fc-right">
+                                <div class="fc-button-group">
+                                    <a href="/CpmServisSistemi/Takvim" class="my-auto">
+                                        <button type="button" class="fc-timeGridDay-button fc-button fc-button-primary">Günlük</button>
+                                    </a>
+                                    <button type="button" class="fc-dayGridWeek-button fc-button fc-button-primary">Haftalık</button>
+                                    <button type="button" class="fc-dayGridMonth-button fc-button fc-button-primary">Aylık</button>
+                                    <button type="button" class="fc-myCustomButtonPerson-button fc-button fc-button-primary fc-button-active">Kişiler</button>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="Scroll-Blue pl-0" style="height: 682px !important;">*@
+
+                        <div class="table-responsive">
+                            <table class="table table-borderless" id="PERSONSTABLE" style="position: relative;background-color:var(--thWhite)!important; ">
+                                <thead style="background-color:var(--thWhite);color:var(--thCpmBlue);position:sticky;">
+                                    <tr>
+                                        <th class="fc-day-header fc-widget-header fc-tue fc-past float-left" data-date="">
+                                            <span style="color:var(--thCpmOrange);">Kişiler</span>
+                                        </th>
+                                        <th class="fc-day-header fc-widget-header fc-tue fc-past" data-date=""><span class="font15">Pazartesi</span></th>
+                                        <th class="fc-day-header fc-widget-header fc-tue fc-past" data-date=""><span class="font15">Salı</span></th>
+                                        <th class="fc-day-header fc-widget-header fc-tue fc-past" data-date=""><span class="font15">Çarşamba</span></th>
+                                        <th class="fc-day-header fc-widget-header fc-tue fc-past" data-date=""><span class="font15">Perşembe</span></th>
+                                        <th class="fc-day-header fc-widget-header fc-tue fc-past" data-date=""><span class="font15">Cuma</span></th>
+                                        <th class="fc-day-header fc-widget-header fc-tue fc-past hide-col" data-date="">
+                                            <span class="font15">Cumartesi</span>
+                                        </th>
+                                        <th class="fc-day-header fc-widget-header fc-tue fc-past" data-date="">
+                                            <span class="font15">Pazar</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                @{string GUN = "";}
+
+                                <tbody class="tblrow" data-durum="@ViewBag.DURUM">
+
+                                    @foreach (var x in Model.GroupBy(u => u.FULLNAME, (key, items) => new
+                                    { FULLNAME = key, FULLNAMECOUNT = items.Count(), ID = items.First().PERSONID, TANIMDEGENDIRME = items.Select(u => u.FULLNAME).FirstOrDefault(),TELEFON1 = items.Select(u => u.TELEFON1).FirstOrDefault(), USEROWNER = items.Select(u => u.USEROWNER).FirstOrDefault(), EMAIL = items.Select(u => u.EMAIL).FirstOrDefault() }))
+                                    {
+                                        string imagePath = Path.Combine(Server.MapPath("~/Images/ProfileImages/Advisor"), x.ID + ".jpeg");
+                                        string imageFile = File.Exists(imagePath) ? x.ID + ".jpeg" : "default.png";
+                                        <tr class="tbleventrow">
+                                            <th scope="row" style="width:12.5%;">
+                                                <div class="card p-1" style="min-height:5.4rem;border:2px solid var(--thBorderLight)!important;border-radius:10px!important;">
+                                                    <div class="card-body text-center" style="padding:0 !important;">
+                                                        <div class="row">
+
+
+                                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                                <div id="profile-photo" class="mx-auto">
+                                                                    <img alt="profile-user" class="profile-src p-1" height="45" width="45" src="~/Images/ProfileImages/Advisor/@imageFile" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-6">
+                                                                <label class="" style="color: var(--thText); font-size: 12px !important; margin-bottom: 0 !important; /*float: left; text-align: left;*/" id="fullName">@x.FULLNAME</label><br />
+                                                                <label class="" style="color: var(--thText); font-size: 11px !important; margin-bottom: 0 !important; /*float: left !important; text-align: left !important;*/" id="">@x.TELEFON1</label><br />
+                                                                <label class="" style="color: var(--thText); font-size: 9px !important; margin-bottom:0 !important; /*float: left !important; text-align: left !important;*/" id="">@x.USEROWNER</label><br />
+                                                                <label class="" style="color: var(--thText); font-size: 9px !important; margin-bottom:0 !important; /*float: left !important; text-align: left !important;*/" id="">@x.EMAIL</label>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                            </th>
+
+                                            @for (int i = 0; i < 7; i++)
+                                            {
+                                                <td style="width:12.5%;">
+                                                    <div class="card cardPlans" style="width:100%;min-height: 5.4rem;border:2px solid var(--thBorderLight)!important;border-radius:10px;" id="">
+                                                        <div class="card-body my-3 mx-auto" style="padding: 0.300rem!important;">
+                                                            @{int pzr = 0;}
+                                                            @{int PERSONID = 0;}
+                                                            @foreach (var y in Model.Where(a => a.FULLNAME == x.FULLNAME))
+                                                            {
+                                                                if (i == 0 && y.DAYNAMES == "Monday")
+                                                                {
+                                                                    GUN = "Monday";
+                                                                    { pzr++; }
+                                                                }
+                                                                else if (i == 1 && y.DAYNAMES == "Tuesday")
+                                                                {
+                                                                    GUN = "Tuesday";
+                                                                    { pzr++; }
+                                                                }
+                                                                else if (i == 2 && y.DAYNAMES == "Wednesday")
+                                                                {
+                                                                    GUN = "Wednesday";
+                                                                    { pzr++; }
+                                                                }
+                                                                else if (i == 3 && y.DAYNAMES == "Thursday")
+
+                                                                {
+                                                                    GUN = "Thursday";
+                                                                    { pzr++; }
+                                                                }
+                                                                else if (i == 4 && y.DAYNAMES == "Friday")
+                                                                {
+                                                                    GUN = "Friday";
+                                                                    { pzr++; }
+                                                                }
+                                                                else if (i == 5 && y.DAYNAMES == "Saturday")
+                                                                {
+                                                                    GUN = "Saturday";
+                                                                    { pzr++; }
+                                                                }
+                                                                else if (i == 6 && y.DAYNAMES == "Sunday")
+                                                                {
+                                                                    GUN = "Sunday";
+                                                                    { pzr++; }
+                                                                }
+                                                                PERSONID = Convert.ToInt32(y.PERSONID);
+                                                            }
+
+                                                            @if (pzr == 0)
+                                                            {
+                                                                <span style="font-size:1rem;">Olay Yok</span>
+                                                                <span hidden class="whichDay" data-personid="0">0</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="multiOlay" style="font-weight:bold;font-size:1rem;color:var(--thBlueSecond)!important;">@pzr Olay</span>
+                                                                <span hidden class="whichDay" data-personid="@PERSONID">@GUN</span>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                            }
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                        @*</div>*@
+                        <div id='calendar' class="mt-5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="kt_explore" class="drawer drawer-end" data-kt-drawer="true" data-kt-drawer-name="explore" data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'350px', 'lg': '390px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_explore_toggle" data-kt-drawer-close="#kt_explore_close" style="width:390px !important;">
+    <div class="card shadow-none rounded-0 w-100">
+        <div class="card-header" id="kt_explore_header" style="background-color:var(--thCardBack)!important;border-bottom: 1px solid var(--thBorderLight)!important;box-shadow: none !important;">
+            <h3 class="card-title fw-bolder" style="margin-left:10px;color:var(--thText);">Detay</h3>
+            <div class="card-toolbar">
+                <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5" id="kt_explore_close">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
+                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="card-body" id="kt_explore_body" style="padding:0!important;background-color:var(--thCardBack)!important;">
+            <div id="kt_explore_scroll" class="scroll-y me-n5 pe-5" data-kt-scroll="true" data-kt-scroll-wrappers="#kt_explore_body" data-kt-scroll-dependencies="#kt_explore_header" data-kt-scroll-offset="5px">
+                <div class="" id="PLANDETAILSCARD">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="~/Content/bootstrap-toggle/bootstrap-toggle.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-toggle/bootstrap-toggle.js"></script>
+<script>
+    $(document).ready(function () { 
+        debugger;
+            // Sayfa yüklendiğinde hangi sayfadaysak ilgili menüye active class ekle
+  
+   
+
+        $('td:nth-child(7),th:nth-child(7)').hide();
+        $('td:nth-child(8),th:nth-child(8)').hide();
+        $(".multiOlay").parents(".tbleventrow .cardPlans").attr("style", "width:100%;height:5rem;border:2px solid var(--thBlue)!important;border-radius:10px;");
+        //#region Class Eklemek
+        $("body").on("click", "input[name=TableHidecheck]", function () {
+            var STATE = $(this).prop("checked"); sss
+            if (STATE == true) {
+                $(".tbleventrow td .card").addClass("active");
+                $(".tbleventrow td .card-body").removeClass("Scroll-Blue");
+            }
+            else {
+                $(this).closest("tr").removeClass("backgroundtr");
+                $(".tbleventrow td .card").removeClass("active");
+                $(".tbleventrow td .card-body").addClass("Scroll-Blue");
+
+            }
+        });
+        //#endregion
+        //#region Haftasonu Gizleme Açma
+        $("body").on("change", "input[name=WEEKCHECK2]", function () {
+            var STATE = $(this).prop("checked");
+            if (STATE == true) {
+                $('td:nth-child(7),th:nth-child(7)').show();
+                $('td:nth-child(8),th:nth-child(8)').show();
+            }
+            else {
+                $('td:nth-child(7),th:nth-child(7)').hide();
+                $('td:nth-child(8),th:nth-child(8)').hide();
+            }
+        });
+        //#endregion
+        //#region Haftasonu Gizle Göster Switch
+        $("body").on("click", "#CHECKWEEKEND", function () {
+            if (this.checked) {
+                this.setAttribute("checked", "true");
+                $(".switchfreeservice .slider ").addClass("switchcolor");
+            } else {
+                this.removeAttribute("checked");
+                $(".switchfreeservice .slider ").removeClass("switchcolor");
+            }
+        });
+        // #endregion
+    });
+    //#region Kişiye Ait Planları Getir
+    $('body').on('click', '.tbleventrow .cardPlans', function () {
+        var PERSONID = $(this).find(".whichDay").attr("data-personid");
+        var DAYNAME = $(this).find(".whichDay").text();
+        var DURUM = $(".tblrow").attr("data-durum") == '' || $(".tblrow").attr("data-durum") == undefined ? 0 : $(".tblrow").attr("data-durum");
+        var planDetailsCard = $("#PLANDETAILSCARD");
+        if (PERSONID != 0) {
+            $.blockUI({
+                message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+            });
+            $.ajax({
+                type: 'GET',
+                url: "/CpmServisSistemi/GetPersonPlans?DURUM=" + DURUM + "&PERSONID=" + PERSONID + "&DAYNAME=" + DAYNAME,
+                datatype: "html",
+                cache: false,
+                success: function (data) {
+                    planDetailsCard.html("");
+                    if (data != null) {
+                        planDetailsCard.html(data);
+                        $(".drawer-end").addClass("drawer-on");
+                        $("body").attr("data-kt-drawer-explore", "on");
+                        $("body").attr("data-kt-drawer", "on");
+
+                    }
+                    setTimeout($.unblockUI, 240);
+                },
+                error: function (xhr) {
+                    alert('error');
+                }
+            });
+        }
+        else {
+            swal("Herhangi bir olay yok !",
+                {
+                    icon: "warning",
+                    timer: 700
+                });
+            planDetailsCard.html("");
+            $(".drawer-end").removeClass("drawer-on");
+            $("body").attr("data-kt-drawer-explore", "off");
+            $("body").attr("data-kt-drawer", "off");
+
+        }
+    });
+    //#endregion
+</script>
+
+
+

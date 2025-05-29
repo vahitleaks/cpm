@@ -1,0 +1,135 @@
+﻿
+@model sistemproject.Models.FullCalendarViewModels.ServiceFormOperationsViewModel
+<link href="~/Content/ContextMenu/jquery.contextMenu.min.css" rel="stylesheet" />
+
+@if (Model.ServiceFormList2 != null)
+{
+
+    foreach (var item in Model.ServiceFormList2)
+    {
+        <div class="accordion-item" id="loginCpmResponsible">
+            <div class="accordion-header" id="flush-@item.SERVICEFORMID">
+                <div class="accordion-button collapsed" data-accordion-button="@item.SFORMGROUPCODE" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@item.SERVICEFORMID@item.SERVICEFORMID" aria-expanded="false" aria-controls="flush-@item.SERVICEFORMID">
+                    <div class="" hidden id="dataService">
+                        <i hidden class="icon sc-edit-pencil-2" id="btnServiceFormEdit" data-sayfa="SERVISNOTLARI" data-id="@item.SERVICEFORMID" data-state="@item.REMOTESERVICESTATE" data-serviceformconfirm="@item.SERVICEFORMCONFIRM" data-user="@item.CPMRESPONSIBLE"></i>
+                        <i hidden class="icon sc-trash-bin" id="btnServiceFormDelete" data-serviceformconfirm="@item.SERVICEFORMCONFIRM" data-id="@item.SERVICEFORMID" data-sgroupcode="@item.SFORMGROUPCODE" data-pgroupcode="@item.PLANGROUPCODE"></i>
+                        <i hidden class="icon sc-download" id="btnServiceFormPdfDownload" data-id="@item.SERVICEFORMID" data-state="@item.REMOTESERVICESTATE"></i>
+                    </div>
+                    <div class="row" style="width:inherit;">
+                        <div class="col-1 text-center">
+                            @if (item.REMOTESERVICESTATE == true)
+                            {
+                                <img src="~/Images/iconsforservcie/icons8-customer_support.png" class="remoteImg" height="35" width="35" />
+                            }
+                            else
+                            {
+                                <img src="~/Images/iconsforservcie/icons8-flip_chart.png" class="serviceImg" height="35" width="35" />
+                            }
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-12">
+                            <label class="Label-Title companyNameDots2" style="font-size: 0.9rem;">@item.COMPANYNAME</label>
+                            <label class="Label-Text" style="font-size: 0.7rem;">@item.STARTDATE.Value.ToString("dd/MM/yyyy HH:mm")&nbsp; <b>*</b> &nbsp;  @item.ENDDATE.Value.ToString("dd/MM/yyyy HH:mm")</label><br />
+                            <label class="Label-Text" style="font-size: 0.8rem; margin-bottom: 0rem !important;" id="@item.SERVICEFORMID">Servis Form No: @item.SERVICEFORMID</label><br />
+                            @if (@item.REQUESTID == 0)
+                            {
+
+                                <label class="Label-Text" style="font-size: 0.8rem; margin-bottom: 0rem !important;" id="@item.REQUESTID">Talep No:-</label><br />
+                            }
+                            else
+                            {
+                                <label class="Label-Text" style="font-size: 0.8rem; margin-bottom: 0rem !important;" id="@item.REQUESTID">Talep No: @item.REQUESTID</label><br />
+                            }
+                            @if (item.Topic == null || item.Topic == "")
+                            {
+
+                                <label class="Label-Text" style="font-size: 0.8rem; margin-bottom: 0rem !important;" id="@item.REQUESTID">Konu:-</label><br />
+                            }
+                            else
+                            {
+                                <label class="Label-Text" style="font-size: 0.8rem; margin-bottom: 0rem !important; width: 285px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" id="@item.REQUESTID">Konu: @item.Topic</label><br />
+                            }
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-12">
+                            <label class="Label-Title" style="font-size: 0.9rem;">@item.SERVICETYPENAME</label> <br />
+                            <label class="Label-Text" style="font-size: 0.7rem;">@item.SUPPORTTYPE</label>
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-12 my-auto">
+                            @if (item.COMPANYCONTRACT == null || item.COMPANYCONTRACT == "")
+                            {
+                                <label class="Label-Text" style="font-size: 0.7rem;">Firmaya Ait Sözleşme Bulunmamaktadır</label>
+                            }
+                            else
+                            {
+                                <label class="Label-Text" style="font-size: 0.7rem;">@item.COMPANYCONTRACT</label>
+                            }
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-12">
+                            <label class="Label-Title personNameDots2" style="font-size: 0.9rem;">@item.PERSONNAME</label>
+                            <label class="Label-Title" style="font-size: 0.7rem;"><b>Cpm Sorumlusu : </b>@item.CPMRESPONSIBLE</label> <br />
+                            @if (item.FREESERVICETIME != 0 && item.FREESERVICETIME != null)
+                            {
+                                <label class="Label-Text" style="font-size: 0.7rem;">@item.SERVICETIME Dakika / @item.FREESERVICETIME Dakika</label>
+                            }
+                            else
+                            {
+                                <label class="Label-Text" style="font-size: 0.7rem;">@item.SERVICETIME Dakika</label>
+                            }
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-12 my-auto">
+                            @if (item.SERVICEFORMCONFIRM == 1)
+                            {
+                                <label class="Label-Green col-sm-3 col-lg-6 col-md-12  col-form-label col-form-label-sm text-left justify-content-start" style="font-weight:bold;font-size: 0.9rem;">Onaylandı</label>
+                                <i class="icon sc-menu-9 approved" style="margin-left: 5rem;" id="ContextMenu2"></i>
+                            }
+                            else if (item.SERVICEFORMCONFIRM == 0)
+                            {
+                                <label class="Label-Red col-sm-3 col-lg-6  col-md-12  col-form-label col-form-label-sm text-left justify-content-start" style="font-weight:bold;font-size: 0.9rem!important;"><i class="icon sc-info-sign pt-2 Label-Red" style="cursor:pointer;">&nbsp;&nbsp;</i>Reddedildi</label>
+                                <i class="icon sc-menu-9 denied" style="margin-left: 5.1rem;" id="ContextMenu"></i>
+                            }
+                            else if (item.SERVICEFORMCONFIRM == 3)
+                            {
+                                <label class="Label-Green col-sm-3 col-lg-7  col-md-12  col-form-label col-form-label-sm text-left justify-content-start" style="font-weight:bold;font-size: 0.9rem;padding: inherit;">Zaman Aşımı <br /> Onaylı</label>
+                                <i class="icon sc-menu-9 timeoutConfirmed" style="margin-left: 4rem;" id="ContextMenu2"></i>
+                            }
+                            else
+                            {
+                                <label class="Label-Yellow col-sm-3 col-lg-6 col-md-12  col-form-label col-form-label-sm text-left justify-content-start" style="font-weight:bold;font-size: 0.9rem;">Beklemede</label>
+                                <i class="icon sc-menu-9 pending" style="margin-left: 5rem;" id="ContextMenu"></i>
+                            }
+                            @*@if (item.SERVICEFORMCONFIRM == 1)
+                            {
+                                <label class="Label-Green col-sm-3 col-lg-6 col-md-12  col-form-label col-form-label-sm text-left justify-content-start" style="font-weight:bold;font-size: 0.9rem;">Onaylandı</label>
+                                <i class="icon sc-menu-9 approved" style="margin-left: 6rem;" id="ContextMenu2"></i>
+                            }
+                            else if (item.SERVICEFORMCONFIRM == 0)
+                            {
+                                <label class="Label-Red col-sm-3 col-lg-6  col-md-12  col-form-label col-form-label-sm text-left justify-content-start" style="font-weight:bold;font-size: 0.9rem!important;"><i class="icon sc-info-sign pt-2 Label-Red" style="cursor:pointer;">&nbsp;&nbsp;</i>Reddedildi</label>
+                                <i class="icon sc-menu-9 denied" style="margin-left: 6.1rem;" id="ContextMenu"></i>
+                            }
+                            else if (item.SERVICEFORMCONFIRM == 3)
+                            {
+                                <label class="Label-Green col-sm-3 col-lg-7  col-md-12  col-form-label col-form-label-sm text-left justify-content-start" style="font-weight:bold;font-size: 0.9rem;padding: inherit;">Zaman Aşımı <br /> Onaylı</label>
+                                <i class="icon sc-menu-9 timeoutConfirmed" style="margin-left: 5rem;" id="ContextMenu2"></i>
+                            }
+                            else
+                            {
+                                <label class="Label-Yellow col-sm-3 col-lg-6 col-md-12  col-form-label col-form-label-sm text-left justify-content-start" style="font-weight:bold;font-size: 0.9rem;">Beklemede</label>
+                                <i class="icon sc-menu-9 pending" style="margin-left: 6rem;" id="ContextMenu"></i>
+                            }*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="flush-@item.SERVICEFORMID@item.SERVICEFORMID" class="accordion-collapse collapse" aria-labelledby="flush-@item.SERVICEFORMID" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body ServiceFormData" id="">
+
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h1>Bulunamadı</h1>
+}
+

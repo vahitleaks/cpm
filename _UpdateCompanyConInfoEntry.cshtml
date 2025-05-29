@@ -1,0 +1,212 @@
+﻿
+<div class="modal fade" id="UpdateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bağlantı Bilgilerini Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body con">
+                <div class="col-lg-12 col-md-12 col-sm-12 p-2 divConnectionName">
+                    <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Bağlantı Adı</span>
+                    <input type="text" class="col-12 Input-Medium mt-2" id="modalConnectionName" placeholder="Bağlantı Adı" data-id="" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                </div>
+                <!-- /// CONNECTION TYPE  -->
+                <div class=" mb-4" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                    <div class="pb-3 pt-3" style="margin:15px">
+                        <h5 style="color:#D97D21;font-weight:bold;">Bağlantı Şekli</h5>
+                        <div class="displaycpm my-3" style="padding-left: 6px;">
+                            <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2" id="modalConnectionType">
+                                <option value="">Seçiniz</option>
+                                <option value="direct">Direkt Bağlantı</option>
+                                <option value="vpn">VPN</option>
+                                <option value="teamViewer">TeamViewer</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- /// CONNECTION TYPE END -->
+                <div class=" mb-4 vpnDiv" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                    <div class="pb-3 pt-3 vpnDiv" style="margin:15px">
+                        <div class="displaycpm my-3 col-lg-6 vpnDiv">
+                            <h5 style="color:#D97D21;font-weight:bold;">VPN Bağlantı Bilgileri</h5>
+                        </div>
+
+                        <div class="displaycpm my-3 row vpnDiv">
+                            <div class="col-lg-6 col-md-6 col-sm-6 p-2">
+                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Program</span>
+                                <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="modalVpnProgram">
+                                    <option value="">Seçiniz</option>
+                                    <option value="fortiClient">FortiClient</option>
+                                    <option value="zyWall">ZyWall</option>
+                                    <option value="sophos">Sophos</option>
+                                    <option value="openVpn">OpenVpn</option>
+                                    <option value="other">Diğer</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6 p-2 divVpnProgramName">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Program</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalVpnProgramName" placeholder="Program Adı" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+
+
+                        </div>
+
+                        <div class="row displaycpm my-3 vpnDiv">
+                            <div class="col-lg-6 col-md-4 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">IP Adresi</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalVpnIpAddress" placeholder="192.168.1.1" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+
+                            <div class="col-lg-6 col-md-4 col-sm-12 p-2 vpnDiv">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Port</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalVpnPort" placeholder="1234" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+                        </div>
+                        <div class="row displaycpm my-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 p-2 vpnDiv">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Kullanıcı Adı</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalVUserName" placeholder="kullanıcı Adı" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 p-2 vpnDiv">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Şifre</span>
+                                <input type="password" class="col-12 Input-Medium mt-2" id="modalVPassword" name="vPassword" placeholder="Şifre" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                                <i toggle="#password-field" class="icon sc-eye toggle-password" style="color: #406C80;float: right; margin-top: -23px; margin-right: 7px; position: relative;" id="passwordshow"></i>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                    <div class="pb-3" style="margin:15px">
+                        <div class="displaycpm my-3 col-lg-12">
+                            <h5 style="color:#D97D21;font-weight:bold;">Uzak Masaüstü Bağlantı Bilgileri</h5>
+                        </div>
+
+                        <div class="row displaycpm my-3">
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Bilgisayar Adı / IP Adresi</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalRdIP" placeholder="Bilgisayar Adı / IP Adresi" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Kullanıcı Adı</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalRdUserName" placeholder="Kullanıcı Adı" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Şifre</span>
+                                <input type="password" class="col-12 Input-Medium mt-2" id="modalRdPassword" placeholder="Şifre" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                                <i toggle="#password-field" class="icon sc-eye toggle-password" style="color: #406C80;float: right; margin-top: -23px; margin-right: 7px; position: relative;" id="passwordshow"></i>
+                            </div>
+                        </div>
+
+                        <div class="row displaycpm my-3">
+                            <div class="col-lg-12 col-md-12 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Domain(Opsiyonel)</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalRdDomain" placeholder="Domain" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" mb-4" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                    <div class="pb-3 pt-3" style="margin:15px">
+                        <div class="displaycpm my-3 col-lg-6">
+                            <h5 style="color:#D97D21;font-weight:bold;">SQL Bağlantı Bilgileri</h5>
+                        </div>
+
+                        <div class="row displaycpm my-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Sunucu Adı</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalSqlServerName" placeholder="Sunucu Adı" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Kullanıcı Adı</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalSqlUserName" placeholder="Kullanıcı Adı" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Şifre</span>
+                                <input type="password" class="col-12 Input-Medium mt-2" id="modalSqlPassword" placeholder="Şifre" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                                <i toggle="#password-field" class="icon sc-eye toggle-password" style="color: #406C80;float: right; margin-top: -23px; margin-right: 7px; position: relative;" id="passwordshow"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" mb-4" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                    <div class="pb-3 pt-3" style="margin:15px">
+                        <div class="displaycpm my-3 col-lg-12">
+                            <h5 style="color:#D97D21;font-weight:bold;">CPM Kullanıcı Bilgileri</h5>
+                        </div>
+
+                        <div class="row displaycpm my-3">
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Kullanıcı Adı</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalCpmUserName" placeholder="Kullanıcı Adı" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Şifre</span>
+                                <input type="password" class="col-12 Input-Medium mt-2" id="modalCpmPassword" placeholder="Şifre" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                                <i toggle="#password-field" class="icon sc-eye toggle-password" style="color: #406C80;float: right; margin-top: -23px; margin-right: 7px; position: relative;" id="passwordshow"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" mb-4" style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                    <div class="pb-3 pt-3" style="margin:15px">
+                        <div class="displaycpm my-3 col-lg-6">
+                            <h5 style="color:#D97D21;font-weight:bold;">Firma IT Yetkilisi</h5>
+                        </div>
+
+                        <div class="row displaycpm my-3">
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Ad Soyad</span>
+                                <input type="text" class="col-12 Input-Medium mt-2" id="modalItpNameSurname" placeholder="Ad Soyad" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Telefon</span>
+                                <input type="number" class="col-12 Input-Medium mt-2" id="modalItpPhone" placeholder="Telefon" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" mb-4 " style="box-shadow: 1px 4px 8px -6px #406c80 !important">
+                    <div class="pb-3 pt-3" style="margin:15px">
+                        <div class="displaycpm my-3 col-lg-6">
+                            <h5 style="color:#D97D21;font-weight:bold;">Açıklama</h5>
+                        </div>
+
+                        <div class="displaycpm my-3">
+                            <div class="form-floating col-lg-12 col-md-12 col-sm-12 mt-2">
+                                <textarea class=" form-control inputValidateControl" id="modalDescription" style="height:72px;overflow-y:hidden;white-space:pre-wrap;background-color:rgba(255, 255, 255, 0);color: var(--thText)!important;border: 1px solid var(--thBorder)!important;border-radius:6px!important;font-size:12px!important;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="btnUpdate">Kaydet</button>
+            </div>
+        </div>
+        <!-- Diğer form elemanlarını da buraya ekleyin -->
+
+    </div>
+
+</div>

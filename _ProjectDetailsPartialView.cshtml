@@ -1,0 +1,83 @@
+﻿@*@model (List<dynamic>, List<dynamic>, List<dynamic>)
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header" style="min-height:0 !important; padding: .75rem 1.25rem !important;">
+                <h5>Ana Bilgiler</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled personal-detail">
+                    @foreach (var item in Model.Item1)
+                    {
+                        <li class=""><b> Proje Adı </b>: @item.ProjectName</li>
+                        <li class="mt-2"><b> Firma </b>: @item.CompanyName</li>
+                        <li class="mt-2"><b>Sözleşme</b>: @item.ContractName</li>
+                        <li class="mt-2"><b>Açıklama</b>:@item.Description</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header" style="min-height:0 !important; padding: .75rem 1.25rem !important;">
+                <h5>Yüklenen Dosyalar</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+
+                @if (Model.Item3.Count > 0)
+                {
+                    foreach (var x in Model.Item3)
+                    {
+                        <li class="list-group-item">
+                            <i class="sc-file-code float-left mr-2"></i>@x.ProjectFileName
+                            <a href="@Url.Action("ProjectsDownloadFile", "CpmServisSistemi", new { Id = x.Id })">
+                                <i class="sc-download float-end" style="font-size: 16px;" id="btnFileDownload" data-id="@x.Id"></i>
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-12">
+                                <img src="~/Images/requestImg/icons8-do_not_disturb.png" height="24" width="24" />
+                                <label style="font-size: 12px;" class="fileType" data-file="degerlendirme.xlsx">
+                                    Yüklü Dosya Bulunamadı
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header" style="min-height:0 !important; padding: .75rem 1.25rem !important;">
+                <h5> Proje Adımları</h5>
+            </div>
+            <div class="card-body p-0">
+                <img src="../assets/images/widgets/calendar.svg" alt="" class="img-fluid">
+                <ul class="list-group calendar-event">
+                    @foreach (var item in Model.Item2)
+                    {
+                        <li class="list-group-item align-items-center d-flex" style="border:none !important;">
+                            <div class="media">
+                                <img src="~/Images/checkbox/icons8-double_tick.png" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
+                                <div class="media-body align-self-center">
+                                    <div class="event-name">
+                                        <h4 class="m-0" style="color:#17996E;">@item.StepName</h4>
+                                        <label class="mb-0"><b>Tarih:</b>&nbsp;&nbsp;@item.StartDate.ToString("dd/MM/yyyy") - @item.EndDate.ToString("dd/MM/yyyy") </label>
+                                        <label class="mb-0"><b>Adam Gün:</b>&nbsp;&nbsp;@item.RequiredTime.ToString("0.##")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>*@

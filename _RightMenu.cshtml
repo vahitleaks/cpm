@@ -1,0 +1,111 @@
+﻿
+<style>
+    #modalRightContext {
+        position: absolute;
+        top: 492px;
+    }
+    .modal-dialog .modal-sm {
+     box-shadow: 1px 1px 17px #000;
+    }
+    #modalRightContext ul li {
+        margin: 0.5rem;
+        padding: 0.5rem;
+    }
+        #modalRightContext ul li:hover {
+            background-color: var(--thBG);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            border-left: 4px solid var(--thBlue);
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+    #modalClose {
+        border: none;
+        color: #fff;
+        background-color: var(--thBlue);
+        border-radius: 50%;
+    }
+    #modalClose:hover {
+        background-color: var(--thRed);
+    }
+</style>
+
+
+<div id="kt_explore" class="drawer drawer-end" data-kt-drawer="true" data-kt-drawer-name="explore" data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'350px', 'lg': '390px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_explore_toggle" data-kt-drawer-close="#kt_explore_close" style="width:390px !important;">
+    <div class="card shadow-none rounded-0 w-100" style="background-color:var(--thCardBack)!important;">
+        <div class="card-header" id="kt_explore_header" style="background-color:var(--thCardBack)!important;border-bottom: 1px solid var(--thBorderLight);">
+            <div class="card-toolbar">
+                    <i class="icon sc-arrow-left Btn-Arrows" id="yesterDay" data-id="-1"></i>
+                    <i class="icon sc-arrow-right Btn-Arrows" id="tomorrow" data-id="1"></i>
+            </div>
+            <button type="button" style="border:none;color: var(--thText);font-size: 1.3rem;font-weight: bold;background-color:transparent;" id="thisDay" data-id="0">Bugün</button>
+            @*<label style="text-align: right; align-items: center; margin: 0.5rem; display: flex; margin-left: auto;color:var(--thText);">@ViewBag.Tarih</label>*@
+            <div class="card-toolbar">
+                <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5" id="kt_explore_close">
+                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
+                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+
+        </div>
+        <div class="card-body" id="kt_explore_body" style="background-color:var(--thCardBack)!important;">
+            <div id="kt_explore_scroll" class="scroll-y me-n5 pe-5" data-kt-scroll="true" data-kt-scroll-wrappers="#kt_explore_body" data-kt-scroll-dependencies="#kt_explore_header" data-kt-scroll-offset="5px" style="height: 812px;">
+                <div class="mb-0" id="todayPlanList">
+
+                </div>
+            </div>        
+        </div>
+    </div>
+</div>
+<script>
+    $('body').on('click', '#kt_explore_body #btnPlusModal', function () {
+        $("#modalRightContext").addClass("show");
+        document.getElementById("modalRightContext").setAttribute("style", "display: block;");
+        document.getElementById("modalRightContext").setAttribute("aria-hidden", "true");
+    });
+    $('body').on('click', '#kt_explore_body #modalClose', function () {
+        $("#modalRightContext").addClass("show");
+        document.getElementById("modalRightContext").setAttribute("style", "display: none;");
+        document.getElementById("modalRightContext").setAttribute("aria-hidden", "false");
+    });
+
+    $("body").on("click", "#yesterDay", function () {
+        var STATE = $(this).attr("data-id");
+        todayPlanListGet2(STATE);
+    });
+    $("body").on("click", "#tomorrow", function () {
+       var STATE= $(this).attr("data-id");
+        todayPlanListGet2(STATE);
+    });
+    $("body").on("click", "#thisDay", function () {
+        var STATE = $(this).attr("data-id");
+        todayPlanListGet2(STATE);
+    });
+    var todayPlanListGet2 = function (STATE) {
+        var planDetailsCard = $("#todayPlanList");
+        $.ajax({
+            type: 'GET',
+            url: "/CpmServisSistemi/PlansList?STATE=" + STATE,
+            datatype: "html",
+            cache: false,
+            success: function (data) {
+                planDetailsCard.html("");
+                if (data != null) {
+                    planDetailsCard.html(data);
+                    $(".drawer-end").addClass("drawer-on");
+                    $("body").attr("data-kt-drawer-explore", "on");
+                    $("body").attr("data-kt-drawer", "on");
+                }
+                setTimeout($.unblockUI, 240);
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+    }
+</script>

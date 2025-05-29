@@ -1,0 +1,22 @@
+{
+  "ticket_id": 7600,
+  "files": [
+    {
+      "file_id": "1992",
+      "file_name": "image001.png",
+      "url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=1992"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "downloaded_files": [
+    {
+      "original_name": "image001.png",
+      "saved_as": "ticket_7600_1992_image001.png",
+      "file_id": "1992",
+      "size": "821.9 KB"
+    }
+  ],
+  "errors": [],
+  "created_date": "2025-05-29 07:34:11"
+}

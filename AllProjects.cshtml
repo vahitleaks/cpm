@@ -1,0 +1,173 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "AllProjects";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+@*@Html.Action("ProjectPartialViews/_ProjectDetailsPartialView");*@
+@*@Html.Partial("ProjectPartialViews/_ProjectDetailsPartialView",List<dynamic>, List<dynamic>, List<dynamic>);*@
+<link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+<style>
+
+   /* .table > :not(:last-child) > :last-child > * {
+        border-bottom-color: #406C8033 !important;
+    }*/
+    .form-control:disabled, .form-control:read-only {
+        background-color: #406C800D;
+    }
+    .table thead th {
+        border-bottom: 1px solid #406C8033 !important;
+        background-color: #406C800D;
+    }
+        .threeDot {
+        /*     white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;*/
+        /* width: 47px; */
+        /* width: 47px; */
+        white-space: nowrap;
+        display: inline-block;
+        overflow: hidden;
+        table-layout: fixed;
+        width: 180px;
+        text-overflow: ellipsis;
+    }
+
+    .rounded-circle {
+        box-shadow: none !important;
+    }
+
+    .card {
+        box-shadow: 0px 0px 20px rgb(31 36 54 / 10%) !important;
+    }
+
+    .card-header {
+        background-color: #17996E1A !important;
+        border-top-right-radius: 6px !important;
+        border-top-left-radius: 6px !important;
+    }
+    .custom-select, .form-control-sm {
+        border-radius: 6px !important;
+    }
+</style>
+<link href="~/Content/DatatableCss/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DatatableCss/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DatatableCss/responsive.bootstrap4.min.css" rel="stylesheet" />
+@*<link href="~/Content/DatatableCss/datatables.min.css" rel="stylesheet" />*@
+<link href="~/Content/ProjectCss/style.css" rel="stylesheet" />
+
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="container-fluid">
+
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="table-responsive dash-social">
+                                                <table id="datatable" class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Firma</th>
+                                                            <th>Proje</th>
+                                                            <th>Açıklama</th>
+                                                            <th>Detay Görüntüle</th>
+                                                            <th>Düzenle/Sil</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model)
+                                                        {
+                                                        <tr>
+                                                            <td class="">
+                                                                <img class="rounded-circle mr-2" src="~/Images/ProjectImages/user-2.jpg" alt="" height="52">
+                                                                <p class="d-inline-block align-middle mb-0">
+                                                                 
+                                                                    <a href="" class="d-inline-block align-middle mb-0 product-name threeDot" title="@item.CompanyName"><font style="font-weight:bold;">@item.CompanyName</font></a>
+                                                                    <br>
+                                                                    <span class="text-muted font-13 threeDot" title="@item.ContractName">@item.ContractName</span>
+                                                                </p>
+                                                            </td>
+                                                            <td>@item.ProjectName</td>
+                                                            <td>@item.Description</td>
+                                                            <td>
+                                                                <a id="showDetails" href="@Url.Action("GetProjectDetails", "CpmServisSistemi", new { ProjectId = item.Id})"><span class="badge badge-soft-purple">Tıklayınız...</span></a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="@Url.Action("UpdateProject", "CpmServisSistemi", new { ProjectId = item.Id})" class="mr-2"><i class="sc-edit-pencil font-16 btn btn-sm btn-soft-info"></i></a>
+                                                                <i id="DeleteProject" data-id="@item.Id" class="sc-trash-bin font-16 btn btn-sm btn-soft-danger"></i>
+                                                            </td>
+                                                        </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/SweetAlert2/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/DatatableScripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.responsive.min.js"></script>
+<script>
+    $('#datatable').DataTable(
+        {
+            "language": {
+                "url": "/Scripts/DatatableScripts/tr.json"
+            }
+        }
+    );
+    //#region Proje Sil
+    $("body").on("click", "#DeleteProject", function () {
+        var Id = $(this).attr("data-id");
+        var table = $('#datatable').DataTable();
+        var removingRow = $(this).closest('tr');
+        Swal.fire({
+            title: 'Uyarı !',
+            text: "Projeyi silmek istediğinize emin misiniz?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Vazgeç',
+            confirmButtonText: 'Projeyi Sil'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "POST",
+                    url: '/CpmServisSistemi/DeleteProject',
+                    data: {
+                        Id: Id,
+                    },
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            toastr.success(result.Message);
+                            //card.remove();
+                            table.row(removingRow).remove().draw();
+                        }
+                        else {
+                            toastr.warning(result.Message);
+                        }
+                    },
+                    error: function () {
+                        alert('Erişim sağlanamadı.');
+                    }
+                });
+            }
+        })
+
+    });
+</script>
+
+

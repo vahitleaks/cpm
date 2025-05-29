@@ -1,0 +1,193 @@
+﻿@model (List<sistemproject.Models.Tables.ANDWCNACEMENT>, List<sistemproject.Models.Tables.ANDWCNACEMENTFILES>, List<sistemproject.Models.Tables.ANDWCNVIDEOS>)
+
+@{
+    ViewBag.Title = "AnnouncementList";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+<style>
+    .ribbon-1 {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .ribbon-box {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        transition: .3s ease;
+        background-color: #fffefebf;
+    }
+
+    .ribbon-1:hover .overlay {
+        opacity: 1;
+    }
+
+    .iconnn:hover {
+        background-color: #575757ed;
+    }
+
+    .iconnn {
+        font-size: 20px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+        cursor: pointer;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 50%;
+    }
+
+    .sc-edit-pencil {
+        color: var(--thBlue);
+        top: 50%;
+        left: 30%;
+    }
+
+    .sc-trash-bin {
+        color: var(--thRed);
+        top: 50%;
+        left: 50%;
+    }
+
+    .sc-share {
+        color: var(--thGray);
+        top: 50%;
+        left: 70%;
+    }
+    .threeDot {
+        display: block;
+        width: 100%;
+        height: 30px;
+        border: none;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl mt-5">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+
+                                    @if (Model.Item1.Count() > 0)
+                                    {
+                                        foreach (var x in Model.Item1)
+                                        {
+                                    <div class="col-3 AnnouncementCards mb-3">
+                                        <div class="card ribbon-1" style="border: none !important; -webkit-box-shadow: 6px 6px 18px 0px rgba(222,222,222,1); -moz-box-shadow: 6px 6px 18px 0px rgba(222,222,222,1); box-shadow: 6px 6px 18px 0px rgba(222,222,222,1); ">
+                                            <div class="card-body">
+                                                <div class="blog-card">
+                                                    @foreach (var y in Model.Item2.Where(elm => elm.AnnouncementId == x.AnnouncementId && elm.State == true).ToList())
+                                                    {
+                                                        <img class="card-img-top img-fluid" style="object-fit:cover;height:150px!important;" src="@string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(y.AnnouncementFile))" alt="Card image cap">
+                                                    }
+
+                                                    <h4 class="mt-2 mb-3 threeDot">
+                                                        <a href="">@x.AnnouncementHead</a>
+                                                    </h4>
+                                                    <div class="text-muted font-13 threeDot">@Html.Raw(x.AnnouncementTopic)</div>
+                                                </div>
+                                                <div class="meta-box">
+                                                    <ul class="p-0 mt-4 list-inline">
+                                                        <li class="list-inline-item font-weight-bold" style="font-size:10px;">@DateTime.Now.ToString("dd MMMM yyyy")</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="overlay">
+                                                    <a href="@Url.Action("EditAnnouncement", "CpmServisSistemi", new { AnnouncementId = x.AnnouncementId})" class="mr-2">
+                                                        <i class="sc-edit-pencil iconnn" id="EditAnnouncement"></i>
+                                                    </a>
+                                                    <i class="sc-trash-bin iconnn" data-id="@x.AnnouncementId" id="DeleteAnnouncement"></i>
+                                                    <i class="sc-share iconnn" data-id="@x.AnnouncementId" id="DetailsAnnouncement"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="ribbon-1">
+                                            <div class="ribbon-box">
+                                                <div class="ribbon ribbon-mark bg-a1">DİKKAT !</div>
+                                                <p class="mb-0">
+                                                    Henüz yayınlanmış bir duyuru yok !
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/SweetAlert2/sweetalert2.all.min.js"></script>
+
+<script>
+    //#region Proje Sil
+    $("body").on("click", "#DeleteAnnouncement", function () {
+        var AnnouncementId = $(this).attr("data-id");
+        //var table = $('#datatable').DataTable();
+        var Card = $(this).parents('.AnnouncementCards');
+        Swal.fire({
+            title: 'Uyarı !',
+            text: "Duyuruyu silmek istediğinize emin misiniz?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Vazgeç',
+            confirmButtonText: 'Duyuruyu Sil'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: "POST",
+                    url: '/CpmServisSistemi/DeleteAnnouncement',
+                    data: {
+                        AnnouncementId: AnnouncementId,
+                    },
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            toastr.success(result.Message);
+                            Card.remove();
+                        }
+                        else {
+                            toastr.warning(result.Message);
+                        }
+                    },
+                    error: function () {
+                        alert('Erişim sağlanamadı.');
+                    }
+                });
+            }
+        })
+
+    });
+    //#endregion
+</script>

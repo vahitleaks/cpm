@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="tr" style="background-color: #f2f6f7;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
+    <title>@ViewBag.Title - Cpm Destek Paneli</title>
+    <link rel="icon" type="image/x-icon" href="/Images/favicon.ico">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link href="~/Content/NewThema/SecretoCho-Fonts-icons/styles.css" rel="stylesheet" />
+    <link href="~/Content/NewThema/sidebar/assets/css/style.bundle.css" rel="stylesheet" />
+    <link href="~/Tema/assets/scss/style.css" rel="stylesheet" />
+    <link href="~/Content/NewThema/css/style.css?v=2.0" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/sweetAlert/sweetalert.min.js"></script>
+    <style>
+        .body .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto Regular' !important;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed" style="--kt-toolbar-height: 45px;
+        --kt-toolbar-height-tablet-and-mobile: 55px;
+        background-color:var(--thBG)!important;" data-kt-aside-minimize="off">
+    <style>
+        /*     @@font-face {
+            font-family: 'MS Gothic';
+            src: url('../../../fonts/Gothic/MS Gothic.ttf') format('truetype');
+        }*/
+        @@font-face {
+            font-family: 'Roboto Regular';
+            src: url('../../../fonts/Roboto Regular/Roboto Regular.woff') format('woff');
+        }
+
+        body {
+            font-family: 'Roboto Regular';
+            /*       font-family: "MS Gothic", Arial, sans-serif;*/
+        }
+    </style>
+    @Html.Partial("~/Views/Shared/NewThema/_TopMenu.cshtml")
+    @Html.Partial("~/Views/Shared/NewThema/_LeftMenu.cshtml")
+    @Html.Partial("~/Views/Shared/NewThema/_RightMenu.cshtml")
+    <div class="container-fluid h-100">
+        @RenderBody()
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var currentPath = window.location.pathname;
+            var menuItems = document.querySelectorAll(".menu-item a");
+
+       
+        });
+        $("body").on("click", "#kt_aside_toggle", function () {
+            $(".aside-toggle").toggleClass("active");
+            $("body").attr("data-kt-aside-minimize") == "on" ? $("body").attr("data-kt-aside-minimize", "off") : $("body").attr("data-kt-aside-minimize", "on");
+        });
+        $("body").on("click", "#kt_explore_close", function () {
+            $(".drawer-end").toggleClass("drawer-on");
+            $("body").attr("data-kt-drawer-explore") == "on" ? $("body").attr("data-kt-drawer-explore", "off") : $("body").attr("data-kt-drawer-explore", "on");
+            $("body").attr("data-kt-drawer") == "on" ? $("body").attr("data-kt-drawer", "off") : $("body").attr("data-kt-drawer", "on");
+        });
+        $("body").on("click", "#kt_explore_toggle", function () {
+            todayPlanListGet();
+            $(".drawer-end").toggleClass("drawer-on");
+            $("body").attr("data-kt-drawer-explore") == "on" ? $("body").attr("data-kt-drawer-explore", "off") : $("body").attr("data-kt-drawer-explore", "on");
+            $("body").attr("data-kt-drawer") == "on" ? $("body").attr("data-kt-drawer", "off") : $("body").attr("data-kt-drawer", "on");
+        });
+        var todayPlanListGet = function () {
+            var planDetailsCard = $("#todayPlanList");
+            $.ajax({
+                type: 'GET',
+                url: "/CpmServisSistemi/GetWeekPlans",
+                datatype: "html",
+                cache: false,
+                success: function (data) {
+                    planDetailsCard.html("");
+                    if (data != null) {
+                        planDetailsCard.html(data);
+                        $(".drawer-end").addClass("drawer-on");
+                        $("body").attr("data-kt-drawer-explore", "on");
+                        $("body").attr("data-kt-drawer", "on");
+                    }
+                    setTimeout($.unblockUI, 240);
+                },
+                error: function (xhr) {
+                    alert('error');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
+

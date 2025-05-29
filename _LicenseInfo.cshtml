@@ -1,0 +1,41 @@
+﻿@model dynamic
+<style>
+    .displaycpm {
+        display: flex;
+    }
+
+        .displaycpm p {
+             font-family: 'Roboto Regular';
+            /* font-family: Roboto;*/
+            font-size: 14px;
+            line-height: 18px;
+            font-weight: 400;
+            color: #406C80;
+            margin: auto 0px !important;
+        }
+
+        .displaycpm .companyname {
+             font-family: 'Roboto Regular';
+            /* font-family: Roboto;*/
+            font-size: 16px;
+            line-height: 20px;
+            font-weight: 700;
+            color: #406C80;
+            margin: auto 0px !important;
+        }
+
+    .licenseinfo {
+        margin: 6px;
+        padding: 10px;
+    }
+</style>
+
+<div class="displaycpm col-lg-2 licenseinfo" style=" height: 120px;">
+    <div class="card w-100 h-100 text-center">
+        <img class="icn3 mx-auto" style="margin-top: 5px; height: 30px; width: 30px;" src="~/Images/requestImg/icons8-protect.png"/>
+        <p>
+            <font class="fontTitle" style="font-weight:bold;">@Model.LISANSAD</font><br />
+            <font class="label-text">@Model.LISANSADET.ToString("0") Adet</font>
+        </p>
+    </div>
+</div>

@@ -1,0 +1,527 @@
+﻿@using sistemproject.Models
+@model ServiceFormDataModel
+<link href="~/Content/fileUpload/css/style.css" rel="stylesheet" />
+
+@if (Model.Crud == "Create")
+{
+    <div class="row mr-1 ml-1 pt-3  pr-3  pl-3 pb-0" style="background-color:#fff;">
+        <div class="col-12">
+            <div class="row pt-3">
+                <div class="col-lg-6 col-md-12">
+                    <div class="row">
+                        <div class="col-lg-12 p-2">
+                            <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">CPM Katılımcıları</span>
+                            <select name="selValue" class="selectpicker col-12 font13" multiple data-actions-box="true" id="CpmResponsible">
+
+                                @if (Model.Employees != null)
+                                {
+                                    foreach (var k in Model.Employees)
+                                    {
+                                        <option  data-email="@k.Email" value="@k.Id">@k.FullName</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="">No employees found</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-12 p-3">
+                            <input class="form-check-input font18 mr-5" type="checkbox" value="" id="CreateFormToCpmPerson" name="CreateFormToCpmPerson">
+                            <label class="form-check-label ml-4 font11 fontBold mr-5" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;" for="flexCheckDefault">Proje formunu diğer "CPM Katılımcıları" için de oluştur !</label>
+                        </div>
+                        <div class="col-lg-12 p-3">
+                            <input class="form-check-input font18 mr-5" type="checkbox" value="" id="DontAddMe" name="DontAddMe">
+                            <label class="form-check-label ml-4 font11 fontBold mr-5" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;" for="flexCheckDefault">Proje formunu  benim için oluşturma!</label>
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Bilgi E-posta Yetkilisi</span>
+                            <select name="selValue" class="selectpicker col-12 font13" multiple data-actions-box="true" id="Authorized">
+
+                                @if (Model.Authorized != null)
+                                {
+                                    foreach (var b in Model.Authorized)
+                                    {
+                                        <option data-email="@b.Email" value="@b.Id">@b.FullName</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="">No employees found</option>
+                                }
+                            </select>
+                        </div>
+                        <label hidden id="Companyinfo" data-ilce="@Model.companyinfo.FATURAADRES4" data-sehir="@Model.companyinfo.FATURAADRES5"></label>
+                        <div class="col-lg-12 p-2">
+                            <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Destek Şekli</span>
+                            <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="SupportType">
+                                <option value="03">Yerinde Destek</option>
+                                <option value="04">Telefon Desteği</option>
+                                <option value="05">Uzak Ara Bağlantı</option>
+                                <option value="06">E Mail</option>
+                                <option value="07">Toplantı</option>
+                                <option value="08">CPM Ofis Çalışması</option>
+                                <option value="09">CPM İç Toplantı</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                Başlangıç Zamanı
+                            </span>
+                            <input type="datetime-local" class="datetime-local col-12 Input-datetimeLocal mt-2 tarihGetir" id="StartDate" name="meeting-time">
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                Bitiş Zamanı
+                            </span>
+                            <input type="datetime-local" class="datetime-local col-12 Input-datetimeLocal mt-2 tarihGetir" id="EndDate" name="meeting-time">
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <div class="form-check form-check-inline mr-5">
+                                <span class="mr-5" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Proje Süresi</span>
+                            </div>
+                            <div class="form-check form-check-inline mr-5">
+                                <input class="form-check-input" type="checkbox" id="allDAY" name="allDAY" value="">
+                                <label class="form-check-label" for="inlineCheckbox1">Tüm Gün</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="manuelSetting" name="manuelSetting">
+                                <label class="form-check-label" for="inlineCheckbox2">Elle Giriş</label>
+                            </div>
+                            <span class="float-right toplamServisSuresi" style="color:var(--thTitle);font-size: 12px !important;padding-left: 10px!important;text-align: right;font-weight: bold;" hidden></span>
+                            <input type="number" disabled class="col-12 Input-Medium mt-2 inputValidateControl" id="ServiceTime" placeholder="Dakika giriniz(Örn. 30)" style="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12" style=" border-left: 1px solid var(--thBorderLight) !important;">
+                    <div class="col-lg-12 p-2">
+                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Müşteri Katılımcıları</span>
+                        <select name="selValue" class="selectpicker col-12 font13" multiple data-actions-box="true" id="CompanyResponsible">
+                            @if (Model.Authorized != null)
+                            {
+                                foreach (var a in Model.Authorized)
+                                {
+                                    <option data-email="@a.Email" value="@a.Id">@a.FullName</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="">No employees found</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-12 mb-3 p-2">
+                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Açıklama/Not</span>
+                        <div id="editor"></div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 136px !important;">
+
+                        <div class="col-lg-12 p-2">
+                            <div class="row mt-2 mb-2 ml-1" id="FileAnaRow" style="">
+                                <div class="col-12">
+                                    <label style="color:var(--thText);font-size: unset;font-weight:bold;">DOSYA YÜKLE</label> <br />
+                                    <label style="color:var(--thText);">Proje planına eklemek istediğiniz dosyaları yükleyebilirsiniz. </label> <br />
+                                    <div id="upload" enctype="multipart/form-data">
+                                        <div id="drop">
+                                            <img src="~/Images/iconsforservcie/icons8-upload_to_cloud.png" height="50" /><br />
+                                            <label style="font-size: 0.7rem;">Yüklemek istediğiniz dosyaları bu alana sürükleyip bırakınız.</label> <br />
+                                            <label style="font-size: 0.8rem;">VEYA</label> <br />
+                                            <a>Dosya Seç</a>
+                                            <input type="file" id="multipleFile" class="multiple p-2" name="fileUpload" multiple style=" padding: .4rem !important;" />
+                                        </div>
+                                        <ul>
+                                        </ul>
+                                    </div>
+                                    <span style="font-size:0.8rem;">* zip, pdf, doc, docx, xls, xlsx, png, jpeg dosya formatları kabul edilmektedir.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row mr-1 ml-1 pt-3  pr-3  pl-3 pb-0" style="background-color:#fff;">
+        <div class="col-12">
+            <div class="row pt-3">
+                <div class="col-lg-6 col-md-12">
+                    <div class="row">
+                        <div class="col-lg-12 p-2">
+                            <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">CPM Katılımcıları</span>
+                            <select name="selValue" class="selectpicker col-12 font13" multiple data-actions-box="true" id="CpmResponsible">
+                                @if (Model.Employees != null)
+                                {
+                                    List<string> employeeList = !string.IsNullOrEmpty(Model.ProjectForms.CpmEmployee)
+                                        ? Model.ProjectForms.CpmEmployee.Split(';').ToList()
+                                        : new List<string>();
+
+                                    foreach (var employee in Model.Employees)
+                                    {
+                                        bool isSelected = employeeList.Contains(employee.Id.ToString());
+
+                                        <option @(isSelected ? "selected" : "")  data-email="@employee.Email" value="@employee.Id">@employee.FullName</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="">No employees found</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Bilgi E-posta Yetkilisi</span>
+                            <select name="selValue" class="selectpicker col-12 font13" multiple data-actions-box="true" id="Authorized">
+                                @if (Model.Authorized != null)
+                                {
+                                    List<string> authorizedIdList = !string.IsNullOrEmpty(Model.ProjectForms.AuthorizedId)
+                                        ? Model.ProjectForms.AuthorizedId.Split(';').ToList()
+                                        : new List<string>();
+
+                                    foreach (var authorized in Model.Authorized)
+                                    {
+                                        bool isSelected = authorizedIdList.Contains(authorized.Id.ToString());
+
+                                        <option @(isSelected ? "selected" : "") data-email="@authorized.Email" value="@authorized.Id">@authorized.FullName</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="">No employees found</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Destek Şekli</span>
+                            <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="SupportType">
+                                <option value="03" @(Model.ProjectForms.SupportType == "Yerinde Destek" ? "selected" : "")>Yerinde Destek</option>
+                                <option value="04" @(Model.ProjectForms.SupportType == "Telefon Desteği" ? "selected" : "")>Telefon Desteği</option>
+                                <option value="05" @(Model.ProjectForms.SupportType == "Uzak Ara Bağlantı" ? "selected" : "")>Uzak Ara Bağlantı</option>
+                                <option value="06" @(Model.ProjectForms.SupportType == "E Mail" ? "selected" : "")>E Mail</option>
+                                <option value="07" @(Model.ProjectForms.SupportType == "Toplantı" ? "selected" : "")>Toplantı</option>
+                                <option value="08" @(Model.ProjectForms.SupportType == "CPM Ofis Çalışması" ? "selected" : "")>CPM Ofis Çalışması</option>
+                                <option value="09" @(Model.ProjectForms.SupportType == "CPM İç Toplantı" ? "selected" : "")>CPM İç Toplantı</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                Başlangıç Zamanı
+                            </span>
+                            <input type="datetime-local" class="datetime-local col-12 Input-datetimeLocal mt-2 " id="StartDate" name="meeting-time" value="@Model.ProjectForms.StartDate.ToString("yyyy-MM-ddTHH:mm")">
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                Bitiş Zamanı
+                            </span>
+                            <input type="datetime-local" class="datetime-local col-12 Input-datetimeLocal mt-2 " id="EndDate" name="meeting-time" value="@Model.ProjectForms.EndDate.ToString("yyyy-MM-ddTHH:mm")">
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <div class="form-check form-check-inline mr-5">
+                                <span class="mr-5" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Proje Süresi</span>
+                            </div>
+                            <div class="form-check form-check-inline mr-5">
+                                <input class="form-check-input" type="checkbox" id="allDAY" name="allDAY" value="">
+                                <label class="form-check-label" for="inlineCheckbox1">Tüm Gün</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="" id="manuelSetting" name="manuelSetting">
+                                <label class="form-check-label" for="inlineCheckbox2">Manuel Giriş</label>
+                            </div>
+                            <span class="float-right toplamServisSuresi" style="color:var(--thTitle);font-size: 12px !important;padding-left: 10px!important;text-align: right;font-weight: bold;" hidden></span>
+                            <input type="number" disabled class="col-12 Input-Medium mt-2 inputValidateControl" id="ServiceTime" placeholder="Dakika giriniz(Örn. 30)" style="" value="@Model.ProjectForms.ServiceTime">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12" style=" border-left: 1px solid var(--thBorderLight) !important;">
+                    <div class="col-lg-12 p-2">
+                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Müşteri Katılımcıları</span>
+                        <select name="selValue" class="selectpicker col-12 font13" multiple data-actions-box="true" id="CompanyResponsible">
+                            @if (Model.Authorized != null)
+                            {
+                                List<string> CompanyEmployeeList = !string.IsNullOrEmpty(Model.ProjectForms.CompanyEmployee)
+                                    ? Model.ProjectForms.CompanyEmployee.Split(';').ToList()
+                                    : new List<string>();
+
+                                foreach (var authorized in Model.Authorized)
+                                {
+                                    bool isSelected = CompanyEmployeeList.Contains(authorized.Id.ToString());
+                                    <option @(isSelected ? "selected" : "") data-email="@authorized.Email" value="@authorized.Id">@authorized.FullName</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="">No employees found</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-12 mb-3 p-2">
+                        <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Açıklama/Not</span>
+                        <div id="editor"></div>
+                    </div>
+                    <div class="row" style="margin-bottom: 136px !important;">
+
+                        <div class="col-lg-12 p-2">
+                            <div class="row mt-2 mb-2 ml-1" id="FileAnaRow" style="">
+                                <div class="col-12">
+                                    <label style="color:var(--thText);font-size: unset;font-weight:bold;">DOSYA YÜKLE</label> <br />
+                                    <label style="color:var(--thText);">Proje planına eklemek istediğiniz dosyaları yükleyebilirsiniz. </label> <br />
+                                    <div id="upload" enctype="multipart/form-data">
+                                        <div id="drop">
+                                            <img src="~/Images/iconsforservcie/icons8-upload_to_cloud.png" height="50" /><br />
+                                            <label style="font-size: 0.7rem;">Yüklemek istediğiniz dosyaları bu alana sürükleyip bırakınız.</label> <br />
+                                            <label style="font-size: 0.8rem;">VEYA</label> <br />
+                                            <a>Dosya Seç</a>
+                                            <input type="file" id="multipleFile" class="multiple p-2" name="fileUpload" multiple style=" padding: .4rem !important;" />
+                                        </div>
+                                        <label class="fontBold font11 ml-1 mb-4" style="color: var(--thHeadText);">Yüklü Olan Dosyalar</label>
+                                        <div class="Scroll-Blue pt-3" id="filesUploadEditServiceForm" style="height: 252px!important;">
+                                            <ul class="no_bullet">
+                                                @if (Model.ProjectFormFiles.Any())
+                                                {
+                                                    foreach (var b in Model.ProjectFormFiles)
+                                                    {
+                                                        <li class="star" style="padding-bottom: 3.5rem; padding-top: 2rem;">
+                                                            <div class="row">
+                                                                <div class="col-1"> <img class="fileTypeImage" src="" style="height:1.5rem;float: left;" /></div>
+                                                                <div class="col-7">
+                                                                    <label style="font-size: 1rem;" class="fileType" data-file="@b.FileName">
+                                                                        @b.FileName
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-1">
+                                                                    <label style="">
+                                                                        <a href="@Url.Action("FormDownloadFile", "Project", new { Id = b.Id })">
+                                                                            <i class="icon sc-download p-2" style="color:var(--thBorder);font-size: 13px;" id="btnFileDownload" data-id="@b.Id"></i>
+                                                                        </a>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-1">
+                                                                    <label><i class="icon sc-trash-bin p-2 ml-3 scTrashBin" style="background-color:transparent;color:var(--thBorder);font-size: 13px;" id="btnFileDelete" data-id="@b.Id"></i></label>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <span style="font-size:0.8rem;">* zip, pdf, doc, docx, xls, xlsx, png, jpeg dosya formatları kabul edilmektedir.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<link href="~/Content/quilleditor/quill.snow.css" rel="stylesheet" />
+<script src="~/Content/quilleditor/quill.min.js"></script>
+<script src="~/Scripts/ProjectManagerServiceForm/ServiceTimeControl.js"></script>
+<script src="~/Scripts/ProjectManagerServiceForm/ManuelService.js"></script>
+<script src="~/Content/fileUpload/js/jquery.ui.widget.js?v=5"></script>
+<script src="~/Content/fileUpload/js/jquery.iframe-transport.js?v=5"></script>
+<script src="~/Content/fileUpload/js/jquery.fileupload.js?v=5"></script>
+<script src="~/Content/fileUpload/js/jquery.knob.js?v=5"></script>
+<script src="~/Content/fileUpload/js/script.js?v=5"></script>
+
+<script>
+    @if (Model.ProjectForms != null)
+    {
+        <text>
+            var description = `@(Html.Raw(Model.ProjectForms.Description))`;
+    var quill = new Quill('#editor',
+        {
+                // Quill ayarları
+            });
+            quill.root.innerHTML = description;
+        </text>
+    }
+
+    // #region  Dosya Sil
+    $('body').on('click', '#btnFileDelete', function ()
+    {
+        var FILEID = $(this).attr("data-id");
+        var FILEREMOVE = $(this).parents(".star");
+        swal({
+            title: "Dikkat!",
+            text: "Dosyayı silmek istediğinize emin misiniz?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            buttons: ['Vazgeç', 'Sil']
+        })
+            .then((result) => {
+                if (result) {
+                    $.blockUI({
+                        message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+                    });
+                    $.ajax({
+                        url: "/Project/FormDeleteFile/" + FILEID,
+                        type: 'POST',
+                        data: { 'FILEID': FILEID },
+                        success: function () {
+                            FILEREMOVE.remove();
+                            setTimeout($.unblockUI, 300);
+                            swal("Dosyanız silindi.", {
+                                icon: "success",
+                                timer: 400
+                            });
+                        },
+                        error: function () {
+                            bootbox.alert("İşlem sırasında hata oluştu")
+                        }
+                    })
+                }
+
+                else {
+                    swal("Dosyanız güvende!");
+                }
+            });
+    });
+    //#endregion
+</script>
+
+<script>
+    $('.selectpicker').selectpicker();
+    // #region Gunun Tarihini ve Saatini Getirme
+    try {
+        /*Günün tarihini alma ve formatlama) */
+        Date.prototype.getValidFormat = function () {
+            var hours = this.getHours();
+            var minute = this.getMinutes();
+            var ay = this.getMonth() + 1;
+            var gun = this.getDate();
+            var yil = this.getFullYear();
+            return yil + "-" + (ay < 10 ? "0" + ay : ay) + "-" + (gun < 10 ? "0" + gun : gun) + "T" + (hours < 10 ? "0" + hours : hours) + ":" + (minute < 10 ? "0" + minute : minute); //Gün ve ay 10 dan küçükse başına 0 gelir
+        };
+        var date = new Date();
+        $(".tarihGetir").val(date.getValidFormat());
+    }
+    catch (error) {
+        console.error(error);
+    }
+    // #endregion
+    //#region Servis Süresi Girildiğinde
+    window.servicetime = 0;
+    $("body").on("keyup", "#ServiceFormModal #ServiceTime", function () {
+        var manuelCHECKSTATE = $("#ServiceFormModal input[name=manuelSetting]").prop("checked");
+        if (manuelCHECKSTATE == true) {
+            servicetime = $(this).val();
+            window.ManuelServiceTimeControl(servicetime);
+        }
+    });
+    //#endregion
+    //#region Tüm Gün CheckBox Tıklandığında
+    $("body").on("click", "#ServiceFormModal input[name=allDAY]", function () {
+        var STATE = $(this).prop("checked");
+        var StateManuelEnter = $("#ServiceFormModal input[name=manuelSetting]").prop("checked");
+        var STARTDATE;
+        var ENDDATE;
+        var DATESTART = [];
+        var DATEEND = [];
+        if (STATE == true && StateManuelEnter == false) {
+            STARTDATE = $('#ServiceFormModal #StartDate').val();
+            ENDDATE = $('#ServiceFormModal #EndDate').val();
+            DATESTART = STARTDATE.split('T')[0];
+            DATEEND = ENDDATE.split('T')[0];
+            $('#ServiceFormModal #StartDate').val(DATESTART + 'T09:00');
+            $('#ServiceFormModal #EndDate').val(DATESTART + 'T18:00');
+            ServiceTimeControl();
+        }
+        else if (STATE == true && StateManuelEnter == true) {
+            $(this).prop("checked", false);
+            swal('Dikkat ! Elle giriş seçili iken "Tüm Gün" seçemezsiniz!',
+                {
+                    title: "UYARI !",
+                    icon: "warning",
+                    buttons: "Tamam",
+                });
+        }
+    });
+    //#endregion
+    //#region Tüm Gün CheckBox Tıklandığında
+    //$("body").on("click", "#ServiceFormModal input[name=allDAY]", function () {
+    //    ServiceTimeControl();
+    //});
+    //#endregion
+    //#region Manuel Giriş CheckBox Tıklandığında
+    $("body").on("click", "#ServiceFormModal input[name=manuelSetting]", function () {
+        var manuelCHECKSTATE = $("#ServiceFormModal input[name=manuelSetting]").prop("checked");
+        var alldayState = $("#ServiceFormModal input[name=allDAY]").prop("checked");
+        if (alldayState == true) {
+            swal('Dikkat ! "Tüm Gün" seçili iken elle giriş yapamazsınız!',
+                {
+                    title: "UYARI !",
+                    icon: "warning",
+                    buttons: "Tamam",
+                });
+            $(this).prop("checked", false);
+        }
+        else {
+            if (manuelCHECKSTATE == true) {
+                $("#ServiceFormModal #ServiceTime").prop("disabled", false);
+                $("#ServiceFormModal #ServiceTime").attr("style", "background-color:#f2f6f7");
+            }
+            else {
+                $("#ServiceFormModal #ServiceTime").prop("disabled", true);
+                $("#ServiceFormModal #ServiceTime").removeAttr("style", "background-color:#fff");
+            }
+        }
+    });
+    //#endregion
+    //#region  Başlangıç  ve Bitiş Zamanı değiştiğinde zamanı kontrol eder
+    $("#EndDate,#StartDate").focusout(function () {
+        var BaslangicZamani = new Date($("#ServiceFormModal input#StartDate").val());
+        var BitisZamani = new Date($("#ServiceFormModal input#EndDate").val());
+        if (BaslangicZamani > BitisZamani) {
+            swal('Başlangıç Zamanı, Bitiş Zamanından küçük olmalıdır !',
+                {
+                    title: "UYARI !",
+                    icon: "warning",
+                    buttons: "Tamam",
+                });
+        }
+    });
+    //#endregion
+    //#region Dakika İşlemleri
+    $("#EndDate,#StartDate").change(function () {
+        var BaslangicZamani = new Date($("#ServiceFormModal input#StartDate").val());
+        var BitisZamani = new Date($("#ServiceFormModal input#EndDate").val());
+        let zamanFarki = BitisZamani - BaslangicZamani; //Seçilen Başlangıç ve Bitiş Zamanına Göre "Servis Süresini" hesaplar
+        let toplamServisSuresi = Math.floor(zamanFarki / 1000 / 60); //Servis Süresini "Dakika" Cinsinden Verir
+        if (toplamServisSuresi > 0) {
+            var manuelCHECKSTATE = $("#ServiceFormModal input[name=manuelSetting]").prop("checked");
+
+            if (manuelCHECKSTATE == false) {
+                servicetime = toplamServisSuresi;
+            }
+            ServiceTimeControl();
+        }
+        else {
+            $("#ServiceFormModal #ServiceTime").val(0);
+        }
+    });
+    //#endregion
+    //#region Dosyaları Diziye atma
+    window.filesArray = [];
+    $("#multipleFile").on("change", function (e) {
+        var files = e.target.files;
+        for (var i = 0; i < files.length; i++) {
+            window.filesArray.push(files[i]);
+        }
+    });
+
+    //Proje veya Servis Aşamasındaki İzlenimler/Dosya Ekleme
+    var fileData = new FormData();
+    for (var i = 0; i < window.filesArray.length; i++) {
+        fileData.append(window.filesArray[i].name, window.filesArray[i]);
+    }
+    //#endregion
+
+
+</script>

@@ -1,0 +1,103 @@
+﻿@model  IEnumerable<sistemproject.Models.FullCalendarViewModels.GetPlansViewModel>
+<style>
+    .sc-download:hover {
+        cursor: pointer;
+        color: var(--thBlue) !important;
+    }
+
+    .sc-edit-pencil {
+        color: var(--thBlue);
+        Background: var(--thBorderLight);
+        border-radius: 5px;
+        font-size: 15px;
+        z-index: 300;
+        cursor: pointer;
+    }
+
+        .sc-edit-pencil:hover {
+            color: var(--thWhite);
+            Background: var(--thBlue) !important;
+        }
+
+    .sc-trash-bin {
+        color: var(--thRed);
+        Background: var(--thBorderLight);
+        border-radius: 5px;
+        font-size: 15px;
+        z-index: 300;
+        cursor: pointer;
+    }
+
+        .sc-trash-bin:hover {
+            color: var(--thWhite);
+            Background: var(--thRed);
+        }
+
+    #filesUpload {
+        background-color: #fff;
+        margin-bottom: 30px;
+        border: 30px solid rgba(0, 0, 0, 0);
+        border-radius: 3px;
+        border-image: url('../../../Images/iconsforservcie/Rectangle 6494.svg') 25 repeat;
+        /*   text-align: center;*/
+        /*     text-transform: capitalize;*/
+        /*        font-size: 16px;*/
+        font-weight: bold;
+        color: #7f858a;
+    }
+
+
+        #filesUpload ul.no_bullet {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+    .Scroll-Default {
+        height: 204px !important;
+    }
+
+    /*#filesUpload li.star {
+            background: url('../../../Images/iconsforservcie/icons8-picture.svg') no-repeat left top;
+            background-size: 25px;*/
+    /*            height: 25px;*/
+    /*          padding-left: 20px;*/
+    /*padding-top: 3px;
+        }*/
+
+
+    .accordion-button:not(.collapsed) {
+        background-color: #ffffff;
+    }
+</style>
+
+
+
+@foreach (var y in Model.Take(1))
+{
+
+
+
+<div class="d-flex align-items-center rounded p-3 m-4" style="background-color:white;box-shadow: 0 1px 11px 0 #406c803b !important">
+    <div id="profile-photo" class="mx-auto">
+        @{
+            string imagePath = Path.Combine(Server.MapPath("~/Images/ProfileImages/Advisor"), y.PERSONID + ".jpeg");
+            string imageFile = File.Exists(imagePath) ? y.PERSONID + ".jpeg" : "default.png";
+            <img height="45" width="45" src="~/Images/ProfileImages/Advisor/@imageFile" class="profile-src p-1" border-radius:30px; object-fit:cover;" />
+        }
+    </div>
+    <div class="flex-grow-1 ml-3">
+        <label class="font-weight-bold" style="color:var(--thText);font-size:1rem!important;" id="fullName">@y.FULLNAME</label>
+    </div>
+</div>
+}
+@foreach (var y in Model)
+{
+    <div class="d-flex align-items-center rounded p-3 m-4 @y.EVENTCOLOR">
+        <div class="flex-grow-1 me-2">
+            <span class="" style="font-size: 1rem !important;font-weight: 700;">@y.UNVAN</span> <br />
+            <span class="" style="font-size: 0.9rem !important;" title="@y.SERVICETYPENAME • @y.STARTDATE.Value.ToString("HH:mm")-@y.ENDDATE.Value.ToString("HH:mm")">
+             <font class="@y.EVENTCOLORTEXT"> @y.SERVICETYPENAME </font>• @y.STARTDATE.Value.ToString("HH:mm")-@y.ENDDATE.Value.ToString("HH:mm")</span>
+        </div>
+    </div>
+}

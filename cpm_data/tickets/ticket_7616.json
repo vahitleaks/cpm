@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7616,
+  "files": [
+    {
+      "file_id": "1994",
+      "file_name": "hata.JPG",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=1994"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "1994",
+        "file_name": "hata.JPG",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=1994"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7616_hata.JPG.jpg",
+        "size": 105157
+      }
+    }
+  ]
+}

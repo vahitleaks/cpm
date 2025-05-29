@@ -1,0 +1,205 @@
+﻿@using sistemproject.Models.CustomerPanelViewModels
+@model List<RequestsDataViewModel>
+@{
+    var colorStyle = "";
+}
+@for (int i = 0; i < Model.Count; i++)
+{
+    var data = Model[i];
+    <div class="accordion-item" data-status="@data.RequestState" data-advisor="@data.AppointedAdvisorId" data-precedence="@data.Precedence" data-company="@data.CompanyName" data-date="@data.EntryUserDate">
+        <h2 class="accordion-header Rno" id="flush-@(i)">
+            <button class="accordion-button collapsed" data-accordion-button="@data.RequestId" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@(i)@(i)" aria-expanded="false" aria-controls="flush-@(i)">
+                <div class="row" style="width:inherit;">
+
+                    @if (@data.hasmessage == 1)
+                    {
+                        colorStyle = "color:red;";
+                    }
+                    else if (@data.hasmessage == 2)
+                    {
+                        colorStyle = "color:#55c64d;";
+                    }
+                    else
+                    {
+                        colorStyle = "color:gray;";
+                    }
+                    <div class="col-lg-2 col-md-6 col-sm-12 abc" style="border-left: 4px solid; @colorStyle">
+                        @if (string.IsNullOrEmpty(@data.RelatedCompanyName))
+                        {
+                            <label class="Label-Title ellipsis" style="font-size: 0.9rem; margin-bottom: -1rem !important;">@data.CompanyName</label> <br />
+                        }
+                        else
+                        {
+                            <label class="Label-Title ellipsis" style="font-size: 0.9rem; margin-bottom: -1rem !important;">@data.RelatedCompanyName</label><br />
+                        }
+
+                        <label class="Label-Text" style="font-size: 0.7rem; margin-bottom:0rem !important;">Talep#@data.RequestId</label><br />
+                        <label class="Label-Text" style="font-size: 0.7rem; margin-bottom: 0rem !important;" id="formattedDateLabel_@data.RequestId"></label><br />
+                        @if (@data.RequestState == "Kapalı" && @data.CloseDate != null)
+                        {
+                            <label class="Label-Text" style="font-size: 0.7rem; margin-bottom: 0rem !important;" id="formattedDateLabel1_@data.RequestId"> - </label><br />
+                        }
+                        <label class="Label-Title mb-1" style="font-size: 0.7rem;">@data.Requester</label> <br />
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        <label class="Label-Text2">@data.Topic</label>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        @if (@data.MessagePersonName != "System")
+                        {
+                            <label class="Label-Title" style="font-size: 0.9rem;">@data.MessagePersonName</label> <br />
+                            <label class="Label-Text2" style="width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="@Html.Raw(@data.Messageses)">
+                                @Html.Raw(@data.Messageses)
+                            </label>
+                        }
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        <label class="Label-Title" style="font-size: 0.9rem;">@data.FullName</label><br />
+                        <label class="Label-Text2">Danışman</label>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        <label class="Label-Title" style="font-size: 0.9rem;">@data.RequestState</label><br />
+                        @if (@data.InProgressTime != null && @data.RequestState == "Süreç Başlatıldı")
+                        {
+                            <label class="Label-Text2" style="min-width:150px" id="InProgressTimeId_@data.RequestId">
+                            </label>
+                        }
+
+                    </div>
+                    <div class="col-lg-2 col-md-12 col-sm-12 text-end">
+                        @if (@data.RequestDayDifference != "0")
+                        {
+                            <label class="badge-light-danger">@data.RequestDayDifference Gün</label><br />
+                        }
+
+
+                        @if (@data.Precedence == "Düşük")
+                        {
+                            <label class="low d-md-inline d-lg-inline d-none">@data.Precedence</label><br />
+                        }
+                        else if (@data.Precedence == "Orta")
+                        {
+                            <label class="middle d-md-inline d-lg-inline d-none">@data.Precedence</label><br />
+                        }
+                        else if (@data.Precedence == "Yüksek")
+                        {
+                            <label class="high d-md-inline d-lg-inline d-none">@data.Precedence</label><br />
+                        }
+                        else if (@data.Precedence == "Çok Yüksek")
+                        {
+                            <label class="veryHigh d-md-inline d-lg-inline d-none">@data.Precedence</label><br />
+                        }
+                        @if (ViewBag.ServiceFormButton == 1)
+                        {
+                            <a href="/CpmServisSistemi/CreateServiceFormRequest?RequestId=@data.RequestId">
+                                <img src="~/Images/requestImg/icons8-create_document.png" style="width: 36px; height: 36px;" />
+                            </a>
+                        }
+                        @*<label class="open d-md-inline d-lg-inline d-none">@data.RequestState</label><br />*@
+                    </div>
+                </div>
+            </button>
+        </h2>
+        <div id="flush-@(i)@(i)" class="accordion-collapse collapse" aria-labelledby="flush-@(i)" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body RequestFormData" style="background-color: #f2f6f7;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+
+            // Orjinal tarih stringi
+            var originalDate = "@data.EntryUserDate";
+            var originalDate1 = "@data.CloseDate";
+
+            // Tarihi parçalara ayırma
+            var parts = originalDate.split(" ");
+            var datePart = parts[0];
+            var timePart = parts[1];
+
+            var parts1 = originalDate1.split(" ");
+            var datePart1 = parts1[0];
+            var timePart1 = parts1[1];
+
+
+            // Tarih parçasını gün/ay/yıl olarak parçalara ayırmadgf
+            var dateParts = datePart.split("/");
+            var month = dateParts[0];
+            var day = dateParts[1];
+            var year = dateParts[2];
+
+            var dateParts1 = datePart1.split("/");
+            var month1 = dateParts1[0];
+            var day1 = dateParts1[1];
+            var year1 = dateParts1[2];
+
+
+
+            // Yeni tarih formatı: dd/mm/yyyy
+            var formattedDate = day + "/" + month + "/" + year;
+            var formattedDate1 = day1 + "/" + month1 + "/" + year1;
+            // HTML etiketini güncelleme
+            $("#formattedDateLabel_@data.RequestId").text(formattedDate);
+            $("#formattedDateLabel1_@data.RequestId").text(formattedDate1);
+
+            $("#InProgressTimeId_@data.RequestId").text(formatDate("@data.InProgressTime"));
+        $("#CloseDateId_@data.RequestId").text(formatDate("@data.CloseDate"));
+        });
+
+        function formatDate(dateForFormat) {
+            var originalDate = dateForFormat;
+            // Tarihi parçalara ayırma
+            var parts = originalDate.split(" ");
+            var datePart = parts[0];
+            var timePart = parts[1];
+            // Tarih parçasını gün/ay/yıl olarak parçalara ayırmadgf
+            var dateParts = datePart.split("/");
+            var month = dateParts[0];
+            var day = dateParts[1];
+            var year = dateParts[2];
+            // saat parçasını saat/dakika olarak parçalara ayırma
+            var timeParts = timePart.split(":");
+            var hour = timeParts[0];
+            var minute = timeParts[1];
+            // Yeni tarih formatı: dd/mm/yyyy
+            var formattedDate = day + "/" + month + "/" + year + " " + hour + ":" + minute;
+
+            return formattedDate;
+        }
+    </script>
+}
+
+<style>
+    .ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 200px; /* İhtiyaca göre genişliği ayarlayın */
+        display: block;
+    }
+
+    /*.tooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+    }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;*/
+    /* Position the tooltip */
+    /*position: absolute;
+            z-index: 1;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }*/
+</style>

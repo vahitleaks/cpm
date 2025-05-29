@@ -1,0 +1,155 @@
+﻿@model sistemproject.Models.FullCalendarViewModels.PlansViewModel
+<style>
+    .modal-lg {
+        max-width: 1076px !important;
+    }
+
+    #upload {
+        margin-top: 1rem;
+        margin-right: 1rem;
+        margin-left: 1rem;
+    }
+</style>
+<div class="modal fade" id="newPlanCreate" tabindex="-1" aria-labelledby="exampleModalLgLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="">
+        <div class="modal-content" data-user="@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Session["tNo"]?.ToString() ?? "")">
+            <div class="row mr-1 ml-1" style="border-bottom: 1px solid var(--thBorderLight);">
+                <div class="col-lg-1 text-left my-auto pl-4">
+                    <img src="~/Images/images/cpm/Sketch Book@2x.png" height="80" />
+                </div>
+                <div class="col-lg-10 my-auto text-left">
+                    <span style="color: var(--thTitle);font-size: 0.9rem;font-weight:bold;">Yeni Plan Oluştur</span> <br>
+                    <span style="color: var(--thTitle);font-size: 0.8rem;">Yeni plan oluşturmak için aşağıdaki bilgileri giriniz.</span>
+                </div>
+                <div class="col-lg-1 my-auto text-right">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="sc-close"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12 pr-5 pl-5 pt-2 pb-3">
+                        <div class="row">
+                            <div class="col-lg-12 mb-3">
+                                <span class="ml-3" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;">Firma Adı</span>
+                                <select class="selectpicker font13" data-live-search="true" id="COMPANYID">
+                                    <option data-tokens="" value="0">Firma Adı Arayınız...</option>
+                                    @foreach (var t in Model.CompanySelectList)
+                                    {
+
+                                        <option data-tokens="" value="@t.Value">@t.Text</option>
+
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-lg-12 mb-3" id="SERVICETYPEDIV">
+                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Servis Tipi</span>
+                                <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2" name="btneditaltyetad" id="SERVICETYPEID">
+                                    <option value="">Seçiniz</option>
+                                    @foreach (var x in Model.ServiceTypeSelectList)
+                                    {
+
+                                        <option value="@x.Value">@x.Text</option>
+                                    }
+                                </select>
+                                <span style="color:var(--thRed);font-size: 9px !important;font-weight: bold;padding-left: 7px!important;" id="INFORMATIONAREASERVICETYPE" hidden> İzin girişi yapmadan önce yöneticinizle görüşün. </span>
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                    Başlangıç Tarihi ve Saati
+                                </span>
+                                <input type="datetime-local" class="datetime-local col-12 Input-Medium mt-2" id="STARTDATE" name="meeting-time">
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Bitiş Tarihi ve Saati</span>
+                                <input type="datetime-local" class="datetime-local col-12 Input-Medium mt-2" id="ENDDATE" name="meeting-time" value="">
+                            </div>
+
+                            <div class="col-lg-12 mb-3">
+                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">İl</span>
+                                <select class="Dropdown  col-lg-12 col-md-12 col-sm-12 mt-2" id="PROVINCEID">
+                                    <option value="">Seçiniz</option>
+                                    @foreach (var y in Model.ProvinceSelectList)
+                                    {
+                                        <option value="@y.Value">@y.Text</option>
+
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                                <label class="DropdownLabel">İlçe</label><br />
+                                <select class="Dropdown col-10" style="margin-top: 4px !important;" id="DISTRICTID">
+                                    <option value="" selected>Seçiniz...</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Takvime Eklenecek Kişi</span>
+                                <select name="selValue" class="selectpicker col-12 font13" multiple data-actions-box="true" id="PERSONID">
+                                    @foreach (var k in Model.PersonSelectList)
+                                    {
+
+                                        <option value="@k.Value">@k.Text</option>
+
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-check mt-4 col-lg-6">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="allDayCheckBox">
+                                <label class="form-check-label ml-5" style="color: var(--thTitle);
+                                 font-size: 12px !important; font-weight: bold;" for="flexCheckDefault">
+                                    Tüm Gün
+                                </label>
+                            </div>
+
+                            <div class="form-check mt-4 col-lg-6">
+                                <input class="form-check-input" type="checkbox" value="" id="DontAddMe" name="DontAddMe">
+                                <label class="form-check-label ml-5" style="color: var(--thTitle); font-size: 12px !important; font-weight: bold;" for="dontAddMe">
+                                    Beni ekleme !
+                                </label>
+                            </div>
+                            <div class="col-lg-12 mb-3 mt-10" id="INFORMATIONAREA" hidden>
+                                <p style="color:var(--thRed);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;" id="IAPERMISSIONREMAINING"> </p>
+                                <p style="color:var(--thRed);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">*Bir günden fazla ve ard arda alacağınız izinleri tarih aralığını seçerek toplu olarak girebilirsiniz.</p>
+                                <p style="color:var(--thRed);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">*İzin ile oluşturulan plan silindiğinde, yalnızca seçili plan değil izine bağlı tüm planlar silinmektedir.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 p-4" style="background-color: var(--thShadow); margin: inherit;">
+                        <div class="col-lg-12">
+                            <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Açıklama</span>
+                            <div class="form-floating">
+                                <textarea class="col-12 inputValidateControl" style="background-color: white !important;" placeholder="İş Özetiniz..." id="COMMENT"></textarea>
+                            </div>
+                        </div>
+                        <div class="row" id="FileAnaRow" style=" background-color: #fff; height: 42rem; border-radius: 10px; padding-top: 17px; margin:1rem;box-shadow:7px 19px 14px 2px var(--thShadow)">
+                            <div class="col-12 text-center">
+                                <label style="color:var(--thText);font-size: unset;font-weight:bold;">DOSYA YÜKLE</label> <br />
+                                <label style="color:var(--thSubText);font-size:0.9rem;">Servis planına eklemek istediğiniz dosyaları yükleyebilirsiniz. </label> <br />
+                                <form id="upload">
+                                    <div id="drop">
+                                        <img src="~/Images/iconsforservcie/icons8-upload_to_cloud.png" height="50" /><br />
+                                        <label style="font-size: 0.7rem;">Yüklemek istediğiniz dosyaları bu alana sürükleyip bırakınız.</label> <br />
+                                        <label style="font-size: 0.8rem;">VEYA</label> <br />
+                                        <a>Dosya Seç</a>
+                                        <input type="file" name="upl" multiple id="multipleFile" />
+                                    </div>
+                                    <div class="Scroll-Blue">
+                                        <ul>
+                                        </ul>
+                                    </div>
+                                </form>
+                                <span style="font-size:0.7rem;color:var(--thSubText)">* zip, pdf, doc, docx, xls, xlsx, png, jpeg dosya formatları kabul edilmektedir.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="Button-Outline-Close mr-4" data-bs-dismiss="modal" aria-label="Close">İptal</button>
+                <button class="Button-Outline-Kaydet" id="btnNewPlanAdd">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+

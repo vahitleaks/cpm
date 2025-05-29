@@ -1,0 +1,153 @@
+﻿
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+    <title>İzin Bilgilendirme</title>
+</head>
+
+<style>
+    body {
+        width: 640px;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 20px;
+        padding: 20px;
+        line-height: 1.6;
+    }
+
+    .container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header, .footer {
+        color: #000000;
+        padding: 10px;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
+
+    .footer {
+        border-radius: 0 0 10px 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+</style>
+
+<body>
+
+    <div class="header">
+        <h2 style="color: #D97D21;">İzin Onay Durumu</h2>
+    </div>
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-lg-12 mt-3" style="text-align: left !important; margin-bottom:25px;">
+                        <img src="~/Tema/Images/Logo/Group 12052.png" class="" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="txtTinyMce-wrapper" style="font-size: 15px; color: #39374e; line-height: 1.2; margin-bottom:20px; font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                        <p style="margin: 0; font-size: 15px;">Sayın Yetkili;<br /></p>
+                        <p style="margin: 0; font-size: 15px;">Aşağıda personelinizin izin bilgileri bulunmaktadır.</p>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom:15px;">
+                    <div class="col-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr style="font-weight: bold; background-color: #f4f4f4; color:black;">
+                                    <th style="color:black">Personel</th>
+                                    <th style="color:black">Başlangıç Tarihi</th>
+                                    <th style="color:black">Bitiş Tarihi</th>
+                                    <th style="color:black">İzin Tipi</th>
+                                    <th style="color:black">Açıklama</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr style="font-weight: bold; background-color:#ffffff; color:#ffffff;">
+                                    <td style="color:black;">FULLNAME</td>
+                                    <td style="color:black;">STARTDATE</td>
+                                    <td style="color:black;">ENDDATE</td>
+                                    <td style="color:black;">Yıllık İzin</td>
+                                    <td style="color:black;">COMMENT</td>
+
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center; margin-bottom: 15px;">
+                    <h3 style="margin: 0; color:#D97D21; direction: ltr; font-family: 'Segoe UI Web (East European)'; font-size: 11px; font-weight: 700; letter-spacing: normal; line-height: 150%; text-align: center; margin-top: 0; margin-bottom: 0">
+                        <u>
+                            <span class="x_tinyMce-placeholder">
+                                <a style="color:#20a1da!important" data-auth="NotApplicable" rel="noopener noreferrer" target="_blank"
+                                   href="https://takvim.cpm.com.tr/Permission/Index?PLANGROUPCODE={PLANGROUPCODE}"
+                                   title="https://takvim.cpm.com.tr/Permission/Index?PLANGROUPCODE={PLANGROUPCODE}"
+                                   data-linkindex="0"
+                                   id="anchor-b251626e-c314-fc5b-eef8-10bfcf922667" data-id="{PLANGROUPCODE}">
+                                    Onay ve Red işlemleri için lütfen tıklayınız
+                                </a>
+                            </span>
+                        </u>
+                    </h3>
+                </div>
+
+
+
+
+            </div>
+            <div class="row" style="background-color: #21A1DC; padding: 10px;">
+
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Bilginize sunarız.</p>
+    </div>
+
+
+
+    <script src="~/Scripts/jquery.min.js?v=3"></script>
+    <script src="~/Tema/assets/js/bootstrap.bundle.min.js?v=3" charset="windows-1254" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.min.js?v=3"></script>
+    <script src="~/Tema/assets/plugins/sweet-alert2/sweetalert2.min.js?v=3"></script>
+    <script>
+        $(document).ready(function () {
+            //var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+            //    keyboard: false
+            //});
+
+
+        });
+    </script>
+</body>
+</html>
+

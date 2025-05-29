@@ -1,0 +1,362 @@
+﻿@using sistemproject.Models
+@model  (List<ProjectManager> projects, List<ProjectManagerStep> completedApprovalList)
+@{
+    ViewBag.Title = "MyProjects";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<link href="~/Content/SweetAlert2/sweetalert2.min.css" rel="stylesheet" />
+<style>
+    .form-control:disabled, .form-control:read-only {
+        background-color: #406C800D;
+    }
+    .table thead th {
+        border-bottom: 1px solid #406C8033 !important;
+        background-color: #406C800D;
+    }
+    .threeDot {
+        white-space: nowrap;
+        display: inline-block;
+        overflow: hidden;
+        table-layout: fixed;
+        width: 180px;
+        text-overflow: ellipsis;
+    }
+    .rounded-circle {
+        box-shadow: none !important;
+    }
+
+    .card {
+        box-shadow: 0px 0px 20px rgb(31 36 54 / 10%) !important;
+    }
+    .custom-select, .form-control-sm {
+        border-radius: 6px !important;
+    }
+
+    .sc-closeFilter:hover {
+        background-color: #eff2f9;
+        border-radius: 50%;
+        padding: 0.5rem;
+        cursor:pointer;
+    } 
+    .sc-closeFilter {
+        background-color: #fff;
+        border-radius: 50%;
+        padding: 0.5rem;
+    }
+</style>
+<link href="~/Content/DatatableCss/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DatatableCss/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DatatableCss/responsive.bootstrap4.min.css" rel="stylesheet" />
+@*<link href="~/Content/DatatableCss/datatables.min.css" rel="stylesheet" />*@
+<link href="~/Content/ProjectCss/style.css" rel="stylesheet" />
+
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="container-fluid">
+
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header my-auto">
+                                            <h3 class="my-auto">Projelerim</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive dash-social">
+                                                <table id="datatable" class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Proje</th>
+                                                            <th>Firma</th>
+                                                            <th>Açıklama</th>
+                                                            <th class="text-center">Detay Görüntüle</th>
+                                                            <th class="text-center">Arşive Ekle</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.projects)
+                                                        {
+                                                            <tr>
+                                                                <td>@item.ProjectName</td>
+                                                                <td class="">
+                                                                    <p class="d-inline-block align-middle mb-0">
+
+                                                                        <a href="" class="d-inline-block align-middle mb-0 product-name threeDot" title="@item.CompanyName"><font style="font-weight:bold;">@item.CompanyName</font></a>
+                                                                        <br>
+                                                                        <span class="text-muted font-13 threeDot" title=""></span>
+                                                                    </p>
+                                                                </td>
+                                                                <td>@item.Description</td>
+                                                                <td class="text-center">
+                                                                    <a id="showDetails" href="@Url.Action("GetNodesNarrow", "Project", new { ProjectId = item.Id})"><span class="badge badge-soft-purple">Tıklayınız...</span></a>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <i id="AddArchive" title="Arşivle" data-id="@item.Id" class="sc-folder font-16 btn btn-sm btn-soft-danger"></i>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div class="">
+                                        <button type="button" class="btn btn-light-primary m-2 float-center" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" id="FilterForDatatable">
+                                            <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
+                                            <span class="svg-icon svg-icon-2">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z" fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                            <!--end::Svg Icon-->Filtreleme Seçenekleri
+                                        </button>
+                                        <!--begin::Content-->
+
+                                        <div class="px-5 py-5" data-kt-user-table-filter="form" style=" position: absolute; top: 48px; left: 24px; width: 292px; padding: 10px; background-color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); display: none; z-index: 3000;">
+                                            <div class="col-12 text-end">
+                                                <i class="sc-close sc-closeFilter"></i>
+                                                @*<span>Kapat</span>*@
+                                            </div>
+                                            <!--begin::Input group-->
+                                            <div class="mb-10">
+                                                <label class="form-label fs-6 fw-semibold">Proje Adı:</label>
+                                                <select class="selectpicker font13 selectValidateControl p-0" id="ProjectName" data-live-search="true" data-live-search-style="contains" data-show-subtext="true" name="ProjectName" required data-column="0">
+                                                    <option data-tokens="" value="">Seçiniz</option>
+                                                    @foreach (var group in Model.completedApprovalList.GroupBy(x => x.ProjectId))
+                                                    {
+                                                        foreach (var t in group)
+                                                        {
+                                                            <option data-tokens="" data-id="@t.ProjectId" value="@t.ProjectName">@t.ProjectName</option>
+                                                            break; // Sadece bir kez option etiketi oluşturmak için grup içindeki ilk öğeyi seçtikten sonra döngüyü sonlandırıyoruz.
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="mb-10">
+                                                <label class="form-label fs-6 fw-semibold">Onaylayan:</label>
+                                                <select class="selectpicker font13 selectValidateControl p-0" id="ApprovalBy" data-live-search="true" data-live-search-style="contains" data-show-subtext="true" name="ApprovalBy" required data-column="8">
+                                                    <option data-tokens="" value="">Seçiniz</option>
+                                                    @foreach (var group in Model.completedApprovalList.GroupBy(x => x.ApprovalBy))
+                                                    {
+                                                        foreach (var t in group)
+                                                        {
+                                                            <option data-tokens="" data-id="@t.ApprovalBy" value="@t.ApprovalFullName">@t.ApprovalFullName</option>
+                                                            break; // Sadece bir kez option etiketi oluşturmak için grup içindeki ilk öğeyi seçtikten sonra döngüyü sonlandırıyoruz.
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+                                            <div class="mb-10">
+                                                <label class="form-label fs-6 fw-semibold">Onay Durum:</label>
+                                                <select class="selectpicker font13 selectValidateControl p-0" id="Approval" data-live-search="true" data-live-search-style="contains" data-show-subtext="true" name="Approval" required data-column="2">
+                                                    <option data-tokens="" value="">Seçiniz</option>
+                                                    @foreach (var group in Model.completedApprovalList.GroupBy(x => x.Approval))
+                                                    {
+                                                        foreach (var t in group)
+                                                        {
+                                                            <option data-tokens="" data-id="@t.Approval" value="@(t.Approval==1 ? "Onaylandı": "Reddedildi")">@(t.Approval == 1 ? "Onaylandı":"Reddedildi")</option>
+                                                            break; // Sadece bir kez option etiketi oluşturmak için grup içindeki ilk öğeyi seçtikten sonra döngüyü sonlandırıyoruz.
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="mb-10">
+                                                <label class="form-label fs-6 fw-semibold">Onaya Gönderen:</label>
+                                                <select class="selectpicker font13 selectValidateControl p-0" id="ApprovalRequestBy" data-live-search="true" data-live-search-style="contains" data-show-subtext="true" name="ApprovalRequestBy" required data-column="2">
+                                                    <option value="">Seçiniz</option>
+                                                    @foreach (var group in Model.completedApprovalList.GroupBy(x => x.ApprovalRequestBy))
+                                                    {
+                                                        foreach (var t in group)
+                                                        {
+                                                            <option data-tokens="" data-id="@t.ApprovalRequestBy" value="@t.ApprovalRequestFullName">@t.ApprovalRequestFullName</option>
+                                                            break; // Sadece bir kez option etiketi oluşturmak için grup içindeki ilk öğeyi seçtikten sonra döngüyü sonlandırıyoruz.
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                            <!--begin::Actions-->
+                                            <div class="d-flex justify-content-end">
+                                                <button id="FilterButton" type="button" class="btn btn-primary mr-3" data-kt-user-table-filter="filter">Filtrele</button>
+                                                <button type="button" class="btn btn-secondary" data-kt-user-table-filter="reset" id="ResetTable">Sıfırla</button>
+                                            </div>
+                                            <!--end::Actions-->
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header my-auto">
+                                            <h3 class="my-auto">Onaylanan & Reddedilen Adımlar</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive dash-social">
+                                                <table id="datatable2" class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Proje Adı</th>
+                                                            <th>Proje Adım</th>
+                                                            <th>Onaya Gönderen</th>
+                                                            <th>Gönderim Tarihi</th>
+                                                            <th>Onay Durum</th>
+                                                            <th>Onaylayan</th>
+                                                            <th>Onaylama Zamanı</th>
+                                                            <th>Yanıt</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var m in Model.completedApprovalList)
+                                                        {
+                                                            <tr>
+                                                                <td class="fs-8 font-weight-bold">@m.ProjectName</td>
+                                                                <td class="fs-8 font-weight-bold">@m.Step</td>
+                                                                <td class="fs-8 font-weight-bold">@m.ApprovalRequestFullName</td>
+                                                                <td class="fs-8 font-weight-bold">@((m.ApprovalRequestAt.HasValue) ? m.ApprovalRequestAt.Value.ToString("dd.MM.yyyy") : "")</td>
+                                                                <td class="fs-8 font-weight-bold">@(m.Approval==1 ? "Onaylandı": "Reddedildi")</td>
+                                                                <td class="fs-8 font-weight-bold">@m.ApprovalFullName</td>
+                                                                <td class="fs-8 font-weight-bold">@((m.ApprovalAt.HasValue) ? m.ApprovalAt.Value.ToString("dd.MM.yyyy") : "")</td>
+                                                                <td class="fs-8 font-weight-bold">@m.ReasonForRejection</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/SweetAlert2/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/DatatableScripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.responsive.min.js"></script>
+
+<script>
+    $(function () {
+        var message = '@TempData["Message"]';
+        if (message != null && message != "")
+        {
+            toastr.success(message);
+        }
+    });
+</script>
+<script>
+    $('body').on('click', '#AddArchive', function () {
+        var Id = $(this).attr("data-id");
+        var table = $('#datatable').DataTable();
+        var removingRow = $(this).closest('tr');
+        $.ajax({
+            url: '/Project/AddArchive',
+            type: 'POST',
+            dataType: 'json',
+            data: { Id: Id },
+            success: function (result) {
+                if (result.IsSuccess) {
+                    toastr.success(result.Message);
+                    table.row(removingRow).remove().draw();
+                }
+                else {
+                    toastr.warning(result.Message);
+                }
+            }
+        });
+    });
+    $('#datatable').DataTable(
+        {
+            "language": {
+                "url": "/Scripts/DatatableScripts/tr.json"
+            }
+        }
+    );
+
+    //#region Filtreleme İşlemleri
+    function FilterTargetList(TableId, filters, numbers) {
+        var table = TableId;
+        var tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those that don't match the filters
+        for (var i = 0; i < tr.length; i++) {
+            var match = true;
+            for (var j = 0; j < filters.length; j++) {
+                var filterValue = filters[j].value;
+                if (filterValue !== "All") {
+                    var td = tr[i].getElementsByTagName("td")[numbers[j]];
+                    if (td) {
+                        var txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filterValue.toUpperCase()) === -1) {
+                            match = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (match) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        // Get table element
+        var table = document.getElementById("datatable2");
+        var filterButton = document.getElementById("FilterButton");
+        // Get filter dropdowns
+        var ProjectNameFilter = document.getElementById("ProjectName");
+        var ApprovalByFilter = document.getElementById("ApprovalBy");
+        var ApprovalFilter = document.getElementById("Approval");
+        var ApprovalRequestByFilter = document.getElementById("ApprovalRequestBy");
+        var numbers = [0, 5, 4, 2];
+        // Attach change listeners to filters
+        filterButton.addEventListener("click", function () {
+            var filters = [ProjectNameFilter, ApprovalByFilter, ApprovalFilter, ApprovalRequestByFilter];
+            FilterTargetList(table, filters, numbers);
+        });
+        // Temizleme butonuna tıklanınca yapılacak işlemler
+        $("#ResetTable").click(function () {
+            // Tüm filtre inputlarındaki seçimleri sıfırla
+            $('.selectpicker').selectpicker('val', '');
+            // Tüm satırları tekrar göster
+            $("#datatable2 tr").show();
+        });
+        KTUsersList.init();
+    });
+    // Kapat butonuna tıklanınca yapılacak işlemler
+    $(".sc-closeFilter").click(function () {
+        // Tüm filtre inputlarındaki seçimleri sıfırla
+        $('.selectpicker').selectpicker('val', '');
+        // Tüm satırları tekrar göster
+        //$("#datatable2 tr").show();
+        const filterForm = document.querySelector('[data-kt-user-table-filter="form"]');
+        filterForm.classList.toggle('d-block');
+    });
+
+    $('body').on('click', '#FilterForDatatable', function () {
+        const filterForm = document.querySelector('[data-kt-user-table-filter="form"]');
+        filterForm.classList.toggle('d-block');
+    });
+    const KTUsersList = (function () {
+        const datatable = $('#datatable2').DataTable({
+            language: {
+                url: '/Scripts/DatatableScripts/tr.json'
+            }
+        });
+    })();
+    //#endregion
+</script>
+
+

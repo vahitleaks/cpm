@@ -1,0 +1,229 @@
+﻿@using sistemproject.Models
+@model ProjectDetailModel
+<div class="row">
+    <div class="col-6">
+        <div class="form-group row">
+            <div style="display: flex;">
+                <i class="sc-number" style="font-size: 1.5rem; margin-right: 1rem; "></i>
+                <div>
+                    <h5 id="step-value">@Model.Step.GroupNo&nbsp;&nbsp;@Model.Step.Step</h5>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-email-input" class="col-sm-4 col-form-label text-left my-auto">Müşteri Proje Yöneticisi</label>
+            <div class="col-sm-8">
+                <select @(Model.Step.CurrentState ==  "Tamamlandı" ? "disabled" : "") name="selValue" class="selectpicker col-12 font13" multiple data-actions-box="true" id="CompanyResponsible">
+                    @foreach (var t in Model.AuthorizedList)
+                    {
+                        var isSelected = Model.AuthorizedIds.Any(item => item == t.Id.ToString());
+                        <option data-tokens="" value="@t.Id" @(isSelected ? "selected" : "")>@t.FullName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-text-input" class="col-sm-4 col-form-label text-left">Talep Sorumlusu</label>
+            <div class="col-sm-8">
+                <input class="Input-Medium col-12 inputValidateControl" type="text" placeholder="Yazınız..." value="@Model.Step.PersonRequest" id="PersonRequest" name="PersonRequest">
+ 
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-email-input" class="col-sm-4 col-form-label text-left my-auto">CPM Proje Yöneticisi</label>
+            <div class="col-sm-8">
+                <select @(Model.Step.CurrentState ==  "Tamamlandı" ? "disabled" : "") name="selValue" class="selectpicker col-12 font13" multiple data-actions-box="true" id="CpmResponsible">
+                    @foreach (var t in Model.Employees)
+                    {
+                        var isSelected = Model.ResponsibleIds.Any(item => item == t.Id.ToString());
+                        <option data-tokens="" data-email="@t.Email" value="@t.Id" @(isSelected ? "selected" : "")>@t.FullName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-email-input" class="col-sm-4 col-form-label text-left my-auto">Danışman</label>
+            <div class="col-sm-8">
+                <select @(Model.Step.CurrentState ==  "Tamamlandı" ? "disabled" : "") name="selValue" class="selectpicker col-12 font13" data-live-search="true" multiple data-actions-box="true" id="Employee">
+                    @foreach (var t in Model.Employees)
+                    {
+                        var isSelected = Model.EmployeeIds.Any(item => item == t.Id.ToString());
+                        <option data-tokens="" data-email="@t.Email"    value="@t.Id" @(isSelected ? "selected" : "")>@t.FullName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-text-input" class="col-sm-4 col-form-label text-left">Hedeflenen Başlangıç Tarihi</label>
+            <div class="col-sm-8">
+                @{
+                    string startDateValue = DateTime.Now.ToString("yyyy-MM-dd");
+                    if (Model.Step.StartDate != null)
+                    {
+                        startDateValue = Model.Step.StartDate.Value.ToString("yyyy-MM-dd");
+                    }
+                }
+                <input @(Model.Step.CurrentState ==  "Tamamlandı" ? "disabled" : "") class="Input-Medium col-12 inputValidateControl getDate" type="date" value="@startDateValue" id="StartDate" name="StartDate">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-text-input" class="col-sm-4 col-form-label text-left">Hedeflenen Bitiş Tarihi</label>
+            <div class="col-sm-8">
+
+                @{
+                    string EndDateValue = DateTime.Now.ToString("yyyy-MM-dd");
+                    if (Model.Step.EndDate != null)
+                    {
+                        EndDateValue = Model.Step.EndDate.Value.ToString("yyyy-MM-dd");
+                    }
+                }
+                <input @(Model.Step.CurrentState ==  "Tamamlandı" ? "disabled" : "") class="Input-Medium col-12 inputValidateControl getDate" type="date" value="@EndDateValue" id="EndDate" name="EndDate">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-text-input" class="col-sm-4 col-form-label text-left">Hedeflenen Adam Gün</label>
+            <div class="col-sm-8">
+                <input @(Model.Step.CurrentState ==  "Tamamlandı" ? "disabled" : "") class="Input-Medium col-12 inputValidateControl" type="text" placeholder="Sayı giriniz"
+                       @*value="@Model.Step.Day.Value.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)"*@
+                       value="@Model.Step.Day.Value.ToString("#.##", System.Globalization.CultureInfo.InvariantCulture)"
+                       @*value="@Model.Step.Day.Value.ToString("F",System.Globalization.CultureInfo.InvariantCulture).Replace(".00", "")"*@ id="ManDay" name="ManDay">
+                <span id="errorMessage" style="color: red;"></span>
+            </div>
+        </div>
+        @*<div class="form-group row">
+            <label for="example-text-input" class="col-sm-4 col-form-label text-left">Hedeflenen Adam Gün</label>
+            <div class="col-sm-8">
+                <input @(Model.Step.CurrentState ==  "Tamamlandı" ? "disabled" : "") class="Input-Medium col-12 inputValidateControl" type="text" placeholder="Sayı giriniz" value="@Model.Step.Day" id="ManDay" name="ManDay">
+            </div>
+        </div>*@
+        <div class="form-group row">
+            <label for="example-tel-input" class="col-sm-4 col-form-label text-left">Proje Adımı Durumu</label>
+            <div class="col-sm-8">
+                @{
+                    var CurrentState = Model.Step.CurrentState;
+                    var selectedValue = "";
+
+                    if (CurrentState == "Başlanacak")
+                    {
+                        selectedValue = "Başlanacak";
+                    }
+                    else if (CurrentState == "Devam Ediyor")
+                    {
+                        selectedValue = "Devam Ediyor";
+                    }
+                    else if (CurrentState == "Tamamlandı")
+                    {
+                        selectedValue = "Tamamlandı";
+                    }
+                }
+                <select @(Model.Step.CurrentState ==  "Tamamlandı" ? "disabled" : "") class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 Input-Medium selectValidateControl" id="State" name="State">
+                    <option value="">Seçiniz</option>
+                    <option value="0" @(selectedValue == "Başlanacak" ? "selected" : "")>Başlanacak</option>
+                    <option value="2" @(selectedValue == "Devam Ediyor" ? "selected" : "")>Devam Ediyor</option>
+                    <option value="1" @(selectedValue == "Tamamlandı" ? "selected" : "")>Tamamlandı</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-tel-input" class="col-sm-4 col-form-label text-left">Açıklama</label>
+            <div class="col-sm-8">
+                <textarea @(Model.Step.CurrentState ==  "Tamamlandı" ? "disabled" : "") class="form-control inputValidateControl" rows="7" id="Description" name="Description">@Model.Step.CurrentDescription</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-6" style="border-left:1px solid #406c800f;">
+
+        @if (Model.Forms.Count() > 0)
+        {
+        <div class="text-end pr-3">  <label>Toplam Adam/Gün : @Model.TotalManDay.Value.ToString("F", System.Globalization.CultureInfo.InvariantCulture).Replace(".00", "")</label></div>
+            <div class="slimScrollDiv p-1" style="position: relative; overflow-x: hidden !important; width: auto; height: 532.5px; overflow-y: scroll !important;">
+                <label class="fs-4">Proje Formları</label>
+                @foreach (var item in Model.Forms)
+                {
+                    <div class="p-2 mb-3 cardServiceForm" data-id="@item.Id" data-projectid="@item.ProjectId" style="border: 1px dashed #f0f8ff; border-radius: 4px; background: #f0f8ff2b; ">
+                        <!--begin::Row-->
+                        <div class="row">
+                            <!--begin::span-->
+                            <span class="col-lg-4 my-auto fw-semibold text-muted fs-9">Formu Oluşturan</span>
+                            <!--end::span-->
+                            <!--begin::Col-->
+                            <div class="col-lg-8">
+                                <span class="fw-bold fs-6 text-gray-800 fs-9">ID#@item.Id - @item.FullName</span>
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Row-->
+                        <!--begin::Input group-->
+                        <div class="row">
+                            <!--begin::span-->
+                            <span class="col-lg-4 my-auto  fw-semibold text-muted fs-9">Başlangıç ve Bitiş Tarihi</span>
+                            <!--end::span-->
+                            <!--begin::Col-->
+                            <div class="col-lg-8 fv-row">
+                                <span class="fw-semibold text-gray-800 fs-9">@item.StartDate.ToString("dd-MM-yyyy HH:mm")&nbsp;-&nbsp;@item.EndDate.ToString("dd-MM-yyyy HH:mm")</span>
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="row">
+                            <!--begin::span-->
+                            <span class="col-lg-4 my-auto  fw-semibold text-muted fs-9">Müşteri Yetkili</span>
+                            <!--end::span-->
+                            <!--begin::Col-->
+                            <div class="col-lg-8 fv-row">
+                                <span class="fw-semibold text-gray-800 fs-9">@item.AuthorizedName</span>
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Input group-->
+                        <div class="row">
+                            <!--begin::span-->
+                            <span class="col-lg-4 my-auto  fw-semibold text-muted fs-9">Destek Şekli</span>
+                            <!--end::span-->
+                            <!--begin::Col-->
+                            <div class="col-lg-8 fv-row">
+                                <span class="fw-semibold text-gray-800 fs-9">@item.SupportType</span>
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <div class="row">
+                            <!--begin::span-->
+                            <span class="col-lg-4 my-auto  fw-semibold text-muted fs-9">Servis Süresi</span>
+                            <!--end::span-->
+                            <!--begin::Col-->
+                            <div class="col-lg-8 fv-row">
+                                <span class="fw-semibold text-gray-800 fs-9">@item.ServiceTime Dakika</span>
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Input group-->
+                    </div>
+                }
+            </div>
+
+        }
+        else
+        {
+            <div class="row my-10 text-center">
+                <label class="fs-4 mb-3">Bu adıma ait herhangi bir form bulamadık !</label>
+                <img height="200" src="/Images/images/undraw_void_-3-ggu.svg">
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    $("body").on("keyup", "#staticBackdrop2 #ManDay", function () {
+        var inputValue = $(this).val();
+        // Düzenli ifade ile kontrol
+        var regex = /^[0-9]+([,.][0-9]+)?$/;
+
+        if (regex.test(inputValue) || inputValue === "") {
+            document.getElementById('errorMessage').textContent = '';
+        } else {
+            document.getElementById('errorMessage').textContent = 'Lütfen geçerli bir sayı giriniz.';
+        }
+    });
+    $('.selectpicker').selectpicker('refresh');
+        </script>

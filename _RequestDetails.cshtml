@@ -1,0 +1,75 @@
+﻿@model  IEnumerable<sistemproject.Models.CustomerPanelViewModels.RequestsDataViewModel>
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card" style="background-color: #f2f6f7;border:2px solid var(--thBorderLight);min-height: 150px;">
+            <div class="card-header" style="min-height: 24px; padding:4px 1.25rem;border-bottom: 1px solid var(--thBorderLight);">
+                <label class="Label-Title" style="font-size:1rem;font-weight: bold!important;">Talep Yüklenen Dosyalar</label>
+            </div>
+            <div class="card-body" style="padding: 0 0.25rem;">
+                <ul class="no_bullet" id="filesUpload" style="padding-left: initial;">
+                    @foreach (var item in Model)
+                    {
+                        if (item.FileName != null)
+                        {
+                            <li class="star" style="padding-bottom:0.5rem;padding-top: 0.5rem;">
+                                <div class="row">
+                                    <div class="col-10" style="display: inherit;">
+                                        <img src="~/Images/requestImg/icons8-copy_link.png" height="24" width="24" />
+                                        <label style="font-size: 12px;" class="fileType" data-file="@item.FileId">@item.FileName</label>
+                                    </div>
+                                    <div class="col-1">
+                                        <label style="">
+                                            <a href="@Url.Action("RequestsDownloadFile", "CpmServisSistemi", new { FileId = item.FileId })">
+                                                <i class="icon sc-download p-2" style="font-size: 16px;" id="btnFileDownload" data-id="@item.FileId"></i>
+                                            </a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="star" style="padding-bottom:0.5rem;padding-top: 0.5rem;">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <img src="~/Images/requestImg/icons8-do_not_disturb.png" height="24" width="24" />
+                                        <label style="font-size: 14px;" class="fileType" data-file="degerlendirme.xlsx">
+                                            Yüklü Dosya Bulunamadı
+                                        </label>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    @foreach (var item in Model.Take(1))
+    {
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card" style="background-color: #f2f6f7;border: 2px solid var(--thBorderLight);min-height: 150px;">
+                <div class="card-header" style="min-height: 24px; padding:4px 1.25rem;border-bottom: 1px solid var(--thBorderLight);">
+                    <label class="Label-Title" style="font-size:1rem;font-weight: bold!important;">Mesaj</label>
+                </div>
+                <div class="card-body" style="padding: 0 0.25rem;">
+                    @item.YourMessage
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card" style="background-color: #f2f6f7;border: 2px solid var(--thBorderLight);min-height: 150px;">
+                <div class="card-header" style="min-height: 24px; padding:4px 1.25rem;border-bottom: 1px solid var(--thBorderLight);">
+                    <label class="Label-Title" style="font-size:1rem;font-weight: bold!important;">Modül</label>
+                </div>
+                <div class="card-body" style="padding: 0 0.25rem;">
+                    @item.Module
+                </div>
+            </div>
+            <div class="mt-3" style="text-align: right;">
+                <a id="chatRoom" data-id="@item.RequestId" class="Button-Outline-Kaydet" style="padding: 7px;">Detayı Görüntüle</a>
+            </div>
+        </div>
+    }
+</div>

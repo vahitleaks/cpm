@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "ServisFormuGuncellendi";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+
+<style>
+    ::placeholder {
+        color: var(--thBrown) !important;
+    }
+
+    .Input-SearchView-Group .Input-SearchView-Icon {
+        color: var(--thBrown) !important;
+    }
+
+    .Dropdown-LeftIcon-Basic .LeftIcon {
+        top: 34px !important;
+    }
+
+    .sc-user-manager, .sc-device-phone, .sc-money-bag, .sc-calendar-failed {
+        color: var(--thBrown);
+        Background: var(--thBack);
+        border-radius: 5px;
+        font-size: 20px;
+        padding: 5px;
+    }
+</style>
+<link href="~/Tema/assets/css/StyleNewTheme.css" rel="stylesheet" />
+<link href="~/Content/User/Css/AnaCSS.css" rel="stylesheet" />
+<div class="d-flex flex-column flex-root">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mr-5 ml-5">
+                            <div class="col-12">
+                                <div class="row m-3" style="background-color:var(--thWhite);margin-top:5rem !important;border: 1px solid var(--thOrange); border-radius: 6px;">
+                                    <div class="col-4 p-5 text-center">
+                                        <lottie-player autoplay loop mode="normal" src="~/Scripts/LottieFiles/updateform.json" style="width: 320px"></lottie-player>
+                                    </div>
+                                    <div class="col-8 my-auto text-center">
+                                        <div class="row">
+                                            <div class="col-12 my-auto pb-5 fontBold">
+                                                <label class="font15" style="color:var(--thOrange);">
+                                                    Servis Formu Başarıyla Güncellendi !
+                                                </label>
+                                            </div>
+                                            <div class="col-12 my-auto">
+                                                <a type="button" class="Button-Details" href="~/CpmServisSistemi/Anasayfa/" style="width: auto;font-size: 1rem;">Anasayfaya Dön</a>
+                                                <a type="button" class="Button-Details" href="~/CpmServisSistemi/TumServisler/" style="width: auto;font-size: 1rem;">Tüm Servisler</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

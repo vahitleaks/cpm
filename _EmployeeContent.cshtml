@@ -1,0 +1,70 @@
+﻿@using sistemproject.Models
+@model List<sistemproject.Controllers.Node3Step>
+@{
+    ViewBag.Title = "_EmployeeContent";
+}
+<div class="col-12">
+    @helper RenderNode(sistemproject.Controllers.Node3Step node)
+    {
+    <div class="node">
+     
+
+        <h6 class="toggle">
+            <span class="@((node.Children != null && node.Children.Count > 0) ? "icontoogle" : "childPadding") tooglePlusButton"></span>
+            <label class="rowEditIcon" style="display: contents;margin-bottom:0 !important;">
+                <a id="ShowStepDetailModal" class="@(node.LastNode == false ? "" : "") @((node.Children != null && node.Children.Count > 0) ? "HasChildNode" : "LastNode")">
+                    <span> @node.GroupNo @node.Step</span>
+             
+
+                    <div class="float-end d-flex align-items-center bg-light-gradient">
+                        <!--<div class="min-w-100px pe-1">
+                            <div class="me-3">
+                                <div class="d-flex align-items-center fw-bold text-white">**********</div>-->
+                                @*<div class="d-flex align-items-center fw-bold fs-9 text-muted">Hedeflenen</div>*@
+                                <!--<div class="d-flex align-items-center fw-bold fs-9 text-muted">Güncel Gerçekleşen</div>
+                            </div>
+                        </div>-->
+                        <div class="min-w-100px pe-1">
+                            <div class="me-3">
+                                @*<div class="d-flex align-items-center fw-bold fs-9 text-muted">Adam/Gün</div>*@
+                                @*<div class="d-flex align-items-center fw-bold fs-9 text-muted"><font>@node.Day.ToString("0.##")</font></div>*@
+                                <div class="d-flex align-items-center fw-bold fs-9 text-muted"><font>@node.RealizedDay.ToString("0.##") Adam/Gün</font></div>
+                            </div>
+                        </div>
+                        @*<div class="min-w-100px pe-1">
+            <div class="me-3">
+                <div class="d-flex align-items-center fw-bold text-white">**********</div>
+                <div class="d-flex align-items-center fw-bold fs-9">@node.RealizedDay.ToString("0.##") Adam/Gün</div>
+                <div class="d-flex align-items-center fw-bold fs-9"></div>
+            </div>
+        </div>*@
+                    </div>
+                    
+                </a>
+            </label>
+        </h6>
+        <ul class="children" style="display:none">
+            @foreach (var child in node.Children)
+            {
+                <li>@RenderNode(child) </li>
+            }
+        </ul>
+    </div>
+    }
+    @if (Model != null && Model.Count > 0)
+    {
+        <ul class="treeview" style="padding-left: initial;">
+            @foreach (var node in Model)
+            {
+                <li>@RenderNode(node)</li>
+            }
+        </ul>
+    }
+</div>
+<script>
+    $(".tooglePlusButton").click(function () {
+        $(this).toggleClass("collapsed");
+        $(this).parent().siblings(".children").toggle();
+    });
+</script>
+

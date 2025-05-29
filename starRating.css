@@ -1,0 +1,136 @@
+﻿.btn-go {
+    border: 1px solid #406C8033;
+    width: auto;
+    border-radius: 4px;
+    color: #fff !important;
+    padding: 0.5rem;
+    background-color: #20A1DA;
+}
+
+    .btn-go:hover {
+        background-color: #20A1DA;
+        color: #fff !important;
+        border: 1px solid #20A1DA !important;
+        cursor: pointer;
+    }
+    #StarRating {
+    display: block;
+}
+
+    #StarRating .modal-dialog {
+        width: 280px;
+        margin: 10px auto;
+    }
+
+    #StarRating .modal-content {
+/*        background: #010100;*/
+        color: #ccc;
+    }
+
+     /*   #StarRating .modal-content button {
+            opacity: 1;
+            color: #f9a825;
+            text-shadow: none;
+        }*/
+
+    #StarRating .modal-body {
+        background-size: contain;
+        background-position: top;
+        background-repeat: no-repeat;
+        margin-top: 15px;
+        padding: 7.5px;
+    }
+
+.StarRating .modal-body .top-img-container {
+    background-image: url(https://raw.githubusercontent.com/NadeeshaEranjan/5-Star-Rating/master/img/rating_bg.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 175px;
+    height: 175px;
+    transition: all 0.5s ease;
+    filter: grayscale(1);
+    margin: auto;
+    border-radius: 50%;
+}
+
+p.by a {
+    color: #f9a825;
+    text-decoration: none;
+}
+
+#StarRating .modal-footer {
+    padding: 7.5px;
+    border: none;
+}
+
+    #StarRating .modal-footer .btn {
+        background: #f9a825;
+        color: #fff;
+        padding: 6px;
+        border-radius: 5px;
+        border: none;
+/*        width:;*/
+    }
+
+#StarRating .stars-container {
+    display: flex;
+    margin: 10px 0px;
+}
+
+    #StarRating .stars-container .star-item {
+        color: #ccc;
+        flex: 1;
+        font-size: 30px;
+        width: 50px;
+    }
+
+        #StarRating .stars-container .star-item svg {
+            width: 100%;
+            height: 50px;
+            padding: 10px;
+        }
+
+            #StarRating .stars-container .star-item svg .cls-1 {
+                cursor: pointer;
+                fill: #ccc;
+                transition: all 0.5s ease;
+            }
+
+        #StarRating .stars-container .star-item.active svg .cls-1 {
+            fill: #f9a825;
+        }
+
+#StarRating #vote-slider {
+    margin: 15px 0px;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 5px;
+    background: #d3d3d3;
+    outline: none;
+    /*opacity: 0.7;*/
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+    #StarRating #vote-slider:hover {
+        opacity: 1;
+    }
+
+    #StarRating #vote-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #f9a825;
+        cursor: pointer;
+    }
+
+    #StarRating #vote-slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #f9a825;
+        cursor: pointer;
+    }

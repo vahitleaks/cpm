@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7622,
+  "files": [
+    {
+      "file_id": "1995",
+      "file_name": "12lıntısı.PNG",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=1995"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "1995",
+        "file_name": "12lıntısı.PNG",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=1995"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7622_12lıntısı.PNG.png",
+        "size": 100289
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "ticket_id": 7605,
+  "files": [
+    {
+      "file_id": "1993",
+      "file_name": "gıbden hata döndü sovos.jpg",
+      "url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=1993"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "downloaded_files": [
+    {
+      "original_name": "gıbden hata döndü sovos.jpg",
+      "saved_as": "ticket_7605_1993_gıbden hata döndü sovos.jpg",
+      "file_id": "1993",
+      "size": "76.7 KB"
+    }
+  ],
+  "errors": [],
+  "created_date": "2025-05-29 07:34:13"
+}

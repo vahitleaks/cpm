@@ -1,0 +1,172 @@
+﻿@model (List<dynamic>, List<dynamic>, List<dynamic>, List<dynamic>)
+@{
+    ViewBag.Title = "GetProjectDetails";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<link href="~/Content/ProjectCss/style.css" rel="stylesheet" />
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mt-3">
+                            <div class="col-lg-6">
+                                <div class="card" style="min-height:18rem;">
+                                    <div class="card-header" style="min-height:0 !important; padding: .75rem 2.50rem !important;">
+                                        <h5>Ana Bilgiler</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled personal-detail">
+                                            @foreach (var item in Model.Item1)
+                                            {
+                                                <li class=""><b> Proje Adı </b>: @item.ProjectName</li>
+                                                <li class="mt-2"><b> Firma </b>: @item.CompanyName</li>
+                                                <li class="mt-2"><b>Sözleşme</b>: @item.ContractName</li>
+                                                <li class="mt-2"><b>Açıklama</b>:@item.Description</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card" style="min-height:18rem;">
+                                    <div class="card-header" style="min-height:0 !important; padding: .75rem 2.50rem !important;">
+                                        <h5>Yüklenen Dosyalar</h5>
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+
+                                        @if (Model.Item3.Count > 0)
+                                        {
+                                            foreach (var x in Model.Item3)
+                                            {
+                                                <li class="list-group-item">
+                                                    <i class="sc-file-code float-left mr-2"></i>@x.ProjectFileName
+                                                    <a href="@Url.Action("ProjectsDownloadFile", "CpmServisSistemi", new { Id = x.Id })">
+                                                        <i class="sc-download float-end" style="font-size: 16px;" id="btnFileDownload" data-id="@x.Id"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li class="list-group-item">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <img src="~/Images/requestImg/icons8-do_not_disturb.png" height="24" width="24" />
+                                                        <label style="font-size: 12px;" class="fileType" data-file="degerlendirme.xlsx">
+                                                            Yüklü Dosya Bulunamadı
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+
+                                <div class="card">
+                                    <div class="card-header" style="min-height:0 !important; padding: .75rem 3.25rem !important;">
+                                        <h4 class="">Proje Adımları</h4>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 371.5px;">
+                                            <div class="slimscroll crypto-wallet-activity" style="overflow: hidden; width: auto; height: 371.5px;">
+                                                <div class="activity">
+                                                    @foreach (var item in Model.Item2)
+                                                    {
+                                                        <i class="mdi mdi-checkbox-marked-circle-outline icon-success"></i>
+                                                        <div class="time-item">
+                                                            <div class="item-info">
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <h6 class="m-0">@item.StepName</h6>
+                                                                </div>
+                                                                <p class="text-muted mt-3">
+                                                                    <label class="mb-0"><b>Tarih:</b>&nbsp;&nbsp;@item.StartDate.ToString("dd/MM/yyyy") - @item.EndDate.ToString("dd/MM/yyyy") </label><br />
+                                                                    <label class="mb-0"><b>Adam Gün:</b>&nbsp;&nbsp;@item.RequiredTime.ToString("0.##")</label> <br />
+                                                                    <label class="mb-0"><b>Danışman:</b>&nbsp;&nbsp;@item.FullName</label><br />
+                                                                    <label class="mb-0"><b>Harcanan Adam Gün:</b>&nbsp;&nbsp;@((item.ServiceDay ?? 0).ToString("0.##"))</label><br />
+                                                                    @{
+                                                                        decimal reqTime = item.RequiredTime ?? 0;
+                                                                        decimal srvTime = item.ServiceDay ?? 0;
+                                                                        decimal oran = 0;
+                                                                        if (srvTime == 0)
+                                                                        { oran = 0; }
+                                                                        else if(reqTime == 0)
+                                                                        { oran = 1; }
+                                                                        else
+                                                                        { oran = srvTime / reqTime; }
+                                                                        oran = oran > 1 ? 100 : oran * 100;
+                                                                        <label class="mb-0"><b>Tamamlanma Yüzdesi:</b>&nbsp;&nbsp;%@oran.ToString("0.00")</label>
+                                                                        <div class="progress" style="height:7px !important;">
+                                                                            <div class="progress-bar" role="progressbar" style="background-color: #1ecab8 !important; width: @(Convert.ToInt32(oran))%" aria-valuenow="@Convert.ToInt32(oran)" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                        </div>
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div><div class="slimScrollBar" style="background: rgb(235, 240, 246); width: 7px; position: absolute; top: 0px; opacity: 1; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 502.092px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header" style="min-height:0 !important; padding: .75rem 3.25rem !important;">
+                                        <h4 class="">Projeye Ait Servis Formları</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group wallet-bal-crypto">
+
+                                            @if (!Model.Item4.Any())
+                                            {
+                                                <li class="list-group-item align-items-center d-flex justify-content-between">
+                                                    <div class="media">
+                                                        <img src="/Images/requestImg/icons8-medium_risk.png" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
+                                                        <div class="media-body align-self-center">
+                                                            <div class="coin-bal">
+                                                                Bu proje ait <font style="text-decoration: underline;font-weight:bold;">form</font> bulunmamaktadır !
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                foreach (var item in Model.Item4.OrderBy(elm => elm.StepId).GroupBy(elm => elm.StepName))
+                                                {
+                                                    <h6 class="mb-2">@item.Key</h6>
+                                                    foreach (var item2 in item)
+                                                    {
+                                                        <li class="list-group-item align-items-center d-flex justify-content-between">
+                                                            <div class="media">
+                                                                <img src="~/Images/iconsforservcie/icons8-verified_badge.png" class="mr-3 thumb-sm align-self-center rounded-circle" alt="...">
+                                                                <div class="media-body align-self-center">
+                                                                    <div class="coin-bal">
+                                                                        <h6 class="m-0">@item2.COMPANYNAME</h6>
+                                                                        <p style="font-size:10px !important;" class="text-muted mb-0">@item2.COMPANYCONTRACT</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="coin-bal">
+                                                                <p class="text-muted mb-0" style="font-size:10px !important;">@item2.ServiceDay.ToString("0.##") Adam Gün</p>
+                                                            </div>
+                                                        </li>
+                                                    }
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

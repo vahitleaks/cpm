@@ -1,0 +1,282 @@
+﻿
+@{
+    ViewBag.Title = "ExportServicesToExcel";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<style>
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #b1e2f957;
+    }
+    .table-striped tbody tr:nth-of-type(even) {
+        background-color: none;
+    }
+    .buttons-html5 {
+        background-color: #b1e2f929;
+        color: #9ba7ca;
+        padding: 8px 12px 4px 12px;
+        font-size: 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        border: 1px solid #ffffff;
+        line-height: 24px;
+    }
+    .page-link {
+        color: #6CB7D9;
+    }
+    .page-item.active .page-link {
+        background-color: #6CB7D9;
+        border-color: #6CB7D9;
+    }
+    .buttons-html5:hover {
+        background-color: #b1e2f9;
+    }
+    .buttons-html5:hover i {
+            color: #ffffff;
+        }
+    .buttons-html5 i {
+        color: #8b8787;
+        font-size: 1.8rem
+    }
+    .table > :not(:last-child) > :last-child > * {
+        border-bottom-color: var(--thBorderLight);
+    }
+    .dataTables_filter input {
+        border-radius: 6px !important;
+    }
+    .hideableTable {
+        display: block;
+        transition: display 1s;
+    }
+    .hideableTable.hidden {
+            display: none;
+            transition: display 1s;
+        }
+    .buttons-filterShowHide {
+        background-color: #b1e2f929;
+        color: #9ba7ca;
+        padding: 8px 12px 4px 12px;
+        font-size: 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        border: 1px solid #ffffff;
+        line-height: 24px;
+    }
+    .buttons-filterShowHide :hover {
+            cursor: pointer;
+            /*      background-color: #b1e2f929;
+        color: #9ba7ca;*/
+        }
+    .buttons-filterShowHide i {
+            color: #8b8787;
+            font-size: 1.8rem
+        }
+    .buttons-filterShowHide:hover {
+            background-color: #b1e2f9;
+        }
+    .buttons-filterShowHide:hover i {
+                color: #ffffff;
+            }
+    .img{
+           width:100%;
+           height:100%;
+       }
+</style>
+
+<link href="~/Content/DatatableCss/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DatatableCss/buttons.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DatatableCss/responsive.bootstrap4.min.css" rel="stylesheet" />
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="" id="kt_post">
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div class="card" style="border: none;box-shadow: 0px 0px 20px rgb(31 36 54 / 10%) !important;">
+                                        <div class="card-body">
+                                            <h4 class="mt-0 header-title">Tüm Servis Formları</h4>
+                                            <p class="text-muted mb-3">
+                                                Bu sayfada tüm servis formları listelenmiştir.İstediğiniz alanları filtreleyerek kopyalama,yazdırma işlemlerini yapabilir aynı zamanda csv , excel, pdf gibi dosya çıktıları elde edebilirsiniz.
+                                            </p>
+                                            <table id="datatable" class="table table-striped table-bordered" style="border-collapse: collapse; border-spacing: 0; width: 100%; border: 2px solid var(--thBorderLight);">
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/bootstrap.bundle.min.js"></script>
+<script src="~/Scripts/DatatableScripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.responsive.min.js"></script>
+<script src="~/Scripts/DatatableScripts/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DatatableScripts/jszip.min.js"></script>
+<script src="~/Scripts/DatatableScripts/pdfmake.min.js"></script>
+<script src="~/Scripts/DatatableScripts/vfs_fonts.js"></script>
+<script src="~/Scripts/DatatableScripts/buttons.html5.min.js"></script>
+<script src="~/Scripts/DatatableScripts/buttons.print.min.js"></script>l
+<script src="~/Scripts/DatatableScripts/buttons.colVis.min.js"></script>
+<script src="~/Scripts/FullCalendar/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //$("body").on("click", "#DateSave", function () {
+        //    var Date = $('#Date').val();
+        $.fn.dataTable.render.moment = function (from, to, locale) {
+            // Argument shifting
+            if (arguments.length === 1) {
+                locale = 'en';
+                to = from;
+                from = 'YYYY-MM-DD';
+            }
+            else if (arguments.length === 2) {
+                locale = 'en';
+            }
+
+            return function (d, type, row) {
+                if (!d) {
+                    return type === 'sort' || type === 'type' ? 0 : d;
+                }
+
+                var m = window.moment(d, from, locale, true);
+                return m.format(type === 'sort' || type === 'type' ? 'x' : to);
+            };
+        };
+        $.blockUI({
+            message: '<lottie-player autoplay  loop mode="normal" src="/Scripts/LottieFiles/cpm-loading-sc.json" style="width: 320px"></lottie-player>',
+        });
+        $.ajax({
+
+            url: "/CpmServisSistemi/ExportServicesToExcelReport?ProcedureName=@Session["ProcedureName"].ToString()",
+            method: "GET",
+            success: function (result)
+            {
+                var clmns = [];
+                result.columns.forEach(elm => {
+                    if (elm.DataType != "DateTime")
+                        clmns.push({ "data": elm.ColumnName, "title": elm.ColumnName });
+                    else
+                        clmns.push({ "data": elm.ColumnName, "title": elm.ColumnName, "render": $.fn.dataTable.render.moment('DD/MM/YYYY') });
+                });
+
+                //result.columns.filter(elm => elm.DataType == 'DateTime').forEach(elm => {
+                //    result.data.forEach(row => {
+                //        var evalVal = 'var evalDate = new ' + row[elm.ColumnName].replace('/', '').replace('/', '') + ';';
+                //        eval(evalVal);
+                //        row[elm.ColumnName] = evalDate;
+                //    });
+                //});
+
+                result.columns.filter(elm => elm.DataType == 'DateTime').forEach(elm => {
+                    result.data.forEach(row => {
+                        if (row[elm.ColumnName]) { // Null olmayan verileri işleyin
+                            var evalVal = 'var evalDate = new ' + row[elm.ColumnName].replace('/', '').replace('/', '') + ';';
+                            eval(evalVal);
+                            row[elm.ColumnName] = evalDate;
+                        }
+                    });
+                });
+
+                $('#datatable').DataTable({
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    "language": {
+                        "url": "/Scripts/DatatableScripts/tr.json"
+                    },
+                    data: result.data,
+                    columns: clmns,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'copyHtml5',
+                            text: '<i class="sc-duplicate-copy"></i>',
+                            titleAttr: 'Kopyala'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            text: '<i class="sc-file-excel"></i>',
+                            titleAttr: 'Excele Aktar'
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            text: '<i class="sc-file-csv"></i>',
+                            titleAttr: 'CSV Aktar'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: '<i class="sc-file-pdf"></i>',
+                            titleAttr: 'PDF e Aktar'
+                        }
+                    ],
+                    initComplete: function () {
+                        $('<button id="showHideFilter" class="float-left buttons-filterShowHide"><i id="showHideFilterIcon" class="sc-settings-3"></i></button>').prependTo('#datatable_filter')
+
+                        $("#showHideFilter").click(function () {
+                            var title = $("#showHideFilterIcon").toggleClass("sc-settings-3");
+                            var title = $("#showHideFilterIcon").toggleClass("sc-settings-2");
+
+                            $(".hideableTable").toggleClass("hidden");
+                        });
+
+                        var i = 1;
+                        var divHacer = $('<table class="hideableTable hidden mt-3"><tbody id="HACER" style="text-align:left;"><tbody></table>').appendTo($("#datatable_filter"));
+                        var api = this.api();
+                        api
+                            .columns()
+                            .every(function (colIdx) {
+                                var column = this;
+
+                                var cell = $('thead tr th').eq(
+                                    $(column.header()).index()
+                                );
+                                var title = $(cell).text();
+
+                                console.log(column);
+                                var div2 = $('<tr><td><label class="my-auto mr-3 font-weight-bold text-muted">' + title + ' :</label><td/><td id="HACER' + i + '" style="min-width:400px; max-width:450px;"></td></tr>').appendTo("#HACER");
+
+                                //var select = $('<select class="form-control"><option value="">::Seçiniz::</option></select>')
+
+                                var select = $('<select class="selectpicker" data-live-search="true"><option data-tokens="" value="">::Seçiniz::</option></select>')
+                                    .appendTo($("#HACER" + i))
+                                    .on('change', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                    });
+
+                                var isDateTime = result.columns.filter(elm => elm.DataType == 'DateTime').find(elm => elm.ColumnName == title) != null;
+
+                                console.log(isDateTime);
+
+                                var dates = [];
+                                column
+                                    .data()
+                                    .unique()
+                                    .sort()
+                                    .each(function (d, j) {
+                                        if (!isDateTime)
+                                            select.append('<option value="' + d + '">' + d + '</option>');
+                                        else {
+                                            var date = new Date(d);
+                                            if (dates.find(elm => elm.toString() == date.toString()) == null) {
+                                                dates.push(date);
+                                                var dd = moment(date).format('DD/MM/YYYY');
+                                                select.append('<option value="' + dd + '">' + dd + '</option>');
+                                            }
+                                        }
+                                    });
+                                i++;
+                            });
+                        $('.selectpicker').selectpicker();
+                    }
+                });
+                setTimeout($.unblockUI, 240);
+            }
+        })
+
+     });
+
+</script>
+

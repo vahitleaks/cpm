@@ -1,0 +1,292 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>CPM Servis Sistemi Giriş Ekranı</title>
+    <link rel="icon" type="image/x-icon" href="/Images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A premium admin dashboard template by Mannatthemes" name="description" />
+    <meta content="Mannatthemes" name="author" />
+    <!-- App favicon -->
+    <!-- App css -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Tema/assets/plugins/animate/animate.css" rel="stylesheet" />
+    <link href="~/Tema/assets/css/icons.css" rel="stylesheet" />
+    <link href="~/Tema/assets/css/metisMenu.min.css" rel="stylesheet" />
+    <link href="~/Tema/assets/scss/style.css" rel="stylesheet" />
+    <link href="~/Tema/assets/fonts/SecretoCho-Fonts-icons/style.css" rel="stylesheet" />
+    <link href="~/Tema/assets/css/StyleNewTheme.css" rel="stylesheet" />
+    <link href="~/Content/NewThema/css/style.css?v=2.0" rel="stylesheet" />
+    <style>
+        @@font-face {
+            font-family: 'Roboto Regular';
+            src: url('../../fonts/Roboto Regular/Roboto Regular.woff') format('woff');
+        }
+        .form-check-input:checked {
+            background-color: var(--thGreen) !important;
+            border-color: var(--thGreen) !important;
+        }
+
+        .inputCss {
+            border: 1px solid var(--thBorderLight);
+            background-color: transparent !important;
+            border-radius: 8px;
+            padding: 0.5rem;
+        }
+
+            .inputCss::placeholder {
+                font-size: 0.8em;
+            }
+
+        body {
+            background: #CFDFE6;
+            margin: auto;
+        }
+        /*        .box-right {
+            background: #f2f6f7;
+            box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        .box-left {
+            background-image: url('../../Images/iconsforservcie/Mask Group 127.png') !important;
+            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+            background: #f2f6f7c2;
+            border-radius: 10px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            padding-top: 6rem;
+            padding-bottom: 7rem;
+            margin-right: -23px;
+        }
+
+        body {
+            background-image: url('../../Images/iconsforservcie/BG Star.png') !important;
+            background-color: #A1ADB3 !important;
+            margin: 0;
+            overflow-x: hidden;
+            font-family: Ubuntu-R;
+            width: 100%;
+        }*/
+        .Input-LeftIcon-Group {
+            border-radius: 4px;
+            border: 1px solid #406C8033 !important;
+            padding: 0.4rem;
+            /*   color: #667880;
+            background-color: #F2F6F7;
+            font-size: 11px !important;
+            border-radius: 6px !important;
+            border: 1px solid #D9E2E5;*/
+        }
+
+            .Input-LeftIcon-Group .Input-Icon {
+                top: 3px;
+                font-size: 1.3rem;
+            }
+
+            .Input-LeftIcon-Group .Input-LeftIcon {
+                margin-left: 0 !important;
+                margin-top: 0 !important;
+                border-radius: 12px;
+                font-style: normal;
+                display: inline;
+                padding-bottom: 0 !important;
+                padding-left: 23px;
+                padding-top: 0 !important;
+                font-size: 13px;
+                line-height: 2;
+                background-clip: padding-box;
+                border: none;
+                padding-right: 0 !important;
+                width: 95%;
+            }
+
+
+        /*
+        .Input-LeftIcon-Group .Input-LeftIcon-Blue:focus {
+            color: var(--thText) !important;
+            background-color: #F2F6F7 !important;
+        }*/
+
+        .slider::before {
+            background-color: var(--thText2) !important;
+        }
+
+        .switchcolor::before {
+            background-color: var(--thNewGreen) !important;
+        }
+        /* Change the white to any color */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+        }
+
+
+
+        .input-group-text {
+            background-color: white !important;
+            border-top: 1px solid #406C8033 !important;
+            border-bottom: 1px solid #406C8033 !important;
+            border-right: none !important;
+            border-left: 1px solid #406C8033 !important;
+            padding: 0.375rem 0.28rem !important;
+        }
+
+        .form-select {
+            border: 1px solid #406C8033 !important;
+            border-top: 1px solid #406C8033 !important;
+            border-bottom: 1px solid #406C8033 !important;
+            border-left: none !important;
+            border-right: 1px solid #406C8033 !important;
+        }
+
+        .card-footer {
+            background: rgba(64, 108, 128, 0.05) !important;
+            border-radius: 0px 0px 4px 4px !important;
+            border-top: none !important;
+            /*    background-color: #406C800D !important;*/
+        }
+
+        .card-header {
+            background-color: white !important;
+            padding: 1.5rem 0.5rem !important;
+        }
+
+        .card {
+            border-radius: 4px !important;
+            box-shadow: 0px 4px 10px rgba(64, 108, 128, 0.2) !important;
+            border: none !important;
+            max-width: 460px;
+        }
+
+        .card-body {
+            padding: 2.5rem 2.5rem;
+        }
+
+        .form-select {
+            padding: 0.510rem 2.25rem 0.510rem 0.75rem !important;
+            border-radius: 4px !important;
+            font-size: 0.8rem !important;
+            color: #667880;
+        }
+
+        @@media only screen and (min-width:750px) {
+            .toggle-password {
+                margin-top: -25px !important;
+                margin-right: 7px !important;
+            }
+        }
+
+        @@media only screen and (min-width:1024px) {
+            .toggle-password {
+                margin-top: -25px !important;
+                margin-right: 7px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form action="/user/login" method="post" id="">
+        <input hidden id="ipaddr" name="ipaddr" value="">
+        <div class="card my-auto mx-md-auto m-3">
+            <div class="card-header text-center">
+                <img style="max-width: -webkit-fill-available;" src="~/Images/iconsforservcie/logo_cpm_yatay.svg" />
+            </div>
+            <div class="card-body">
+                <label class="" style="font-weight:bold;color:#406C80;font-size: 0.8rem !important;margin-left: 0.7rem;"> Kullanıcı Adı</label>
+                <div class="Input-LeftIcon-Group mb-3">
+                    <span class="Input-Icon">
+                        <i class="icon sc-user" style="color: #406C80;"></i>
+                    </span>
+                    <input type="text" class="Input-LeftIcon" id="kullaniciAdi" placeholder="Kullanıcı Adınızı Yazınız…" name="user">
+                </div>
+                <label class="" style="font-weight:bold;color:#406C80;font-size: 0.8rem !important;margin-left: 0.7rem;">Şifre</label>
+                <div class="Input-LeftIcon-Group mb-3">
+                    <span class="Input-Icon">
+                        <i class="icon sc-key" style="color: #406C80;"></i>
+                    </span>
+                    <input type="password" class="Input-LeftIcon" id="kullaniciSifre" name="pass" placeholder="Şifrenizi Yazınız…">
+                    <i toggle="#password-field" class="icon sc-eye toggle-password" style="color: #406C80;float: right; margin-top: -23px; margin-right: 7px; position: relative;" id="passwordshow"></i>
+                </div>
+                @*<label class="" style="font-weight:bold;color:#406C80;font-size: 0.8rem !important;margin-left: 0.7rem;">Şirket</label>
+                    <div class="input-group mb-3">
+                        <i class="sc-building-shop-store input-group-text" style="font-size: 1.3rem;color:#406C80;"> </i>
+                        <select class="form-select" id="inputGroupSelect01">
+                            <option selected>Seçiniz...</option>
+                        </select>
+                    </div>*@
+                <div class="row">
+                    <div class="mb-3">
+                        <input class="form-check-input" type="checkbox" name="hatirla" id="customSwitchSuccess" value="option1" style="width: 1.1rem; height: 1.1rem;">
+                        <label class="" for="inlineCheckbox1" style="font-size: 0.8rem;color:#667880;">Beni Hatırla</label>
+                    </div>
+                    <div class="col-12 text-center mb-3">
+
+                        <a href="/user/login">
+                            <button class="Button-Outline-Kaydet" style="width:100%;" type="submit" id="GirisYap">Giriş Yap</button>
+                        </a>
+                        @if (ViewBag.Mesaj != null)
+                        {
+                            <p style="color:#d95757;text-align:center;padding:5px;margin-right:auto;margin-left:auto;margin-top:5px;font-family: 'Ubuntu-R';">@ViewBag.Mesaj</p>
+                        }
+                    </div>
+                    <div class="col-12 text-center">
+                        <label class="Label-Text" style="font-size:0.8rem;">Şifreni mi Unuttun? &nbsp;<font style="text-decoration: underline;font-weight:bold;">Şifreyi Sıfırla</font></label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <h2 style="color: #20A1DA;font-weight:bold;">Destek Paneli</h2>
+            </div>
+        </div>
+    </form>
+
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+<script>
+
+
+    $.ajax({
+        url: "https://api.ipify.org/",
+        success: function (ip) {
+            $("#ipaddr").val(ip);
+        }
+    });
+    //#region Beni Hatırla Switch
+    $("body").on("click", "#customSwitchSuccess", function () {
+        if (this.checked) {
+            this.setAttribute("checked", "true");
+            $(".switchfreeservice .slider ").addClass("switchcolor");
+        } else {
+            this.removeAttribute("checked");
+            $(".switchfreeservice .slider ").removeClass("switchcolor");
+        }
+    });
+    //#endregion
+
+    // #region Şifre göster
+    $("body").on("click", "#passwordshow", function () {
+        $(this).toggleClass("icon sc-eye-open");
+        if ($("#kullaniciSifre").attr("type") == "password") {
+            $("#kullaniciSifre").attr("type", "text");
+        } else {
+            $("#kullaniciSifre").attr("type", "password");
+        }
+    });
+        //#endregion
+</script>

@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7626,
+  "files": [
+    {
+      "file_id": "1997",
+      "file_name": "WhatsApp Görsel 2025-05-02 saat 14.05.09_8ebace37.jpg",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=1997"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "1997",
+        "file_name": "WhatsApp Görsel 2025-05-02 saat 14.05.09_8ebace37.jpg",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=1997"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7626_WhatsApp Görsel 2025-05-02 saat 14.05.09_8ebace37..jpg",
+        "size": 105494
+      }
+    }
+  ]
+}

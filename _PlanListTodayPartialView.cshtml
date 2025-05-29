@@ -1,0 +1,43 @@
+﻿@model sistemproject.Models.FullCalendarViewModels.GetPlansViewModel
+<style>
+    .ucNokta {
+        display: block;
+        width: 158px;
+        border: none;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+<label style="text-align: right; align-items: center; margin: 0.5rem; display: flex; margin-left: auto;color:var(--thText);font-size: 1rem;
+    font-weight: bold;">@ViewBag.Tarih.ToString("dddd, dd MMMM")</label>
+@if (Model.PlanList != null)
+{
+    foreach (var item in Model.PlanList)
+    {
+        <div class="d-flex align-items-center rounded p-5 mb-7" style="background-color:white;" data-id="@item.PLANGROUPCODE">
+            <span class="svg-icon svg-icon-warning me-5">
+                <span class="svg-icon svg-icon-1">
+                    <img src="~/Images/iconsforservcie/icons-2.png" width="24" height="24" />
+                </span>
+            </span>
+            <div class="flex-grow-1 me-2">
+                <a href="#" class="Label-Head ucNokta" style="font-size: 0.7rem;font-weight:bold;">@item.UNVAN</a>
+                <span class="Label-Text ucNokta" style="font-size: 0.7rem;">@item.STARTDATE &nbsp; <b>-</b> &nbsp; @item.ENDDATE</span>
+                <span class="Label-Text ucNokta" style="font-size: 0.7rem;">@item.FULLNAME</span>
+            </div>
+            <img src="~/Images/iconsforservcie/ucnokta.svg" style="height:1.3rem;" />
+        </div>
+    }
+}
+else
+{
+    <h1>Bulunamadı</h1>
+}
+
+
+
+
+
+
+

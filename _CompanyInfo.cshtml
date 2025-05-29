@@ -1,0 +1,177 @@
+﻿@model  sistemproject.Models.CustomerPanelViewModels.MainDataViewModelList
+<style>
+    .displaycpm {
+        display: flex;
+    }
+
+        .displaycpm p {
+            /*  font-family: 'MS Gothic';*/
+            /*  font-family: Roboto;*/
+            font-size: 14px;
+            line-height: 18px;
+            font-weight: 400;
+            color: #406C80;
+            margin: auto 0px !important;
+        }
+
+        .displaycpm .companyname {
+            /* font-family: 'MS Gothic';*/
+            /* font-family: Roboto;*/
+            font-size: 16px;
+            line-height: 20px;
+            font-weight: 700;
+            color: #406C80;
+            margin: auto 0px !important;
+        }
+
+    .icn {
+        padding: 0px !important;
+        width: 34px;
+        height: 34px;
+        margin-right: 16px;
+    }
+
+    .icn2 {
+        padding: 0px !important;
+        width: 48px;
+        height: 48px;
+        margin-right: 16px;
+    }
+
+    .companyicn {
+        padding: 0px !important;
+        width: 48px;
+        height: 48px;
+        margin-right: 16px;
+    }
+
+    .contact-icon {
+        margin: auto 4px;
+        padding: 4px;
+    }
+</style>
+@foreach (var item in Model.CompanyInfoList1.Take(1))
+{
+    <div class="row px-4 py-2" style="border-bottom: 1px solid #406C801A;">
+        <div class="displaycpm my-3">
+            <img class="companyicn" src="~/Images/requestImg/company.png" />
+            <p class="companyname">@item.CompanyName</p>
+        </div>
+    </div>
+    <div class="row px-4 py-2" style="border-bottom: 1px solid #406C801A;">
+        <div class="displaycpm my-3">
+            <img class="icn" src="~/Images/requestImg/icons8-phone.png" />
+            <p>@item.Telephone</p>
+        </div>
+        <div class="displaycpm my-3">
+            <img class="icn" src="~/Images/requestImg/location.png" />
+            <p style="display:inline;">
+                @item.Adress<br />
+                @item.ProvinceName
+                @item.DistrictName
+            </p>
+        </div>
+    </div>
+}
+<div class="row px-4 py-2 modal-dialog-scrollable" tabindex="-1">
+    <div class="displaycpm my-3">
+        <h5 style="color:#D97D21;font-weight:bold;">Firma Yetkilileri</h5>
+    </div>
+    <div class="scroll">
+        @foreach (var x in Model.CompanyInfoList2)
+        {
+            <div class="displaycpm my-3" style=" margin: inherit;">
+                <img class="icn2" src="~/Images/requestImg/user.png" style="" height="50px" />
+                <p>
+                    <font style="font-weight:bold;">@x.FullName</font><br />
+                    @x.Departman
+                </p>
+                <div style="margin:auto;"></div>
+        
+
+                <a class="contact-icon" id="phone" href="tel:@x.Tel" data-phone="@x.Tel" data-toggle="modal" data-target="#ModulTel"> <i class="sc-device-phone"></i></a>
+                <a class="contact-icon" id="mail" href="mailto:@x.Email" mail="mailto:@x.Email" data-toggle="modal" data-target="#ModulEmail"> <i class="sc-mail"></i></a>
+                @*<a class="contact-icon" id="mail" href="mailto:@x.Email"><i class="sc-mail"></i></a>*@
+            </div>
+        }
+    </div>
+</div>
+<div id="ModulTel" class="custom-modal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " style="margin-top: 40px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:#335766;font-weight:bold;" id="exampleModulUpdate">Telefon Bilgisi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row m-1">
+                    <div class="col-12">
+                        @if (Model.CompanyInfoList2 != null && Model.CompanyInfoList2.Any())
+                        {
+                        <a class="contact-icon" type="tel" id="phone" href="tel:@Model.CompanyInfoList2.First().Tel"> <i class="sc-device-phone"> </i> @Model.CompanyInfoList2.First().Tel </a><i id="copyIcon" class="copy-icon">📋</i>
+
+                   
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).on("click", "#phone", function (e) {
+        e.preventDefault(); // Varsayılan davranışı engelle
+
+        // Telefon numarasını al
+        const phoneNumber = $(this).data("phone");
+
+        if (phoneNumber) {
+            // Telefon numarasını kopyala
+            navigator.clipboard.writeText(phoneNumber)
+                .then(() => {
+                    // Geri bildirim ver
+                    alert(`Telefon numarası kopyalandı: ${phoneNumber}`);
+                })
+                .catch(err => {
+                    console.error("Kopyalama sırasında hata oluştu:", err);
+                    alert("Telefon numarası kopyalanırken bir hata oluştu.");
+                });
+        } else {
+            // Eğer telefon bilgisi yoksa uyarı ver
+            alert("Telefon bilgisi bulunamadı.");
+        }
+    });
+    $(document).on("click", "#mail", function (e) {
+        debugger;
+        e.preventDefault(); // Varsayılan davranışı engelle
+
+        // E-posta adresini al
+        var email = $(this).data("mail");
+
+        if (email) {
+            // E-posta adresini kopyala
+            navigator.clipboard.writeText(email)
+                .then(() => {
+                    // Geri bildirim ver
+                    alert(`E-posta adresi kopyalandı: ${email}`);
+                })
+                .catch(err => {
+                    console.error("Kopyalama sırasında hata oluştu:", err);
+                    alert("E-posta adresi kopyalanırken bir hata oluştu.");
+                });
+        } else {
+            // Eğer e-posta bilgisi yoksa uyarı ver
+            alert("E-posta bilgisi bulunamadı.");
+        }
+    });
+
+
+</script>

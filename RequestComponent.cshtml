@@ -1,0 +1,207 @@
+﻿@using sistemproject.Models.CustomerPanelViewModels
+@model (int, RequestsDataViewModel)
+@{
+    var colorStyle = "";
+}
+<div class="accordion-item" data-status="@Model.Item2.RequestState" data-advisor="@Model.Item2.AppointedAdvisorId" data-precedence="@Model.Item2.Precedence" data-company="@Model.Item2.CompanyName" data-date="@Model.Item2.EntryUserDate" data-message="">
+
+    <h2 class="accordion-header Rno" id="flush-@Model.Item1">
+        <button class="accordion-button collapsed" data-accordion-button="@Model.Item2.RequestId" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@Model.Item1@Model.Item1" aria-expanded="false" aria-controls="flush-@Model.Item1">
+            <div class="row" style="width:inherit;">
+
+                @if (@Model.Item2.hasmessage == 1)
+                {
+                    colorStyle = "color:red;";
+                }
+                else if (@Model.Item2.hasmessage == 2)
+                {
+                    colorStyle = "color:#55c64d;";
+
+                }
+                else
+                {
+                    colorStyle = "color:gray;";
+                }
+                <div class="col-lg-2 col-md-6 col-sm-12 abc" style="border-left: 4px solid; @colorStyle;">
+                    @if (@Model.Item2.RelatedCompanyName == null || @Model.Item2.RelatedCompanyName != "")
+                    {
+                        <label class="Label-Title ellipsis" style="font-size: 0.9rem; margin-bottom: -1rem !important;">@Model.Item2.CompanyName</label> <br />
+                    }
+                    else
+                    { <label class="Label-Title ellipsis" style="font-size: 0.9rem; margin-bottom: -1rem !important;">@Model.Item2.RelatedCompanyName</label><br />}
+
+
+                    <label class="Label-Text" style="font-size: 0.7rem; margin-bottom:0rem !important;">Talep#@Model.Item2.RequestId</label><br />
+                    <label class="Label-Text" style="font-size: 0.7rem; margin-bottom: 0rem !important;" id="formattedDateLabel_@Model.Item2.RequestId"></label><br />
+                    @if (@Model.Item2.RequestState == "Kapalı" && @Model.Item2.CloseDate != null)
+                    {
+                        <label class="Label-Text" style="font-size: 0.7rem; margin-bottom: 0rem !important;" id="formattedDateLabel1_@Model.Item2.RequestId"> - </label><br />
+                    }
+                    <label class="Label-Title mb-1" style="font-size: 0.7rem;">@Model.Item2.Requester</label> <br />
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    <label class="Label-Text2">@Model.Item2.Topic</label>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    @if (@Model.Item2.MessagePersonName != "System")
+                    {
+                        <label class="Label-Title" style="font-size: 0.9rem;">@Model.Item2.MessagePersonName</label> <br />
+                        <label class="Label-Text2" style=" width: 400px; /* Metin genişliğini ayarlayın */ white-space: nowrap; /* Metni tek satırda tut */ overflow: hidden; /* Taşan metni gizle */ text-overflow: ellipsis; /* Taşan metnin sonunda ... göster */ " title="@Html.Raw(Model.Item2.Messageses)">
+                            @Html.Raw(Model.Item2.Messageses)
+                        </label>
+
+                    }
+
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-12">
+                    <label class="Label-Title" style="font-size: 0.9rem;">@Model.Item2.FullName</label><br />
+                    <label class="Label-Text2">Danışman</label>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-12 abc" >
+                    <label class="Label-Title" style="font-size: 0.9rem;">@Model.Item2.RequestState</label><br />
+                    @if (@Model.Item2.InProgressTime != null && @Model.Item2.RequestState == "Süreç Başlatıldı")
+                    {
+                        <label class="Label-Text2" style="min-width:150px" id="InProgressTimeId_@Model.Item2.RequestId">
+                        </label>
+                    }                    
+                   
+                </div>
+                <div class="col-lg-2 col-md-12 col-sm-12 my-auto text-end">
+
+                    @if (Model.Item2.RequestDayDifference != "0")
+                    {
+                        <label class="badge-light-danger">@Model.Item2.RequestDayDifference Gün</label><br />
+                    }
+
+
+
+                    @if (@Model.Item2.Precedence == "Düşük")
+                    {
+                        <label class="low d-md-inline d-lg-inline d-none">@Model.Item2.Precedence</label><br />
+                    }
+                    else if (@Model.Item2.Precedence == "Orta")
+                    {
+                        <label class="middle d-md-inline d-lg-inline d-none">@Model.Item2.Precedence</label><br />
+
+                    }
+                    else if (@Model.Item2.Precedence == "Yüksek")
+                    {
+                        <label class="high d-md-inline d-lg-inline d-none">@Model.Item2.Precedence</label><br />
+                    }
+                    else if (@Model.Item2.Precedence == "Çok Yüksek")
+                    {
+                        <label class="veryHigh d-md-inline d-lg-inline d-none">@Model.Item2.Precedence</label><br />
+                    }
+                    @if (ViewBag.ServiceFormButton == 1)
+                    {
+                        <a href="/CpmServisSistemi/CreateServiceFormRequest?RequestId=@Model.Item2.RequestId">
+                            <img src="~/Images/requestImg/icons8-create_document.png" style="width: 36px; height: 36px;" />
+                        </a>
+                    }
+                    @*<label class="open d-md-inline d-lg-inline d-none">@Model.Item2.RequestState*@
+                </div>
+            </div>
+        </button>
+    </h2>
+    <div id="flush-@Model.Item1@Model.Item1" class="accordion-collapse collapse" aria-labelledby="flush-@Model.Item1" data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body RequestFormData" style="background-color: #f2f6f7;">
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+
+    // Orjinal tarih stringi
+    var originalDate = "@Model.Item2.EntryUserDate";
+    var originalDate1 = "@Model.Item2.CloseDate";
+
+    // Tarihi parçalara ayırma
+    var parts = originalDate.split(" ");
+    var datePart = parts[0];
+        var timePart = parts[1];
+
+        var parts1 = originalDate1.split(" ");
+        var datePart1 = parts1[0];
+        var timePart1 = parts1[1];
+
+
+    // Tarih parçasını gün/ay/yıl olarak parçalara ayırmadgf
+    var dateParts = datePart.split("/");
+    var month = dateParts[0];
+    var day = dateParts[1];
+    var year = dateParts[2];
+
+        var dateParts1 = datePart1.split("/");
+        var month1 = dateParts1[0];
+        var day1 = dateParts1[1];
+        var year1 = dateParts1[2];
+
+
+
+    // Yeni tarih formatı: dd/mm/yyyy
+    var formattedDate = day + "/" + month + "/" + year;
+    var formattedDate1 = day1 + "/" + month1 + "/" + year1;
+    // HTML etiketini güncelleme
+           $("#formattedDateLabel_@Model.Item2.RequestId").text(formattedDate);
+        $("#formattedDateLabel1_@Model.Item2.RequestId").text(formattedDate1);
+
+        $("#InProgressTimeId_@Model.Item2.RequestId").text(formatDate("@Model.Item2.InProgressTime"));
+        $("#CloseDateId_@Model.Item2.RequestId").text(formatDate("@Model.Item2.CloseDate"));
+    });
+
+    function formatDate(dateForFormat) {
+        var originalDate = dateForFormat;
+        // Tarihi parçalara ayırma
+        var parts = originalDate.split(" ");
+        var datePart = parts[0];
+        var timePart = parts[1];
+        // Tarih parçasını gün/ay/yıl olarak parçalara ayırmadgf
+        var dateParts = datePart.split("/");
+        var month = dateParts[0];
+        var day = dateParts[1];
+        var year = dateParts[2];
+        // saat parçasını saat/dakika olarak parçalara ayırma
+        var timeParts = timePart.split(":");
+        var hour = timeParts[0];
+        var minute = timeParts[1];
+        // Yeni tarih formatı: dd/mm/yyyy
+        var formattedDate = day + "/" + month + "/" + year + " " + hour + ":" + minute;
+
+        return formattedDate;
+    }
+
+</script>
+<style>
+    .ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 200px; /* İhtiyaca göre genişliği ayarlayın */
+        display: block;
+    }
+
+    /*.tooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+    }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;*/
+    /* Position the tooltip */
+    /*position: absolute;
+            z-index: 1;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }*/
+</style>

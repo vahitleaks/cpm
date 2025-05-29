@@ -1,0 +1,27 @@
+{
+  "ticket_id": 7671,
+  "files": [
+    {
+      "file_id": "2011",
+      "file_name": "ÖRNEK İTHALAT RAPORU.xlsx",
+      "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2011"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "has_files": true,
+  "downloaded_files": [
+    {
+      "original_info": {
+        "file_id": "2011",
+        "file_name": "ÖRNEK İTHALAT RAPORU.xlsx",
+        "download_url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=2011"
+      },
+      "download_result": {
+        "status": "success",
+        "file_path": "cpm_data/files/t7671_ÖRNEK İTHALAT RAPORU.xlsx.xlsx",
+        "size": 10051
+      }
+    }
+  ]
+}

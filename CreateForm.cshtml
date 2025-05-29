@@ -1,0 +1,303 @@
+﻿
+@{
+    ViewBag.Title = "CreateForm";
+    Layout = "~/Views/Shared/NewThema/_LayoutTakvim.cshtml";
+}
+<link href="~/Content/fileUpload/css/style.css" rel="stylesheet" />
+<style>
+    .accordion-button:not(.collapsed) {
+        background-color: #fff !important;
+    }
+
+    .form-check-input {
+        margin-top: 0.1rem !important;
+    }
+
+    .sc-trash-bin:hover {
+        color: var(--thGreen) !important;
+        cursor: pointer;
+    }
+</style>
+
+<div class="d-flex flex-column flex-root" id="deneme">
+    <div class="page d-flex flex-row flex-column-fluid">
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <div id="kt_content_container" class="container-xxl">
+                        <div class="row mr-1 ml-1 pt-3  " style="background-color:#fff;">
+                            <div class="col-lg-1 col-md-6 col-sm-12 text-leftmy-auto pl-4">
+                                <img src="/Images/images/cpm/Agenda.png" height="100">
+                            </div>
+                            <div class="col-lg-11 col-md-12 col-sm-12 my-auto pl-4">
+                                <span class="" style="color: var(--thTitle);font-weight:bold;">Proje Formu Oluştur</span> <br>
+                                <span class="font11" style="color: var(--thNewText);">Proje formu oluşturmak için lütfen aşağıdaki alanları giriniz.</span>
+                            </div>
+                        </div>
+                        <div class="row mr-1 ml-1 pt-3  pr-3  pl-3 pb-0" style="background-color:#fff;">
+                            <div class="col-12">
+                                <div class="row pt-3">
+                                    <div class="col-lg-6 col-md-12">
+                                        <div class="row">
+                                            <!--Projeler Başlangıç-->
+                                            <div class="col-lg-12 p-2 SelectProject">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Projeler</span>
+                                                <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="Project">
+                                                    <option value="">Seçiniz</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-12 p-2 SelectProjectSteps">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Proje Adımları</span>
+                                                <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="ProjectSteps">
+                                                    <option value="">Seçiniz</option>
+                                                </select>
+                                            </div>
+                                            <!--Projeler Bitiş-->
+                                            <div class="col-lg-12 pr-2 pl-2 pb-3">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;padding-left: 12px!important;"><b>Firma Adı</b></span>
+                                                <select class="selectpicker font13 selectValidateControl p-0" id="CompanyId" data-live-search="true" data-live-search-style="contains" data-show-subtext="true">
+                                                    <option data-tokens="" value="0">Firma Adı Arayınız...</option>
+                                                    <option data-tokens="" data-hesapkod="" value="">Cpm Yazılım</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-6 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Sözleşme</span>
+                                                <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="Contract">
+                                                    <option value="">Seçiniz</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-6 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Kalan Adam Gün</span> <br />
+                                                <label class="" id="RServiceDay" style="padding-left: 0.6rem; font-weight: 500; color: var(--thText); margin-top: 1.1rem;">Görüntülemek için firma seçiniz!</label>
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Bilgi E-Posta Yetkilisi</span>
+                                                <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2" id="Authorized">
+                                                    <option value="">Seçiniz</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Bilgi E- Posta Adresi</span>
+                                                <input type="email" placeholder="Örn : isim@mail.com" aria-describedby="emailHelp" class="col-12 Input-Medium mt-2" id="AuthorizedMail" style="">
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">İl</span>
+                                                <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="Province">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="34">İstanbul</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">İlçe</span>
+                                                <input type="text" class="col-12 Input-Medium mt-2 inputValidateControl" id="District" placeholder="Yazınız..." style="padding-top: 7px; padding-bottom: 7px;" value="">
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">Müşteri Katılımcıları</span>
+                                                <input type="text" class="col-12 Input-Medium mt-2" id="CompanyEmployee" placeholder="Yazınız...(Örnek:Ad Soyad, Ad Soyad)" style="padding-top: 7px; padding-bottom: 7px;" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12" style=" border-left: 1px solid var(--thBorderLight) !important;">
+                                        <div class="row" style="margin-bottom: 136px !important;">
+                                            @*<div class="col-lg-12 p-2">
+                                                    <input disabled class="col-12" id="" value="Proje Durumu (aşaması) burada belirtilecek"
+                                                           style=" font-weight: bold; color: var(--thBlue); border: 2px solid var(--thBlue); background-color: transparent; border-radius: 8px; padding: 1.5rem; font-size: 1.1rem; ">
+                                                </div>*@
+                                            <div class="col-lg-12 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Proje Durumu</span>
+                                                <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="ServiceType">
+                                                    <option value="">Seçiniz</option>
+                                                    <option value="" selected>Proje</option>
+                                                    @*@foreach (var x in Model.ServiceTypeSelectList)
+                                                        {
+                                                            <option value="@x.Value">@x.Text</option>
+                                                        }*@
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Destek Şekli</span>
+                                                <select class="Dropdown col-lg-12 col-md-12 col-sm-12 mt-2 selectValidateControl" id="SupportType">
+                                                    <option value="Yerinde Destek">Yerinde Destek</option>
+                                                    <option value="Telefon Desteği">Telefon Desteği</option>
+                                                    <option value="Uzak Ara Bağlantı">Uzak Ara Bağlantı</option>
+                                                    <option value="E Mail">E Mail</option>
+                                                    <option value="CPM Ofis Çalışması">CPM Ofis Çalışması</option>
+                                                    <option value="CPM İç Toplantı">CPM İç Toplantı</option>
+                                                    @*<option value="03">Yerinde Destek</option>
+                                                        <option value="04">Telefon Desteği</option>
+                                                        <option value="05">Uzak Ara Bağlantı</option>
+                                                        <option value="99">E Mail</option>*@
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <span class="ml-1" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;">CPM Katılımcıları</span>
+                                                <select name="selValue" class="selectpicker col-12 font13" multiple data-actions-box="true" id="CpmEmployee">
+                                                    @*@foreach (var k in Model.CpmPersonInfo)
+                                                        {
+                                                            <option data-email="@k.EMAIL" value="@k.ID">@k.FULLNAME</option>
+                                                        }*@
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-12 p-3">
+                                                <input class="form-check-input font18 mr-5" type="checkbox" value="" id="CreateFormToCpmPerson" name="CreateFormToCpmPerson">
+                                                <label class="form-check-label ml-4 font11 fontBold mr-5" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 7px!important;" for="flexCheckDefault">Proje formunu diğer "CPM Katılımcıları" için de oluştur !</label>
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                    Başlangıç Zamanı
+                                                </span>
+                                                <input type="datetime-local" class="datetime-local col-12 Input-datetimeLocal mt-2 tarihGetir" id="StartDate" name="meeting-time">
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                    Bitiş Zamanı
+                                                </span>
+                                                <input type="datetime-local" class="datetime-local col-12 Input-datetimeLocal mt-2 tarihGetir" id="EndDate" name="meeting-time">
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <div class="form-check form-check-inline mr-5">
+                                                    <span class="mr-5" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Proje Süresi</span>
+                                                </div>
+                                                <div class="form-check form-check-inline mr-5">
+                                                    <input class="form-check-input" type="checkbox" id="allDAY" name="allDAY" value="">
+                                                    <label class="form-check-label" for="inlineCheckbox1">Tüm Gün</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" value="" id="manuelSetting" name="manuelSetting">
+                                                    <label class="form-check-label" for="inlineCheckbox2">Manuel Giriş</label>
+                                                </div>
+                                                <span class="float-right toplamServisSuresi" style="color:var(--thTitle);font-size: 12px !important;padding-left: 10px!important;text-align: right;font-weight: bold;" hidden></span>
+                                                <input type="number" disabled class="col-12 Input-Medium mt-2 inputValidateControl" id="SELECTMANDAYID" placeholder="Dakika giriniz(Örn. 30)" style="">
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">Ücretsiz Proje Süresi</span>
+                                                <span class="float-right toplamUcretsizServisSuresi" style="color:var(--thTitle);font-weight: bold;font-size: 12px !important;padding-left: 10px!important;text-align: right;" hidden></span>
+                                                <input type="number" style="" class="datetime-local col-12 Input-Medium mt-2" id="SELECTMANDAYFREEID" placeholder="Dakika giriniz(Örn. 30)">
+                                            </div>
+                                            <div class="col-lg-12 p-2">
+                                                <div class="row mt-2 mb-2 ml-1" id="FileAnaRow" style="">
+                                                    <div class="col-12">
+                                                        <label style="color:var(--thText);font-size: unset;font-weight:bold;">DOSYA YÜKLE</label> <br />
+                                                        <label style="color:var(--thText);">Proje planına eklemek istediğiniz dosyaları yükleyebilirsiniz. </label> <br />
+                                                        <form id="upload" enctype="multipart/form-data">
+                                                            <div id="drop">
+                                                                <img src="~/Images/iconsforservcie/icons8-upload_to_cloud.png" height="50" /><br />
+                                                                <label style="font-size: 0.7rem;">Yüklemek istediğiniz dosyaları bu alana sürükleyip bırakınız.</label> <br />
+                                                                <label style="font-size: 0.8rem;">VEYA</label> <br />
+                                                                <a>Dosya Seç</a>
+                                                                <input type="file" id="multipleFile" class="multiple p-2" name="fileUpload" multiple style=" padding: .4rem !important;" />
+                                                            </div>
+                                                            <ul>
+                                                            </ul>
+                                                        </form>
+                                                        <span style="font-size:0.8rem;">* zip, pdf, doc, docx, xls, xlsx, png, jpeg dosya formatları kabul edilmektedir.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mr-1 ml-1" style="background-color:#fff;border-top: 1px solid var(--thBorderLight);">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="row pt-5">
+                                                    <div class="col-12 pb-2">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-12 my-auto pl-3">
+                                                                <span class="fontBold" style="color:var(--thTitle);font-size: 13px !important;padding-left: 10px!important;"><b>Yapılanlar</b></span>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-12 my-auto  text-lg-right text-md-left pr-4">
+                                                                <button id="addRowYapilanlar" type="button" class="Button-Add">Yeni Satır Ekle</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 Scroll-Blue p-3" id="ANACARDYAPILAN" style="height:auto!important;">
+                                                        <div class="card p-3 mb-2" id="yapilanlarCard" style="background-color:var(--thBG);border:none!important">
+                                                            <div class="mb-3">
+                                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                    Talep Eden Kişi
+                                                                </span> <br />
+                                                                <input type="text" style="padding-top: 7px; padding-bottom: 7px;" class="datetime-local  Input-Medium mt-2 inputValidateControl col-10" id="GETREQUESTER" placeholder="Yazınız...">
+                                                                <i class="icon sc-trash-bin p-2 mr-2 float-right Label-Red" id="deleteYapilanlarCard"></i>
+                                                            </div>
+                                                            <span style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                Yapılan İş Özeti
+                                                            </span>
+                                                            <div class="form-floating">
+                                                                <textarea class=" form-control inputValidateControl" id="GETWORKDONESUMMARY"></textarea>
+                                                                <label for="floatingTextarea">İş Özetiniz...</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12" style=" border-left: 1px solid var(--thBorderLight) !important;">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="row pt-5">
+                                                    <div class="col-12 pb-2">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-12 my-auto pl-3">
+                                                                <span class="fontBold" style="color:var(--thTitle);font-size: 13px !important;padding-left: 10px!important;"><b>E-Posta Bilgilendirme</b></span>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-12 my-auto  text-lg-right text-md-left">
+                                                                <button id="addNewEmail" type="button" class="Button-Add">Yeni E-posta Ekle</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 Scroll-Blue p-3" id="emailAnaCard" style="height:auto;">
+                                                        <div class="card p-2 EmailCards mb-2" style="background-color:var(--thBG);border:none!important;" id="emailCard">
+                                                            <div class="row mb-3">
+                                                                <div class="col-lg-10">
+                                                                    <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                        Ad-Soyad
+                                                                    </span> <br>
+                                                                    <input type="text" class="Input-Medium mt-2 getName col-12" id="GETNAME" placeholder="Yazınız...">
+                                                                </div>
+                                                                <div class="col-1 my-auto">
+                                                                    <input class="form-check-input my-auto" type="radio" name="exampleRadios" id="SendEmailFormPerson">
+                                                                </div>
+                                                                <div class="col-1 my-auto pt-4">
+                                                                    <i class="icon sc-trash-bin Label-Red" id="deleteEmailCard"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <span class="" style="color:var(--thTitle);font-size: 12px !important;font-weight: bold;padding-left: 10px!important;">
+                                                                    E-Posta
+                                                                </span>
+                                                                <input type="email" class="datetime-local col-12 Input-Medium mt-2 inputValidateControl getmail" id="GETEMAIL" placeholder="Örn : isim@mail.com" aria-describedby="emailHelp">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/fileUpload/js/jquery.ui.widget.js?v=5"></script>
+<script src="~/Content/fileUpload/js/jquery.iframe-transport.js?v=5"></script>
+<script src="~/Content/fileUpload/js/jquery.fileupload.js?v=5"></script>
+<script src="~/Content/fileUpload/js/jquery.knob.js?v=5"></script>
+<script src="~/Content/fileUpload/js/script.js?v=5"></script>
+
+

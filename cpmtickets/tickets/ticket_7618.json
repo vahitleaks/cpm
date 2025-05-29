@@ -1,0 +1,17 @@
+{
+  "ticket_id": 7618,
+  "files": [
+    {
+      "file_id": "degerlendirme.xlsx",
+      "file_name": "Yüklü Dosya Bulunamadı",
+      "url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=degerlendirme.xlsx"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "downloaded_files": [],
+  "errors": [
+    "Yüklü Dosya Bulunamadı indirilemedi (HTTP 500)"
+  ],
+  "created_date": "2025-05-29 07:34:16"
+}

@@ -1,0 +1,22 @@
+{
+  "ticket_id": 7616,
+  "files": [
+    {
+      "file_id": "1994",
+      "file_name": "hata.JPG",
+      "url": "https://destek.cpm.com.tr/CustomerPanel/RequestsDownloadFile?FileId=1994"
+    }
+  ],
+  "message": "",
+  "module": "",
+  "downloaded_files": [
+    {
+      "original_name": "hata.JPG",
+      "saved_as": "ticket_7616_1994_hata.JPG",
+      "file_id": "1994",
+      "size": "102.7 KB"
+    }
+  ],
+  "errors": [],
+  "created_date": "2025-05-29 07:34:15"
+}

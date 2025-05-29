@@ -1,0 +1,19 @@
+﻿@model sistemproject.Models.CustomerPanelViewModels.CompanyContractModel
+
+<div class="card mb-3" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+    <div class="card-body">
+        <font class="fontTitle" style="font-size: 1.1rem;">@Model.CompanyContract</font>&nbsp;
+        <br /><br />
+        <label class="label-text lineHeight">
+            <font class="fontTitle">Sözleşme No:</font>&nbsp;@(Model.CompanyContractNo == null ? "Sözleşme No yok !" : Model.CompanyContractNo)
+        </label>
+        <br />
+        <label class="label-text lineHeight"><font class="fontTitle">Vergi Hesap No:</font>&nbsp;@Model.TaxAccountNo</label>
+        <br />
+        <label class="label-text lineHeight"><font class="fontTitle">Anlaşılan Adam Gün:</font>&nbsp;@Model.AgreedDay.ToString("0.##")</label>
+        <br />
+        <label class="label-text lineHeight"><font class="fontTitle">Kullanılan Adam Gün:</font>&nbsp;@Model.Used.ToString("0.##")</label>
+        <br />
+        <label class="label-text lineHeight"><font class="fontTitle">Kalan Adam Gün:</font>&nbsp;@Model.RServiceDay.ToString("0.##")</label>
+    </div>
+</div>
